@@ -1021,11 +1021,7 @@ xmlHasFeature(xmlFeature feature)
             return(0);
 #endif
         case XML_WITH_DEBUG_MEM:
-#ifdef DEBUG_MEMORY_LOCATION
-            return(1);
-#else
             return(0);
-#endif
         case XML_WITH_DEBUG_RUN:
 #ifdef LIBXML_DEBUG_RUNTIME
             return(1);

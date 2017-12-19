@@ -1169,18 +1169,9 @@ trio_to_lower
 TRIO_ARGS1((source),
 	   int source)
 {
-#if defined(USE_TOLOWER)
 
   return tolower(source);
 
-#else
-
-  /* Does not handle locales or non-contiguous alphabetic characters */
-  return ((source >= (int)'A') && (source <= (int)'Z'))
-    ? source - 'A' + 'a'
-    : source;
-
-#endif
 }
 #endif /* !defined(TRIO_MINIMAL) */
 
@@ -1218,18 +1209,9 @@ trio_to_upper
 TRIO_ARGS1((source),
 	   int source)
 {
-#if defined(USE_TOUPPER)
 
   return toupper(source);
 
-#else
-
-  /* Does not handle locales or non-contiguous alphabetic characters */
-  return ((source >= (int)'a') && (source <= (int)'z'))
-    ? source - 'a' + 'A'
-    : source;
-
-#endif
 }
 
 #if !defined(TRIO_MINIMAL)

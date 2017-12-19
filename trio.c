@@ -194,28 +194,11 @@ typedef int trio_wint_t;
 
 /* Support for long long */
 #ifndef __cplusplus
-# if !defined(USE_LONGLONG)
-#  if defined(TRIO_COMPILER_GCC) && !defined(__STRICT_ANSI__)
-#   define USE_LONGLONG
-#  elif defined(TRIO_COMPILER_SUNPRO)
-#   define USE_LONGLONG
-#  elif defined(_LONG_LONG) || defined(_LONGLONG)
-#   define USE_LONGLONG
-#  endif
-# endif
 #endif
 
 /* The extra long numbers */
-#if defined(USE_LONGLONG)
 typedef signed long long int trio_longlong_t;
 typedef unsigned long long int trio_ulonglong_t;
-#elif defined(TRIO_COMPILER_SUPPORTS_MSVC_INT)
-typedef signed __int64 trio_longlong_t;
-typedef unsigned __int64 trio_ulonglong_t;
-#else
-typedef TRIO_SIGNED long int trio_longlong_t;
-typedef unsigned long int trio_ulonglong_t;
-#endif
 
 /* Maximal and fixed integer types */
 #if defined(TRIO_COMPILER_SUPPORTS_C99) && !defined( __VMS )
