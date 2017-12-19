@@ -70,62 +70,6 @@ void xmlCleanupGlobals(void)
  *									*
  ************************************************************************/
 
-/*
- * Memory allocation routines
- */
-#undef	xmlFree
-#undef	xmlMalloc
-#undef	xmlMallocAtomic
-#undef	xmlMemStrdup
-#undef	xmlRealloc
-
-/**
- * xmlFree:
- * @mem: an already allocated block of memory
- *
- * The variable holding the libxml free() implementation
- */
-xmlFreeFunc xmlFree = (xmlFreeFunc) free;
-/**
- * xmlMalloc:
- * @size:  the size requested in bytes
- *
- * The variable holding the libxml malloc() implementation
- *
- * Returns a pointer to the newly allocated block or NULL in case of error
- */
-xmlMallocFunc xmlMalloc = (xmlMallocFunc) malloc;
-/**
- * xmlMallocAtomic:
- * @size:  the size requested in bytes
- *
- * The variable holding the libxml malloc() implementation for atomic
- * data (i.e. blocks not containings pointers), useful when using a
- * garbage collecting allocator.
- *
- * Returns a pointer to the newly allocated block or NULL in case of error
- */
-xmlMallocFunc xmlMallocAtomic = (xmlMallocFunc) malloc;
-/**
- * xmlRealloc:
- * @mem: an already allocated block of memory
- * @size:  the new size requested in bytes
- *
- * The variable holding the libxml realloc() implementation
- *
- * Returns a pointer to the newly reallocated block or NULL in case of error
- */
-xmlReallocFunc xmlRealloc = (xmlReallocFunc) realloc;
-/**
- * xmlMemStrdup:
- * @str: a zero terminated string
- *
- * The variable holding the libxml strdup() implementation
- *
- * Returns the copy of the string or NULL in case of error
- */
-xmlStrdupFunc xmlMemStrdup = (xmlStrdupFunc) xmlStrdup;
-
 #include <libxml/threads.h>
 #include <libxml/globals.h>
 #include <libxml/SAX.h>

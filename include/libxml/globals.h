@@ -192,66 +192,6 @@ XMLPUBFUN xmlParserInputBufferCreateFilenameFunc XMLCALL
 	xmlThrDefParserInputBufferCreateFilenameDefault(
 				xmlParserInputBufferCreateFilenameFunc func);
 
-/** DOC_DISABLE */
-/*
- * In general the memory allocation entry points are not kept
- * thread specific but this can be overridden by LIBXML_THREAD_ALLOC_ENABLED
- *    - xmlMalloc
- *    - xmlMallocAtomic
- *    - xmlRealloc
- *    - xmlMemStrdup
- *    - xmlFree
- */
-
-#ifdef LIBXML_THREAD_ALLOC_ENABLED
-#ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlMallocFunc * XMLCALL __xmlMalloc(void);
-#define xmlMalloc \
-(*(__xmlMalloc()))
-#else
-XMLPUBVAR xmlMallocFunc xmlMalloc;
-#endif
-
-#ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlMallocFunc * XMLCALL __xmlMallocAtomic(void);
-#define xmlMallocAtomic \
-(*(__xmlMallocAtomic()))
-#else
-XMLPUBVAR xmlMallocFunc xmlMallocAtomic;
-#endif
-
-#ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlReallocFunc * XMLCALL __xmlRealloc(void);
-#define xmlRealloc \
-(*(__xmlRealloc()))
-#else
-XMLPUBVAR xmlReallocFunc xmlRealloc;
-#endif
-
-#ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlFreeFunc * XMLCALL __xmlFree(void);
-#define xmlFree \
-(*(__xmlFree()))
-#else
-XMLPUBVAR xmlFreeFunc xmlFree;
-#endif
-
-#ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlStrdupFunc * XMLCALL __xmlMemStrdup(void);
-#define xmlMemStrdup \
-(*(__xmlMemStrdup()))
-#else
-XMLPUBVAR xmlStrdupFunc xmlMemStrdup;
-#endif
-
-#else /* !LIBXML_THREAD_ALLOC_ENABLED */
-XMLPUBVAR xmlMallocFunc xmlMalloc;
-XMLPUBVAR xmlMallocFunc xmlMallocAtomic;
-XMLPUBVAR xmlReallocFunc xmlRealloc;
-XMLPUBVAR xmlFreeFunc xmlFree;
-XMLPUBVAR xmlStrdupFunc xmlMemStrdup;
-#endif /* LIBXML_THREAD_ALLOC_ENABLED */
-
 #ifdef LIBXML_DOCB_ENABLED
 XMLPUBFUN  xmlSAXHandlerV1 * XMLCALL __docbDefaultSAXHandler(void);
 #ifdef LIBXML_THREAD_ENABLED
