@@ -34,10 +34,6 @@
 #endif
 #endif
 
-#ifdef HAVE_BEOS_THREADS
-#include <OS.h>
-#include <TLS.h>
-#endif
 
 #if defined(SOLARIS)
 #include <note.h>
@@ -87,9 +83,6 @@ struct _xmlMutex {
     pthread_mutex_t lock;
 #elif defined HAVE_WIN32_THREADS
     HANDLE mutex;
-#elif defined HAVE_BEOS_THREADS
-    sem_id sem;
-    thread_id tid;
 #else
     int empty;
 #endif
@@ -108,10 +101,6 @@ struct _xmlRMutex {
 #elif defined HAVE_WIN32_THREADS
     CRITICAL_SECTION cs;
     unsigned int count;
-#elif defined HAVE_BEOS_THREADS
-    xmlMutexPtr lock;
-    thread_id tid;
-    int32 count;
 #else
     int empty;
 #endif
@@ -144,12 +133,6 @@ static struct {
 static volatile LPCRITICAL_SECTION global_init_lock = NULL;
 
 /* endif HAVE_WIN32_THREADS */
-#elif defined HAVE_BEOS_THREADS
-int32 globalkey = 0;
-thread_id mainthread = 0;
-int32 run_once_init = 0;
-static int32 global_init_lock = -1;
-static vint32 global_init_count = 0;
 #endif
 
 static xmlRMutexPtr xmlLibraryLock = NULL;
@@ -178,12 +161,6 @@ xmlNewMutex(void)
         pthread_mutex_init(&tok->lock, NULL);
 #elif defined HAVE_WIN32_THREADS
     tok->mutex = CreateMutex(NULL, FALSE, NULL);
-#elif defined HAVE_BEOS_THREADS
-    if ((tok->sem = create_sem(1, "xmlMutex")) < B_OK) {
-        free(tok);
-        return NULL;
-    }
-    tok->tid = -1;
 #endif
     return (tok);
 }
@@ -206,8 +183,6 @@ xmlFreeMutex(xmlMutexPtr tok)
         pthread_mutex_destroy(&tok->lock);
 #elif defined HAVE_WIN32_THREADS
     CloseHandle(tok->mutex);
-#elif defined HAVE_BEOS_THREADS
-    delete_sem(tok->sem);
 #endif
     free(tok);
 }
@@ -228,14 +203,6 @@ xmlMutexLock(xmlMutexPtr tok)
         pthread_mutex_lock(&tok->lock);
 #elif defined HAVE_WIN32_THREADS
     WaitForSingleObject(tok->mutex, INFINITE);
-#elif defined HAVE_BEOS_THREADS
-    if (acquire_sem(tok->sem) != B_NO_ERROR) {
-#ifdef DEBUG_THREADS
-        xmlGenericError(xmlGenericErrorContext,
-                        "xmlMutexLock():BeOS:Couldn't aquire semaphore\n");
-#endif
-    }
-    tok->tid = find_thread(NULL);
 #endif
 
 }
@@ -256,11 +223,6 @@ xmlMutexUnlock(xmlMutexPtr tok)
         pthread_mutex_unlock(&tok->lock);
 #elif defined HAVE_WIN32_THREADS
     ReleaseMutex(tok->mutex);
-#elif defined HAVE_BEOS_THREADS
-    if (tok->tid == find_thread(NULL)) {
-        tok->tid = -1;
-        release_sem(tok->sem);
-    }
 #endif
 }
 
@@ -291,12 +253,6 @@ xmlNewRMutex(void)
 #elif defined HAVE_WIN32_THREADS
     InitializeCriticalSection(&tok->cs);
     tok->count = 0;
-#elif defined HAVE_BEOS_THREADS
-    if ((tok->lock = xmlNewMutex()) == NULL) {
-        free(tok);
-        return NULL;
-    }
-    tok->count = 0;
 #endif
     return (tok);
 }
@@ -320,8 +276,6 @@ xmlFreeRMutex(xmlRMutexPtr tok ATTRIBUTE_UNUSED)
     }
 #elif defined HAVE_WIN32_THREADS
     DeleteCriticalSection(&tok->cs);
-#elif defined HAVE_BEOS_THREADS
-    xmlFreeMutex(tok->lock);
 #endif
     free(tok);
 }
@@ -360,14 +314,6 @@ xmlRMutexLock(xmlRMutexPtr tok)
 #elif defined HAVE_WIN32_THREADS
     EnterCriticalSection(&tok->cs);
     tok->count++;
-#elif defined HAVE_BEOS_THREADS
-    if (tok->lock->tid == find_thread(NULL)) {
-        tok->count++;
-        return;
-    } else {
-        xmlMutexLock(tok->lock);
-        tok->count = 1;
-    }
 #endif
 }
 
@@ -398,14 +344,6 @@ xmlRMutexUnlock(xmlRMutexPtr tok ATTRIBUTE_UNUSED)
     if (tok->count > 0) {
 	tok->count--;
         LeaveCriticalSection(&tok->cs);
-    }
-#elif defined HAVE_BEOS_THREADS
-    if (tok->lock->tid == find_thread(NULL)) {
-        tok->count--;
-        if (tok->count == 0) {
-            xmlMutexUnlock(tok->lock);
-        }
-        return;
     }
 #endif
 }
@@ -457,34 +395,6 @@ __xmlGlobalInitMutexLock(void)
 
     /* Lock the chosen critical section */
     EnterCriticalSection(global_init_lock);
-#elif defined HAVE_BEOS_THREADS
-    int32 sem;
-
-    /* Allocate a new semaphore */
-    sem = create_sem(1, "xmlGlobalinitMutex");
-
-    while (global_init_lock == -1) {
-        if (atomic_add(&global_init_count, 1) == 0) {
-            global_init_lock = sem;
-        } else {
-            snooze(1);
-            atomic_add(&global_init_count, -1);
-        }
-    }
-
-    /* If another thread successfully recorded its critical
-     * section in the global_init_lock then discard the one
-     * allocated by this thread. */
-    if (global_init_lock != sem)
-        delete_sem(sem);
-
-    /* Acquire the chosen semaphore */
-    if (acquire_sem(global_init_lock) != B_NO_ERROR) {
-#ifdef DEBUG_THREADS
-        xmlGenericError(xmlGenericErrorContext,
-                        "xmlGlobalInitMutexLock():BeOS:Couldn't acquire semaphore\n");
-#endif
-    }
 #endif
 }
 
@@ -498,8 +408,6 @@ __xmlGlobalInitMutexUnlock(void)
     if (global_init_lock != NULL) {
 	LeaveCriticalSection(global_init_lock);
     }
-#elif defined HAVE_BEOS_THREADS
-    release_sem(global_init_lock);
 #endif
 }
 
@@ -612,23 +520,6 @@ static CRITICAL_SECTION cleanup_helpers_cs;
 #endif /* HAVE_COMPILER_TLS */
 #endif /* HAVE_WIN32_THREADS */
 
-#if defined HAVE_BEOS_THREADS
-
-/**
- * xmlGlobalStateCleanup:
- * @data: unused parameter
- *
- * Used for Beos only
- */
-void
-xmlGlobalStateCleanup(void *data)
-{
-    void *globalval = tls_get(globalkey);
-
-    if (globalval != NULL)
-        xmlFreeGlobalState(globalval);
-}
-#endif
 
 /**
  * xmlGetGlobalState:
@@ -712,21 +603,6 @@ xmlGetGlobalState(void)
     }
     return (globalval);
 #endif /* HAVE_COMPILER_TLS */
-#elif defined HAVE_BEOS_THREADS
-    xmlGlobalState *globalval;
-
-    xmlOnceInit();
-
-    if ((globalval = (xmlGlobalState *) tls_get(globalkey)) == NULL) {
-        xmlGlobalState *tsd = xmlNewGlobalState();
-	if (tsd == NULL)
-	    return (NULL);
-
-        tls_set(globalkey, tsd);
-        on_exit_thread(xmlGlobalStateCleanup, NULL);
-        return (tsd);
-    }
-    return (globalval);
 #else
     return (NULL);
 #endif
@@ -762,8 +638,6 @@ xmlGetThreadId(void)
     return (ret);
 #elif defined HAVE_WIN32_THREADS
     return GetCurrentThreadId();
-#elif defined HAVE_BEOS_THREADS
-    return find_thread(NULL);
 #else
     return ((int) 0);
 #endif
@@ -787,8 +661,6 @@ xmlIsMainThread(void)
     pthread_once(&once_control, xmlOnceInit);
 #elif defined HAVE_WIN32_THREADS
     xmlOnceInit();
-#elif defined HAVE_BEOS_THREADS
-    xmlOnceInit();
 #endif
 
 #ifdef DEBUG_THREADS
@@ -798,8 +670,6 @@ xmlIsMainThread(void)
     return (pthread_equal(mainthread,pthread_self()));
 #elif defined HAVE_WIN32_THREADS
     return (mainthread == GetCurrentThreadId());
-#elif defined HAVE_BEOS_THREADS
-    return (mainthread == find_thread(NULL));
 #else
     return (1);
 #endif
@@ -955,14 +825,6 @@ xmlOnceInit(void)
                 Sleep(0);
         }
     }
-#elif defined HAVE_BEOS_THREADS
-    if (atomic_add(&run_once_init, 1) == 0) {
-        globalkey = tls_allocate();
-        tls_set(globalkey, NULL);
-        mainthread = find_thread(NULL);
-	__xmlInitializeDict();
-    } else
-        atomic_add(&run_once_init, -1);
 #endif
 }
 #endif
