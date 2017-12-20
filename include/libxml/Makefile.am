@@ -20,7 +20,6 @@ xmlinc_HEADERS = \
 		xpointer.h \
 		xinclude.h \
 		xmlIO.h \
-		xmlmemory.h \
 		nanohttp.h \
 		nanoftp.h \
 		uri.h \
