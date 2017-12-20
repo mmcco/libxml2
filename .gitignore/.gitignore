@@ -1,3 +1,22 @@
+libtool
+Makefile
+include/Makefile
+include/libxml/Makefile
+autom4te.cache
+doc/examples/.deps
+doc/examples/Makefile
+example/Makefile
+example/.deps
+.deps
+config.h
+config.h.in
+libtool
+stamp-h1
+python/.deps
+python/Makefile
+python/tests/Makefile
+xstc/Makefile
+
 # Prerequisites
 *.d
 
