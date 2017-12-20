@@ -38,7 +38,6 @@
 #endif
 #endif
 #include <libxml/encoding.h>
-#include <libxml/xmlmemory.h>
 #ifdef LIBXML_HTML_ENABLED
 #include <libxml/HTMLparser.h>
 #endif

@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #endif
 #include <string.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/hash.h>
 #include <libxml/uri.h>
 #include <libxml/parserInternals.h>

@@ -15,7 +15,6 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/debugXML.h>
 #include <libxml/xmlmodule.h>
 

@@ -20,7 +20,6 @@
 #include <string.h>
 
 #include <libxml/globals.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/threads.h>
 
 /* #define DEBUG_GLOBALS */

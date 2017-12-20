@@ -18,7 +18,6 @@
 #ifdef HAVE_STRING_H
 #include <string.h>
 #endif
-#include <libxml/xmlmemory.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>

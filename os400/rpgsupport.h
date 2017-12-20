@@ -11,7 +11,6 @@
 
 #include <sys/types.h>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/xpath.h>
 #include "libxml/HTMLparser.h"
 

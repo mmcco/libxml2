@@ -47,7 +47,6 @@
 #include "libxml/xmlerror.h"
 #include "libxml/xmlexports.h"
 #include "libxml/xmlIO.h"
-#include "libxml/xmlmemory.h"
 #include "libxml/xmlreader.h"
 #include "libxml/xmlregexp.h"
 #include "libxml/xmlsave.h"

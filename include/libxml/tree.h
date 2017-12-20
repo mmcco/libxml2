@@ -1304,7 +1304,6 @@ XMLPUBFUN xmlNodePtr XMLCALL
 }
 #endif
 #ifndef __XML_PARSER_H__
-#include <libxml/xmlmemory.h>
 #endif
 
 #endif /* __XML_TREE_H__ */

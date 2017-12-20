@@ -49,7 +49,6 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stddef.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/threads.h>
 #include <libxml/globals.h>
 #include <libxml/tree.h>

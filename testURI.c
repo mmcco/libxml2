@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/uri.h>
 #include <libxml/globals.h>
 

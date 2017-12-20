@@ -42,7 +42,6 @@
 #include <signal.h>
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/tree.h>
 #include <libxml/valid.h>
 #include <libxml/xpath.h>

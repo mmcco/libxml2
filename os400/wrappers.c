@@ -16,7 +16,6 @@
 
 #include "config.h"
 
-#include "libxml/xmlmemory.h"
 
 #include "transcode.h"
 

@@ -12,7 +12,6 @@
 #include "libxml.h"
 #include <string.h>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/uri.h>
 #include <libxml/HTMLtree.h>

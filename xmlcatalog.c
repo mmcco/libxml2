@@ -23,7 +23,6 @@
 #endif
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/uri.h>
 #include <libxml/catalog.h>
 #include <libxml/parser.h>

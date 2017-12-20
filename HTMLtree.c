@@ -20,7 +20,6 @@
 #include <stdlib.h>
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/entities.h>

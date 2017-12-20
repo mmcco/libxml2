@@ -17,7 +17,6 @@
 #include "libxml.h"
 
 #include <string.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/xmlerror.h>
 #include <libxml/xmlmodule.h>
 #include <libxml/globals.h>

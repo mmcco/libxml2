@@ -40,7 +40,6 @@
 #endif
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/debugXML.h>
 #include <libxml/xmlschemas.h>
 #include <libxml/xmlschemastypes.h>

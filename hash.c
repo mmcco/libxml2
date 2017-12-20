@@ -39,7 +39,6 @@
 
 #include <libxml/parser.h>
 #include <libxml/hash.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/xmlerror.h>
 #include <libxml/globals.h>
 

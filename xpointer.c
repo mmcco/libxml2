@@ -32,7 +32,6 @@
 
 #include <string.h>
 #include <libxml/xpointer.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parserInternals.h>
 #include <libxml/uri.h>
 #include <libxml/xpath.h>

@@ -54,7 +54,6 @@ typedef unsigned __int32 uint32_t;
 #endif
 #include <libxml/tree.h>
 #include <libxml/dict.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/xmlerror.h>
 #include <libxml/globals.h>
 

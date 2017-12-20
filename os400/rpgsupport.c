@@ -10,7 +10,6 @@
 
 #include <stdarg.h>
 
-#include "libxml/xmlmemory.h"
 #include "libxml/xpath.h"
 #include "libxml/parser.h"
 #include "libxml/HTMLparser.h"

@@ -18,7 +18,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlstring.h>
 

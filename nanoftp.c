@@ -60,7 +60,6 @@
 #include <strings.h>
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/xmlerror.h>
 #include <libxml/uri.h>

@@ -20,7 +20,6 @@
  * COMPAT using xml-config --cflags to get the include path this will
  * work with both 
  */
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
 #define DEBUG(x) printf(x)

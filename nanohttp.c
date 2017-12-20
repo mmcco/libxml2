@@ -79,7 +79,6 @@
 
 #include <libxml/globals.h>
 #include <libxml/xmlerror.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h> /* for xmlStr(n)casecmp() */
 #include <libxml/nanohttp.h>
 #include <libxml/globals.h>

@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/hash.h>
 #include <libxml/uri.h>
 #include <libxml/valid.h>

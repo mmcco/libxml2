@@ -32,7 +32,6 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/debugXML.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/xmlerror.h>

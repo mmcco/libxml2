@@ -14,13 +14,11 @@
 #include <Python.h>
 #include <fileobject.h>
 /* #include "config.h" */
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xmlerror.h>
 #include <libxml/xpathInternals.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/xmlIO.h>
 #include <libxml/c14n.h>
 #include <libxml/xmlreader.h>

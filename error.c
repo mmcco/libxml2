@@ -13,7 +13,6 @@
 #include <stdarg.h>
 #include <libxml/parser.h>
 #include <libxml/xmlerror.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/globals.h>
 
 void XMLCDECL xmlGenericErrorDefaultFunc	(void *ctx ATTRIBUTE_UNUSED,

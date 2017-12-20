@@ -39,7 +39,6 @@
 #endif
 
 #include "xzlib.h"
-#include <libxml/xmlmemory.h>
 
 /* values for xz_state how */
 #define LOOK 0                  /* look for a gzip/lzma header */

@@ -52,7 +52,6 @@
 #endif
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/HTMLparser.h>
