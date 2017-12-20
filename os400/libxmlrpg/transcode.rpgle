@@ -16,47 +16,47 @@
 
      d xmlTranscodeResult...
      d                 pr              *   extproc('xmlTranscodeResult')        const char *
-     d  s                              *   value options(*string)               const xmlChar *
+     d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
      d  freeproc                       *   value procptr
 
      d xmlTranscodeString...
-     d                 pr              *   extproc('xmlTranscodeString')        const xmlChar *
+     d                 pr              *   extproc('xmlTranscodeString')        const char *
      d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
 
      d xmlTranscodeWString...
-     d                 pr              *   extproc('xmlTranscodeWString')       const xmlChar *
+     d                 pr              *   extproc('xmlTranscodeWString')       const char *
      d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
 
      d xmlTranscodeHString...
-     d                 pr              *   extproc('xmlTranscodeHString')       const xmlChar *
+     d                 pr              *   extproc('xmlTranscodeHString')       const char *
      d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
 
       /if not defined(XML_NO_SHORT_NAMES)
      d xmlTR           pr              *   extproc('xmlTranscodeResult')        const char *
-     d  s                              *   value options(*string)               const xmlChar *
+     d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
      d  freeproc                       *   value procptr
 
-     d xmlTS           pr              *   extproc('xmlTranscodeString')        const xmlChar *
+     d xmlTS           pr              *   extproc('xmlTranscodeString')        const char *
      d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
 
-     d xmlTW           pr              *   extproc('xmlTranscodeWString')       const xmlChar *
+     d xmlTW           pr              *   extproc('xmlTranscodeWString')       const char *
      d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
 
-     d xmlTH           pr              *   extproc('xmlTranscodeHString')       const xmlChar *
+     d xmlTH           pr              *   extproc('xmlTranscodeHString')       const char *
      d  s                              *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  dict                               like(xmlDictPtr) options(*omit)
@@ -65,7 +65,7 @@
      d xmlVasprintf    pr              *   extproc('xmlVasprintf')
      d  dict                               like(xmlDictPtr) options(*omit)
      d  encoding                       *   value options(*string)               const char *
-     d  fmt                            *   value options(*string)               const xmlChar *
+     d  fmt                            *   value options(*string)               const char *
      d  args                               likeds(xmlVaList)
 
       /endif

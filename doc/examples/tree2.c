@@ -35,43 +35,43 @@ main(int argc, char **argv)
     /* 
      * Creates a new document, a node and set it as a root node
      */
-    doc = xmlNewDoc(BAD_CAST "1.0");
-    root_node = xmlNewNode(NULL, BAD_CAST "root");
+    doc = xmlNewDoc("1.0");
+    root_node = xmlNewNode(NULL, "root");
     xmlDocSetRootElement(doc, root_node);
 
     /*
      * Creates a DTD declaration. Isn't mandatory. 
      */
-    xmlCreateIntSubset(doc, BAD_CAST "root", NULL, BAD_CAST "tree2.dtd");
+    xmlCreateIntSubset(doc, "root", NULL, "tree2.dtd");
 
     /* 
      * xmlNewChild() creates a new node, which is "attached" as child node
      * of root_node node. 
      */
-    xmlNewChild(root_node, NULL, BAD_CAST "node1",
-                BAD_CAST "content of node 1");
+    xmlNewChild(root_node, NULL, "node1",
+                "content of node 1");
     /* 
      * The same as above, but the new child node doesn't have a content 
      */
-    xmlNewChild(root_node, NULL, BAD_CAST "node2", NULL);
+    xmlNewChild(root_node, NULL, "node2", NULL);
 
     /* 
      * xmlNewProp() creates attributes, which is "attached" to an node.
      * It returns xmlAttrPtr, which isn't used here.
      */
     node =
-        xmlNewChild(root_node, NULL, BAD_CAST "node3",
-                    BAD_CAST "this node has attributes");
-    xmlNewProp(node, BAD_CAST "attribute", BAD_CAST "yes");
-    xmlNewProp(node, BAD_CAST "foo", BAD_CAST "bar");
+        xmlNewChild(root_node, NULL, "node3",
+                    "this node has attributes");
+    xmlNewProp(node, "attribute", "yes");
+    xmlNewProp(node, "foo", "bar");
 
     /*
      * Here goes another way to create nodes. xmlNewNode() and xmlNewText
      * creates a node and a text node separately. They are "attached"
      * by xmlAddChild() 
      */
-    node = xmlNewNode(NULL, BAD_CAST "node4");
-    node1 = xmlNewText(BAD_CAST
+    node = xmlNewNode(NULL, "node4");
+    node1 = xmlNewText(
                    "other way to create content (which is also a node)");
     xmlAddChild(node, node1);
     xmlAddChild(root_node, node);
@@ -81,11 +81,11 @@ main(int argc, char **argv)
      */
     for (i = 5; i < 7; i++) {
         sprintf(buff, "node%d", i);
-        node = xmlNewChild(root_node, NULL, BAD_CAST buff, NULL);
+        node = xmlNewChild(root_node, NULL, buff, NULL);
         for (j = 1; j < 4; j++) {
             sprintf(buff, "node%d%d", i, j);
-            node1 = xmlNewChild(node, NULL, BAD_CAST buff, NULL);
-            xmlNewProp(node1, BAD_CAST "odd", BAD_CAST((j % 2) ? "no" : "yes"));
+            node1 = xmlNewChild(node, NULL, buff, NULL);
+            xmlNewProp(node1, "odd", ((j % 2) ? "no" : "yes"));
         }
     }
 

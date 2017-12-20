@@ -137,7 +137,7 @@
 
      d xmlXPtrEval     pr                  extproc('xmlXPtrEval')
      d                                     like(xmlXPathObjectPtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
      d ctx                                 value like(xmlXPathContextPtr)
 
      d xmlXPtrRangeToFunction...

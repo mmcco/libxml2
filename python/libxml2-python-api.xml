@@ -6,8 +6,8 @@
       <info>Register a Python written function to the XPath interpreter</info>
       <return type='int' info="1 in case of success, 0 or -1 in case of error"/>
       <arg name='ctx' type='xmlXPathContextPtr' info='the xpathContext'/>
-      <arg name='name' type='xmlChar *' info='the function name'/>
-      <arg name='ns_uri' type='xmlChar *' info='the namespace or NULL'/>
+      <arg name='name' type='char *' info='the function name'/>
+      <arg name='ns_uri' type='char *' info='the namespace or NULL'/>
       <arg name='f' type='pythonObject' info='the python function'/>
     </function>
     <function name='xmlXPathRegisterVariable' file='python'>
@@ -15,37 +15,37 @@
       <info>Register a variable with the XPath context</info>
       <return type='int' info="1 in case of success, 0 or -1 in case of error"/>
       <arg name='ctx' type='xmlXPathContextPtr' info='the xpathContext'/>
-      <arg name='name' type='xmlChar *' info='the variable name'/>
-      <arg name='ns_uri' type='xmlChar *' info='the namespace or NULL'/>
+      <arg name='name' type='char *' info='the variable name'/>
+      <arg name='ns_uri' type='char *' info='the namespace or NULL'/>
       <arg name='value' type='pythonObject' info='the value'/>
     </function>
     <function name='xmlNewNode' file='python'>
       <info>Create a new Node</info>
       <return type='xmlNodePtr' info="A new element node"/>
-      <arg name='name' type='xmlChar *' info='the node name'/>
+      <arg name='name' type='char *' info='the node name'/>
     </function>
     <function name='xmlCreatePushParser' file='python'>
       <info>Create a progressive XML parser context to build either an event flow if the SAX object is not None, or a DOM tree otherwise.</info>
       <return type='xmlParserCtxtPtr' info="the parser context or None in case of error"/>
       <arg name='SAX' type='pythonObject' info='the SAX callback object or None'/>
-      <arg name='chunk' type='xmlChar *' info='the initial data'/>
+      <arg name='chunk' type='char *' info='the initial data'/>
       <arg name='size' type='int' info='the size of the initial data'/>
-      <arg name='URI' type='xmlChar *' info='The URI used for base computations'/>
+      <arg name='URI' type='char *' info='The URI used for base computations'/>
     </function>
     <function name='htmlCreatePushParser' file='python'>
       <cond>defined(LIBXML_HTML_ENABLED)</cond>
       <info>Create a progressive HTML parser context to build either an event flow if the SAX object is not None, or a DOM tree otherwise.</info>
       <return type='xmlParserCtxtPtr' info="the parser context or None in case of error"/>
       <arg name='SAX' type='pythonObject' info='the SAX callback object or None'/>
-      <arg name='chunk' type='xmlChar *' info='the initial data'/>
+      <arg name='chunk' type='char *' info='the initial data'/>
       <arg name='size' type='int' info='the size of the initial data'/>
-      <arg name='URI' type='xmlChar *' info='The URI used for base computations'/>
+      <arg name='URI' type='char *' info='The URI used for base computations'/>
     </function>
     <function name='xmlSAXParseFile' file='python'>
       <info>Interface to parse an XML file or resource pointed by an URI to build an event flow to the SAX object</info>
       <return type='void'/>
       <arg name='SAX' type='pythonObject' info='the SAX callback object or None'/>
-      <arg name='URI' type='xmlChar *' info='The URI of the resource'/>
+      <arg name='URI' type='char *' info='The URI of the resource'/>
       <arg name='recover' type='int' info='allow recovery in case of error'/>
     </function>
     <function name='htmlSAXParseFile' file='python'>
@@ -53,20 +53,20 @@
       <info>Interface to parse an HTML file or resource pointed by an URI to build an event flow to the SAX object</info>
       <return type='void'/>
       <arg name='SAX' type='pythonObject' info='the SAX callback object or None'/>
-      <arg name='URI' type='xmlChar *' info='The URI of the resource'/>
+      <arg name='URI' type='char *' info='The URI of the resource'/>
       <arg name='encoding' type='const char *' info='encoding or None'/>
     </function>
     <function name='xmlCreateOutputBuffer' file='python'>
       <info>Create a libxml2 output buffer from a Python file</info>
       <return type='xmlOutputBufferPtr' info="the output buffer"/>
       <arg name='file' type='pythonObject' info='the Python file'/>
-      <arg name='encoding' type='xmlChar *' info='an optionnal encoding'/>
+      <arg name='encoding' type='char *' info='an optionnal encoding'/>
     </function>
     <function name='xmlCreateInputBuffer' file='python'>
       <info>Create a libxml2 input buffer from a Python file</info>
       <return type='xmlParserInputBufferPtr' info="the input buffer"/>
       <arg name='file' type='pythonObject' info='the Python file'/>
-      <arg name='encoding' type='xmlChar *' info='an optionnal encoding'/>
+      <arg name='encoding' type='char *' info='an optionnal encoding'/>
     </function>
     <function name='xmlSetEntityLoader' file='python'>
       <info>Set the entity resolver as a python function</info>
@@ -187,13 +187,13 @@
     <function name='xmlXPathGetFunction' file='python_accessor'>
       <cond>defined(LIBXML_XPATH_ENABLED)</cond>
       <info>Get the current function name xpathContext</info>
-      <return type='const xmlChar *' info="The function name" field="function"/>
+      <return type='const char *' info="The function name" field="function"/>
       <arg name='ctxt' type='xmlXPathContextPtr' info='the XPath context'/>
     </function>
     <function name='xmlXPathGetFunctionURI' file='python_accessor'>
       <cond>defined(LIBXML_XPATH_ENABLED)</cond>
       <info>Get the current function name URI xpathContext</info>
-      <return type='const xmlChar *' info="The function name URI" field="functionURI"/>
+      <return type='const char *' info="The function name URI" field="functionURI"/>
       <arg name='ctxt' type='xmlXPathContextPtr' info='the XPath context'/>
     </function>
     <!-- xmlURIPtr accessors -->

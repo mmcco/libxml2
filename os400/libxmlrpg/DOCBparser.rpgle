@@ -59,14 +59,14 @@
      d docbSAXParseDoc...
      d                 pr                  extproc('docbSAXParseDoc')
      d                                     like(docbDocPtr)
-     d  cur                            *   value options(*string)               xmlChar *
+     d  cur                            *   value options(*string)               char *
      d  encoding                       *   value options(*string)               const char *
      d  sax                                value like(docbSAXHandlerPtr)
      d  userData                       *   value                                void *
 
      d docbParseDoc    pr                  extproc('docbParseDoc')
      d                                     like(docbDocPtr)
-     d  cur                            *   value options(*string)               xmlChar *
+     d  cur                            *   value options(*string)               char *
      d  encoding                       *   value options(*string)               const char *
 
      d docbSAXParseFile...
@@ -96,7 +96,7 @@
      d  chunk                          *   value options(*string)               const char *
      d  size                               value like(xmlCint)
      d  filename                       *   value options(*string)               const char *
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d docbParseChunk  pr                  extproc('docbParseChunk')
      d                                     like(xmlCint)

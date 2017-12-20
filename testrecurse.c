@@ -342,10 +342,10 @@ channel(void *ctx  ATTRIBUTE_UNUSED, const char *msg, ...) {
 static void
 xmlParserPrintFileContextInternal(xmlParserInputPtr input ,
 		xmlGenericErrorFunc chanl, void *data ) {
-    const xmlChar *cur, *base;
+    const char *cur, *base;
     unsigned int n, col;	/* GCC warns if signed, because compared with sizeof() */
-    xmlChar  content[81]; /* space for 80 chars + line terminator */
-    xmlChar *ctnt;
+    char  content[81]; /* space for 80 chars + line terminator */
+    char *ctnt;
 
     if (input == NULL) return;
     cur = input->cur;
@@ -396,7 +396,7 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
     int domain;
     void *data = NULL;
     const char *str;
-    const xmlChar *name = NULL;
+    const char *name = NULL;
     xmlNodePtr node;
     xmlErrorLevel level;
     xmlParserInputPtr input = NULL;
@@ -534,7 +534,7 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
         return;
     if (str != NULL) {
         int len;
-	len = xmlStrlen((const xmlChar *)str);
+	len = xmlStrlen((const char *)str);
 	if ((len > 0) && (str[len - 1] != '\n'))
 	    channel(data, "%s\n", str);
 	else
@@ -557,8 +557,8 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
     }
     if ((domain == XML_FROM_XPATH) && (err->str1 != NULL) &&
         (err->int1 < 100) &&
-	(err->int1 < xmlStrlen((const xmlChar *)err->str1))) {
-	xmlChar buf[150];
+	(err->int1 < xmlStrlen((const char *)err->str1))) {
+	char buf[150];
 	int i;
 
 	channel(data, "%s\n", err->str1);

@@ -208,7 +208,7 @@ XMLPUBFUN int XMLCALL
 XMLPUBFUN int XMLCALL
 	    xmlSchemaValidateStream	(xmlSchemaValidCtxtPtr ctxt,
 					 xmlParserInputBufferPtr input,
-					 xmlCharEncoding enc,
+					 charEncoding enc,
 					 xmlSAXHandlerPtr sax,
 					 void *user_data);
 XMLPUBFUN int XMLCALL

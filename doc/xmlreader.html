@@ -167,7 +167,7 @@ a given node and the reader can be used to query those node properties. Each
 <em>Property</em> is available at the C level as a function taking a single
 xmlTextReaderPtr argument whose name is
 <code>xmlTextReader</code><em>Property</em> , if the return type is an
-<code>xmlChar *</code> string then it must be deallocated with
+<code>char *</code> string then it must be deallocated with
 <code>xmlFree()</code> to avoid leaks. For the Python interface, there is a
 <em>Property</em> method to the reader class that can be called on the
 instance. The list of the properties is based on the <a
@@ -265,11 +265,11 @@ character data are reported:</p>
 <code>xmllint --stream --debug</code> is the following and can be found in
 the xmllint.c module in the source distribution:</p>
 <pre>static void processNode(xmlTextReaderPtr reader) {
-    xmlChar *name, *value;
+    char *name, *value;
 
     name = xmlTextReaderName(reader);
     if (name == NULL)
-        name = xmlStrdup(BAD_CAST "--");
+        name = xmlStrdup("--");
     value = xmlTextReaderValue(reader);
 
     printf("%d %d %s %d",

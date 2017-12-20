@@ -18,15 +18,15 @@ main(void)
 
     xmlNodePtr n;
     xmlDocPtr doc;
-    xmlChar *xmlbuff;
+    char *xmlbuff;
     int buffersize;
 
     /*
      * Create the document.
      */
-    doc = xmlNewDoc(BAD_CAST "1.0");
-    n = xmlNewNode(NULL, BAD_CAST "root");
-    xmlNodeSetContent(n, BAD_CAST "content");
+    doc = xmlNewDoc("1.0");
+    n = xmlNewNode(NULL, "root");
+    xmlNodeSetContent(n, "content");
     xmlDocSetRootElement(doc, n);
 
     /*
@@ -39,7 +39,7 @@ main(void)
     /*
      * Free associated memory.
      */
-    xmlFree(xmlbuff);
+    free(xmlbuff);
     xmlFreeDoc(doc);
 
     return (0);

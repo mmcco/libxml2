@@ -2,19 +2,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
 void
 getReference (xmlDocPtr doc, xmlNodePtr cur) {
 
-	xmlChar *uri;
+	char *uri;
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL) {
-	    if ((!xmlStrcmp(cur->name, (const xmlChar *)"reference"))) {
+	    if ((!xmlStrcmp(cur->name, (const char *)"reference"))) {
 		    uri = xmlGetProp(cur, "uri");
 		    printf("uri: %s\n", uri);
-		    xmlFree(uri);
+		    free(uri);
 	    }
 	    cur = cur->next;
 	}
@@ -43,7 +42,7 @@ parseDoc(char *docname) {
 		return;
 	}
 	
-	if (xmlStrcmp(cur->name, (const xmlChar *) "story")) {
+	if (xmlStrcmp(cur->name, (const char *) "story")) {
 		fprintf(stderr,"document of the wrong type, root node != story");
 		xmlFreeDoc(doc);
 		return;

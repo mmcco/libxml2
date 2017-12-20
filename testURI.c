@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/uri.h>
 #include <libxml/globals.h>
 
@@ -23,7 +22,7 @@ static int debug = 0;
 static void handleURI(const char *str) {
     int ret;
     xmlURIPtr uri;
-    xmlChar *res = NULL, *parsed = NULL;
+    char *res = NULL, *parsed = NULL;
 
     uri = xmlCreateURI();
 
@@ -57,7 +56,7 @@ static void handleURI(const char *str) {
 	    }
 	}
     } else {
-	res = xmlBuildURI((xmlChar *)str, (xmlChar *) base);
+	res = xmlBuildURI((char *)str, (char *) base);
 	if (res != NULL) {
 	    printf("%s\n", (char *) res);
 	}
@@ -65,9 +64,9 @@ static void handleURI(const char *str) {
 	    printf("::ERROR::\n");
     }
     if (res != NULL)
-	xmlFree(res);
+	free(res);
     if (parsed != NULL)
-	xmlFree(parsed);
+	free(parsed);
     xmlFreeURI(uri);
 }
 

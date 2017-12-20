@@ -20,7 +20,7 @@ Parsing the file requires only the name of the file and a single
 		return;
 	}
 	
-	<a name="checkroottype"></a><img src="images/callouts/7.png" alt="7" border="0"> if (xmlStrcmp(cur-&gt;name, (const xmlChar *) "story")) {
+	<a name="checkroottype"></a><img src="images/callouts/7.png" alt="7" border="0"> if (xmlStrcmp(cur-&gt;name, (const char *) "story")) {
 		fprintf(stderr,"document of the wrong type, root node != story");
 		xmlFreeDoc(doc);
 		return;

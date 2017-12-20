@@ -39,7 +39,6 @@
 #endif
 
 #include "xzlib.h"
-#include <libxml/xmlmemory.h>
 
 /* values for xz_state how */
 #define LOOK 0                  /* look for a gzip/lzma header */
@@ -91,7 +90,7 @@ xz_error(xz_statep state, int err, const char *msg)
     /* free previously allocated message and clear */
     if (state->msg != NULL) {
         if (state->err != LZMA_MEM_ERROR)
-            xmlFree(state->msg);
+            free(state->msg);
         state->msg = NULL;
     }
 
@@ -108,7 +107,7 @@ xz_error(xz_statep state, int err, const char *msg)
 
     /* construct error message with path */
     if ((state->msg =
-         xmlMalloc(strlen(state->path) + strlen(msg) + 3)) == NULL) {
+         malloc(strlen(state->path) + strlen(msg) + 3)) == NULL) {
         state->err = LZMA_MEM_ERROR;
         state->msg = (char *) "out of memory";
         return;
@@ -141,7 +140,7 @@ xz_open(const char *path, int fd, const char *mode ATTRIBUTE_UNUSED)
     xz_statep state;
 
     /* allocate xzFile structure to return */
-    state = xmlMalloc(sizeof(xz_state));
+    state = malloc(sizeof(xz_state));
     if (state == NULL)
         return NULL;
     state->size = 0;            /* no buffers allocated yet */
@@ -150,9 +149,9 @@ xz_open(const char *path, int fd, const char *mode ATTRIBUTE_UNUSED)
     state->init = 0;            /* initialization of zlib data */
 
     /* save the path name for error messages */
-    state->path = xmlMalloc(strlen(path) + 1);
+    state->path = malloc(strlen(path) + 1);
     if (state->path == NULL) {
-        xmlFree(state);
+        free(state);
         return NULL;
     }
     strcpy(state->path, path);
@@ -167,8 +166,8 @@ xz_open(const char *path, int fd, const char *mode ATTRIBUTE_UNUSED)
 #endif
                                      O_RDONLY, 0666);
     if (state->fd == -1) {
-        xmlFree(state->path);
-        xmlFree(state);
+        free(state->path);
+        free(state);
         return NULL;
     }
 
@@ -221,11 +220,11 @@ __libxml2_xzdopen(int fd, const char *mode)
     char *path;                 /* identifier for error messages */
     xzFile xz;
 
-    if (fd == -1 || (path = xmlMalloc(7 + 3 * sizeof(int))) == NULL)
+    if (fd == -1 || (path = malloc(7 + 3 * sizeof(int))) == NULL)
         return NULL;
     sprintf(path, "<fd:%d>", fd);       /* for debugging */
     xz = xz_open(path, fd, mode);
-    xmlFree(path);
+    free(path);
     return xz;
 }
 
@@ -392,13 +391,13 @@ xz_head(xz_statep state)
     /* allocate read buffers and inflate memory */
     if (state->size == 0) {
         /* allocate buffers */
-        state->in = xmlMalloc(state->want);
-        state->out = xmlMalloc(state->want << 1);
+        state->in = malloc(state->want);
+        state->out = malloc(state->want << 1);
         if (state->in == NULL || state->out == NULL) {
             if (state->out != NULL)
-                xmlFree(state->out);
+                free(state->out);
             if (state->in != NULL)
-                xmlFree(state->in);
+                free(state->in);
             xz_error(state, LZMA_MEM_ERROR, "out of memory");
             return -1;
         }
@@ -409,8 +408,8 @@ xz_head(xz_statep state)
         state->strm.avail_in = 0;
         state->strm.next_in = NULL;
         if (lzma_auto_decoder(&state->strm, 100000000, 0) != LZMA_OK) {
-            xmlFree(state->out);
-            xmlFree(state->in);
+            free(state->out);
+            free(state->in);
             state->size = 0;
             xz_error(state, LZMA_MEM_ERROR, "out of memory");
             return -1;
@@ -424,8 +423,8 @@ xz_head(xz_statep state)
         state->zstrm.next_in = Z_NULL;
         if (state->init == 0) {
             if (inflateInit2(&(state->zstrm), -15) != Z_OK) {/* raw inflate */
-                xmlFree(state->out);
-                xmlFree(state->in);
+                free(state->out);
+                free(state->in);
                 state->size = 0;
                 xz_error(state, LZMA_MEM_ERROR, "out of memory");
                 return -1;
@@ -793,14 +792,14 @@ __libxml2_xzclose(xzFile file)
             inflateEnd(&(state->zstrm));
         state->init = 0;
 #endif
-        xmlFree(state->out);
-        xmlFree(state->in);
+        free(state->out);
+        free(state->in);
     }
-    xmlFree(state->path);
+    free(state->path);
     if ((state->msg != NULL) && (state->err != LZMA_MEM_ERROR))
-        xmlFree(state->msg);
+        free(state->msg);
     ret = close(state->fd);
-    xmlFree(state);
+    free(state);
     return ret ? ret : LZMA_OK;
 }
 #endif /* LIBXML_LZMA_ENABLED */

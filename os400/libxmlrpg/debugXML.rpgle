@@ -22,7 +22,7 @@
      d xmlDebugDumpString...
      d                 pr                  extproc('xmlDebugDumpString')
      d  output                         *   value                                FILE *
-     d  str                            *   value options(*string)               const xmlChar *
+     d  str                            *   value options(*string)               const char *
 
      d xmlDebugDumpAttr...
      d                 pr                  extproc('xmlDebugDumpAttr')

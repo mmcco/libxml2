@@ -197,7 +197,7 @@ XMLPUBFUN int XMLCALL
 					 xmlNodePtr elem);
 XMLPUBFUN int XMLCALL
 		    xmlRelaxNGValidatePushCData	(xmlRelaxNGValidCtxtPtr ctxt,
-					 const xmlChar *data,
+					 const char *data,
 					 int len);
 XMLPUBFUN int XMLCALL
 		    xmlRelaxNGValidatePopElement	(xmlRelaxNGValidCtxtPtr ctxt,

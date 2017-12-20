@@ -27,7 +27,7 @@
  * Returns the resulting doc with just the elements preserved.
  */
 static xmlDocPtr
-extractFile(const char *filename, const xmlChar *pattern) {
+extractFile(const char *filename, const char *pattern) {
     xmlDocPtr doc;
     xmlTextReaderPtr reader;
     int ret;
@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
      */
     LIBXML_TEST_VERSION
 
-    doc = extractFile(filename, (const xmlChar *) pattern);
+    doc = extractFile(filename, (const char *) pattern);
     if (doc != NULL) {
         /*
 	 * ouptut the result.

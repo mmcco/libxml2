@@ -20,7 +20,6 @@
 #include <string.h>
 
 #include <libxml/globals.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/threads.h>
 
 /* #define DEBUG_GLOBALS */
@@ -69,70 +68,6 @@ void xmlCleanupGlobals(void)
  *	All the user accessible global variables of the library		*
  *									*
  ************************************************************************/
-
-/*
- * Memory allocation routines
- */
-#undef	xmlFree
-#undef	xmlMalloc
-#undef	xmlMallocAtomic
-#undef	xmlMemStrdup
-#undef	xmlRealloc
-
-#if defined(DEBUG_MEMORY_LOCATION) || defined(DEBUG_MEMORY)
-xmlFreeFunc xmlFree = (xmlFreeFunc) xmlMemFree;
-xmlMallocFunc xmlMalloc = (xmlMallocFunc) xmlMemMalloc;
-xmlMallocFunc xmlMallocAtomic = (xmlMallocFunc) xmlMemMalloc;
-xmlReallocFunc xmlRealloc = (xmlReallocFunc) xmlMemRealloc;
-xmlStrdupFunc xmlMemStrdup = (xmlStrdupFunc) xmlMemoryStrdup;
-#else
-/**
- * xmlFree:
- * @mem: an already allocated block of memory
- *
- * The variable holding the libxml free() implementation
- */
-xmlFreeFunc xmlFree = (xmlFreeFunc) free;
-/**
- * xmlMalloc:
- * @size:  the size requested in bytes
- *
- * The variable holding the libxml malloc() implementation
- *
- * Returns a pointer to the newly allocated block or NULL in case of error
- */
-xmlMallocFunc xmlMalloc = (xmlMallocFunc) malloc;
-/**
- * xmlMallocAtomic:
- * @size:  the size requested in bytes
- *
- * The variable holding the libxml malloc() implementation for atomic
- * data (i.e. blocks not containings pointers), useful when using a
- * garbage collecting allocator.
- *
- * Returns a pointer to the newly allocated block or NULL in case of error
- */
-xmlMallocFunc xmlMallocAtomic = (xmlMallocFunc) malloc;
-/**
- * xmlRealloc:
- * @mem: an already allocated block of memory
- * @size:  the new size requested in bytes
- *
- * The variable holding the libxml realloc() implementation
- *
- * Returns a pointer to the newly reallocated block or NULL in case of error
- */
-xmlReallocFunc xmlRealloc = (xmlReallocFunc) realloc;
-/**
- * xmlMemStrdup:
- * @str: a zero terminated string
- *
- * The variable holding the libxml strdup() implementation
- *
- * Returns the copy of the string or NULL in case of error
- */
-xmlStrdupFunc xmlMemStrdup = (xmlStrdupFunc) xmlStrdup;
-#endif /* DEBUG_MEMORY_LOCATION || DEBUG_MEMORY */
 
 #include <libxml/threads.h>
 #include <libxml/globals.h>
@@ -527,16 +462,14 @@ xmlInitializeGlobalState(xmlGlobalStatePtr gs)
          xmlDoValidityCheckingDefaultValueThrDef;
 #if defined(DEBUG_MEMORY_LOCATION) | defined(DEBUG_MEMORY)
     gs->xmlFree = (xmlFreeFunc) xmlMemFree;
-    gs->xmlMalloc = (xmlMallocFunc) xmlMemMalloc;
-    gs->xmlMallocAtomic = (xmlMallocFunc) xmlMemMalloc;
-    gs->xmlRealloc = (xmlReallocFunc) xmlMemRealloc;
-    gs->xmlMemStrdup = (xmlStrdupFunc) xmlMemoryStrdup;
+    gs->malloc = (mallocFunc) xmlMemMalloc;
+    gs->malloc = (mallocFunc) xmlMemMalloc;
+    gs->realloc = (reallocFunc) xmlMemRealloc;
 #else
     gs->xmlFree = (xmlFreeFunc) free;
-    gs->xmlMalloc = (xmlMallocFunc) malloc;
-    gs->xmlMallocAtomic = (xmlMallocFunc) malloc;
-    gs->xmlRealloc = (xmlReallocFunc) realloc;
-    gs->xmlMemStrdup = (xmlStrdupFunc) xmlStrdup;
+    gs->malloc = (mallocFunc) malloc;
+    gs->malloc = (mallocFunc) malloc;
+    gs->realloc = (reallocFunc) realloc;
 #endif
     gs->xmlGetWarningsDefaultValue = xmlGetWarningsDefaultValueThrDef;
     gs->xmlIndentTreeOutput = xmlIndentTreeOutputThrDef;
@@ -719,58 +652,6 @@ __xmlLastError(void) {
     else
 	return (&xmlGetGlobalState()->xmlLastError);
 }
-
-/*
- * The following memory routines were apparently lost at some point,
- * and were re-inserted at this point on June 10, 2004.  Hope it's
- * the right place for them :-)
- */
-#if defined(LIBXML_THREAD_ALLOC_ENABLED) && defined(LIBXML_THREAD_ENABLED)
-#undef xmlMalloc
-xmlMallocFunc *
-__xmlMalloc(void){
-    if (IS_MAIN_THREAD)
-        return (&xmlMalloc);
-    else
-	return (&xmlGetGlobalState()->xmlMalloc);
-}
-
-#undef xmlMallocAtomic
-xmlMallocFunc *
-__xmlMallocAtomic(void){
-    if (IS_MAIN_THREAD)
-        return (&xmlMallocAtomic);
-    else
-        return (&xmlGetGlobalState()->xmlMallocAtomic);
-}
-
-#undef xmlRealloc
-xmlReallocFunc *
-__xmlRealloc(void){
-    if (IS_MAIN_THREAD)
-        return (&xmlRealloc);
-    else
-        return (&xmlGetGlobalState()->xmlRealloc);
-}
-
-#undef xmlFree
-xmlFreeFunc *
-__xmlFree(void){
-    if (IS_MAIN_THREAD)
-        return (&xmlFree);
-    else
-        return (&xmlGetGlobalState()->xmlFree);
-}
-
-xmlStrdupFunc *
-__xmlMemStrdup(void){
-    if (IS_MAIN_THREAD)
-        return (&xmlMemStrdup);
-    else
-        return (&xmlGetGlobalState()->xmlMemStrdup);
-}
-
-#endif
 
 /*
  * Everything starting from the line below is

@@ -93,8 +93,8 @@ rationales for those choices:</p><ul>
     </ul>
   </li>
 </ul><p>What does this mean in practice for the libxml2 user:</p><ul>
-  <li>xmlChar, the libxml2 data type is a byte, those bytes must be assembled
-    as UTF-8 valid strings. The proper way to terminate an xmlChar * string
+  <li>char, the libxml2 data type is a byte, those bytes must be assembled
+    as UTF-8 valid strings. The proper way to terminate an char * string
     is simply to append 0 byte, as usual.</li>
   <li>One just need to make sure that when using chars outside the ASCII set,
     the values has been properly converted to UTF-8</li>

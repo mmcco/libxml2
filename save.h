@@ -20,12 +20,12 @@ extern "C" {
 
 #ifdef LIBXML_OUTPUT_ENABLED
 void xmlBufAttrSerializeTxtContent(xmlBufPtr buf, xmlDocPtr doc,
-                                   xmlAttrPtr attr, const xmlChar * string);
+                                   xmlAttrPtr attr, const char * string);
 void xmlBufDumpNotationTable(xmlBufPtr buf, xmlNotationTablePtr table);
 void xmlBufDumpElementDecl(xmlBufPtr buf, xmlElementPtr elem);
 void xmlBufDumpAttributeDecl(xmlBufPtr buf, xmlAttributePtr attr);
 void xmlBufDumpEntityDecl(xmlBufPtr buf, xmlEntityPtr ent);
-xmlChar *xmlEncodeAttributeEntities(xmlDocPtr doc, const xmlChar *input);
+char *xmlEncodeAttributeEntities(xmlDocPtr doc, const char *input);
 #endif
 
 #ifdef __cplusplus

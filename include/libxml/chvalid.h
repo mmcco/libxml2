@@ -52,7 +52,7 @@ struct _xmlChRangeGroup {
  * Range checking routine
  */
 XMLPUBFUN int XMLCALL
-		xmlCharInRange(unsigned int val, const xmlChRangeGroup *group);
+		charInRange(unsigned int val, const xmlChRangeGroup *group);
 
 
 /**
@@ -75,7 +75,7 @@ XMLPUBFUN int XMLCALL
  */
 #define xmlIsBaseCharQ(c)	(((c) < 0x100) ? \
 				 xmlIsBaseChar_ch((c)) : \
-				 xmlCharInRange((c), &xmlIsBaseCharGroup))
+				 charInRange((c), &xmlIsBaseCharGroup))
 
 XMLPUBVAR const xmlChRangeGroup xmlIsBaseCharGroup;
 
@@ -131,7 +131,7 @@ XMLPUBVAR const xmlChRangeGroup xmlIsCharGroup;
  */
 #define xmlIsCombiningQ(c)	(((c) < 0x100) ? \
 				 0 : \
-				 xmlCharInRange((c), &xmlIsCombiningGroup))
+				 charInRange((c), &xmlIsCombiningGroup))
 
 XMLPUBVAR const xmlChRangeGroup xmlIsCombiningGroup;
 
@@ -151,7 +151,7 @@ XMLPUBVAR const xmlChRangeGroup xmlIsCombiningGroup;
  */
 #define xmlIsDigitQ(c)		(((c) < 0x100) ? \
 				 xmlIsDigit_ch((c)) : \
-				 xmlCharInRange((c), &xmlIsDigitGroup))
+				 charInRange((c), &xmlIsDigitGroup))
 
 XMLPUBVAR const xmlChRangeGroup xmlIsDigitGroup;
 
@@ -171,7 +171,7 @@ XMLPUBVAR const xmlChRangeGroup xmlIsDigitGroup;
  */
 #define xmlIsExtenderQ(c)	(((c) < 0x100) ? \
 				 xmlIsExtender_ch((c)) : \
-				 xmlCharInRange((c), &xmlIsExtenderGroup))
+				 charInRange((c), &xmlIsExtenderGroup))
 
 XMLPUBVAR const xmlChRangeGroup xmlIsExtenderGroup;
 

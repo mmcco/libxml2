@@ -38,7 +38,6 @@
 #endif
 #endif
 #include <libxml/encoding.h>
-#include <libxml/xmlmemory.h>
 #ifdef LIBXML_HTML_ENABLED
 #include <libxml/HTMLparser.h>
 #endif
@@ -48,19 +47,19 @@
 #include "buf.h"
 #include "enc.h"
 
-static xmlCharEncodingHandlerPtr xmlUTF16LEHandler = NULL;
-static xmlCharEncodingHandlerPtr xmlUTF16BEHandler = NULL;
+static charEncodingHandlerPtr xmlUTF16LEHandler = NULL;
+static charEncodingHandlerPtr xmlUTF16BEHandler = NULL;
 
-typedef struct _xmlCharEncodingAlias xmlCharEncodingAlias;
-typedef xmlCharEncodingAlias *xmlCharEncodingAliasPtr;
-struct _xmlCharEncodingAlias {
+typedef struct _charEncodingAlias charEncodingAlias;
+typedef charEncodingAlias *charEncodingAliasPtr;
+struct _charEncodingAlias {
     const char *name;
     const char *alias;
 };
 
-static xmlCharEncodingAliasPtr xmlCharEncodingAliases = NULL;
-static int xmlCharEncodingAliasesNb = 0;
-static int xmlCharEncodingAliasesMax = 0;
+static charEncodingAliasPtr charEncodingAliases = NULL;
+static int charEncodingAliasesNb = 0;
+static int charEncodingAliasesMax = 0;
 
 #if defined(LIBXML_ICONV_ENABLED) || defined(LIBXML_ICU_ENABLED)
 #if 0
@@ -106,7 +105,7 @@ static uconv_t*
 openIcuConverter(const char* name, int toUnicode)
 {
   UErrorCode status = U_ZERO_ERROR;
-  uconv_t *conv = (uconv_t *) xmlMalloc(sizeof(uconv_t));
+  uconv_t *conv = (uconv_t *) malloc(sizeof(uconv_t));
   if (conv == NULL)
     return NULL;
 
@@ -134,7 +133,7 @@ openIcuConverter(const char* name, int toUnicode)
 error:
   if (conv->uconv)
     ucnv_close(conv->uconv);
-  xmlFree(conv);
+  free(conv);
   return NULL;
 }
 
@@ -144,7 +143,7 @@ closeIcuConverter(uconv_t *conv)
   if (conv != NULL) {
     ucnv_close(conv->uconv);
     ucnv_close(conv->utf8);
-    xmlFree(conv);
+    free(conv);
   }
 }
 #endif /* LIBXML_ICU_ENABLED */
@@ -925,7 +924,7 @@ UTF8ToUTF16BE(unsigned char* outb, int *outlen,
  *
  * Returns one of the XML_CHAR_ENCODING_... values.
  */
-xmlCharEncoding
+charEncoding
 xmlDetectCharEncoding(const unsigned char* in, int len)
 {
     if (in == NULL)
@@ -989,19 +988,19 @@ void
 xmlCleanupEncodingAliases(void) {
     int i;
 
-    if (xmlCharEncodingAliases == NULL)
+    if (charEncodingAliases == NULL)
 	return;
 
-    for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
-	if (xmlCharEncodingAliases[i].name != NULL)
-	    xmlFree((char *) xmlCharEncodingAliases[i].name);
-	if (xmlCharEncodingAliases[i].alias != NULL)
-	    xmlFree((char *) xmlCharEncodingAliases[i].alias);
+    for (i = 0;i < charEncodingAliasesNb;i++) {
+	if (charEncodingAliases[i].name != NULL)
+	    free((char *) charEncodingAliases[i].name);
+	if (charEncodingAliases[i].alias != NULL)
+	    free((char *) charEncodingAliases[i].alias);
     }
-    xmlCharEncodingAliasesNb = 0;
-    xmlCharEncodingAliasesMax = 0;
-    xmlFree(xmlCharEncodingAliases);
-    xmlCharEncodingAliases = NULL;
+    charEncodingAliasesNb = 0;
+    charEncodingAliasesMax = 0;
+    free(charEncodingAliases);
+    charEncodingAliases = NULL;
 }
 
 /**
@@ -1020,7 +1019,7 @@ xmlGetEncodingAlias(const char *alias) {
     if (alias == NULL)
 	return(NULL);
 
-    if (xmlCharEncodingAliases == NULL)
+    if (charEncodingAliases == NULL)
 	return(NULL);
 
     for (i = 0;i < 99;i++) {
@@ -1032,9 +1031,9 @@ xmlGetEncodingAlias(const char *alias) {
     /*
      * Walk down the list looking for a definition of the alias
      */
-    for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
-	if (!strcmp(xmlCharEncodingAliases[i].alias, upper)) {
-	    return(xmlCharEncodingAliases[i].name);
+    for (i = 0;i < charEncodingAliasesNb;i++) {
+	if (!strcmp(charEncodingAliases[i].alias, upper)) {
+	    return(charEncodingAliases[i].name);
 	}
     }
     return(NULL);
@@ -1064,38 +1063,38 @@ xmlAddEncodingAlias(const char *name, const char *alias) {
     }
     upper[i] = 0;
 
-    if (xmlCharEncodingAliases == NULL) {
-	xmlCharEncodingAliasesNb = 0;
-	xmlCharEncodingAliasesMax = 20;
-	xmlCharEncodingAliases = (xmlCharEncodingAliasPtr)
-	      xmlMalloc(xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
-	if (xmlCharEncodingAliases == NULL)
+    if (charEncodingAliases == NULL) {
+	charEncodingAliasesNb = 0;
+	charEncodingAliasesMax = 20;
+	charEncodingAliases = (charEncodingAliasPtr)
+	      malloc(charEncodingAliasesMax * sizeof(charEncodingAlias));
+	if (charEncodingAliases == NULL)
 	    return(-1);
-    } else if (xmlCharEncodingAliasesNb >= xmlCharEncodingAliasesMax) {
-	xmlCharEncodingAliasesMax *= 2;
-	xmlCharEncodingAliases = (xmlCharEncodingAliasPtr)
-	      xmlRealloc(xmlCharEncodingAliases,
-		         xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
+    } else if (charEncodingAliasesNb >= charEncodingAliasesMax) {
+	charEncodingAliasesMax *= 2;
+	charEncodingAliases = (charEncodingAliasPtr)
+	      realloc(charEncodingAliases,
+		         charEncodingAliasesMax * sizeof(charEncodingAlias));
     }
     /*
      * Walk down the list looking for a definition of the alias
      */
-    for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
-	if (!strcmp(xmlCharEncodingAliases[i].alias, upper)) {
+    for (i = 0;i < charEncodingAliasesNb;i++) {
+	if (!strcmp(charEncodingAliases[i].alias, upper)) {
 	    /*
 	     * Replace the definition.
 	     */
-	    xmlFree((char *) xmlCharEncodingAliases[i].name);
-	    xmlCharEncodingAliases[i].name = xmlMemStrdup(name);
+	    free((char *) charEncodingAliases[i].name);
+	    charEncodingAliases[i].name = strdup(name);
 	    return(0);
 	}
     }
     /*
      * Add the definition
      */
-    xmlCharEncodingAliases[xmlCharEncodingAliasesNb].name = xmlMemStrdup(name);
-    xmlCharEncodingAliases[xmlCharEncodingAliasesNb].alias = xmlMemStrdup(upper);
-    xmlCharEncodingAliasesNb++;
+    charEncodingAliases[charEncodingAliasesNb].name = strdup(name);
+    charEncodingAliases[charEncodingAliasesNb].alias = strdup(upper);
+    charEncodingAliasesNb++;
     return(0);
 }
 
@@ -1114,18 +1113,18 @@ xmlDelEncodingAlias(const char *alias) {
     if (alias == NULL)
 	return(-1);
 
-    if (xmlCharEncodingAliases == NULL)
+    if (charEncodingAliases == NULL)
 	return(-1);
     /*
      * Walk down the list looking for a definition of the alias
      */
-    for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
-	if (!strcmp(xmlCharEncodingAliases[i].alias, alias)) {
-	    xmlFree((char *) xmlCharEncodingAliases[i].name);
-	    xmlFree((char *) xmlCharEncodingAliases[i].alias);
-	    xmlCharEncodingAliasesNb--;
-	    memmove(&xmlCharEncodingAliases[i], &xmlCharEncodingAliases[i + 1],
-		    sizeof(xmlCharEncodingAlias) * (xmlCharEncodingAliasesNb - i));
+    for (i = 0;i < charEncodingAliasesNb;i++) {
+	if (!strcmp(charEncodingAliases[i].alias, alias)) {
+	    free((char *) charEncodingAliases[i].name);
+	    free((char *) charEncodingAliases[i].alias);
+	    charEncodingAliasesNb--;
+	    memmove(&charEncodingAliases[i], &charEncodingAliases[i + 1],
+		    sizeof(charEncodingAlias) * (charEncodingAliasesNb - i));
 	    return(0);
 	}
     }
@@ -1143,7 +1142,7 @@ xmlDelEncodingAlias(const char *alias) {
  * Returns one of the XML_CHAR_ENCODING_... values or XML_CHAR_ENCODING_NONE
  * if not recognized.
  */
-xmlCharEncoding
+charEncoding
 xmlParseCharEncoding(const char* name)
 {
     const char *alias;
@@ -1228,7 +1227,7 @@ xmlParseCharEncoding(const char* name)
  */
 
 const char*
-xmlGetCharEncodingName(xmlCharEncoding enc) {
+xmlGetCharEncodingName(charEncoding enc) {
     switch (enc) {
         case XML_CHAR_ENCODING_ERROR:
 	    return(NULL);
@@ -1291,7 +1290,7 @@ xmlGetCharEncodingName(xmlCharEncoding enc) {
 
 /* the size should be growable, but it's not a big deal ... */
 #define MAX_ENCODING_HANDLERS 50
-static xmlCharEncodingHandlerPtr *handlers = NULL;
+static charEncodingHandlerPtr *handlers = NULL;
 static int nbCharEncodingHandler = 0;
 
 /*
@@ -1299,23 +1298,23 @@ static int nbCharEncodingHandler = 0;
  * parser internals, so the default encoding handler is NULL
  */
 
-static xmlCharEncodingHandlerPtr xmlDefaultCharEncodingHandler = NULL;
+static charEncodingHandlerPtr xmlDefaultCharEncodingHandler = NULL;
 
 /**
  * xmlNewCharEncodingHandler:
  * @name:  the encoding name, in UTF-8 format (ASCII actually)
- * @input:  the xmlCharEncodingInputFunc to read that encoding
- * @output:  the xmlCharEncodingOutputFunc to write that encoding
+ * @input:  the charEncodingInputFunc to read that encoding
+ * @output:  the charEncodingOutputFunc to write that encoding
  *
- * Create and registers an xmlCharEncodingHandler.
+ * Create and registers an charEncodingHandler.
  *
- * Returns the xmlCharEncodingHandlerPtr created (or NULL in case of error).
+ * Returns the charEncodingHandlerPtr created (or NULL in case of error).
  */
-xmlCharEncodingHandlerPtr
+charEncodingHandlerPtr
 xmlNewCharEncodingHandler(const char *name,
-                          xmlCharEncodingInputFunc input,
-                          xmlCharEncodingOutputFunc output) {
-    xmlCharEncodingHandlerPtr handler;
+                          charEncodingInputFunc input,
+                          charEncodingOutputFunc output) {
+    charEncodingHandlerPtr handler;
     const char *alias;
     char upper[500];
     int i;
@@ -1341,7 +1340,7 @@ xmlNewCharEncodingHandler(const char *name,
 	if (upper[i] == 0) break;
     }
     upper[i] = 0;
-    up = xmlMemStrdup(upper);
+    up = strdup(upper);
     if (up == NULL) {
         xmlEncodingErrMemory("xmlNewCharEncodingHandler : out of memory !\n");
 	return(NULL);
@@ -1350,14 +1349,14 @@ xmlNewCharEncodingHandler(const char *name,
     /*
      * allocate and fill-up an handler block.
      */
-    handler = (xmlCharEncodingHandlerPtr)
-              xmlMalloc(sizeof(xmlCharEncodingHandler));
+    handler = (charEncodingHandlerPtr)
+              malloc(sizeof(charEncodingHandler));
     if (handler == NULL) {
-        xmlFree(up);
+        free(up);
         xmlEncodingErrMemory("xmlNewCharEncodingHandler : out of memory !\n");
 	return(NULL);
     }
-    memset(handler, 0, sizeof(xmlCharEncodingHandler));
+    memset(handler, 0, sizeof(charEncodingHandler));
     handler->input = input;
     handler->output = output;
     handler->name = up;
@@ -1397,8 +1396,8 @@ xmlInitCharEncodingHandlers(void) {
 
     if (handlers != NULL) return;
 
-    handlers = (xmlCharEncodingHandlerPtr *)
-        xmlMalloc(MAX_ENCODING_HANDLERS * sizeof(xmlCharEncodingHandlerPtr));
+    handlers = (charEncodingHandlerPtr *)
+        malloc(MAX_ENCODING_HANDLERS * sizeof(charEncodingHandlerPtr));
 
     if (*ptr == 0x12) xmlLittleEndian = 0;
     else if (*ptr == 0x34) xmlLittleEndian = 1;
@@ -1458,11 +1457,11 @@ xmlCleanupCharEncodingHandlers(void) {
         nbCharEncodingHandler--;
 	if (handlers[nbCharEncodingHandler] != NULL) {
 	    if (handlers[nbCharEncodingHandler]->name != NULL)
-		xmlFree(handlers[nbCharEncodingHandler]->name);
-	    xmlFree(handlers[nbCharEncodingHandler]);
+		free(handlers[nbCharEncodingHandler]->name);
+	    free(handlers[nbCharEncodingHandler]);
 	}
     }
-    xmlFree(handlers);
+    free(handlers);
     handlers = NULL;
     nbCharEncodingHandler = 0;
     xmlDefaultCharEncodingHandler = NULL;
@@ -1470,12 +1469,12 @@ xmlCleanupCharEncodingHandlers(void) {
 
 /**
  * xmlRegisterCharEncodingHandler:
- * @handler:  the xmlCharEncodingHandlerPtr handler block
+ * @handler:  the charEncodingHandlerPtr handler block
  *
  * Register the char encoding handler, surprising, isn't it ?
  */
 void
-xmlRegisterCharEncodingHandler(xmlCharEncodingHandlerPtr handler) {
+xmlRegisterCharEncodingHandler(charEncodingHandlerPtr handler) {
     if (handlers == NULL) xmlInitCharEncodingHandlers();
     if ((handler == NULL) || (handlers == NULL)) {
         xmlEncodingErr(XML_I18N_NO_HANDLER,
@@ -1494,15 +1493,15 @@ xmlRegisterCharEncodingHandler(xmlCharEncodingHandlerPtr handler) {
 
 /**
  * xmlGetCharEncodingHandler:
- * @enc:  an xmlCharEncoding value.
+ * @enc:  an charEncoding value.
  *
  * Search in the registered set the handler able to read/write that encoding.
  *
  * Returns the handler or NULL if not found
  */
-xmlCharEncodingHandlerPtr
-xmlGetCharEncodingHandler(xmlCharEncoding enc) {
-    xmlCharEncodingHandlerPtr handler;
+charEncodingHandlerPtr
+xmlGetCharEncodingHandler(charEncoding enc) {
+    charEncodingHandlerPtr handler;
 
     if (handlers == NULL) xmlInitCharEncodingHandlers();
     switch (enc) {
@@ -1634,17 +1633,17 @@ xmlGetCharEncodingHandler(xmlCharEncoding enc) {
  *
  * Returns the handler or NULL if not found
  */
-xmlCharEncodingHandlerPtr
+charEncodingHandlerPtr
 xmlFindCharEncodingHandler(const char *name) {
     const char *nalias;
     const char *norig;
-    xmlCharEncoding alias;
+    charEncoding alias;
 #ifdef LIBXML_ICONV_ENABLED
-    xmlCharEncodingHandlerPtr enc;
+    charEncodingHandlerPtr enc;
     iconv_t icv_in, icv_out;
 #endif /* LIBXML_ICONV_ENABLED */
 #ifdef LIBXML_ICU_ENABLED
-    xmlCharEncodingHandlerPtr encu;
+    charEncodingHandlerPtr encu;
     uconv_t *ucv_in, *ucv_out;
 #endif /* LIBXML_ICU_ENABLED */
     char upper[100];
@@ -1694,15 +1693,15 @@ xmlFindCharEncodingHandler(const char *name) {
 	icv_out = iconv_open(upper, "UTF-8");
     }
     if ((icv_in != (iconv_t) -1) && (icv_out != (iconv_t) -1)) {
-	    enc = (xmlCharEncodingHandlerPtr)
-	          xmlMalloc(sizeof(xmlCharEncodingHandler));
+	    enc = (charEncodingHandlerPtr)
+	          malloc(sizeof(charEncodingHandler));
 	    if (enc == NULL) {
 	        iconv_close(icv_in);
 	        iconv_close(icv_out);
 		return(NULL);
 	    }
-            memset(enc, 0, sizeof(xmlCharEncodingHandler));
-	    enc->name = xmlMemStrdup(name);
+            memset(enc, 0, sizeof(charEncodingHandler));
+	    enc->name = strdup(name);
 	    enc->input = NULL;
 	    enc->output = NULL;
 	    enc->iconv_in = icv_in;
@@ -1722,15 +1721,15 @@ xmlFindCharEncodingHandler(const char *name) {
     ucv_in = openIcuConverter(name, 1);
     ucv_out = openIcuConverter(name, 0);
     if (ucv_in != NULL && ucv_out != NULL) {
-	    encu = (xmlCharEncodingHandlerPtr)
-	           xmlMalloc(sizeof(xmlCharEncodingHandler));
+	    encu = (charEncodingHandlerPtr)
+	           malloc(sizeof(charEncodingHandler));
 	    if (encu == NULL) {
                 closeIcuConverter(ucv_in);
                 closeIcuConverter(ucv_out);
 		return(NULL);
 	    }
-            memset(encu, 0, sizeof(xmlCharEncodingHandler));
-	    encu->name = xmlMemStrdup(name);
+            memset(encu, 0, sizeof(charEncodingHandler));
+	    encu->name = strdup(name);
 	    encu->input = NULL;
 	    encu->output = NULL;
 	    encu->uconv_in = ucv_in;
@@ -1911,7 +1910,7 @@ xmlUconvWrapper(uconv_t *cd, int toUnicode, unsigned char *out, int *outlen,
  ************************************************************************/
 
 static int
-xmlEncInputChunk(xmlCharEncodingHandler *handler, unsigned char *out,
+xmlEncInputChunk(charEncodingHandler *handler, unsigned char *out,
                  int *outlen, const unsigned char *in, int *inlen) {
     int ret;
 
@@ -1939,7 +1938,7 @@ xmlEncInputChunk(xmlCharEncodingHandler *handler, unsigned char *out,
 
 /* Returns -4 if no output function was found. */
 static int
-xmlEncOutputChunk(xmlCharEncodingHandler *handler, unsigned char *out,
+xmlEncOutputChunk(charEncodingHandler *handler, unsigned char *out,
                   int *outlen, const unsigned char *in, int *inlen) {
     int ret;
 
@@ -1966,7 +1965,7 @@ xmlEncOutputChunk(xmlCharEncodingHandler *handler, unsigned char *out,
 }
 
 /**
- * xmlCharEncFirstLineInt:
+ * charEncFirstLineInt:
  * @handler:	char enconding transformation data structure
  * @out:  an xmlBuffer for the output.
  * @in:  an xmlBuffer for the input
@@ -1981,7 +1980,7 @@ xmlEncOutputChunk(xmlCharEncodingHandler *handler, unsigned char *out,
  *        the result of transformation can't fit into the encoding we want), or
  */
 int
-xmlCharEncFirstLineInt(xmlCharEncodingHandler *handler, xmlBufferPtr out,
+charEncFirstLineInt(charEncodingHandler *handler, xmlBufferPtr out,
                        xmlBufferPtr in, int len) {
     int ret;
     int written;
@@ -2053,7 +2052,7 @@ xmlCharEncFirstLineInt(xmlCharEncodingHandler *handler, xmlBufferPtr out,
 }
 
 /**
- * xmlCharEncFirstLine:
+ * charEncFirstLine:
  * @handler:	char enconding transformation data structure
  * @out:  an xmlBuffer for the output.
  * @in:  an xmlBuffer for the input
@@ -2067,13 +2066,13 @@ xmlCharEncFirstLineInt(xmlCharEncodingHandler *handler, xmlBufferPtr out,
  *        the result of transformation can't fit into the encoding we want), or
  */
 int
-xmlCharEncFirstLine(xmlCharEncodingHandler *handler, xmlBufferPtr out,
+charEncFirstLine(charEncodingHandler *handler, xmlBufferPtr out,
                  xmlBufferPtr in) {
-    return(xmlCharEncFirstLineInt(handler, out, in, -1));
+    return(charEncFirstLineInt(handler, out, in, -1));
 }
 
 /**
- * xmlCharEncFirstLineInput:
+ * charEncFirstLineInput:
  * @input: a parser input buffer
  * @len:  number of bytes to convert for the first line, or -1
  *
@@ -2088,7 +2087,7 @@ xmlCharEncFirstLine(xmlCharEncodingHandler *handler, xmlBufferPtr out,
  *        the result of transformation can't fit into the encoding we want), or
  */
 int
-xmlCharEncFirstLineInput(xmlParserInputBufferPtr input, int len)
+charEncFirstLineInput(xmlParserInputBufferPtr input, int len)
 {
     int ret;
     size_t written;
@@ -2163,7 +2162,7 @@ xmlCharEncFirstLineInput(xmlParserInputBufferPtr input, int len)
             break;
         case -2: {
             char buf[50];
-            const xmlChar *content = xmlBufContent(in);
+            const char *content = xmlBufContent(in);
 
 	    snprintf(&buf[0], 49, "0x%02X 0x%02X 0x%02X 0x%02X",
 		     content[0], content[1],
@@ -2183,7 +2182,7 @@ xmlCharEncFirstLineInput(xmlParserInputBufferPtr input, int len)
 }
 
 /**
- * xmlCharEncInput:
+ * charEncInput:
  * @input: a parser input buffer
  * @flush: try to flush all the raw buffer
  *
@@ -2195,7 +2194,7 @@ xmlCharEncFirstLineInput(xmlParserInputBufferPtr input, int len)
  *        the result of transformation can't fit into the encoding we want), or
  */
 int
-xmlCharEncInput(xmlParserInputBufferPtr input, int flush)
+charEncInput(xmlParserInputBufferPtr input, int flush)
 {
     int ret;
     size_t written;
@@ -2261,7 +2260,7 @@ xmlCharEncInput(xmlParserInputBufferPtr input, int flush)
             break;
         case -2: {
             char buf[50];
-            const xmlChar *content = xmlBufContent(in);
+            const char *content = xmlBufContent(in);
 
 	    snprintf(&buf[0], 49, "0x%02X 0x%02X 0x%02X 0x%02X",
 		     content[0], content[1],
@@ -2281,7 +2280,7 @@ xmlCharEncInput(xmlParserInputBufferPtr input, int flush)
 }
 
 /**
- * xmlCharEncInFunc:
+ * charEncInFunc:
  * @handler:	char encoding transformation data structure
  * @out:  an xmlBuffer for the output.
  * @in:  an xmlBuffer for the input
@@ -2294,7 +2293,7 @@ xmlCharEncInput(xmlParserInputBufferPtr input, int flush)
  *        the result of transformation can't fit into the encoding we want), or
  */
 int
-xmlCharEncInFunc(xmlCharEncodingHandler * handler, xmlBufferPtr out,
+charEncInFunc(charEncodingHandler * handler, xmlBufferPtr out,
                  xmlBufferPtr in)
 {
     int ret;
@@ -2368,7 +2367,7 @@ xmlCharEncInFunc(xmlCharEncodingHandler * handler, xmlBufferPtr out,
 
 #ifdef LIBXML_OUTPUT_ENABLED
 /**
- * xmlCharEncOutput:
+ * charEncOutput:
  * @output: a parser output buffer
  * @init: is this an initialization call without data
  *
@@ -2385,7 +2384,7 @@ xmlCharEncInFunc(xmlCharEncodingHandler * handler, xmlBufferPtr out,
  *        the result of transformation can't fit into the encoding we want), or
  */
 int
-xmlCharEncOutput(xmlOutputBufferPtr output, int init)
+charEncOutput(xmlOutputBufferPtr output, int init)
 {
     int ret;
     size_t written;
@@ -2482,13 +2481,13 @@ retry:
 	    break;
         case -4:
             xmlEncodingErr(XML_I18N_NO_OUTPUT,
-                           "xmlCharEncOutFunc: no output function !\n", NULL);
+                           "charEncOutFunc: no output function !\n", NULL);
             ret = -1;
             break;
         case -2: {
-	    xmlChar charref[20];
+	    char charref[20];
 	    int len = (int) xmlBufUse(in);
-            xmlChar *content = xmlBufContent(in);
+            char *content = xmlBufContent(in);
 	    int cur, charrefLen;
 
 	    cur = xmlGetUTF8Char(content, &len);
@@ -2542,7 +2541,7 @@ retry:
 #endif
 
 /**
- * xmlCharEncOutFunc:
+ * charEncOutFunc:
  * @handler:	char enconding transformation data structure
  * @out:  an xmlBuffer for the output.
  * @in:  an xmlBuffer for the input
@@ -2560,7 +2559,7 @@ retry:
  *        the result of transformation can't fit into the encoding we want), or
  */
 int
-xmlCharEncOutFunc(xmlCharEncodingHandler *handler, xmlBufferPtr out,
+charEncOutFunc(charEncodingHandler *handler, xmlBufferPtr out,
                   xmlBufferPtr in) {
     int ret;
     int written;
@@ -2646,13 +2645,13 @@ retry:
 	    break;
         case -4:
 	    xmlEncodingErr(XML_I18N_NO_OUTPUT,
-		           "xmlCharEncOutFunc: no output function !\n", NULL);
+		           "charEncOutFunc: no output function !\n", NULL);
 	    ret = -1;
             break;
         case -2: {
-	    xmlChar charref[20];
+	    char charref[20];
 	    int len = in->use;
-	    const xmlChar *utf = (const xmlChar *) in->content;
+	    const char *utf = (const char *) in->content;
 	    int cur, charrefLen;
 
 	    cur = xmlGetUTF8Char(utf, &len);
@@ -2706,7 +2705,7 @@ retry:
 }
 
 /**
- * xmlCharEncCloseFunc:
+ * charEncCloseFunc:
  * @handler:	char enconding transformation data structure
  *
  * Generic front-end for encoding handler close function
@@ -2714,7 +2713,7 @@ retry:
  * Returns 0 if success, or -1 in case of error
  */
 int
-xmlCharEncCloseFunc(xmlCharEncodingHandler *handler) {
+charEncCloseFunc(charEncodingHandler *handler) {
     int ret = 0;
     int tofree = 0;
     int i, handler_in_list = 0;
@@ -2766,9 +2765,9 @@ xmlCharEncCloseFunc(xmlCharEncodingHandler *handler) {
     if (tofree) {
         /* free up only dynamic handlers iconv/uconv */
         if (handler->name != NULL)
-            xmlFree(handler->name);
+            free(handler->name);
         handler->name = NULL;
-        xmlFree(handler);
+        free(handler);
     }
 #ifdef DEBUG_ENCODING
     if (ret)
@@ -2805,7 +2804,7 @@ xmlByteConsumed(xmlParserCtxtPtr ctxt) {
     if (in == NULL)  return(-1);
     if ((in->buf != NULL) && (in->buf->encoder != NULL)) {
         unsigned int unused = 0;
-	xmlCharEncodingHandler * handler = in->buf->encoder;
+	charEncodingHandler * handler = in->buf->encoder;
         /*
 	 * Encoding conversion, compute the number of unused original
 	 * bytes from the input not consumed and substract that from
@@ -2813,7 +2812,7 @@ xmlByteConsumed(xmlParserCtxtPtr ctxt) {
 	 */
         if (in->end - in->cur > 0) {
 	    unsigned char convbuf[32000];
-	    const unsigned char *cur = (const unsigned char *)in->cur;
+	    const char *cur = (const char *)in->cur;
 	    int toconv = in->end - in->cur, written = 32000;
 
 	    int ret;

@@ -93,13 +93,13 @@
      d                 pr                  extproc('xmlSaveSetEscape')
      d                                     like(xmlCint)
      d  ctxt                               value like(xmlSaveCtxtPtr)
-     d  escape                             value like(xmlCharEncodingOutputFunc)
+     d  escape                             value like(charEncodingOutputFunc)
 
      d xmlSaveSetAttrEscape...
      d                 pr                  extproc('xmlSaveSetAttrEscape')
      d                                     like(xmlCint)
      d  ctxt                               value like(xmlSaveCtxtPtr)
-     d  escape                             value like(xmlCharEncodingOutputFunc)
+     d  escape                             value like(charEncodingOutputFunc)
 
       /endif                                                                    LIBXML_OUTPUT_ENABLD
       /endif                                                                    XML_XMLSAVE_H__

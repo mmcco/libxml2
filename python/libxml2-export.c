@@ -217,8 +217,8 @@
 #if defined(LIBXML_CATALOG_ENABLED)
     { (char *)"xmlCatalogSetDebug", libxml_xmlCatalogSetDebug, METH_VARARGS, NULL },
 #endif /* defined(LIBXML_CATALOG_ENABLED) */
-    { (char *)"xmlCharStrdup", libxml_xmlCharStrdup, METH_VARARGS, NULL },
-    { (char *)"xmlCharStrndup", libxml_xmlCharStrndup, METH_VARARGS, NULL },
+    { (char *)"charStrdup", libxml_charStrdup, METH_VARARGS, NULL },
+    { (char *)"charStrndup", libxml_charStrndup, METH_VARARGS, NULL },
     { (char *)"xmlCheckFilename", libxml_xmlCheckFilename, METH_VARARGS, NULL },
     { (char *)"xmlCheckLanguageID", libxml_xmlCheckLanguageID, METH_VARARGS, NULL },
     { (char *)"xmlCheckUTF8", libxml_xmlCheckUTF8, METH_VARARGS, NULL },
@@ -897,7 +897,6 @@
     { (char *)"xmlStrcat", libxml_xmlStrcat, METH_VARARGS, NULL },
     { (char *)"xmlStrchr", libxml_xmlStrchr, METH_VARARGS, NULL },
     { (char *)"xmlStrcmp", libxml_xmlStrcmp, METH_VARARGS, NULL },
-    { (char *)"xmlStrdup", libxml_xmlStrdup, METH_VARARGS, NULL },
     { (char *)"xmlStringDecodeEntities", libxml_xmlStringDecodeEntities, METH_VARARGS, NULL },
     { (char *)"xmlStringGetNodeList", libxml_xmlStringGetNodeList, METH_VARARGS, NULL },
     { (char *)"xmlStringLenDecodeEntities", libxml_xmlStringLenDecodeEntities, METH_VARARGS, NULL },

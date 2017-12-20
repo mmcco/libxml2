@@ -84,9 +84,9 @@ struct _htmlEntityDesc {
  * There is only few public functions.
  */
 XMLPUBFUN const htmlElemDesc * XMLCALL
-			htmlTagLookup	(const xmlChar *tag);
+			htmlTagLookup	(const char *tag);
 XMLPUBFUN const htmlEntityDesc * XMLCALL
-			htmlEntityLookup(const xmlChar *name);
+			htmlEntityLookup(const char *name);
 XMLPUBFUN const htmlEntityDesc * XMLCALL
 			htmlEntityValueLookup(unsigned int value);
 
@@ -95,11 +95,11 @@ XMLPUBFUN int XMLCALL
 					 htmlNodePtr elem);
 XMLPUBFUN int XMLCALL
 			htmlAutoCloseTag(htmlDocPtr doc,
-					 const xmlChar *name,
+					 const char *name,
 					 htmlNodePtr elem);
 XMLPUBFUN const htmlEntityDesc * XMLCALL
 			htmlParseEntityRef(htmlParserCtxtPtr ctxt,
-					 const xmlChar **str);
+					 const char **str);
 XMLPUBFUN int XMLCALL
 			htmlParseCharRef(htmlParserCtxtPtr ctxt);
 XMLPUBFUN void XMLCALL
@@ -115,12 +115,12 @@ XMLPUBFUN htmlParserCtxtPtr XMLCALL
 XMLPUBFUN int XMLCALL
 			htmlParseDocument(htmlParserCtxtPtr ctxt);
 XMLPUBFUN htmlDocPtr XMLCALL
-			htmlSAXParseDoc	(const xmlChar *cur,
+			htmlSAXParseDoc	(const char *cur,
 					 const char *encoding,
 					 htmlSAXHandlerPtr sax,
 					 void *userData);
 XMLPUBFUN htmlDocPtr XMLCALL
-			htmlParseDoc	(const xmlChar *cur,
+			htmlParseDoc	(const char *cur,
 					 const char *encoding);
 XMLPUBFUN htmlDocPtr XMLCALL
 			htmlSAXParseFile(const char *filename,
@@ -141,7 +141,7 @@ XMLPUBFUN int XMLCALL
 					 const unsigned char *in,
 					 int *inlen, int quoteChar);
 XMLPUBFUN int XMLCALL
-			htmlIsScriptAttribute(const xmlChar *name);
+			htmlIsScriptAttribute(const char *name);
 XMLPUBFUN int XMLCALL
 			htmlHandleOmittedElem(int val);
 
@@ -155,7 +155,7 @@ XMLPUBFUN htmlParserCtxtPtr XMLCALL
 						 const char *chunk,
 						 int size,
 						 const char *filename,
-						 xmlCharEncoding enc);
+						 charEncoding enc);
 XMLPUBFUN int XMLCALL
 			htmlParseChunk		(htmlParserCtxtPtr ctxt,
 						 const char *chunk,
@@ -194,7 +194,7 @@ XMLPUBFUN int XMLCALL
 		htmlCtxtUseOptions	(htmlParserCtxtPtr ctxt,
 					 int options);
 XMLPUBFUN htmlDocPtr XMLCALL
-		htmlReadDoc		(const xmlChar *cur,
+		htmlReadDoc		(const char *cur,
 					 const char *URL,
 					 const char *encoding,
 					 int options);
@@ -222,7 +222,7 @@ XMLPUBFUN htmlDocPtr XMLCALL
 					 int options);
 XMLPUBFUN htmlDocPtr XMLCALL
 		htmlCtxtReadDoc		(xmlParserCtxtPtr ctxt,
-					 const xmlChar *cur,
+					 const char *cur,
 					 const char *URL,
 					 const char *encoding,
 					 int options);
@@ -266,8 +266,8 @@ typedef enum {
 /* Using htmlElemDesc rather than name here, to emphasise the fact
    that otherwise there's a lookup overhead
 */
-XMLPUBFUN htmlStatus XMLCALL htmlAttrAllowed(const htmlElemDesc*, const xmlChar*, int) ;
-XMLPUBFUN int XMLCALL htmlElementAllowedHere(const htmlElemDesc*, const xmlChar*) ;
+XMLPUBFUN htmlStatus XMLCALL htmlAttrAllowed(const htmlElemDesc*, const char*, int) ;
+XMLPUBFUN int XMLCALL htmlElementAllowedHere(const htmlElemDesc*, const char*) ;
 XMLPUBFUN htmlStatus XMLCALL htmlElementStatusHere(const htmlElemDesc*, const htmlElemDesc*) ;
 XMLPUBFUN htmlStatus XMLCALL htmlNodeStatus(const htmlNodePtr, int) ;
 /**

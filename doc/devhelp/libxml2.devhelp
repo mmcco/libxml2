@@ -53,7 +53,7 @@
   </chapters>
   <functions>
     <function name="ATTRIBUTE_UNUSED" link="libxml2-xmlversion.html#ATTRIBUTE_UNUSED"/>
-    <function name="BAD_CAST" link="libxml2-xmlstring.html#BAD_CAST"/>
+    <function name="" link="libxml2-xmlstring.html#"/>
     <function name="BASE_BUFFER_SIZE" link="libxml2-tree.html#BASE_BUFFER_SIZE"/>
     <function name="CAST_TO_BOOLEAN" link="libxml2-xpathInternals.html#CAST_TO_BOOLEAN"/>
     <function name="CAST_TO_NUMBER" link="libxml2-xpathInternals.html#CAST_TO_NUMBER"/>
@@ -1594,9 +1594,9 @@
     <function name="xmlChLRangePtr" link="libxml2-chvalid.html#xmlChLRangePtr"/>
     <function name="xmlChRangeGroupPtr" link="libxml2-chvalid.html#xmlChRangeGroupPtr"/>
     <function name="xmlChSRangePtr" link="libxml2-chvalid.html#xmlChSRangePtr"/>
-    <function name="xmlChar" link="libxml2-xmlstring.html#xmlChar"/>
-    <function name="xmlCharEncoding" link="libxml2-encoding.html#xmlCharEncoding"/>
-    <function name="xmlCharEncodingHandlerPtr" link="libxml2-encoding.html#xmlCharEncodingHandlerPtr"/>
+    <function name="char" link="libxml2-xmlstring.html#char"/>
+    <function name="charEncoding" link="libxml2-encoding.html#charEncoding"/>
+    <function name="charEncodingHandlerPtr" link="libxml2-encoding.html#charEncodingHandlerPtr"/>
     <function name="xmlDOMWrapCtxtPtr" link="libxml2-tree.html#xmlDOMWrapCtxtPtr"/>
     <function name="xmlDictPtr" link="libxml2-dict.html#xmlDictPtr"/>
     <function name="xmlDocProperties" link="libxml2-tree.html#xmlDocProperties"/>
@@ -1728,7 +1728,7 @@
     <function name="xmlChLRange" link="libxml2-chvalid.html#xmlChLRange"/>
     <function name="xmlChRangeGroup" link="libxml2-chvalid.html#xmlChRangeGroup"/>
     <function name="xmlChSRange" link="libxml2-chvalid.html#xmlChSRange"/>
-    <function name="xmlCharEncodingHandler" link="libxml2-encoding.html#xmlCharEncodingHandler"/>
+    <function name="charEncodingHandler" link="libxml2-encoding.html#charEncodingHandler"/>
     <function name="xmlDOMWrapCtxt" link="libxml2-tree.html#xmlDOMWrapCtxt"/>
     <function name="xmlDict" link="libxml2-dict.html#xmlDict"/>
     <function name="xmlDoc" link="libxml2-tree.html#xmlDoc"/>
@@ -1848,8 +1848,8 @@
     <function name="xlinkNodeDetectFunc" link="libxml2-xlink.html#xlinkNodeDetectFunc"/>
     <function name="xlinkSimpleLinkFunk" link="libxml2-xlink.html#xlinkSimpleLinkFunk"/>
     <function name="xmlC14NIsVisibleCallback" link="libxml2-c14n.html#xmlC14NIsVisibleCallback"/>
-    <function name="xmlCharEncodingInputFunc" link="libxml2-encoding.html#xmlCharEncodingInputFunc"/>
-    <function name="xmlCharEncodingOutputFunc" link="libxml2-encoding.html#xmlCharEncodingOutputFunc"/>
+    <function name="charEncodingInputFunc" link="libxml2-encoding.html#charEncodingInputFunc"/>
+    <function name="charEncodingOutputFunc" link="libxml2-encoding.html#charEncodingOutputFunc"/>
     <function name="xmlDOMWrapAcquireNsFunction" link="libxml2-tree.html#xmlDOMWrapAcquireNsFunction"/>
     <function name="xmlDeregisterNodeFunc" link="libxml2-globals.html#xmlDeregisterNodeFunc"/>
     <function name="xmlEntityReferenceFunc" link="libxml2-parserInternals.html#xmlEntityReferenceFunc"/>
@@ -1867,7 +1867,7 @@
     <function name="xmlListDataCompare" link="libxml2-list.html#xmlListDataCompare"/>
     <function name="xmlListDeallocator" link="libxml2-list.html#xmlListDeallocator"/>
     <function name="xmlListWalker" link="libxml2-list.html#xmlListWalker"/>
-    <function name="xmlMallocFunc" link="libxml2-xmlmemory.html#xmlMallocFunc"/>
+    <function name="mallocFunc" link="libxml2-xmlmemory.html#mallocFunc"/>
     <function name="xmlOutputBufferCreateFilenameFunc" link="libxml2-globals.html#xmlOutputBufferCreateFilenameFunc"/>
     <function name="xmlOutputCloseCallback" link="libxml2-xmlIO.html#xmlOutputCloseCallback"/>
     <function name="xmlOutputMatchCallback" link="libxml2-xmlIO.html#xmlOutputMatchCallback"/>
@@ -1875,7 +1875,7 @@
     <function name="xmlOutputWriteCallback" link="libxml2-xmlIO.html#xmlOutputWriteCallback"/>
     <function name="xmlParserInputBufferCreateFilenameFunc" link="libxml2-globals.html#xmlParserInputBufferCreateFilenameFunc"/>
     <function name="xmlParserInputDeallocate" link="libxml2-parser.html#xmlParserInputDeallocate"/>
-    <function name="xmlReallocFunc" link="libxml2-xmlmemory.html#xmlReallocFunc"/>
+    <function name="reallocFunc" link="libxml2-xmlmemory.html#reallocFunc"/>
     <function name="xmlRegExecCallbacks" link="libxml2-xmlregexp.html#xmlRegExecCallbacks"/>
     <function name="xmlRegisterNodeFunc" link="libxml2-globals.html#xmlRegisterNodeFunc"/>
     <function name="xmlRelaxNGValidityErrorFunc" link="libxml2-relaxng.html#xmlRelaxNGValidityErrorFunc"/>
@@ -1925,8 +1925,8 @@
     <function name="xmlLastError" link="libxml2-globals.html#xmlLastError"/>
     <function name="xmlLineNumbersDefaultValue" link="libxml2-globals.html#xmlLineNumbersDefaultValue"/>
     <function name="xmlLoadExtDtdDefaultValue" link="libxml2-globals.html#xmlLoadExtDtdDefaultValue"/>
-    <function name="xmlMalloc" link="libxml2-globals.html#xmlMalloc"/>
-    <function name="xmlMallocAtomic" link="libxml2-globals.html#xmlMallocAtomic"/>
+    <function name="malloc" link="libxml2-globals.html#malloc"/>
+    <function name="malloc" link="libxml2-globals.html#malloc"/>
     <function name="xmlMemStrdup" link="libxml2-globals.html#xmlMemStrdup"/>
     <function name="xmlOutputBufferCreateFilenameValue" link="libxml2-globals.html#xmlOutputBufferCreateFilenameValue"/>
     <function name="xmlParserDebugEntities" link="libxml2-globals.html#xmlParserDebugEntities"/>
@@ -1934,7 +1934,7 @@
     <function name="xmlParserMaxDepth" link="libxml2-parserInternals.html#xmlParserMaxDepth"/>
     <function name="xmlParserVersion" link="libxml2-globals.html#xmlParserVersion"/>
     <function name="xmlPedanticParserDefaultValue" link="libxml2-globals.html#xmlPedanticParserDefaultValue"/>
-    <function name="xmlRealloc" link="libxml2-globals.html#xmlRealloc"/>
+    <function name="realloc" link="libxml2-globals.html#realloc"/>
     <function name="xmlRegisterNodeDefaultValue" link="libxml2-globals.html#xmlRegisterNodeDefaultValue"/>
     <function name="xmlSaveNoEmptyTags" link="libxml2-globals.html#xmlSaveNoEmptyTags"/>
     <function name="xmlStringComment" link="libxml2-parserInternals.html#xmlStringComment"/>
@@ -2166,13 +2166,13 @@
     <function name="xmlCatalogSetDebug ()" link="libxml2-catalog.html#xmlCatalogSetDebug"/>
     <function name="xmlCatalogSetDefaultPrefer ()" link="libxml2-catalog.html#xmlCatalogSetDefaultPrefer"/>
     <function name="xmlCatalogSetDefaults ()" link="libxml2-catalog.html#xmlCatalogSetDefaults"/>
-    <function name="xmlCharEncCloseFunc ()" link="libxml2-encoding.html#xmlCharEncCloseFunc"/>
-    <function name="xmlCharEncFirstLine ()" link="libxml2-encoding.html#xmlCharEncFirstLine"/>
-    <function name="xmlCharEncInFunc ()" link="libxml2-encoding.html#xmlCharEncInFunc"/>
-    <function name="xmlCharEncOutFunc ()" link="libxml2-encoding.html#xmlCharEncOutFunc"/>
-    <function name="xmlCharInRange ()" link="libxml2-chvalid.html#xmlCharInRange"/>
-    <function name="xmlCharStrdup ()" link="libxml2-xmlstring.html#xmlCharStrdup"/>
-    <function name="xmlCharStrndup ()" link="libxml2-xmlstring.html#xmlCharStrndup"/>
+    <function name="charEncCloseFunc ()" link="libxml2-encoding.html#charEncCloseFunc"/>
+    <function name="charEncFirstLine ()" link="libxml2-encoding.html#charEncFirstLine"/>
+    <function name="charEncInFunc ()" link="libxml2-encoding.html#charEncInFunc"/>
+    <function name="charEncOutFunc ()" link="libxml2-encoding.html#charEncOutFunc"/>
+    <function name="charInRange ()" link="libxml2-chvalid.html#charInRange"/>
+    <function name="charStrdup ()" link="libxml2-xmlstring.html#charStrdup"/>
+    <function name="charStrndup ()" link="libxml2-xmlstring.html#charStrndup"/>
     <function name="xmlCheckFilename ()" link="libxml2-xmlIO.html#xmlCheckFilename"/>
     <function name="xmlCheckHTTPInput ()" link="libxml2-xmlIO.html#xmlCheckHTTPInput"/>
     <function name="xmlCheckLanguageID ()" link="libxml2-parserInternals.html#xmlCheckLanguageID"/>
@@ -2480,8 +2480,8 @@
     <function name="xmlLockLibrary ()" link="libxml2-threads.html#xmlLockLibrary"/>
     <function name="xmlLsCountNode ()" link="libxml2-debugXML.html#xmlLsCountNode"/>
     <function name="xmlLsOneNode ()" link="libxml2-debugXML.html#xmlLsOneNode"/>
-    <function name="xmlMallocAtomicLoc ()" link="libxml2-xmlmemory.html#xmlMallocAtomicLoc"/>
-    <function name="xmlMallocLoc ()" link="libxml2-xmlmemory.html#xmlMallocLoc"/>
+    <function name="mallocLoc ()" link="libxml2-xmlmemory.html#mallocLoc"/>
+    <function name="mallocLoc ()" link="libxml2-xmlmemory.html#mallocLoc"/>
     <function name="xmlMemBlocks ()" link="libxml2-xmlmemory.html#xmlMemBlocks"/>
     <function name="xmlMemDisplay ()" link="libxml2-xmlmemory.html#xmlMemDisplay"/>
     <function name="xmlMemDisplayLast ()" link="libxml2-xmlmemory.html#xmlMemDisplayLast"/>
@@ -2751,7 +2751,7 @@
     <function name="xmlReaderNewMemory ()" link="libxml2-xmlreader.html#xmlReaderNewMemory"/>
     <function name="xmlReaderNewWalker ()" link="libxml2-xmlreader.html#xmlReaderNewWalker"/>
     <function name="xmlReaderWalker ()" link="libxml2-xmlreader.html#xmlReaderWalker"/>
-    <function name="xmlReallocLoc ()" link="libxml2-xmlmemory.html#xmlReallocLoc"/>
+    <function name="reallocLoc ()" link="libxml2-xmlmemory.html#reallocLoc"/>
     <function name="xmlReconciliateNs ()" link="libxml2-tree.html#xmlReconciliateNs"/>
     <function name="xmlRecoverDoc ()" link="libxml2-parser.html#xmlRecoverDoc"/>
     <function name="xmlRecoverFile ()" link="libxml2-parser.html#xmlRecoverFile"/>

@@ -135,7 +135,7 @@
      d  nodesetval                         like(xmlNodeSetPtr)
      d  boolval                            like(xmlCint)
      d  floatval                           like(xmlCdouble)
-     d  stringval                      *                                        xmlChar *
+     d  stringval                      *                                        char *
      d  user                           *                                        void *
      d  index                              like(xmlCint)
      d  user2                          *                                        void *
@@ -350,8 +350,8 @@
       *
       * The function name and URI when calling a function
       *
-     d  function                       *                                        const xmlChar *
-     d  functionURI                    *                                        const xmlChar *
+     d  function                       *                                        const char *
+     d  functionURI                    *                                        const char *
       *
       * function lookup function and data
       *
@@ -395,8 +395,8 @@
      d xmlXPathParserContext...
      d                 ds                  based(xmlXPathParserContextPtr)
      d                                     align qualified
-     d  cur                            *                                        const xmlChar *
-     d  base                           *                                        const xmlChar *
+     d  cur                            *                                        const char *
+     d  base                           *                                        const char *
       *
      d  error                              like(xmlCint)                        Error code
       *
@@ -469,7 +469,7 @@
      d                 pr                  extproc(
      d                                      'xmlXPathCastStringToBoolean')
      d                                     like(xmlCint)
-     d val                             *   value options(*string)               const xmlChar *
+     d val                             *   value options(*string)               const char *
 
      d xmlXPathCastNodeSetToBoolean...
      d                 pr                  extproc(
@@ -491,7 +491,7 @@
      d xmlXPathCastStringToNumber...
      d                 pr                  extproc('xmlXPathCastStringToNumber')
      d                                     like(xmlCdouble)
-     d val                             *   value options(*string)               const xmlChar *
+     d val                             *   value options(*string)               const char *
 
      d xmlXPathCastNodeToNumber...
      d                 pr                  extproc('xmlXPathCastNodeToNumber')
@@ -510,25 +510,25 @@
      d val                                 value like(xmlXPathObjectPtr)
 
      d xmlXPathCastBooleanToString...
-     d                 pr              *   extproc(                             xmlChar *
+     d                 pr              *   extproc(                             char *
      d                                      'xmlXPathCastBooleanToString')
      d val                                 value like(xmlCint)
 
      d xmlXPathCastNumberToString...
-     d                 pr              *   extproc('xmlXPathCastNumberToString')xmlChar *
+     d                 pr              *   extproc('xmlXPathCastNumberToString')char *
      d val                                 value like(xmlCdouble)
 
      d xmlXPathCastNodeToString...
-     d                 pr              *   extproc('xmlXPathCastNodeToString')  xmlChar *
+     d                 pr              *   extproc('xmlXPathCastNodeToString')  char *
      d node                                value like(xmlNodePtr)
 
      d xmlXPathCastNodeSetToString...
-     d                 pr              *   extproc('xmlXPathCastNodeSetToString'xmlChar *
+     d                 pr              *   extproc('xmlXPathCastNodeSetToString'char *
      d                                     )
      d ns                                  value like(xmlNodeSetPtr)
 
      d xmlXPathCastToString...
-     d                 pr              *   extproc('xmlXPathCastToString')      xmlChar *
+     d                 pr              *   extproc('xmlXPathCastToString')      char *
      d val                                 value like(xmlXPathObjectPtr)
 
      d xmlXPathConvertBoolean...
@@ -582,18 +582,18 @@
      d                 pr                  extproc('xmlXPathNodeEval')
      d                                     like(xmlXPathObjectPtr)
      d node                                value like(xmlNodePtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
      d ctx                                 value like(xmlXPathContextPtr)
 
      d xmlXPathEval    pr                  extproc('xmlXPathEval')
      d                                     like(xmlXPathObjectPtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
      d ctx                                 value like(xmlXPathContextPtr)
 
      d xmlXPathEvalExpression...
      d                 pr                  extproc('xmlXPathEvalExpression')
      d                                     like(xmlXPathObjectPtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
      d ctxt                                value like(xmlXPathContextPtr)
 
      d xmlXPathEvalPredicate...
@@ -607,13 +607,13 @@
      d xmlXPathCompile...
      d                 pr                  extproc('xmlXPathCompile')
      d                                     like(xmlXPathCompExprPtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
 
      d xmlXPathCtxtCompile...
      d                 pr                  extproc('xmlXPathCtxtCompile')
      d                                     like(xmlXPathCompExprPtr)
      d ctxt                                value like(xmlXPathContextPtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
 
      d xmlXPathCompiledEval...
      d                 pr                  extproc('xmlXPathCompiledEval')

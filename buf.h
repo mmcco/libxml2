@@ -35,13 +35,13 @@ int xmlBufGrow(xmlBufPtr buf, int len);
 int xmlBufInflate(xmlBufPtr buf, size_t len);
 int xmlBufResize(xmlBufPtr buf, size_t len);
 
-int xmlBufAdd(xmlBufPtr buf, const xmlChar *str, int len);
-int xmlBufAddHead(xmlBufPtr buf, const xmlChar *str, int len);
-int xmlBufCat(xmlBufPtr buf, const xmlChar *str);
+int xmlBufAdd(xmlBufPtr buf, const char *str, int len);
+int xmlBufAddHead(xmlBufPtr buf, const char *str, int len);
+int xmlBufCat(xmlBufPtr buf, const char *str);
 int xmlBufCCat(xmlBufPtr buf, const char *str);
-int xmlBufWriteCHAR(xmlBufPtr buf, const xmlChar *string);
+int xmlBufWriteCHAR(xmlBufPtr buf, const char *string);
 int xmlBufWriteChar(xmlBufPtr buf, const char *string);
-int xmlBufWriteQuotedString(xmlBufPtr buf, const xmlChar *string);
+int xmlBufWriteQuotedString(xmlBufPtr buf, const char *string);
 
 size_t xmlBufAvail(const xmlBufPtr buf);
 size_t xmlBufLength(const xmlBufPtr buf);
@@ -50,10 +50,10 @@ int xmlBufIsEmpty(const xmlBufPtr buf);
 int xmlBufAddLen(xmlBufPtr buf, size_t len);
 int xmlBufErase(xmlBufPtr buf, size_t len);
 
-/* const xmlChar * xmlBufContent(const xmlBuf *buf); */
-/* const xmlChar * xmlBufEnd(xmlBufPtr buf); */
+/* const char * xmlBufContent(const xmlBuf *buf); */
+/* const char * xmlBufEnd(xmlBufPtr buf); */
 
-xmlChar * xmlBufDetach(xmlBufPtr buf);
+char * xmlBufDetach(xmlBufPtr buf);
 
 size_t xmlBufDump(FILE *file, xmlBufPtr buf);
 

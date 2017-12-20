@@ -22,7 +22,6 @@
 #include <stdlib.h>
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
@@ -52,16 +51,16 @@ static void usage(const char *name) {
 static xmlXPathObjectPtr
 load_xpath_expr (xmlDocPtr parent_doc, const char* filename);
 
-static xmlChar **parse_list(xmlChar *str);
+static char **parse_list(char *str);
 
 /* static void print_xpath_nodes(xmlNodeSetPtr nodes); */
 
 static int
 test_c14n(const char* xml_filename, int with_comments, int mode,
-	const char* xpath_filename, xmlChar **inclusive_namespaces) {
+	const char* xpath_filename, char **inclusive_namespaces) {
     xmlDocPtr doc;
     xmlXPathObjectPtr xpath = NULL;
-    xmlChar *result = NULL;
+    char *result = NULL;
     int ret;
 
     /*
@@ -111,11 +110,11 @@ test_c14n(const char* xml_filename, int with_comments, int mode,
 	    if (write(STDOUT_FILENO, result, ret) == -1) {
 		fprintf(stderr, "Can't write data\n");
 	    }
-	    xmlFree(result);
+	    free(result);
 	}
     } else {
 	fprintf(stderr,"Error: failed to canonicalize XML file \"%s\" (ret=%d)\n", xml_filename, ret);
-	if(result != NULL) xmlFree(result);
+	if(result != NULL) free(result);
 	xmlFreeDoc(doc);
 	return(-1);
     }
@@ -153,19 +152,19 @@ int main(int argc, char **argv) {
     } else if(strcmp(argv[1], "--1-1-without-comments") == 0) {
 	ret = test_c14n(argv[2], 0, XML_C14N_1_1, (argc > 3) ? argv[3] : NULL, NULL);
     } else if(strcmp(argv[1], "--exc-with-comments") == 0) {
-	xmlChar **list;
+	char **list;
 
 	/* load exclusive namespace from command line */
-	list = (argc > 4) ? parse_list((xmlChar *)argv[4]) : NULL;
+	list = (argc > 4) ? parse_list((char *)argv[4]) : NULL;
 	ret = test_c14n(argv[2], 1, XML_C14N_EXCLUSIVE_1_0, (argc > 3) ? argv[3] : NULL, list);
-	if(list != NULL) xmlFree(list);
+	if(list != NULL) free(list);
     } else if(strcmp(argv[1], "--exc-without-comments") == 0) {
-	xmlChar **list;
+	char **list;
 
 	/* load exclusive namespace from command line */
-	list = (argc > 4) ? parse_list((xmlChar *)argv[4]) : NULL;
+	list = (argc > 4) ? parse_list((char *)argv[4]) : NULL;
 	ret = test_c14n(argv[2], 0, XML_C14N_EXCLUSIVE_1_0, (argc > 3) ? argv[3] : NULL, list);
-	if(list != NULL) xmlFree(list);
+	if(list != NULL) free(list);
     } else {
 	fprintf(stderr, "Error: bad option.\n");
 	usage(argv[0]);
@@ -185,18 +184,18 @@ int main(int argc, char **argv) {
  */
 #define growBufferReentrant() {						\
     buffer_size *= 2;							\
-    buffer = (xmlChar **)						\
-		xmlRealloc(buffer, buffer_size * sizeof(xmlChar*));	\
+    buffer = (char **)						\
+		realloc(buffer, buffer_size * sizeof(char*));	\
     if (buffer == NULL) {						\
 	perror("realloc failed");					\
 	return(NULL);							\
     }									\
 }
 
-static xmlChar **
-parse_list(xmlChar *str) {
-    xmlChar **buffer;
-    xmlChar **out = NULL;
+static char **
+parse_list(char *str) {
+    char **buffer;
+    char **out = NULL;
     int buffer_size = 0;
     int len;
 
@@ -213,7 +212,7 @@ parse_list(xmlChar *str) {
      * allocate an translation buffer.
      */
     buffer_size = 1000;
-    buffer = (xmlChar **) xmlMalloc(buffer_size * sizeof(xmlChar*));
+    buffer = (char **) malloc(buffer_size * sizeof(char*));
     if (buffer == NULL) {
 	perror("malloc failed");
 	return(NULL);
@@ -239,7 +238,7 @@ static xmlXPathObjectPtr
 load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     xmlXPathObjectPtr xpath;
     xmlDocPtr doc;
-    xmlChar *expr;
+    char *expr;
     xmlXPathContextPtr ctx;
     xmlNodePtr node;
     xmlNsPtr ns;
@@ -266,7 +265,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     }
 
     node = doc->children;
-    while(node != NULL && !xmlStrEqual(node->name, (const xmlChar *)"XPath")) {
+    while(node != NULL && !xmlStrEqual(node->name, (const char *)"XPath")) {
 	node = node->next;
     }
 
@@ -286,7 +285,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     ctx = xmlXPathNewContext(parent_doc);
     if(ctx == NULL) {
         fprintf(stderr,"Error: unable to create new context\n");
-        xmlFree(expr);
+        free(expr);
         xmlFreeDoc(doc);
         return(NULL);
     }
@@ -298,7 +297,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     while(ns != NULL) {
 	if(xmlXPathRegisterNs(ctx, ns->prefix, ns->href) != 0) {
 	    fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", ns->prefix, ns->href);
-	    xmlFree(expr);
+	    free(expr);
 	    xmlXPathFreeContext(ctx);
 	    xmlFreeDoc(doc);
 	    return(NULL);
@@ -312,7 +311,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     xpath = xmlXPathEvalExpression(expr, ctx);
     if(xpath == NULL) {
         fprintf(stderr,"Error: unable to evaluate xpath expression\n");
-	xmlFree(expr);
+	free(expr);
         xmlXPathFreeContext(ctx);
         xmlFreeDoc(doc);
         return(NULL);
@@ -320,7 +319,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
 
     /* print_xpath_nodes(xpath->nodesetval); */
 
-    xmlFree(expr);
+    free(expr);
     xmlXPathFreeContext(ctx);
     xmlFreeDoc(doc);
     return(xpath);
@@ -346,11 +345,11 @@ print_xpath_nodes(xmlNodeSetPtr nodes) {
 	    cur = (xmlNodePtr)ns->next;
 	    fprintf(stderr, "namespace \"%s\"=\"%s\" for node %s:%s\n",
 		    ns->prefix, ns->href,
-		    (cur->ns) ? cur->ns->prefix : BAD_CAST "", cur->name);
+		    (cur->ns) ? cur->ns->prefix : "", cur->name);
 	} else if(nodes->nodeTab[i]->type == XML_ELEMENT_NODE) {
 	    cur = nodes->nodeTab[i];
 	    fprintf(stderr, "element node \"%s:%s\"\n",
-		    (cur->ns) ? cur->ns->prefix : BAD_CAST "", cur->name);
+		    (cur->ns) ? cur->ns->prefix : "", cur->name);
 	} else {
 	    cur = nodes->nodeTab[i];
 	    fprintf(stderr, "node \"%s\": type %d\n", cur->name, cur->type);

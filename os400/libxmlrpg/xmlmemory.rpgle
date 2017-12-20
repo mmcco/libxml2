@@ -46,17 +46,17 @@
      d xmlFreeFunc     s               *   based(######typedef######)
      d                                     procptr
 
-      * xmlMallocFunc:
+      * mallocFunc:
       * @size:  the size requested in bytes
       *
       * Signature for a malloc() implementation.
       *
       * Returns a pointer to the newly allocated block or NULL in case of error.
 
-     d xmlMallocFunc   s               *   based(######typedef######)
+     d mallocFunc   s               *   based(######typedef######)
      d                                     procptr
 
-      * xmlReallocFunc:
+      * reallocFunc:
       * @mem: an already allocated block of memory
       * @size:  the new size requested in bytes
       *
@@ -64,7 +64,7 @@
       *
       * Returns a pointer to the newly reallocated block or NULL in case of error.
 
-     d xmlReallocFunc  s               *   based(######typedef######)
+     d reallocFunc  s               *   based(######typedef######)
      d                                     procptr
 
       * xmlStrdupFunc:
@@ -90,34 +90,34 @@
      d xmlFree         pr                  extproc('__call_xmlFree')
      d  mem                            *   value                                void *
 
-     d get_xmlMalloc   pr                  extproc('__get_xmlMalloc')
-     d                                     like(xmlMallocFunc)
+     d get_malloc   pr                  extproc('__get_malloc')
+     d                                     like(mallocFunc)
 
-     d set_xmlMalloc   pr                  extproc('__set_xmlMalloc')
-     d  func                               value like(xmlMallocFunc)
+     d set_malloc   pr                  extproc('__set_malloc')
+     d  func                               value like(mallocFunc)
 
-     d xmlMalloc       pr              *   extproc('__call_xmlMalloc')          void *
+     d malloc       pr              *   extproc('__call_malloc')          void *
      d  size                               value like(xmlCsize_t)
 
-     d get_xmlMallocAtomic...
-     d                 pr                  extproc('__get_xmlMallocAtomic')
-     d                                     like(xmlMallocFunc)
+     d get_malloc...
+     d                 pr                  extproc('__get_malloc')
+     d                                     like(mallocFunc)
 
-     d set_xmlMallocAtomic...
-     d                 pr                  extproc('__set_xmlMallocAtomic')
-     d  func                               value like(xmlMallocFunc)
+     d set_malloc...
+     d                 pr                  extproc('__set_malloc')
+     d  func                               value like(mallocFunc)
 
-     d xmlMallocAtomic...
-     d                 pr              *   extproc('__call_xmlMallocAtomic')    void *
+     d malloc...
+     d                 pr              *   extproc('__call_malloc')    void *
      d  size                               value like(xmlCsize_t)
 
-     d get_xmlRealloc  pr                  extproc('__get_xmlRealloc')
-     d                                     like(xmlReallocFunc)
+     d get_realloc  pr                  extproc('__get_realloc')
+     d                                     like(reallocFunc)
 
-     d set_xmlRealloc  pr                  extproc('__set_xmlRealloc')
-     d  func                               value like(xmlReallocFunc)
+     d set_realloc  pr                  extproc('__set_realloc')
+     d  func                               value like(reallocFunc)
 
-     d xmlRealloc      pr              *   extproc('__call_xmlRealloc')         void *
+     d realloc      pr              *   extproc('__call_realloc')         void *
      d  mem                            *   value                                void *
      d  size                               value like(xmlCsize_t)
 
@@ -139,33 +139,33 @@
      d xmlMemSetup     pr                  extproc('xmlMemSetup')
      d                                     like(xmlCint)
      d  freeFunc                           value like(xmlFreeFunc)
-     d  mallocFunc                         value like(xmlMallocFunc)
-     d  reallocFunc                        value like(xmlReallocFunc)
+     d  mallocFunc                         value like(mallocFunc)
+     d  reallocFunc                        value like(reallocFunc)
      d  strdupFunc                         value like(xmlStrdupFunc)
 
      d xmlMemGet       pr                  extproc('xmlMemGet')
      d                                     like(xmlCint)
      d  freeFunc                           like(xmlFreeFunc)
-     d  mallocFunc                         like(xmlMallocFunc)
-     d  reallocFunc                        like(xmlReallocFunc)
+     d  mallocFunc                         like(mallocFunc)
+     d  reallocFunc                        like(reallocFunc)
      d  strdupFunc                         like(xmlStrdupFunc)
 
      d xmlGcMemSetup   pr                  extproc('xmlGcMemSetup')
      d                                     like(xmlCint)
      d  freeFunc                           value like(xmlFreeFunc)
-     d  mallocFunc                         value like(xmlMallocFunc)
-     d  mallocAtomicFunc...
-     d                                     value like(xmlMallocFunc)
-     d  reallocFunc                        value like(xmlReallocFunc)
+     d  mallocFunc                         value like(mallocFunc)
+     d  mallocFunc...
+     d                                     value like(mallocFunc)
+     d  reallocFunc                        value like(reallocFunc)
      d  strdupFunc                         value like(xmlStrdupFunc)
 
      d xmlGcMemGet     pr                  extproc('xmlGcMemGet')
      d                                     like(xmlCint)
      d  freeFunc                           like(xmlFreeFunc)
-     d  mallocFunc                         like(xmlMallocFunc)
-     d  mallocAtomicFunc...
-     d                                     like(xmlMallocFunc)
-     d  reallocFunc                        like(xmlReallocFunc)
+     d  mallocFunc                         like(mallocFunc)
+     d  mallocFunc...
+     d                                     like(mallocFunc)
+     d  reallocFunc                        like(reallocFunc)
      d  strdupFunc                         like(xmlStrdupFunc)
 
       * Initialization of the memory layer.
@@ -214,19 +214,19 @@
      d                 pr              *   extproc('xmlMemoryStrdup')           char *
      d  str                            *   value options(*string)               const char *
 
-     d xmlMallocLoc    pr              *   extproc('xmlMallocLoc')              void *
+     d mallocLoc    pr              *   extproc('mallocLoc')              void *
      d  size                               value like(xmlCsize_t)
      d  file                           *   value options(*string)               const char *
      d  line                               value like(xmlCint)
 
-     d xmlReallocLoc   pr              *   extproc('xmlReallocLoc')              void *
+     d reallocLoc   pr              *   extproc('reallocLoc')              void *
      d  ptr                            *   value                                void *
      d  size                               value like(xmlCsize_t)
      d  file                           *   value options(*string)               const char *
      d  line                               value like(xmlCint)
 
-     d xmlMallocAtomicLoc...
-     d                 pr              *   extproc('xmlMallocAtomicLoc')        void *
+     d mallocLoc...
+     d                 pr              *   extproc('mallocLoc')        void *
      d  size                               value like(xmlCsize_t)
      d  file                           *   value options(*string)               const char *
      d  line                               value like(xmlCint)

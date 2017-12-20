@@ -353,23 +353,23 @@
      d                                     align qualified
      d  type                               like(xmlSchemaTypeType)
      d  next                               like(xmlSchemaAttributePtr)          Next attribute
-     d  name                           *                                        const xmlChar *
-     d  id                             *                                        const xmlChar *
-     d  ref                            *                                        const xmlChar *
-     d  refNs                          *                                        const xmlChar *
-     d  typeName                       *                                        const xmlChar *
-     d  typeNs                         *                                        const xmlChar *
+     d  name                           *                                        const char *
+     d  id                             *                                        const char *
+     d  ref                            *                                        const char *
+     d  refNs                          *                                        const char *
+     d  typeName                       *                                        const char *
+     d  typeNs                         *                                        const char *
      d  annot                              like(xmlSchemaAnnotPtr)
       *
      d  base                               like(xmlSchemaTypePtr)               Deprecated
      d  occurs                             like(xmlCint)                        Deprecated
-     d  defValue                       *                                        const xmlChar *
+     d  defValue                       *                                        const char *
      d  subtypes                           like(xmlSchemaTypePtr)               The type definition
      d  node                               like(xmlNodePtr)
-     d  targetNamespace...                                                      const xmlChar *
+     d  targetNamespace...                                                      const char *
      d                                 *
      d  flags                              like(xmlCint)
-     d  refPrefix                      *                                        const xmlChar *
+     d  refPrefix                      *                                        const char *
      d  defVal                             like(xmlSchemaValPtr)                Compiled constraint
      d  refDecl                            like(xmlSchemaAttributePtr)          Deprecated
 
@@ -403,7 +403,7 @@
      d                 ds                  based(xmlSchemaWildcardNsPtr)
      d                                     align qualified
      d  next                               like(xmlSchemaWildcardNsPtr)         The next link
-     d  value                          *                                        const xmlChar *
+     d  value                          *                                        const char *
 
       * xmlSchemaWildcard.
       * A wildcard.
@@ -415,7 +415,7 @@
      d                 ds                  based(xmlSchemaWildcardPtr)
      d                                     align qualified
      d  type                               like(xmlSchemaTypeType)              Kind of type
-     d  id                             *                                        const xmlChar *
+     d  id                             *                                        const char *
      d  annot                              like(xmlSchemaAnnotPtr)
      d  node                               like(xmlNodePtr)
      d  minOccurs                          like(xmlCint)                        Deprecated; not used
@@ -475,10 +475,10 @@
      d                                     align qualified
      d  type                               like(xmlSchemaTypeType)              Kind of type
      d  next                               like(xmlSchemaAttributePtr)          Next attribute
-     d  name                           *                                        const xmlChar *
-     d  id                             *                                        const xmlChar *
-     d  ref                            *                                        const xmlChar *
-     d  refNs                          *                                        const xmlChar *
+     d  name                           *                                        const char *
+     d  id                             *                                        const char *
+     d  ref                            *                                        const char *
+     d  refNs                          *                                        const char *
      d  annot                              like(xmlSchemaAnnotPtr)
       *
      d  attributes                         like(xmlSchemaAttributePtr)          Deprecated; not used
@@ -486,10 +486,10 @@
      d  flags                              like(xmlCint)
      d  attributeWildcard...
      d                                     like(xmlSchemaWildcardPtr)
-     d  refPrefix                      *                                        const xmlChar *
+     d  refPrefix                      *                                        const char *
      d  refItem                            like(xmlSchemaAttributeGroupPtr)     Deprecated; not used
      d  targetNamespace...
-     d                                 *                                        const xmlChar *
+     d                                 *                                        const char *
      d  attrUses                       *                                        void *
 
       * xmlSchemaTypeLink:
@@ -750,10 +750,10 @@
      d                                     align qualified
      d  type                               like(xmlSchemaTypeType)              Kind of type
      d  next                               like(xmlSchemaTypePtr)               Next type
-     d  name                           *                                        const xmlChar *
-     d  id                             *                                        const xmlChar *
-     d  ref                            *                                        const xmlChar *
-     d  refNs                          *                                        const xmlChar *
+     d  name                           *                                        const char *
+     d  id                             *                                        const char *
+     d  ref                            *                                        const char *
+     d  refNs                          *                                        const char *
      d  annot                              like(xmlSchemaAnnotPtr)
      d  subtypes                           like(xmlSchemaTypePtr)
      d  attributes                         like(xmlSchemaAttributePtr)          Deprecated; not used
@@ -763,8 +763,8 @@
       *
      d  flags                              like(xmlCint)
      d  contentType                        like(xmlSchemaContentType)
-     d  base                           *                                        const xmlChar *
-     d  baseNs                         *                                        const xmlChar *
+     d  base                           *                                        const char *
+     d  baseNs                         *                                        const char *
      d  baseType                           like(xmlSchemaTypePtr)               Base type component
      d  facets                             like(xmlSchemaFacetPtr)              Local facets
      d  redef                              like(xmlSchemaTypePtr)               Deprecated; not used
@@ -775,12 +775,12 @@
      d  builtInType                        like(xmlCint)                        Built-in types type
      d  memberTypes                        like(xmlSchemaTypeLinkPtr)           Union member-types
      d  facetSet                           like(xmlSchemaFacetLinkPtr)          All facets
-     d  refPrefix                      *                                        const xmlChar *
+     d  refPrefix                      *                                        const char *
      d  contentTypeDef...
      d                                     like(xmlSchemaTypePtr)
      d  contModel                          like(xmlRegexpPtr)                   Content model autom.
      d  targetNamespace...
-     d                                 *                                        const xmlChar *
+     d                                 *                                        const char *
      d  attrUses                       *                                        void *
 
       * xmlSchemaElement:
@@ -934,10 +934,10 @@
      d                                     align qualified
      d  type                               like(xmlSchemaTypeType)              Kind of type
      d  next                               like(xmlSchemaElementPtr)            Not used ?
-     d  name                           *                                        const xmlChar *
-     d  id                             *                                        const xmlChar *
-     d  ref                            *                                        const xmlChar *
-     d  refNs                          *                                        const xmlChar *
+     d  name                           *                                        const char *
+     d  id                             *                                        const char *
+     d  ref                            *                                        const char *
+     d  refNs                          *                                        const char *
      d  annot                              like(xmlSchemaAnnotPtr)
      d  subtypes                           like(xmlSchemaTypePtr)
      d  attributes                         like(xmlSchemaAttributePtr)          Deprecated; not used
@@ -947,17 +947,17 @@
       *
      d  flags                              like(xmlCint)
      d  targetNamespace...
-     d                                 *                                        const xmlChar *
-     d  namedType                      *                                        const xmlChar *
-     d  namedTypeNs                    *                                        const xmlChar *
-     d  substGroup                     *                                        const xmlChar *
-     d  substGroupNs                   *                                        const xmlChar *
-     d  scope                          *                                        const xmlChar *
-     d  value                          *                                        const xmlChar *
+     d                                 *                                        const char *
+     d  namedType                      *                                        const char *
+     d  namedTypeNs                    *                                        const char *
+     d  substGroup                     *                                        const char *
+     d  substGroupNs                   *                                        const char *
+     d  scope                          *                                        const char *
+     d  value                          *                                        const char *
      d  refDecl                            like(xmlSchemaElementPtr)
      d  contModel                          like(xmlRegexpPtr)
      d  contentType                        like(xmlSchemaContentType)
-     d  refPrefix                      *                                        const xmlChar *
+     d  refPrefix                      *                                        const char *
      d  devVal                             like(xmlSchemaValPtr)                Comp val constraint
      d  idcs                           *                                        void *
 
@@ -996,8 +996,8 @@
      d                                     align qualified
      d  type                               like(xmlSchemaTypeType)              Kind of type
      d  next                               like(xmlSchemaFacetPtr)              Next type in seq.
-     d  value                          *                                        const xmlChar *
-     d  id                             *                                        const xmlChar *
+     d  value                          *                                        const char *
+     d  id                             *                                        const char *
      d  annot                              like(xmlSchemaAnnotPtr)
      d  node                               like(xmlNodePtr)
      d  fixed                              like(xmlCint)                        _FACET_PRESERVE, etc
@@ -1014,11 +1014,11 @@
      d                 ds                  based(xmlSchemaNotationPtr)
      d                                     align qualified
      d  type                               like(xmlSchemaTypeType)              Kind of type
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  annot                              like(xmlSchemaAnnotPtr)
-     d  identifier                     *                                        const xmlChar *
+     d  identifier                     *                                        const char *
      d  targetNamespace...
-     d                                 *                                        const xmlChar *
+     d                                 *                                        const char *
 
       * TODO: Actually all those flags used for the schema should sit
       * on the schema parser context, since they are used only
@@ -1104,11 +1104,11 @@
 
      d xmlSchema       ds                  based(xmlSchemaPtr)
      d                                     align qualified
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  targetNamespace...
-     d                                 *                                        const xmlChar *
-     d  version                        *                                        const xmlChar *
-     d  id                             *                                        const xmlChar *
+     d                                 *                                        const char *
+     d  version                        *                                        const char *
+     d  id                             *                                        const char *
      d  doc                                like(xmlDocPtr)
      d  annot                              like(xmlSchemaAnnotPtr)
      d  flags                              like(xmlCint)

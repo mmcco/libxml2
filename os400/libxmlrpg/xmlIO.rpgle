@@ -126,7 +126,7 @@
      d  readcallback                       like(xmlInputReadCallback)
      d  closecallback                      like(xmlInputCloseCallback)
       *
-     d  encoder                            like(xmlCharEncodingHandlerPtr)      Conversions --> UTF8
+     d  encoder                            like(charEncodingHandlerPtr)      Conversions --> UTF8
       *
      d  buffer                             like(xmlBufPtr)                      UTF-8 local buffer
      d  raw                                like(xmlBufPtr)                      Raw input buffer
@@ -142,7 +142,7 @@
      d  writecallback                      like(xmlOutputWriteCallback)
      d  closecallback                      like(xmlOutputCloseCallback)
       *
-     d  encoder                            like(xmlCharEncodingHandlerPtr)      Conversions --> UTF8
+     d  encoder                            like(charEncodingHandlerPtr)      Conversions --> UTF8
       *
      d  buffer                             like(xmlBufPtr)                      UTF-8/ISOLatin local
      d  conv                               like(xmlBufPtr)                      Buffer for output
@@ -166,28 +166,28 @@
      d xmlAllocParserInputBuffer...
      d                 pr                  extproc('xmlAllocParserInputBuffer')
      d                                     like(xmlParserInputBufferPtr)
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d xmlParserInputBufferCreateFilename...
      d                 pr                  extproc(
      d                                     'xmlParserInputBufferCreateFilename')
      d                                     like(xmlParserInputBufferPtr)
      d  URI                            *   value options(*string)               const char *
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d xmlParserInputBufferCreateFile...
      d                 pr                  extproc(
      d                                      'xmlParserInputBufferCreateFile')
      d                                     like(xmlParserInputBufferPtr)
      d  file                           *   value                                FILE *
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d xmlParserInputBufferCreateFd...
      d                 pr                  extproc(
      d                                      'xmlParserInputBufferCreateFd')
      d                                     like(xmlParserInputBufferPtr)
      d  fd                                 value like(xmlCint)
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d xmlParserInputBufferCreateMem...
      d                 pr                  extproc(
@@ -195,7 +195,7 @@
      d                                     like(xmlParserInputBufferPtr)
      d  mem                            *   value options(*string)               const char *
      d  size                               value like(xmlCint)
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d xmlParserInputBufferCreateStatic...
      d                 pr                  extproc(
@@ -203,7 +203,7 @@
      d                                     like(xmlParserInputBufferPtr)
      d  mem                            *   value options(*string)               const char *
      d  size                               value like(xmlCint)
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d xmlParserInputBufferCreateIO...
      d                 pr                  extproc(
@@ -212,7 +212,7 @@
      d  ioread                             value like(xmlInputReadCallback)
      d  ioclose                            value like(xmlInputCloseCallback)
      d  ioctx                          *   value                                void *
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d xmlParserInputBufferRead...
      d                 pr                  extproc('xmlParserInputBufferRead')
@@ -264,7 +264,7 @@
      d                 pr                  extproc('xmlAllocOutputBuffer')
      d                                     like(xmlOutputBufferPtr)
      d  encoder                            value
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
 
      d xmlOutputBufferCreateFilename...
      d                 pr                  extproc(
@@ -272,7 +272,7 @@
      d                                     like(xmlOutputBufferPtr)
      d  URI                            *   value options(*string)               const char *
      d  encoder                            value
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
      d  compression                        value like(xmlCint)
 
      d xmlOutputBufferCreateFile...
@@ -280,7 +280,7 @@
      d                                     like(xmlOutputBufferPtr)
      d  file                           *   value                                FILE *
      d  encoder                            value
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
 
      d xmlOutputBufferCreateBuffer...
      d                 pr                  extproc(
@@ -288,14 +288,14 @@
      d                                     like(xmlOutputBufferPtr)
      d  buffer                             value like(xmlBufferPtr)
      d  encoder                            value
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
 
      d xmlOutputBufferCreateFd...
      d                 pr                  extproc('xmlOutputBufferCreateFd')
      d                                     like(xmlOutputBufferPtr)
      d  fd                                 value like(xmlCint)
      d  encoder                            value
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
 
      d xmlOutputBufferCreateIO...
      d                 pr                  extproc('xmlOutputBufferCreateIO')
@@ -304,12 +304,12 @@
      d  ioclose                            value like(xmlOutputCloseCallback)
      d  ioctx                          *   value                                void *
      d  encoder                            value
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
 
       * Couple of APIs to get the output without digging into the buffers
 
      d xmlOutputBufferGetContent...
-     d                 pr              *   extproc('xmlOutputBufferGetContent') const xmlChar *
+     d                 pr              *   extproc('xmlOutputBufferGetContent') const char *
      d  out                                value like(xmlOutputBufferPtr)
 
      d xmlOutputBufferGetSize...
@@ -334,8 +334,8 @@
      d                 pr                  extproc('xmlOutputBufferWriteEscape')
      d                                     like(xmlCint)
      d  out                                value like(xmlOutputBufferPtr)
-     d  str                            *   value options(*string)               const xmlChar *
-     d  escaping                           value like(xmlCharEncodingOutputFunc)
+     d  str                            *   value options(*string)               const char *
+     d  escaping                           value like(charEncodingOutputFunc)
 
      d xmlOutputBufferFlush...
      d                 pr                  extproc('xmlOutputBufferFlush')
@@ -386,8 +386,8 @@
       * Check xmlCanonicPath in uri.h for a better alternative.
 
      d xmlNormalizeWindowsPath...
-     d                 pr              *   extproc('xmlNormalizeWindowsPath')   xmlChar *
-     d  path                           *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlNormalizeWindowsPath')   char *
+     d  path                           *   value options(*string)               const char *
 
      d xmlCheckFilename...
      d                 pr                  extproc('xmlCheckFilename')

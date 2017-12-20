@@ -60,24 +60,24 @@ extern "C" {
 #define HTML_PI_NODE		XML_PI_NODE
 
 XMLPUBFUN htmlDocPtr XMLCALL
-		htmlNewDoc		(const xmlChar *URI,
-					 const xmlChar *ExternalID);
+		htmlNewDoc		(const char *URI,
+					 const char *ExternalID);
 XMLPUBFUN htmlDocPtr XMLCALL
-		htmlNewDocNoDtD		(const xmlChar *URI,
-					 const xmlChar *ExternalID);
-XMLPUBFUN const xmlChar * XMLCALL
+		htmlNewDocNoDtD		(const char *URI,
+					 const char *ExternalID);
+XMLPUBFUN const char * XMLCALL
 		htmlGetMetaEncoding	(htmlDocPtr doc);
 XMLPUBFUN int XMLCALL
 		htmlSetMetaEncoding	(htmlDocPtr doc,
-					 const xmlChar *encoding);
+					 const char *encoding);
 #ifdef LIBXML_OUTPUT_ENABLED
 XMLPUBFUN void XMLCALL
 		htmlDocDumpMemory	(xmlDocPtr cur,
-					 xmlChar **mem,
+					 char **mem,
 					 int *size);
 XMLPUBFUN void XMLCALL
 		htmlDocDumpMemoryFormat	(xmlDocPtr cur,
-					 xmlChar **mem,
+					 char **mem,
 					 int *size,
 					 int format);
 XMLPUBFUN int XMLCALL
@@ -134,7 +134,7 @@ XMLPUBFUN void XMLCALL
 #endif /* LIBXML_OUTPUT_ENABLED */
 
 XMLPUBFUN int XMLCALL
-		htmlIsBooleanAttr	(const xmlChar *name);
+		htmlIsBooleanAttr	(const char *name);
 
 
 #ifdef __cplusplus

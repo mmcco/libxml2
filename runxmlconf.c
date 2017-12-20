@@ -64,14 +64,14 @@ static int checkTestFile(const char *filename) {
     return(1);
 }
 
-static xmlChar *composeDir(const xmlChar *dir, const xmlChar *path) {
+static char *composeDir(const char *dir, const char *path) {
     char buf[500];
 
-    if (dir == NULL) return(xmlStrdup(path));
+    if (dir == NULL) return(strdup(path));
     if (path == NULL) return(NULL);
 
     snprintf(buf, 500, "%s/%s", (const char *) dir, (const char *) path);
-    return(xmlStrdup((const xmlChar *) buf));
+    return(strdup( buf));
 }
 
 /************************************************************************
@@ -288,15 +288,15 @@ xmlconfTestNotWF(const char *id, const char *filename, int options) {
 static int
 xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
     int ret = -1;
-    xmlChar *type = NULL;
-    xmlChar *filename = NULL;
-    xmlChar *uri = NULL;
-    xmlChar *base = NULL;
-    xmlChar *id = NULL;
-    xmlChar *rec = NULL;
-    xmlChar *version = NULL;
-    xmlChar *entities = NULL;
-    xmlChar *edition = NULL;
+    char *type = NULL;
+    char *filename = NULL;
+    char *uri = NULL;
+    char *base = NULL;
+    char *id = NULL;
+    char *rec = NULL;
+    char *version = NULL;
+    char *entities = NULL;
+    char *edition = NULL;
     int options = 0;
     int nstest = 0;
     int mem, final;
@@ -305,7 +305,7 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
     testErrorsSize = 0; testErrors[0] = 0;
     nbError = 0;
     nbFatal = 0;
-    id = xmlGetProp(cur, BAD_CAST "ID");
+    id = xmlGetProp(cur, "ID");
     if (id == NULL) {
         test_log("test missing ID, line %ld\n", xmlGetLineNo(cur));
 	goto error;
@@ -318,12 +318,12 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
 	    goto error;
 	}
     }
-    type = xmlGetProp(cur, BAD_CAST "TYPE");
+    type = xmlGetProp(cur, "TYPE");
     if (type == NULL) {
         test_log("test %s missing TYPE\n", (char *) id);
 	goto error;
     }
-    uri = xmlGetProp(cur, BAD_CAST "URI");
+    uri = xmlGetProp(cur, "URI");
     if (uri == NULL) {
         test_log("test %s missing URI\n", (char *) id);
 	goto error;
@@ -336,20 +336,20 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
 	goto error;
     }
 
-    version = xmlGetProp(cur, BAD_CAST "VERSION");
+    version = xmlGetProp(cur, "VERSION");
 
-    entities = xmlGetProp(cur, BAD_CAST "ENTITIES");
-    if (!xmlStrEqual(entities, BAD_CAST "none")) {
+    entities = xmlGetProp(cur, "ENTITIES");
+    if (!xmlStrEqual(entities, "none")) {
         options |= XML_PARSE_DTDLOAD;
         options |= XML_PARSE_NOENT;
     }
-    rec = xmlGetProp(cur, BAD_CAST "RECOMMENDATION");
+    rec = xmlGetProp(cur, "RECOMMENDATION");
     if ((rec == NULL) ||
-        (xmlStrEqual(rec, BAD_CAST "XML1.0")) ||
-	(xmlStrEqual(rec, BAD_CAST "XML1.0-errata2e")) ||
-	(xmlStrEqual(rec, BAD_CAST "XML1.0-errata3e")) ||
-	(xmlStrEqual(rec, BAD_CAST "XML1.0-errata4e"))) {
-	if ((version != NULL) && (!xmlStrEqual(version, BAD_CAST "1.0"))) {
+        (xmlStrEqual(rec, "XML1.0")) ||
+	(xmlStrEqual(rec, "XML1.0-errata2e")) ||
+	(xmlStrEqual(rec, "XML1.0-errata3e")) ||
+	(xmlStrEqual(rec, "XML1.0-errata4e"))) {
+	if ((version != NULL) && (!xmlStrEqual(version, "1.0"))) {
 	    test_log("Skipping test %s for %s\n", (char *) id,
 	             (char *) version);
 	    ret = 0;
@@ -357,8 +357,8 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
 	    goto error;
 	}
 	ret = 1;
-    } else if ((xmlStrEqual(rec, BAD_CAST "NS1.0")) ||
-	       (xmlStrEqual(rec, BAD_CAST "NS1.0-errata1e"))) {
+    } else if ((xmlStrEqual(rec, "NS1.0")) ||
+	       (xmlStrEqual(rec, "NS1.0-errata1e"))) {
 	ret = 1;
 	nstest = 1;
     } else {
@@ -367,7 +367,7 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
 	nb_skipped++;
 	goto error;
     }
-    edition = xmlGetProp(cur, BAD_CAST "EDITION");
+    edition = xmlGetProp(cur, "EDITION");
     if ((edition != NULL) && (xmlStrchr(edition, '5') == NULL)) {
         /* test limited to all versions before 5th */
 	options |= XML_PARSE_OLD10;
@@ -380,18 +380,18 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
     testErrorsSize = 0; testErrors[0] = 0;
     mem = xmlMemUsed();
 
-    if (xmlStrEqual(type, BAD_CAST "not-wf")) {
+    if (xmlStrEqual(type, "not-wf")) {
         if (nstest == 0)
 	    xmlconfTestNotWF((char *) id, (char *) filename, options);
         else
 	    xmlconfTestNotNSWF((char *) id, (char *) filename, options);
-    } else if (xmlStrEqual(type, BAD_CAST "valid")) {
+    } else if (xmlStrEqual(type, "valid")) {
         options |= XML_PARSE_DTDVALID;
 	xmlconfTestValid((char *) id, (char *) filename, options);
-    } else if (xmlStrEqual(type, BAD_CAST "invalid")) {
+    } else if (xmlStrEqual(type, "invalid")) {
         options |= XML_PARSE_DTDVALID;
 	xmlconfTestInvalid((char *) id, (char *) filename, options);
-    } else if (xmlStrEqual(type, BAD_CAST "error")) {
+    } else if (xmlStrEqual(type, "error")) {
         test_log("Skipping error test %s \n", (char *) id);
 	ret = 0;
 	nb_skipped++;
@@ -417,49 +417,49 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
 
 error:
     if (type != NULL)
-        xmlFree(type);
+        free(type);
     if (entities != NULL)
-        xmlFree(entities);
+        free(entities);
     if (edition != NULL)
-        xmlFree(edition);
+        free(edition);
     if (version != NULL)
-        xmlFree(version);
+        free(version);
     if (filename != NULL)
-        xmlFree(filename);
+        free(filename);
     if (uri != NULL)
-        xmlFree(uri);
+        free(uri);
     if (base != NULL)
-        xmlFree(base);
+        free(base);
     if (id != NULL)
-        xmlFree(id);
+        free(id);
     if (rec != NULL)
-        xmlFree(rec);
+        free(rec);
     return(ret);
 }
 
 static int
 xmlconfTestCases(xmlDocPtr doc, xmlNodePtr cur, int level) {
-    xmlChar *profile;
+    char *profile;
     int ret = 0;
     int tests = 0;
     int output = 0;
 
     if (level == 1) {
-	profile = xmlGetProp(cur, BAD_CAST "PROFILE");
+	profile = xmlGetProp(cur, "PROFILE");
 	if (profile != NULL) {
 	    output = 1;
 	    level++;
 	    printf("Test cases: %s\n", (char *) profile);
-	    xmlFree(profile);
+	    free(profile);
 	}
     }
     cur = cur->children;
     while (cur != NULL) {
         /* look only at elements we ignore everything else */
         if (cur->type == XML_ELEMENT_NODE) {
-	    if (xmlStrEqual(cur->name, BAD_CAST "TESTCASES")) {
+	    if (xmlStrEqual(cur->name, "TESTCASES")) {
 	        ret += xmlconfTestCases(doc, cur, level);
-	    } else if (xmlStrEqual(cur->name, BAD_CAST "TEST")) {
+	    } else if (xmlStrEqual(cur->name, "TEST")) {
 	        if (xmlconfTestItem(doc, cur) >= 0)
 		    ret++;
 		tests++;
@@ -478,20 +478,20 @@ xmlconfTestCases(xmlDocPtr doc, xmlNodePtr cur, int level) {
 
 static int
 xmlconfTestSuite(xmlDocPtr doc, xmlNodePtr cur) {
-    xmlChar *profile;
+    char *profile;
     int ret = 0;
 
-    profile = xmlGetProp(cur, BAD_CAST "PROFILE");
+    profile = xmlGetProp(cur, "PROFILE");
     if (profile != NULL) {
         printf("Test suite: %s\n", (char *) profile);
-	xmlFree(profile);
+	free(profile);
     } else
         printf("Test suite\n");
     cur = cur->children;
     while (cur != NULL) {
         /* look only at elements we ignore everything else */
         if (cur->type == XML_ELEMENT_NODE) {
-	    if (xmlStrEqual(cur->name, BAD_CAST "TESTCASES")) {
+	    if (xmlStrEqual(cur->name, "TESTCASES")) {
 	        ret += xmlconfTestCases(doc, cur, 1);
 	    } else {
 	        fprintf(stderr, "Unhandled element %s\n", (char *)cur->name);
@@ -530,7 +530,7 @@ xmlconfTest(void) {
     }
 
     cur = xmlDocGetRootElement(doc);
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "TESTSUITE"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "TESTSUITE"))) {
         fprintf(stderr, "Unexpected format %s\n", confxml);
 	xmlconfInfo();
 	ret = -1;

@@ -57,36 +57,36 @@
 
      d htmlNewDoc      pr                  extproc('htmlNewDoc')
      d                                     like(htmlDocPtr)
-     d  URI                            *   value options(*string)               const xmlChar *
-     d  ExternalID                     *   value options(*string)               const xmlChar *
+     d  URI                            *   value options(*string)               const char *
+     d  ExternalID                     *   value options(*string)               const char *
 
      d htmlNewDocNoDtD...
      d                 pr                  extproc('htmlNewDocNoDtD')
      d                                     like(htmlDocPtr)
-     d  URI                            *   value options(*string)               const xmlChar *
-     d  ExternalID                     *   value options(*string)               const xmlChar *
+     d  URI                            *   value options(*string)               const char *
+     d  ExternalID                     *   value options(*string)               const char *
 
      d htmlGetMetaEncoding...
-     d                 pr              *   extproc('htmlGetMetaEncoding')       const xmlChar *
+     d                 pr              *   extproc('htmlGetMetaEncoding')       const char *
      d  doc                                value like(htmlDocPtr)
 
      d htmlSetMetaEncoding...
      d                 pr                  extproc('htmlSetMetaEncoding')
      d                                     like(xmlCint)
      d  doc                                value like(htmlDocPtr)
-     d  encoding                       *   value options(*string)               const xmlChar *
+     d  encoding                       *   value options(*string)               const char *
 
       /if defined(LIBXML_OUTPUT_ENABLED)
      d htmlDocDumpMemory...
      d                 pr                  extproc('htmlDocDumpMemory')
      d  cur                                value like(xmlDocPtr)
-     d  mem                            *   value                                xmlChar * *
+     d  mem                            *   value                                char * *
      d  size                               like(xmlCint)
 
      d htmlDocDumpMemoryFormat...
      d                 pr                  extproc('htmlDocDumpMemoryFormat')
      d  cur                                value like(xmlDocPtr)
-     d  mem                            *   value                                xmlChar * *
+     d  mem                            *   value                                char * *
      d  size                               like(xmlCint)
      d  format                             value like(xmlCint)
 
@@ -170,7 +170,7 @@
      d htmlIsBooleanAttr...
      d                 pr                  extproc('htmlIsBooleanAttr')
      d                                     like(xmlCint)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
       /endif                                                                    LIBXML_HTML_ENABLED
       /endif                                                                    HTML_TREE_H__

@@ -18,7 +18,6 @@
 #ifdef HAVE_STRING_H
 #include <string.h>
 #endif
-#include <libxml/xmlmemory.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
@@ -227,7 +226,7 @@ xmlCtxtNsCheckScope(xmlDebugCtxtPtr ctxt, xmlNodePtr node, xmlNsPtr ns)
  * Do debugging on the string, currently it just checks the UTF-8 content
  */
 static void
-xmlCtxtCheckString(xmlDebugCtxtPtr ctxt, const xmlChar * str)
+xmlCtxtCheckString(xmlDebugCtxtPtr ctxt, const char * str)
 {
     if (str == NULL) return;
     if (ctxt->check) {
@@ -247,7 +246,7 @@ xmlCtxtCheckString(xmlDebugCtxtPtr ctxt, const xmlChar * str)
  * conformance to the Name production.
  */
 static void
-xmlCtxtCheckName(xmlDebugCtxtPtr ctxt, const xmlChar * name)
+xmlCtxtCheckName(xmlDebugCtxtPtr ctxt, const char * name)
 {
     if (ctxt->check) {
 	if (name == NULL) {
@@ -304,7 +303,7 @@ xmlCtxtGenericNodeCheck(xmlDebugCtxtPtr ctxt, xmlNodePtr node) {
 	}
     }
     if ((node->parent != NULL) && (node->doc != node->parent->doc) &&
-        (!xmlStrEqual(node->name, BAD_CAST "pseudoroot")))
+        (!xmlStrEqual(node->name, "pseudoroot")))
         xmlDebugErr(ctxt, XML_CHECK_WRONG_DOC,
 	            "Node doc differs from parent's one\n");
     if (node->prev == NULL) {
@@ -359,7 +358,7 @@ xmlCtxtGenericNodeCheck(xmlDebugCtxtPtr ctxt, xmlNodePtr node) {
 	(node->type != XML_HTML_DOCUMENT_NODE) &&
 	(node->type != XML_DOCUMENT_NODE)) {
 	if (node->content != NULL)
-	    xmlCtxtCheckString(ctxt, (const xmlChar *) node->content);
+	    xmlCtxtCheckString(ctxt, (const char *) node->content);
     }
     switch (node->type) {
         case XML_ELEMENT_NODE:
@@ -372,7 +371,7 @@ xmlCtxtGenericNodeCheck(xmlDebugCtxtPtr ctxt, xmlNodePtr node) {
 		break;
 	    /* some case of entity substitution can lead to this */
 	    if ((ctxt->dict != NULL) &&
-	        (node->name == xmlDictLookup(ctxt->dict, BAD_CAST "nbktext",
+	        (node->name == xmlDictLookup(ctxt->dict, "nbktext",
 		                             7)))
 		break;
 
@@ -419,7 +418,7 @@ xmlCtxtGenericNodeCheck(xmlDebugCtxtPtr ctxt, xmlNodePtr node) {
 }
 
 static void
-xmlCtxtDumpString(xmlDebugCtxtPtr ctxt, const xmlChar * str)
+xmlCtxtDumpString(xmlDebugCtxtPtr ctxt, const char * str)
 {
     int i;
 
@@ -909,12 +908,12 @@ xmlCtxtDumpOneNode(xmlDebugCtxtPtr ctxt, xmlNodePtr node)
         case XML_TEXT_NODE:
             if (!ctxt->check) {
                 xmlCtxtDumpSpaces(ctxt);
-                if (node->name == (const xmlChar *) xmlStringTextNoenc)
+                if (node->name == (const char *) xmlStringTextNoenc)
                     fprintf(ctxt->output, "TEXT no enc");
                 else
                     fprintf(ctxt->output, "TEXT");
 		if (ctxt->options & DUMP_TEXT_TYPE) {
-		    if (node->content == (xmlChar *) &(node->properties))
+		    if (node->content == (char *) &(node->properties))
 			fprintf(ctxt->output, " compact\n");
 		    else if (xmlDictOwns(ctxt->dict, node->content) == 1)
 			fprintf(ctxt->output, " interned\n");
@@ -1178,7 +1177,7 @@ xmlCtxtDumpDocumentHead(xmlDebugCtxtPtr ctxt, xmlDocPtr doc)
     if (!ctxt->check) {
         if (doc->name != NULL) {
             fprintf(ctxt->output, "name=");
-            xmlCtxtDumpString(ctxt, BAD_CAST doc->name);
+            xmlCtxtDumpString(ctxt, doc->name);
             fprintf(ctxt->output, "\n");
         }
         if (doc->version != NULL) {
@@ -1344,7 +1343,7 @@ xmlCtxtDumpDTD(xmlDebugCtxtPtr ctxt, xmlDtdPtr dtd)
  * Dumps informations about the string, shorten it if necessary
  */
 void
-xmlDebugDumpString(FILE * output, const xmlChar * str)
+xmlDebugDumpString(FILE * output, const char * str)
 {
     int i;
 
@@ -2048,7 +2047,7 @@ xmlShellBase(xmlShellCtxtPtr ctxt,
              char *arg ATTRIBUTE_UNUSED, xmlNodePtr node,
              xmlNodePtr node2 ATTRIBUTE_UNUSED)
 {
-    xmlChar *base;
+    char *base;
     if (!ctxt)
         return 0;
     if (node == NULL) {
@@ -2062,7 +2061,7 @@ xmlShellBase(xmlShellCtxtPtr ctxt,
         fprintf(ctxt->output, " No base found !!!\n");
     } else {
         fprintf(ctxt->output, "%s\n", base);
-        xmlFree(base);
+        free(base);
     }
     return (0);
 }
@@ -2085,7 +2084,7 @@ xmlShellSetBase(xmlShellCtxtPtr ctxt ATTRIBUTE_UNUSED,
              char *arg ATTRIBUTE_UNUSED, xmlNodePtr node,
              xmlNodePtr node2 ATTRIBUTE_UNUSED)
 {
-    xmlNodeSetBase(node, (xmlChar*) arg);
+    xmlNodeSetBase(node, (char*) arg);
     return (0);
 }
 #endif
@@ -2108,12 +2107,12 @@ static int
 xmlShellRegisterNamespace(xmlShellCtxtPtr ctxt, char *arg,
       xmlNodePtr node ATTRIBUTE_UNUSED, xmlNodePtr node2 ATTRIBUTE_UNUSED)
 {
-    xmlChar* nsListDup;
-    xmlChar* prefix;
-    xmlChar* href;
-    xmlChar* next;
+    char* nsListDup;
+    char* prefix;
+    char* href;
+    char* next;
 
-    nsListDup = xmlStrdup((xmlChar *) arg);
+    nsListDup = strdup(arg);
     next = nsListDup;
     while(next != NULL) {
 	/* skip spaces */
@@ -2122,17 +2121,17 @@ xmlShellRegisterNamespace(xmlShellCtxtPtr ctxt, char *arg,
 
 	/* find prefix */
 	prefix = next;
-	next = (xmlChar*)xmlStrchr(next, '=');
+	next = (char*)xmlStrchr(next, '=');
 	if(next == NULL) {
 	    fprintf(ctxt->output, "setns: prefix=[nsuri] required\n");
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);
 	}
 	*(next++) = '\0';
 
 	/* find href */
 	href = next;
-	next = (xmlChar*)xmlStrchr(next, ' ');
+	next = (char*)xmlStrchr(next, ' ');
 	if(next != NULL) {
 	    *(next++) = '\0';
 	}
@@ -2140,12 +2139,12 @@ xmlShellRegisterNamespace(xmlShellCtxtPtr ctxt, char *arg,
 	/* do register namespace */
 	if(xmlXPathRegisterNs(ctxt->pctxt, prefix, href) != 0) {
 	    fprintf(ctxt->output,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", prefix, href);
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);
 	}
     }
 
-    xmlFree(nsListDup);
+    free(nsListDup);
     return(0);
 }
 /**
@@ -2172,7 +2171,7 @@ xmlShellRegisterRootNamespaces(xmlShellCtxtPtr ctxt, char *arg ATTRIBUTE_UNUSED,
     ns = root->nsDef;
     while (ns != NULL) {
         if (ns->prefix == NULL)
-	    xmlXPathRegisterNs(ctxt->pctxt, BAD_CAST "defaultns", ns->href);
+	    xmlXPathRegisterNs(ctxt->pctxt, "defaultns", ns->href);
 	else
 	    xmlXPathRegisterNs(ctxt->pctxt, ns->prefix, ns->href);
         ns = ns->next;
@@ -2204,21 +2203,21 @@ xmlShellGrep(xmlShellCtxtPtr ctxt ATTRIBUTE_UNUSED,
     if (arg == NULL)
 	return (0);
 #ifdef LIBXML_REGEXP_ENABLED
-    if ((xmlStrchr((xmlChar *) arg, '?')) ||
-	(xmlStrchr((xmlChar *) arg, '*')) ||
-	(xmlStrchr((xmlChar *) arg, '.')) ||
-	(xmlStrchr((xmlChar *) arg, '['))) {
+    if ((xmlStrchr((char *) arg, '?')) ||
+	(xmlStrchr((char *) arg, '*')) ||
+	(xmlStrchr((char *) arg, '.')) ||
+	(xmlStrchr((char *) arg, '['))) {
     }
 #endif
     while (node != NULL) {
         if (node->type == XML_COMMENT_NODE) {
-	    if (xmlStrstr(node->content, (xmlChar *) arg)) {
+	    if (xmlStrstr(node->content, (char *) arg)) {
 
 		fprintf(ctxt->output, "%s : ", xmlGetNodePath(node));
                 xmlShellList(ctxt, NULL, node, NULL);
 	    }
         } else if (node->type == XML_TEXT_NODE) {
-	    if (xmlStrstr(node->content, (xmlChar *) arg)) {
+	    if (xmlStrstr(node->content, (char *) arg)) {
 
 		fprintf(ctxt->output, "%s : ", xmlGetNodePath(node->parent));
                 xmlShellList(ctxt, NULL, node->parent, NULL);
@@ -2482,13 +2481,13 @@ xmlShellLoad(xmlShellCtxtPtr ctxt, char *filename,
 #ifdef LIBXML_XPATH_ENABLED
         xmlXPathFreeContext(ctxt->pctxt);
 #endif /* LIBXML_XPATH_ENABLED */
-        xmlFree(ctxt->filename);
+        free(ctxt->filename);
         ctxt->doc = doc;
         ctxt->node = (xmlNodePtr) doc;
 #ifdef LIBXML_XPATH_ENABLED
         ctxt->pctxt = xmlXPathNewContext(doc);
 #endif /* LIBXML_XPATH_ENABLED */
-        ctxt->filename = (char *) xmlCanonicPath((xmlChar *) filename);
+        ctxt->filename = (char *) xmlCanonicPath((char *) filename);
     } else
         return (-1);
     return (0);
@@ -2655,7 +2654,7 @@ xmlShellValidate(xmlShellCtxtPtr ctxt, char *dtd,
     } else {
         xmlDtdPtr subset;
 
-        subset = xmlParseDTD(NULL, (xmlChar *) dtd);
+        subset = xmlParseDTD(NULL, (char *) dtd);
         if (subset != NULL) {
             res = xmlValidateDtd(&vctxt, ctxt->doc, subset);
 
@@ -2768,7 +2767,7 @@ int
 xmlShellPwd(xmlShellCtxtPtr ctxt ATTRIBUTE_UNUSED, char *buffer,
             xmlNodePtr node, xmlNodePtr node2 ATTRIBUTE_UNUSED)
 {
-    xmlChar *path;
+    char *path;
 
     if ((node == NULL) || (buffer == NULL))
         return (-1);
@@ -2787,7 +2786,7 @@ xmlShellPwd(xmlShellCtxtPtr ctxt ATTRIBUTE_UNUSED, char *buffer,
      */
     snprintf(buffer, 499, "%s", path);
     buffer[499] = '0';
-    xmlFree(path);
+    free(path);
 
     return (0);
 }
@@ -2823,20 +2822,20 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
         return;
     if (output == NULL)
         output = stdout;
-    ctxt = (xmlShellCtxtPtr) xmlMalloc(sizeof(xmlShellCtxt));
+    ctxt = (xmlShellCtxtPtr) malloc(sizeof(xmlShellCtxt));
     if (ctxt == NULL)
         return;
     ctxt->loaded = 0;
     ctxt->doc = doc;
     ctxt->input = input;
     ctxt->output = output;
-    ctxt->filename = (char *) xmlStrdup((xmlChar *) filename);
+    ctxt->filename = strdup(filename);
     ctxt->node = (xmlNodePtr) ctxt->doc;
 
 #ifdef LIBXML_XPATH_ENABLED
     ctxt->pctxt = xmlXPathNewContext(ctxt->doc);
     if (ctxt->pctxt == NULL) {
-        xmlFree(ctxt);
+        free(ctxt);
         return;
     }
 #endif /* LIBXML_XPATH_ENABLED */
@@ -2977,7 +2976,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
                 ctxt->pctxt->node = ctxt->node;
 #ifdef LIBXML_XPATH_ENABLED
                 ctxt->pctxt->node = ctxt->node;
-                list = xmlXPathEval((xmlChar *) arg, ctxt->pctxt);
+                list = xmlXPathEval((char *) arg, ctxt->pctxt);
 #else
                 list = NULL;
 #endif /* LIBXML_XPATH_ENABLED */
@@ -3067,7 +3066,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
 				"xpath: expression required\n");
 	    } else {
                 ctxt->pctxt->node = ctxt->node;
-                list = xmlXPathEval((xmlChar *) arg, ctxt->pctxt);
+                list = xmlXPathEval((char *) arg, ctxt->pctxt);
 		xmlXPathDebugDumpObject(ctxt->output, list, 0);
 		xmlXPathFreeObject(list);
 	    }
@@ -3088,7 +3087,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
                 ctxt->pctxt->node = ctxt->node;
 #ifdef LIBXML_XPATH_ENABLED
                 ctxt->pctxt->node = ctxt->node;
-                list = xmlXPathEval((xmlChar *) arg, ctxt->pctxt);
+                list = xmlXPathEval((char *) arg, ctxt->pctxt);
 #else
                 list = NULL;
 #endif /* LIBXML_XPATH_ENABLED */
@@ -3170,7 +3169,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
             } else {
                 ctxt->pctxt->node = ctxt->node;
 #ifdef LIBXML_XPATH_ENABLED
-                list = xmlXPathEval((xmlChar *) arg, ctxt->pctxt);
+                list = xmlXPathEval((char *) arg, ctxt->pctxt);
 #else
                 list = NULL;
 #endif /* LIBXML_XPATH_ENABLED */
@@ -3249,7 +3248,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
 		l = strlen(arg);
 		if ((l >= 2) && (arg[l - 1] == '/'))
 		    arg[l - 1] = 0;
-                list = xmlXPathEval((xmlChar *) arg, ctxt->pctxt);
+                list = xmlXPathEval((char *) arg, ctxt->pctxt);
 #else
                 list = NULL;
 #endif /* LIBXML_XPATH_ENABLED */
@@ -3331,7 +3330,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
                 ctxt->pctxt->node = ctxt->node;
 #ifdef LIBXML_XPATH_ENABLED
                 ctxt->pctxt->node = ctxt->node;
-                list = xmlXPathEval((xmlChar *) arg, ctxt->pctxt);
+                list = xmlXPathEval((char *) arg, ctxt->pctxt);
 #else
                 list = NULL;
 #endif /* LIBXML_XPATH_ENABLED */
@@ -3416,8 +3415,8 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
         xmlFreeDoc(ctxt->doc);
     }
     if (ctxt->filename != NULL)
-        xmlFree(ctxt->filename);
-    xmlFree(ctxt);
+        free(ctxt->filename);
+    free(ctxt);
     if (cmdline != NULL)
         free(cmdline);          /* not xmlFree here ! */
 }

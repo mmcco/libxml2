@@ -2659,7 +2659,7 @@ xmlUCSIsBlock(int code, const char *block) {
  */
 int
 xmlUCSIsCatC(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlCG));
+    return(charInRange((unsigned int)code, &xmlCG));
 }
 
 /**
@@ -2686,7 +2686,7 @@ xmlUCSIsCatCc(int code) {
  */
 int
 xmlUCSIsCatCf(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlCfG));
+    return(charInRange((unsigned int)code, &xmlCfG));
 }
 
 /**
@@ -2733,7 +2733,7 @@ xmlUCSIsCatCs(int code) {
  */
 int
 xmlUCSIsCatL(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlLG));
+    return(charInRange((unsigned int)code, &xmlLG));
 }
 
 /**
@@ -2746,7 +2746,7 @@ xmlUCSIsCatL(int code) {
  */
 int
 xmlUCSIsCatLl(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlLlG));
+    return(charInRange((unsigned int)code, &xmlLlG));
 }
 
 /**
@@ -2759,7 +2759,7 @@ xmlUCSIsCatLl(int code) {
  */
 int
 xmlUCSIsCatLm(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlLmG));
+    return(charInRange((unsigned int)code, &xmlLmG));
 }
 
 /**
@@ -2772,7 +2772,7 @@ xmlUCSIsCatLm(int code) {
  */
 int
 xmlUCSIsCatLo(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlLoG));
+    return(charInRange((unsigned int)code, &xmlLoG));
 }
 
 /**
@@ -2785,7 +2785,7 @@ xmlUCSIsCatLo(int code) {
  */
 int
 xmlUCSIsCatLt(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlLtG));
+    return(charInRange((unsigned int)code, &xmlLtG));
 }
 
 /**
@@ -2798,7 +2798,7 @@ xmlUCSIsCatLt(int code) {
  */
 int
 xmlUCSIsCatLu(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlLuG));
+    return(charInRange((unsigned int)code, &xmlLuG));
 }
 
 /**
@@ -2811,7 +2811,7 @@ xmlUCSIsCatLu(int code) {
  */
 int
 xmlUCSIsCatM(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlMG));
+    return(charInRange((unsigned int)code, &xmlMG));
 }
 
 /**
@@ -2824,7 +2824,7 @@ xmlUCSIsCatM(int code) {
  */
 int
 xmlUCSIsCatMc(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlMcG));
+    return(charInRange((unsigned int)code, &xmlMcG));
 }
 
 /**
@@ -2853,7 +2853,7 @@ xmlUCSIsCatMe(int code) {
  */
 int
 xmlUCSIsCatMn(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlMnG));
+    return(charInRange((unsigned int)code, &xmlMnG));
 }
 
 /**
@@ -2866,7 +2866,7 @@ xmlUCSIsCatMn(int code) {
  */
 int
 xmlUCSIsCatN(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlNG));
+    return(charInRange((unsigned int)code, &xmlNG));
 }
 
 /**
@@ -2879,7 +2879,7 @@ xmlUCSIsCatN(int code) {
  */
 int
 xmlUCSIsCatNd(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlNdG));
+    return(charInRange((unsigned int)code, &xmlNdG));
 }
 
 /**
@@ -2910,7 +2910,7 @@ xmlUCSIsCatNl(int code) {
  */
 int
 xmlUCSIsCatNo(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlNoG));
+    return(charInRange((unsigned int)code, &xmlNoG));
 }
 
 /**
@@ -2923,7 +2923,7 @@ xmlUCSIsCatNo(int code) {
  */
 int
 xmlUCSIsCatP(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlPG));
+    return(charInRange((unsigned int)code, &xmlPG));
 }
 
 /**
@@ -2956,7 +2956,7 @@ xmlUCSIsCatPc(int code) {
  */
 int
 xmlUCSIsCatPd(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlPdG));
+    return(charInRange((unsigned int)code, &xmlPdG));
 }
 
 /**
@@ -2969,7 +2969,7 @@ xmlUCSIsCatPd(int code) {
  */
 int
 xmlUCSIsCatPe(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlPeG));
+    return(charInRange((unsigned int)code, &xmlPeG));
 }
 
 /**
@@ -3015,7 +3015,7 @@ xmlUCSIsCatPi(int code) {
  */
 int
 xmlUCSIsCatPo(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlPoG));
+    return(charInRange((unsigned int)code, &xmlPoG));
 }
 
 /**
@@ -3028,7 +3028,7 @@ xmlUCSIsCatPo(int code) {
  */
 int
 xmlUCSIsCatPs(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlPsG));
+    return(charInRange((unsigned int)code, &xmlPsG));
 }
 
 /**
@@ -3041,7 +3041,7 @@ xmlUCSIsCatPs(int code) {
  */
 int
 xmlUCSIsCatS(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlSG));
+    return(charInRange((unsigned int)code, &xmlSG));
 }
 
 /**
@@ -3054,7 +3054,7 @@ xmlUCSIsCatS(int code) {
  */
 int
 xmlUCSIsCatSc(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlScG));
+    return(charInRange((unsigned int)code, &xmlScG));
 }
 
 /**
@@ -3067,7 +3067,7 @@ xmlUCSIsCatSc(int code) {
  */
 int
 xmlUCSIsCatSk(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlSkG));
+    return(charInRange((unsigned int)code, &xmlSkG));
 }
 
 /**
@@ -3080,7 +3080,7 @@ xmlUCSIsCatSk(int code) {
  */
 int
 xmlUCSIsCatSm(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlSmG));
+    return(charInRange((unsigned int)code, &xmlSmG));
 }
 
 /**
@@ -3093,7 +3093,7 @@ xmlUCSIsCatSm(int code) {
  */
 int
 xmlUCSIsCatSo(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlSoG));
+    return(charInRange((unsigned int)code, &xmlSoG));
 }
 
 /**
@@ -3106,7 +3106,7 @@ xmlUCSIsCatSo(int code) {
  */
 int
 xmlUCSIsCatZ(int code) {
-    return(xmlCharInRange((unsigned int)code, &xmlZG));
+    return(charInRange((unsigned int)code, &xmlZG));
 }
 
 /**

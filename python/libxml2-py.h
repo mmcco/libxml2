@@ -217,8 +217,8 @@ PyObject * libxml_xmlCatalogResolveURI(PyObject *self, PyObject *args);
 #if defined(LIBXML_CATALOG_ENABLED)
 PyObject * libxml_xmlCatalogSetDebug(PyObject *self, PyObject *args);
 #endif /* defined(LIBXML_CATALOG_ENABLED) */
-PyObject * libxml_xmlCharStrdup(PyObject *self, PyObject *args);
-PyObject * libxml_xmlCharStrndup(PyObject *self, PyObject *args);
+PyObject * libxml_charStrdup(PyObject *self, PyObject *args);
+PyObject * libxml_charStrndup(PyObject *self, PyObject *args);
 PyObject * libxml_xmlCheckFilename(PyObject *self, PyObject *args);
 PyObject * libxml_xmlCheckLanguageID(PyObject *self, PyObject *args);
 PyObject * libxml_xmlCheckUTF8(PyObject *self, PyObject *args);
@@ -897,7 +897,6 @@ PyObject * libxml_xmlStrcasestr(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStrcat(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStrchr(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStrcmp(PyObject *self, PyObject *args);
-PyObject * libxml_xmlStrdup(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStringDecodeEntities(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStringGetNodeList(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStringLenDecodeEntities(PyObject *self, PyObject *args);

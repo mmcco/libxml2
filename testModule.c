@@ -15,7 +15,6 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/debugXML.h>
 #include <libxml/xmlmodule.h>
 
@@ -41,15 +40,15 @@
 typedef int (*hello_world_t)(void);
 
 int main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
-    xmlChar filename[PATH_MAX];
+    char filename[PATH_MAX];
     xmlModulePtr module = NULL;
     hello_world_t hello_world = NULL;
 
     /* build the module filename, and confirm the module exists */
     xmlStrPrintf(filename, sizeof(filename),
                  "%s/testdso%s",
-                 (const xmlChar*)MODULE_PATH,
-		 (const xmlChar*)LIBXML_MODULE_EXTENSION);
+                 (const char*)MODULE_PATH,
+		 (const char*)LIBXML_MODULE_EXTENSION);
 
     module = xmlModuleOpen((const char*)filename, 0);
     if (module)

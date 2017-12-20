@@ -13,7 +13,7 @@ A:link, A:visited, A:active { text-decoration: underline }
 </p><h2>Type const htmlEntityDesc *:</h2><p><a href="html/libxml-HTMLparser.html#htmlEntityLookup">htmlEntityLookup</a><br />
 <a href="html/libxml-HTMLparser.html#htmlEntityValueLookup">htmlEntityValueLookup</a><br />
 <a href="html/libxml-HTMLparser.html#htmlParseEntityRef">htmlParseEntityRef</a><br />
-</p><h2>Type const xmlChar *:</h2><p><a href="html/libxml-SAX.html#getPublicId">getPublicId</a><br />
+</p><h2>Type const char *:</h2><p><a href="html/libxml-SAX.html#getPublicId">getPublicId</a><br />
 <a href="html/libxml-SAX.html#getSystemId">getSystemId</a><br />
 <a href="html/libxml-HTMLtree.html#htmlGetMetaEncoding">htmlGetMetaEncoding</a><br />
 <a href="html/libxml-parserInternals.html#namePop">namePop</a><br />
@@ -117,9 +117,9 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-list.html#xmlLinkGetData">xmlLinkGetData</a><br />
 <a href="html/libxml-list.html#xmlListReverseSearch">xmlListReverseSearch</a><br />
 <a href="html/libxml-list.html#xmlListSearch">xmlListSearch</a><br />
-<a href="html/libxml-xmlmemory.html#xmlMallocAtomicLoc">xmlMallocAtomicLoc</a><br />
-<a href="html/libxml-xmlmemory.html#xmlMallocFunc">xmlMallocFunc</a><br />
-<a href="html/libxml-xmlmemory.html#xmlMallocLoc">xmlMallocLoc</a><br />
+<a href="html/libxml-xmlmemory.html#mallocLoc">mallocLoc</a><br />
+<a href="html/libxml-xmlmemory.html#mallocFunc">mallocFunc</a><br />
+<a href="html/libxml-xmlmemory.html#mallocLoc">mallocLoc</a><br />
 <a href="html/libxml-xmlmemory.html#xmlMemMalloc">xmlMemMalloc</a><br />
 <a href="html/libxml-xmlmemory.html#xmlMemRealloc">xmlMemRealloc</a><br />
 <a href="html/libxml-nanoftp.html#xmlNanoFTPConnectTo">xmlNanoFTPConnectTo</a><br />
@@ -130,8 +130,8 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-nanohttp.html#xmlNanoHTTPOpen">xmlNanoHTTPOpen</a><br />
 <a href="html/libxml-nanohttp.html#xmlNanoHTTPOpenRedir">xmlNanoHTTPOpenRedir</a><br />
 <a href="html/libxml-xmlIO.html#xmlOutputOpenCallback">xmlOutputOpenCallback</a><br />
-<a href="html/libxml-xmlmemory.html#xmlReallocFunc">xmlReallocFunc</a><br />
-<a href="html/libxml-xmlmemory.html#xmlReallocLoc">xmlReallocLoc</a><br />
+<a href="html/libxml-xmlmemory.html#reallocFunc">reallocFunc</a><br />
+<a href="html/libxml-xmlmemory.html#reallocLoc">reallocLoc</a><br />
 <a href="html/libxml-xpathInternals.html#xmlXPathPopExternal">xmlXPathPopExternal</a><br />
 </p><h2>Type xlinkHandlerPtr:</h2><p><a href="html/libxml-xlink.html#xlinkGetDefaultHandler">xlinkGetDefaultHandler</a><br />
 </p><h2>Type xlinkNodeDetectFunc:</h2><p><a href="html/libxml-xlink.html#xlinkGetDefaultDetect">xlinkGetDefaultDetect</a><br />
@@ -175,8 +175,8 @@ A:link, A:visited, A:active { text-decoration: underline }
 </p><h2>Type xmlCatalogPtr:</h2><p><a href="html/libxml-catalog.html#xmlLoadACatalog">xmlLoadACatalog</a><br />
 <a href="html/libxml-catalog.html#xmlLoadSGMLSuperCatalog">xmlLoadSGMLSuperCatalog</a><br />
 <a href="html/libxml-catalog.html#xmlNewCatalog">xmlNewCatalog</a><br />
-</p><h2>Type xmlChar:</h2><p><a href="html/libxml-parserInternals.html#xmlPopInput">xmlPopInput</a><br />
-</p><h2>Type xmlChar *:</h2><p><a href="html/libxml-catalog.html#xmlACatalogResolve">xmlACatalogResolve</a><br />
+</p><h2>Type char:</h2><p><a href="html/libxml-parserInternals.html#xmlPopInput">xmlPopInput</a><br />
+</p><h2>Type char *:</h2><p><a href="html/libxml-catalog.html#xmlACatalogResolve">xmlACatalogResolve</a><br />
 <a href="html/libxml-catalog.html#xmlACatalogResolvePublic">xmlACatalogResolvePublic</a><br />
 <a href="html/libxml-catalog.html#xmlACatalogResolveSystem">xmlACatalogResolveSystem</a><br />
 <a href="html/libxml-catalog.html#xmlACatalogResolveURI">xmlACatalogResolveURI</a><br />
@@ -193,8 +193,8 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-catalog.html#xmlCatalogResolvePublic">xmlCatalogResolvePublic</a><br />
 <a href="html/libxml-catalog.html#xmlCatalogResolveSystem">xmlCatalogResolveSystem</a><br />
 <a href="html/libxml-catalog.html#xmlCatalogResolveURI">xmlCatalogResolveURI</a><br />
-<a href="html/libxml-xmlstring.html#xmlCharStrdup">xmlCharStrdup</a><br />
-<a href="html/libxml-xmlstring.html#xmlCharStrndup">xmlCharStrndup</a><br />
+<a href="html/libxml-xmlstring.html#charStrdup">charStrdup</a><br />
+<a href="html/libxml-xmlstring.html#charStrndup">charStrndup</a><br />
 <a href="html/libxml-parserInternals.html#xmlDecodeEntities">xmlDecodeEntities</a><br />
 <a href="html/libxml-entities.html#xmlEncodeEntitiesReentrant">xmlEncodeEntitiesReentrant</a><br />
 <a href="html/libxml-entities.html#xmlEncodeSpecialChars">xmlEncodeSpecialChars</a><br />
@@ -265,9 +265,9 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-xpathInternals.html#xmlXPathParseNCName">xmlXPathParseNCName</a><br />
 <a href="html/libxml-xpathInternals.html#xmlXPathParseName">xmlXPathParseName</a><br />
 <a href="html/libxml-xpathInternals.html#xmlXPathPopString">xmlXPathPopString</a><br />
-</p><h2>Type xmlCharEncoding:</h2><p><a href="html/libxml-encoding.html#xmlDetectCharEncoding">xmlDetectCharEncoding</a><br />
+</p><h2>Type charEncoding:</h2><p><a href="html/libxml-encoding.html#xmlDetectCharEncoding">xmlDetectCharEncoding</a><br />
 <a href="html/libxml-encoding.html#xmlParseCharEncoding">xmlParseCharEncoding</a><br />
-</p><h2>Type xmlCharEncodingHandlerPtr:</h2><p><a href="html/libxml-encoding.html#xmlFindCharEncodingHandler">xmlFindCharEncodingHandler</a><br />
+</p><h2>Type charEncodingHandlerPtr:</h2><p><a href="html/libxml-encoding.html#xmlFindCharEncodingHandler">xmlFindCharEncodingHandler</a><br />
 <a href="html/libxml-encoding.html#xmlGetCharEncodingHandler">xmlGetCharEncodingHandler</a><br />
 <a href="html/libxml-encoding.html#xmlNewCharEncodingHandler">xmlNewCharEncodingHandler</a><br />
 </p><h2>Type xmlDOMWrapCtxtPtr:</h2><p><a href="html/libxml-tree.html#xmlDOMWrapNewCtxt">xmlDOMWrapNewCtxt</a><br />

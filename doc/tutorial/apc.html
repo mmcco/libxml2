@@ -9,10 +9,10 @@
 void
 parseStory (xmlDocPtr doc, xmlNodePtr cur) {
 
-	xmlChar *key;
+	char *key;
 	cur = cur-&gt;xmlChildrenNode;
 	while (cur != NULL) {
-	    if ((!xmlStrcmp(cur-&gt;name, (const xmlChar *)"keyword"))) {
+	    if ((!xmlStrcmp(cur-&gt;name, (const char *)"keyword"))) {
 		    key = xmlNodeListGetString(doc, cur-&gt;xmlChildrenNode, 1);
 		    printf("keyword: %s\n", key);
 		    xmlFree(key);
@@ -43,7 +43,7 @@ parseDoc(char *docname) {
 		return;
 	}
 	
-	if (xmlStrcmp(cur-&gt;name, (const xmlChar *) "story")) {
+	if (xmlStrcmp(cur-&gt;name, (const char *) "story")) {
 		fprintf(stderr,"document of the wrong type, root node != story");
 		xmlFreeDoc(doc);
 		return;
@@ -51,7 +51,7 @@ parseDoc(char *docname) {
 	
 	cur = cur-&gt;xmlChildrenNode;
 	while (cur != NULL) {
-		if ((!xmlStrcmp(cur-&gt;name, (const xmlChar *)"storyinfo"))){
+		if ((!xmlStrcmp(cur-&gt;name, (const char *)"storyinfo"))){
 			parseStory (doc, cur);
 		}
 		 

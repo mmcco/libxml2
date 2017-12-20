@@ -14,14 +14,14 @@
 
 
 XMLPUBFUN void          xmlZapDict(xmlDictPtr * dict);
-XMLPUBFUN const char *  xmlTranscodeResult(const xmlChar * s,
+XMLPUBFUN const char *  xmlTranscodeResult(const char * s,
         const char * encoding, xmlDictPtr * dict,
         void (*freeproc)(const void *));
-XMLPUBFUN const xmlChar * xmlTranscodeString(const char * s,
+XMLPUBFUN const char * xmlTranscodeString(const char * s,
         const char * encoding, xmlDictPtr * dict);
-XMLPUBFUN const xmlChar * xmlTranscodeWString(const char * s,
+XMLPUBFUN const char * xmlTranscodeWString(const char * s,
         const char * encoding, xmlDictPtr * dict);
-XMLPUBFUN const xmlChar * xmlTranscodeHString(const char * s,
+XMLPUBFUN const char * xmlTranscodeHString(const char * s,
         const char * encoding, xmlDictPtr * dict);
 
 #ifndef XML_NO_SHORT_NAMES
@@ -38,6 +38,6 @@ XMLPUBFUN const xmlChar * xmlTranscodeHString(const char * s,
 #endif
 
 XMLPUBFUN const char *  xmlVasprintf(xmlDictPtr * dict, const char * encoding,
-        const xmlChar * fmt, va_list args);
+        const char * fmt, va_list args);
 
 #endif

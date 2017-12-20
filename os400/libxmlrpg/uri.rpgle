@@ -41,14 +41,14 @@
      d xmlCreateURI    pr                  extproc('xmlCreateURI')
      d                                     like(xmlURIPtr)
 
-     d xmlBuildURI     pr              *   extproc('xmlBuildURI')               xmlChar *
-     d  URI                            *   value options(*string)               const xmlChar *
-     d  base                           *   value options(*string)               const xmlChar *
+     d xmlBuildURI     pr              *   extproc('xmlBuildURI')               char *
+     d  URI                            *   value options(*string)               const char *
+     d  base                           *   value options(*string)               const char *
 
      d xmlBuildRelativeURI...
-     d                 pr              *   extproc('xmlBuildRelativeURI')       xmlChar *
-     d  URI                            *   value options(*string)               const xmlChar *
-     d  base                           *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlBuildRelativeURI')       char *
+     d  URI                            *   value options(*string)               const char *
+     d  base                           *   value options(*string)               const char *
 
      d xmlParseURI     pr                  extproc('xmlParseURI')
      d                                     like(xmlURIPtr)
@@ -65,7 +65,7 @@
      d  uri                                value like(xmlURIPtr)
      d  str                            *   value options(*string)               const char *
 
-     d xmlSaveUri      pr              *   extproc('xmlSaveUri')                xmlChar *
+     d xmlSaveUri      pr              *   extproc('xmlSaveUri')                char *
      d  uri                                value like(xmlURIPtr)
 
      d xmlPrintURI     pr                  extproc('xmlPrintURI')
@@ -73,9 +73,9 @@
      d  uri                                value like(xmlURIPtr)
 
      d xmlURIEscapeStr...
-     d                 pr              *   extproc('xmlURIEscapeStr')           xmlChar *
-     d  str                            *   value options(*string)               const xmlChar *
-     d  list                           *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlURIEscapeStr')           char *
+     d  str                            *   value options(*string)               const char *
+     d  list                           *   value options(*string)               const char *
 
      d xmlURIUnescapeString...
      d                 pr              *   extproc('xmlURIUnescapeString')      char *
@@ -88,16 +88,16 @@
      d                                     like(xmlCint)
      d  path                           *   value options(*string)               char *
 
-     d xmlURIEscape    pr              *   extproc('xmlURIEscape')              xmlChar *
-     d  str                            *   value options(*string)               const xmlChar *
+     d xmlURIEscape    pr              *   extproc('xmlURIEscape')              char *
+     d  str                            *   value options(*string)               const char *
 
      d xmlFreeURI      pr                  extproc('xmlFreeURI')
      d  uri                                value like(xmlURIPtr)
 
-     d xmlCanonicPath  pr              *   extproc('xmlCanonicPath')            xmlChar *
-     d  path                           *   value options(*string)               const xmlChar *
+     d xmlCanonicPath  pr              *   extproc('xmlCanonicPath')            char *
+     d  path                           *   value options(*string)               const char *
 
-     d xmlPathToURI    pr              *   extproc('xmlPathToURI')              xmlChar *
-     d  path                           *   value options(*string)               const xmlChar *
+     d xmlPathToURI    pr              *   extproc('xmlPathToURI')              char *
+     d  path                           *   value options(*string)               const char *
 
       /endif                                                                    XML_URI_H__

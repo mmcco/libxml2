@@ -30,7 +30,7 @@ parseDoc(char *docname, char *uri) {
 		return (NULL);
 	}
 	
-	if (xmlStrcmp(cur-&gt;name, (const xmlChar *) "story")) {
+	if (xmlStrcmp(cur-&gt;name, (const char *) "story")) {
 		fprintf(stderr,"document of the wrong type, root node != story");
 		xmlFreeDoc(doc);
 		return (NULL);

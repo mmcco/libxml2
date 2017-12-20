@@ -145,7 +145,7 @@ docbCreatePushParserCtxt(docbSAXHandlerPtr sax ATTRIBUTE_UNUSED,
                          const char *chunk ATTRIBUTE_UNUSED,
 			 int size ATTRIBUTE_UNUSED,
 			 const char *filename ATTRIBUTE_UNUSED,
-                         xmlCharEncoding enc ATTRIBUTE_UNUSED)
+                         charEncoding enc ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
 
@@ -160,7 +160,7 @@ docbCreatePushParserCtxt(docbSAXHandlerPtr sax ATTRIBUTE_UNUSED,
 
 /**
  * docbSAXParseDoc:
- * @cur:  a pointer to an array of xmlChar
+ * @cur:  a pointer to an array of char
  * @encoding:  a free form C string describing the SGML document encoding, or NULL
  * @sax:  the SAX handler block
  * @userData: if using SAX, this pointer will be provided on callbacks.
@@ -173,7 +173,7 @@ docbCreatePushParserCtxt(docbSAXHandlerPtr sax ATTRIBUTE_UNUSED,
  */
 
 docbDocPtr
-docbSAXParseDoc(xmlChar * cur ATTRIBUTE_UNUSED,
+docbSAXParseDoc(char * cur ATTRIBUTE_UNUSED,
                 const char *encoding ATTRIBUTE_UNUSED,
 		docbSAXHandlerPtr sax ATTRIBUTE_UNUSED,
                 void *userData ATTRIBUTE_UNUSED)
@@ -187,12 +187,12 @@ docbSAXParseDoc(xmlChar * cur ATTRIBUTE_UNUSED,
     }
 
     return (xmlSAXParseMemoryWithData(sax, (const char *)cur,
-			  xmlStrlen((const xmlChar *) cur), 0,  userData));
+			  xmlStrlen((const char *) cur), 0,  userData));
 }
 
 /**
  * docbParseDoc:
- * @cur:  a pointer to an array of xmlChar
+ * @cur:  a pointer to an array of char
  * @encoding:  a free form C string describing the SGML document encoding, or NULL
  *
  * parse an SGML in-memory document and build a tree.
@@ -201,7 +201,7 @@ docbSAXParseDoc(xmlChar * cur ATTRIBUTE_UNUSED,
  */
 
 docbDocPtr
-docbParseDoc(xmlChar * cur ATTRIBUTE_UNUSED,
+docbParseDoc(char * cur ATTRIBUTE_UNUSED,
              const char *encoding ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;

@@ -1202,7 +1202,7 @@ Mon May 28 16:14:50 CEST 2007 Daniel Veillard <daniel@veillard.com>
 
 Tue May 22 08:59:48 PDT 2007 William Brack <wbrack@mmm.com.hk>
 
-	* encoding.c: Fixed typo in xmlCharEncFirstLine pointed out
+	* encoding.c: Fixed typo in charEncFirstLine pointed out
 	  by Mark Rowe (bug #440159)
 	* include/libxml/xmlversion.h.in: Added check for definition of
 	  _POSIX_C_SOURCE to avoid warnings on Apple OS/X (patch from
@@ -2177,7 +2177,7 @@ Tue May  2 22:34:54 CEST 2006 Daniel Veillard <daniel@veillard.com>
 
 Tue May  2 14:24:40 CEST 2006 Daniel Veillard <daniel@veillard.com>
 
-	* encoding.c: fixing bug #340398 xmlCharEncOutFunc writing to
+	* encoding.c: fixing bug #340398 charEncOutFunc writing to
 	  input buffer
 
 Fri Apr 28 18:29:22 CEST 2006 Daniel Veillard <daniel@veillard.com>
@@ -7760,7 +7760,7 @@ Fri Jan 23 14:03:21 CET 2004 Daniel Veillard <daniel@veillard.com>
 
 Thu Jan 22 14:17:05 2004  Aleksey Sanin  <aleksey@aleksey.com>
 
-	* xmlmemory.c: make xmlReallocLoc() accept NULL pointer
+	* xmlmemory.c: make reallocLoc() accept NULL pointer
 
 Thu Jan 22 08:26:20 CET 2004 Daniel Veillard <daniel@veillard.com>
 
@@ -7853,7 +7853,7 @@ Tue Jan  6 19:40:04 HKT 2004 William Brack <wbrack@mmm.com.hk>
 	  moved string and UTF8 routines out of parser.c and encoding.c
 	  into a new module xmlstring.c with include file
 	  include/libxml/xmlstring.h mostly using patches from Reid
-	  Spencer.  Since xmlChar now defined in xmlstring.h, several
+	  Spencer.  Since char now defined in xmlstring.h, several
 	  include files needed to have a #include added for safety.
 	* doc/apibuild.py: added some additional sorting for various
 	  references displayed in the APIxxx.html files.  Rebuilt the
@@ -9503,7 +9503,7 @@ Tue Sep 23 09:40:33 CEST 2003 Daniel Veillard <daniel@veillard.com>
 Mon Sep 22 12:21:11 CEST 2003 Daniel Veillard <daniel@veillard.com>
 
 	* tree.c include/libxml/tree.h: the uri arg to xmlNodeSetBase is
-	  really a const xmlChar*
+	  really a const char*
 	* xmlreader.c include/libxml/xmlreader.h: addin the
 	  xmlTextReaderConstString() to get an interned string from
 	  the reader
@@ -9944,7 +9944,7 @@ Mon Aug 18 14:03:03 CEST 2003 Daniel Veillard <daniel@veillard.com>
 	* include/libxml/HTMLparser.h include/libxml/parser.h
 	  include/libxml/parserInternals.h include/libxml/valid.h:
 	  Some of the interfaces changed as a result to receive or return
-	  "const xmlChar *" instead of "xmlChar *", this is either
+	  "const char *" instead of "char *", this is either
 	  insignificant from an user point of view or when the returning
 	  value changed, those function are really parser internal methods
 	  that no user code should really change
@@ -10305,7 +10305,7 @@ Tue Jul 15 22:03:13 CEST 2003 Daniel Veillard <daniel@veillard.com>
 Tue Jul 15 15:30:55 CEST 2003 Daniel Veillard <daniel@veillard.com>
 
 	* DOCBparser.c HTMLparser.c entities.c parser.c relaxng.c 
-	  xmlschemas.c xpath.c: removed some warnings by casting xmlChar
+	  xmlschemas.c xpath.c: removed some warnings by casting char
 	  to unsigned int and a couple of others.
 
 Fri Jul 11 16:44:22 CEST 2003 Daniel Veillard <daniel@veillard.com>
@@ -10716,7 +10716,7 @@ Tue Apr 22 01:06:09 CEST 2003 Daniel Veillard <daniel@veillard.com>
 
 	* TODO: updated a bit
 	* configure.in: fixed the comment, threads now default to on
-	* parserInternals.c: fixed an erroneous xmlMallocAtomic() call
+	* parserInternals.c: fixed an erroneous malloc() call
 
 Mon Apr 21 23:33:38 CEST 2003 Daniel Veillard <daniel@veillard.com>
 
@@ -10738,7 +10738,7 @@ Sat Apr 19 02:03:24 CEST 2003 Daniel Veillard <daniel@veillard.com>
 	  nanohttp.c parser.c parserInternals.c relaxng.c tree.c uri.c
 	  xmlmemory.c xmlreader.c xmlregexp.c xpath.c xpointer.c
 	  include/libxml/globals.h include/libxml/xmlmemory.h: added
-	  xmlMallocAtomic() to be used when allocating blocks which
+	  malloc() to be used when allocating blocks which
 	  do not contains pointers, add xmlGcMemSetup() and xmlGcMemGet()
 	  to allow registering the full set of functions needed by
 	  a garbage collecting allocator like libgc, ref #109944
@@ -14389,7 +14389,7 @@ Fri Feb  8 14:24:02 CET 2002 Daniel Veillard <daniel@veillard.com>
 	  2.4.14 release
 	* python/generator.py python/libxml.c python/libxml2-python-api.xml
 	  python/libxml2class.txt python/libxml_wrap.h python/types.c:
-	  fixed the const xmlChar * wrapper and generator, XPath extension
+	  fixed the const char * wrapper and generator, XPath extension
 	  functions now use the context as first argument
 	* python/tests/tstxpath.py python/tests/xpath.py
 	  python/tests/xpathext.py: Updated the tests accordingly
@@ -19116,8 +19116,8 @@ Fri Sep 24 00:15:58 CEST 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* libxml.spec.in: fixed the alpha compile problem
 	* parser.[ch]: changed errno to errNo in the parser context :-(
-	* *.[ch]: changed CHAR to xmlChar to avoid problem on WIN32
-	* doc/xml.html: changed CHAR to xmlChar
+	* *.[ch]: changed CHAR to char to avoid problem on WIN32
+	* doc/xml.html: changed CHAR to char
 	* doc/html/*: recompiled the documentation
 	* configure.in: 1.7.1
 

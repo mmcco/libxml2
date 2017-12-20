@@ -87,36 +87,36 @@
      d xmlACatalogAdd  pr                  extproc('xmlACatalogAdd')
      d                                     like(xmlCint)
      d  catal                              value like(xmlCatalogPtr)
-     d  type                           *   value options(*string)               const xmlChar *
-     d  orig                           *   value options(*string)               const xmlChar *
-     d  replace                        *   value options(*string)               const xmlChar *
+     d  type                           *   value options(*string)               const char *
+     d  orig                           *   value options(*string)               const char *
+     d  replace                        *   value options(*string)               const char *
 
      d xmlACatalogRemove...
      d                 pr                  extproc('xmlACatalogRemove')
      d                                     like(xmlCint)
      d  catal                              value like(xmlCatalogPtr)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
 
      d xmlACatalogResolve...
-     d                 pr              *   extproc('xmlACatalogResolve')        xmlChar *
+     d                 pr              *   extproc('xmlACatalogResolve')        char *
      d  catal                              value like(xmlCatalogPtr)
-     d  pubID                          *   value options(*string)               const xmlChar *
-     d  sysID                          *   value options(*string)               const xmlChar *
+     d  pubID                          *   value options(*string)               const char *
+     d  sysID                          *   value options(*string)               const char *
 
      d xmlACatalogResolveSystem...
-     d                 pr              *   extproc('xmlACatalogResolveSystem')  xmlChar *
+     d                 pr              *   extproc('xmlACatalogResolveSystem')  char *
      d  catal                              value like(xmlCatalogPtr)
-     d  sysID                          *   value options(*string)               const xmlChar *
+     d  sysID                          *   value options(*string)               const char *
 
      d xmlACatalogResolvePublic...
-     d                 pr              *   extproc('xmlACatalogResolvePublic')  xmlChar *
+     d                 pr              *   extproc('xmlACatalogResolvePublic')  char *
      d  catal                              value like(xmlCatalogPtr)
-     d  pubID                          *   value options(*string)               const xmlChar *
+     d  pubID                          *   value options(*string)               const char *
 
      d xmlACatalogResolveURI...
-     d                 pr              *   extproc('xmlACatalogResolveURI')     xmlChar *
+     d                 pr              *   extproc('xmlACatalogResolveURI')     char *
      d  catal                              value like(xmlCatalogPtr)
-     d  URI                            *   value options(*string)               const xmlChar *
+     d  URI                            *   value options(*string)               const char *
 
       /if defined(LIBXML_OUTPUT_ENABLED)
      d xmlACatalogDump...
@@ -155,32 +155,32 @@
       /endif                                                                    LIBXML_OUTPUT_ENABLD
 
      d xmlCatalogResolve...
-     d                 pr              *   extproc('xmlCatalogResolve')         xmlChar *
-     d  pubID                          *   value options(*string)               const xmlChar *
-     d  sysID                          *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlCatalogResolve')         char *
+     d  pubID                          *   value options(*string)               const char *
+     d  sysID                          *   value options(*string)               const char *
 
      d xmlCatalogResolveSystem...
-     d                 pr              *   extproc('xmlCatalogResolveSystem')   xmlChar *
-     d  sysID                          *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlCatalogResolveSystem')   char *
+     d  sysID                          *   value options(*string)               const char *
 
      d xmlCatalogResolvePublic...
-     d                 pr              *   extproc('xmlCatalogResolvePublic')   xmlChar *
-     d  pubID                          *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlCatalogResolvePublic')   char *
+     d  pubID                          *   value options(*string)               const char *
 
      d xmlCatalogResolveURI...
-     d                 pr              *   extproc('xmlCatalogResolveURI')      xmlChar *
-     d  URI                            *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlCatalogResolveURI')      char *
+     d  URI                            *   value options(*string)               const char *
 
      d xmlCatalogAdd   pr                  extproc('xmlCatalogAdd')
      d                                     like(xmlCint)
-     d  type                           *   value options(*string)               const xmlChar *
-     d  orig                           *   value options(*string)               const xmlChar *
-     d  replace                        *   value options(*string)               const xmlChar *
+     d  type                           *   value options(*string)               const char *
+     d  orig                           *   value options(*string)               const char *
+     d  replace                        *   value options(*string)               const char *
 
      d xmlCatalogRemove...
      d                 pr                  extproc('xmlCatalogRemove')
      d                                     like(xmlCint)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
 
      d xmlParseCatalogFile...
      d                 pr                  extproc('xmlParseCatalogFile')
@@ -201,18 +201,18 @@
      d xmlCatalogAddLocal...
      d                 pr              *   extproc('xmlCatalogAddLocal')        void *
      d  catalogs                       *   value                                void *
-     d  URL                            *   value options(*string)               const xmlChar *
+     d  URL                            *   value options(*string)               const char *
 
      d xmlCatalogLocalResolve...
-     d                 pr              *   extproc('xmlCatalogLocalResolve')    xmlChar *
+     d                 pr              *   extproc('xmlCatalogLocalResolve')    char *
      d  catalogs                       *   value                                void *
-     d  pubID                          *   value options(*string)               const xmlChar *
-     d  sysID                          *   value options(*string)               const xmlChar *
+     d  pubID                          *   value options(*string)               const char *
+     d  sysID                          *   value options(*string)               const char *
 
      d xmlCatalogLocalResolveURI...
-     d                 pr              *   extproc('xmlCatalogLocalResolveURI') xmlChar *
+     d                 pr              *   extproc('xmlCatalogLocalResolveURI') char *
      d  catalogs                       *   value                                void *
-     d  URI                            *   value options(*string)               const xmlChar *
+     d  URI                            *   value options(*string)               const char *
 
       * Preference settings.
 
@@ -237,12 +237,12 @@
       * DEPRECATED interfaces
 
      d xmlCatalogGetSystem...
-     d                 pr              *   extproc('xmlCatalogGetSystem')       const xmlChar *
-     d  sysID                          *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlCatalogGetSystem')       const char *
+     d  sysID                          *   value options(*string)               const char *
 
      d xmlCatalogGetPublic...
-     d                 pr              *   extproc('xmlCatalogGetPublic')       const xmlChar *
-     d  pubID                          *   value options(*string)               const xmlChar *
+     d                 pr              *   extproc('xmlCatalogGetPublic')       const char *
+     d  pubID                          *   value options(*string)               const char *
 
       /endif                                                                    LIBXML_CATALOG_ENBLD
       /endif                                                                    XML_CATALOG_H__

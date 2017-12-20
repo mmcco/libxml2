@@ -142,7 +142,7 @@ Done:
   http://www.w3.org/TR/html4/types.html#type-script
   Attributes are no problems since entities are accepted.
 - DOM needs
-  xmlAttrPtr xmlNewDocProp(xmlDocPtr doc, const xmlChar *name, const xmlChar *value)
+  xmlAttrPtr xmlNewDocProp(xmlDocPtr doc, const char *name, const char *value)
 - problem when parsing hrefs with & with the HTML parser (IRC ac)
 - If the internal encoding is not UTF8 saving to a given encoding doesn't
   work => fix to force UTF8 encoding ...

@@ -262,7 +262,7 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-chvalid.html#xmlChRangeGroupPtr">xmlChRangeGroupPtr</a><br />
 <a href="html/libxml-chvalid.html#xmlChSRange">xmlChSRange</a><br />
 <a href="html/libxml-chvalid.html#xmlChSRangePtr">xmlChSRangePtr</a><br />
-<a href="html/libxml-chvalid.html#xmlCharInRange">xmlCharInRange</a><br />
+<a href="html/libxml-chvalid.html#charInRange">charInRange</a><br />
 <a href="html/libxml-chvalid.html#xmlIsBaseChar">xmlIsBaseChar</a><br />
 <a href="html/libxml-chvalid.html#xmlIsBaseCharGroup">xmlIsBaseCharGroup</a><br />
 <a href="html/libxml-chvalid.html#xmlIsBaseCharQ">xmlIsBaseCharQ</a><br />
@@ -366,19 +366,19 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-encoding.html#XML_CHAR_ENCODING_UTF16LE">XML_CHAR_ENCODING_UTF16LE</a><br />
 <a href="html/libxml-encoding.html#XML_CHAR_ENCODING_UTF8">XML_CHAR_ENCODING_UTF8</a><br />
 <a href="html/libxml-encoding.html#_uconv_t">_uconv_t</a><br />
-<a href="html/libxml-encoding.html#_xmlCharEncodingHandler">_xmlCharEncodingHandler</a><br />
+<a href="html/libxml-encoding.html#_charEncodingHandler">_charEncodingHandler</a><br />
 <a href="html/libxml-encoding.html#isolat1ToUTF8">isolat1ToUTF8</a><br />
 <a href="html/libxml-encoding.html#uconv_t">uconv_t</a><br />
 <a href="html/libxml-encoding.html#xmlAddEncodingAlias">xmlAddEncodingAlias</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncCloseFunc">xmlCharEncCloseFunc</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncFirstLine">xmlCharEncFirstLine</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncInFunc">xmlCharEncInFunc</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncOutFunc">xmlCharEncOutFunc</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncoding">xmlCharEncoding</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncodingHandler">xmlCharEncodingHandler</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncodingHandlerPtr">xmlCharEncodingHandlerPtr</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncodingInputFunc">xmlCharEncodingInputFunc</a><br />
-<a href="html/libxml-encoding.html#xmlCharEncodingOutputFunc">xmlCharEncodingOutputFunc</a><br />
+<a href="html/libxml-encoding.html#charEncCloseFunc">charEncCloseFunc</a><br />
+<a href="html/libxml-encoding.html#charEncFirstLine">charEncFirstLine</a><br />
+<a href="html/libxml-encoding.html#charEncInFunc">charEncInFunc</a><br />
+<a href="html/libxml-encoding.html#charEncOutFunc">charEncOutFunc</a><br />
+<a href="html/libxml-encoding.html#charEncoding">charEncoding</a><br />
+<a href="html/libxml-encoding.html#charEncodingHandler">charEncodingHandler</a><br />
+<a href="html/libxml-encoding.html#charEncodingHandlerPtr">charEncodingHandlerPtr</a><br />
+<a href="html/libxml-encoding.html#charEncodingInputFunc">charEncodingInputFunc</a><br />
+<a href="html/libxml-encoding.html#charEncodingOutputFunc">charEncodingOutputFunc</a><br />
 <a href="html/libxml-encoding.html#xmlCleanupCharEncodingHandlers">xmlCleanupCharEncodingHandlers</a><br />
 <a href="html/libxml-encoding.html#xmlCleanupEncodingAliases">xmlCleanupEncodingAliases</a><br />
 <a href="html/libxml-encoding.html#xmlDelEncodingAlias">xmlDelEncodingAlias</a><br />
@@ -444,8 +444,8 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-globals.html#xmlLastError">xmlLastError</a><br />
 <a href="html/libxml-globals.html#xmlLineNumbersDefaultValue">xmlLineNumbersDefaultValue</a><br />
 <a href="html/libxml-globals.html#xmlLoadExtDtdDefaultValue">xmlLoadExtDtdDefaultValue</a><br />
-<a href="html/libxml-globals.html#xmlMalloc">xmlMalloc</a><br />
-<a href="html/libxml-globals.html#xmlMallocAtomic">xmlMallocAtomic</a><br />
+<a href="html/libxml-globals.html#malloc">malloc</a><br />
+<a href="html/libxml-globals.html#malloc">malloc</a><br />
 <a href="html/libxml-globals.html#xmlMemStrdup">xmlMemStrdup</a><br />
 <a href="html/libxml-globals.html#xmlOutputBufferCreateFilenameDefault">xmlOutputBufferCreateFilenameDefault</a><br />
 <a href="html/libxml-globals.html#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a><br />
@@ -456,7 +456,7 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-globals.html#xmlParserInputBufferCreateFilenameValue">xmlParserInputBufferCreateFilenameValue</a><br />
 <a href="html/libxml-globals.html#xmlParserVersion">xmlParserVersion</a><br />
 <a href="html/libxml-globals.html#xmlPedanticParserDefaultValue">xmlPedanticParserDefaultValue</a><br />
-<a href="html/libxml-globals.html#xmlRealloc">xmlRealloc</a><br />
+<a href="html/libxml-globals.html#realloc">realloc</a><br />
 <a href="html/libxml-globals.html#xmlRegisterNodeDefault">xmlRegisterNodeDefault</a><br />
 <a href="html/libxml-globals.html#xmlRegisterNodeDefaultValue">xmlRegisterNodeDefaultValue</a><br />
 <a href="html/libxml-globals.html#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a><br />
@@ -2639,11 +2639,11 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-xmlmemory.html#xmlGcMemGet">xmlGcMemGet</a><br />
 <a href="html/libxml-xmlmemory.html#xmlGcMemSetup">xmlGcMemSetup</a><br />
 <a href="html/libxml-xmlmemory.html#xmlInitMemory">xmlInitMemory</a><br />
-<a href="html/libxml-globals.html#xmlMalloc">xmlMalloc</a><br />
-<a href="html/libxml-globals.html#xmlMallocAtomic">xmlMallocAtomic</a><br />
-<a href="html/libxml-xmlmemory.html#xmlMallocAtomicLoc">xmlMallocAtomicLoc</a><br />
-<a href="html/libxml-xmlmemory.html#xmlMallocFunc">xmlMallocFunc</a><br />
-<a href="html/libxml-xmlmemory.html#xmlMallocLoc">xmlMallocLoc</a><br />
+<a href="html/libxml-globals.html#malloc">malloc</a><br />
+<a href="html/libxml-globals.html#malloc">malloc</a><br />
+<a href="html/libxml-xmlmemory.html#mallocLoc">mallocLoc</a><br />
+<a href="html/libxml-xmlmemory.html#mallocFunc">mallocFunc</a><br />
+<a href="html/libxml-xmlmemory.html#mallocLoc">mallocLoc</a><br />
 <a href="html/libxml-xmlmemory.html#xmlMemBlocks">xmlMemBlocks</a><br />
 <a href="html/libxml-xmlmemory.html#xmlMemDisplay">xmlMemDisplay</a><br />
 <a href="html/libxml-xmlmemory.html#xmlMemDisplayLast">xmlMemDisplayLast</a><br />
@@ -2658,9 +2658,9 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-xmlmemory.html#xmlMemUsed">xmlMemUsed</a><br />
 <a href="html/libxml-xmlmemory.html#xmlMemoryDump">xmlMemoryDump</a><br />
 <a href="html/libxml-xmlmemory.html#xmlMemoryStrdup">xmlMemoryStrdup</a><br />
-<a href="html/libxml-globals.html#xmlRealloc">xmlRealloc</a><br />
-<a href="html/libxml-xmlmemory.html#xmlReallocFunc">xmlReallocFunc</a><br />
-<a href="html/libxml-xmlmemory.html#xmlReallocLoc">xmlReallocLoc</a><br />
+<a href="html/libxml-globals.html#realloc">realloc</a><br />
+<a href="html/libxml-xmlmemory.html#reallocFunc">reallocFunc</a><br />
+<a href="html/libxml-xmlmemory.html#reallocLoc">reallocLoc</a><br />
 <a href="html/libxml-xmlmemory.html#xmlStrdupFunc">xmlStrdupFunc</a><br />
 </p><h2><a name="xmlmodule" id="xmlmodule">Module xmlmodule</a>:</h2><p><a href="html/libxml-xmlmodule.html#XML_MODULE_LAZY">XML_MODULE_LAZY</a><br />
 <a href="html/libxml-xmlmodule.html#XML_MODULE_LOCAL">XML_MODULE_LOCAL</a><br />
@@ -2972,10 +2972,10 @@ A:link, A:visited, A:active { text-decoration: underline }
 <a href="html/libxml-xmlschemastypes.html#xmlSchemaValueGetNext">xmlSchemaValueGetNext</a><br />
 <a href="html/libxml-xmlschemastypes.html#xmlSchemaWhiteSpaceReplace">xmlSchemaWhiteSpaceReplace</a><br />
 <a href="html/libxml-xmlschemastypes.html#xmlSchemaWhitespaceValueType">xmlSchemaWhitespaceValueType</a><br />
-</p><h2><a name="xmlstring" id="xmlstring">Module xmlstring</a>:</h2><p><a href="html/libxml-xmlstring.html#BAD_CAST">BAD_CAST</a><br />
-<a href="html/libxml-xmlstring.html#xmlChar">xmlChar</a><br />
-<a href="html/libxml-xmlstring.html#xmlCharStrdup">xmlCharStrdup</a><br />
-<a href="html/libxml-xmlstring.html#xmlCharStrndup">xmlCharStrndup</a><br />
+</p><h2><a name="xmlstring" id="xmlstring">Module xmlstring</a>:</h2><p><a href="html/libxml-xmlstring.html#"></a><br />
+<a href="html/libxml-xmlstring.html#char">char</a><br />
+<a href="html/libxml-xmlstring.html#charStrdup">charStrdup</a><br />
+<a href="html/libxml-xmlstring.html#charStrndup">charStrndup</a><br />
 <a href="html/libxml-xmlstring.html#xmlCheckUTF8">xmlCheckUTF8</a><br />
 <a href="html/libxml-xmlstring.html#xmlGetUTF8Char">xmlGetUTF8Char</a><br />
 <a href="html/libxml-xmlstring.html#xmlStrEqual">xmlStrEqual</a><br />

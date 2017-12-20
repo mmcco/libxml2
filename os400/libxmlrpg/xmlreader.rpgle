@@ -160,16 +160,16 @@
 
       /if defined(LIBXML_WRITER_ENABLED)
      d xmlTextReaderReadInnerXml...
-     d                 pr              *   extproc('xmlTextReaderReadInnerXml') xmlChar *
+     d                 pr              *   extproc('xmlTextReaderReadInnerXml') char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderReadOuterXml...
-     d                 pr              *   extproc('xmlTextReaderReadOuterXml') xmlChar *
+     d                 pr              *   extproc('xmlTextReaderReadOuterXml') char *
      d  reader                             value like(xmlTextReaderPtr)
       /endif
 
      d xmlTextReaderReadString...
-     d                 pr              *   extproc('xmlTextReaderReadString')   xmlChar *
+     d                 pr              *   extproc('xmlTextReaderReadString')   char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderReadAttributeValue...
@@ -234,69 +234,69 @@
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstBaseUri...
-     d                 pr              *   extproc('xmlTextReaderConstBaseUri') const xmlChar *
+     d                 pr              *   extproc('xmlTextReaderConstBaseUri') const char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstLocalName...
-     d                 pr              *   extproc(                             const xmlChar *
+     d                 pr              *   extproc(                             const char *
      d                                     'xmlTextReaderConstLocalName')
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstName...
-     d                 pr              *   extproc('xmlTextReaderConstName')    const xmlChar *
+     d                 pr              *   extproc('xmlTextReaderConstName')    const char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstNamespaceUri...
-     d                 pr              *   extproc(                             const xmlChar *
+     d                 pr              *   extproc(                             const char *
      d                                     'xmlTextReaderConstNamespaceUri')
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstPrefix...
-     d                 pr              *   extproc('xmlTextReaderConstPrefix')  const xmlChar *
+     d                 pr              *   extproc('xmlTextReaderConstPrefix')  const char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstXmlLang...
-     d                 pr              *   extproc('xmlTextReaderConstXmlLang') const xmlChar *
+     d                 pr              *   extproc('xmlTextReaderConstXmlLang') const char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstString...
-     d                 pr              *   extproc('xmlTextReaderConstString')  const xmlChar *
+     d                 pr              *   extproc('xmlTextReaderConstString')  const char *
      d  reader                             value like(xmlTextReaderPtr)
-     d  str                            *   value options(*string)               const xmlChar *
+     d  str                            *   value options(*string)               const char *
 
      d xmlTextReaderConstValue...
-     d                 pr              *   extproc('xmlTextReaderConstValue')   const xmlChar *
+     d                 pr              *   extproc('xmlTextReaderConstValue')   const char *
      d  reader                             value like(xmlTextReaderPtr)
 
       * use the Const version of the routine for
       * better performance and simpler code
 
      d xmlTextReaderBaseUri...
-     d                 pr              *   extproc('xmlTextReaderBaseUri')      xmlChar *
+     d                 pr              *   extproc('xmlTextReaderBaseUri')      char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderLocalName...
-     d                 pr              *   extproc('xmlTextReaderLocalName')    xmlChar *
+     d                 pr              *   extproc('xmlTextReaderLocalName')    char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderName...
-     d                 pr              *   extproc('xmlTextReaderName')         xmlChar *
+     d                 pr              *   extproc('xmlTextReaderName')         char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderNamespaceUri...
-     d                 pr              *   extproc('xmlTextReaderNamespaceUri') xmlChar *
+     d                 pr              *   extproc('xmlTextReaderNamespaceUri') char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderPrefix...
-     d                 pr              *   extproc('xmlTextReaderPrefix')       xmlChar *
+     d                 pr              *   extproc('xmlTextReaderPrefix')       char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderXmlLang...
-     d                 pr              *   extproc('xmlTextReaderXmlLang')      xmlChar *
+     d                 pr              *   extproc('xmlTextReaderXmlLang')      char *
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderValue...
-     d                 pr              *   extproc('xmlTextReaderValue')        xmlChar *
+     d                 pr              *   extproc('xmlTextReaderValue')        char *
      d  reader                             value like(xmlTextReaderPtr)
 
       * Methods of the XmlTextReader
@@ -307,22 +307,22 @@
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderGetAttributeNo...
-     d                 pr              *   extproc(                             xmlChar *
+     d                 pr              *   extproc(                             char *
      d                                     'xmlTextReaderGetAttributeNo')
      d  reader                             value like(xmlTextReaderPtr)
      d  no                                 value like(xmlCint)
 
      d xmlTextReaderGetAttribute...
-     d                 pr              *   extproc('xmlTextReaderGetAttribute') xmlChar *
+     d                 pr              *   extproc('xmlTextReaderGetAttribute') char *
      d  reader                             value like(xmlTextReaderPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlTextReaderGetAttributeNs...
-     d                 pr              *   extproc(                             xmlChar *
+     d                 pr              *   extproc(                             char *
      d                                     'xmlTextReaderGetAttributeNs')
      d  reader                             value like(xmlTextReaderPtr)
-     d  localName                      *   value options(*string)               const xmlChar *
-     d  namespaceURI                   *   value options(*string)               const xmlChar *
+     d  localName                      *   value options(*string)               const char *
+     d  namespaceURI                   *   value options(*string)               const char *
 
      d xmlTextReaderGetRemainder...
      d                 pr                  extproc('xmlTextReaderGetRemainder')
@@ -330,10 +330,10 @@
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderLookupNamespace...
-     d                 pr              *   extproc(                             xmlChar *
+     d                 pr              *   extproc(                             char *
      d                                     'xmlTextReaderLookupNamespace')
      d  reader                             value like(xmlTextReaderPtr)
-     d  prefix                         *   value options(*string)               const xmlChar *
+     d  prefix                         *   value options(*string)               const char *
 
      d xmlTextReaderMoveToAttributeNo...
      d                 pr                  extproc(
@@ -347,15 +347,15 @@
      d                                     'xmlTextReaderMoveToAttribute')
      d                                     like(xmlCint)
      d  reader                             value like(xmlTextReaderPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlTextReaderMoveToAttributeNs...
      d                 pr                  extproc(
      d                                     'xmlTextReaderMoveToAttributeNs')
      d                                     like(xmlCint)
      d  reader                             value like(xmlTextReaderPtr)
-     d  localName                      *   value options(*string)               const xmlChar *
-     d  namespaceURI                   *   value options(*string)               const xmlChar *
+     d  localName                      *   value options(*string)               const char *
+     d  namespaceURI                   *   value options(*string)               const char *
 
      d xmlTextReaderMoveToFirstAttribute...
      d                 pr                  extproc(
@@ -380,7 +380,7 @@
      d  reader                             value like(xmlTextReaderPtr)
 
      d xmlTextReaderConstEncoding...
-     d                 pr              *   extproc('xmlTextReaderConstEncoding')const xmlChar *
+     d                 pr              *   extproc('xmlTextReaderConstEncoding')const char *
      d  reader                             value like(xmlTextReaderPtr)
 
       * Extensions
@@ -426,8 +426,8 @@
      d                                     'xmlTextReaderPreservePattern')
      d                                     like(xmlCint)
      d  reader                             value like(xmlTextReaderPtr)
-     d  pattern                        *   value options(*string)               const xmlChar *
-     d  namespaces                     *                                        const xmlChar *(*)
+     d  pattern                        *   value options(*string)               const char *
+     d  namespaces                     *                                        const char *(*)
       /endif                                                                    LIBXML_PATTERN_ENBLD
 
      d xmlTextReaderCurrentDoc...
@@ -501,7 +501,7 @@
       /endif
 
      d xmlTextReaderConstXmlVersion...
-     d                 pr              *   extproc(                             const xmlChar *
+     d                 pr              *   extproc(                             const char *
      d                                     'xmlTextReaderConstXmlVersion')
      d  reader                             value like(xmlTextReaderPtr)
 
@@ -527,7 +527,7 @@
      d xmlReaderForDoc...
      d                 pr                  extproc('xmlReaderForDoc')
      d                                     like(xmlTextReaderPtr)
-     d  cur                            *   value options(*string)               const xmlChar *
+     d  cur                            *   value options(*string)               const char *
      d  URL                            *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  options                            value like(xmlCint)
@@ -574,7 +574,7 @@
      d                 pr                  extproc('xmlReaderNewDoc')
      d                                     like(xmlCint)
      d  reader                             value like(xmlTextReaderPtr)
-     d  cur                            *   value options(*string)               const xmlChar *
+     d  cur                            *   value options(*string)               const char *
      d  URL                            *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  options                            value like(xmlCint)
@@ -639,7 +639,7 @@
      d  locator                            value like(xmlTextReaderLocatorPtr)
 
      d xmlTextReaderLocatorBaseURI...
-     d                 pr              *   extproc(                             xmlChar *
+     d                 pr              *   extproc(                             char *
      d                                     'xmlTextReaderLocatorBaseURI')
      d  locator                            value like(xmlTextReaderLocatorPtr)
 

@@ -59,14 +59,14 @@ static int checkTestFile(const char *filename) {
     return(1);
 }
 
-static xmlChar *composeDir(const xmlChar *dir, const xmlChar *path) {
+static char *composeDir(const char *dir, const char *path) {
     char buf[500];
 
-    if (dir == NULL) return(xmlStrdup(path));
+    if (dir == NULL) return(strdup(path));
     if (path == NULL) return(NULL);
 
     snprintf(buf, 500, "%s/%s", (const char *) dir, (const char *) path);
-    return(xmlStrdup((const xmlChar *) buf));
+    return(strdup( buf));
 }
 
 /************************************************************************
@@ -101,9 +101,9 @@ static void resetEntities(void) {
 
     for (i = 0;i < nb_entities;i++) {
         if (testEntitiesName[i] != NULL)
-	    xmlFree(testEntitiesName[i]);
+	    free(testEntitiesName[i]);
         if (testEntitiesValue[i] != NULL)
-	    xmlFree(testEntitiesValue[i]);
+	    free(testEntitiesValue[i]);
     }
     nb_entities = 0;
 }
@@ -132,10 +132,10 @@ testExternalEntityLoader(const char *URL, const char *ID,
     for (i = 0;i < nb_entities;i++) {
         if (!strcmp(testEntitiesName[i], URL)) {
 	    ret = xmlNewStringInputStream(ctxt,
-	                (const xmlChar *) testEntitiesValue[i]);
+	                (const char *) testEntitiesValue[i]);
 	    if (ret != NULL) {
 	        ret->filename = (const char *)
-		                xmlStrdup((xmlChar *)testEntitiesName[i]);
+		                strdup(testEntitiesName[i]);
 	    }
 	    return(ret);
 	}
@@ -224,9 +224,9 @@ initializeLibxml2(void) {
     if (ctxtXPath->cache != NULL)
 	xmlXPathContextSetCache(ctxtXPath, 0, -1, 0);
     /* used as default nanemspace in xstc tests */
-    xmlXPathRegisterNs(ctxtXPath, BAD_CAST "ts", BAD_CAST "TestSuite");
-    xmlXPathRegisterNs(ctxtXPath, BAD_CAST "xlink",
-                       BAD_CAST "http://www.w3.org/1999/xlink");
+    xmlXPathRegisterNs(ctxtXPath, "ts", "TestSuite");
+    xmlXPathRegisterNs(ctxtXPath, "xlink",
+                       "http://www.w3.org/1999/xlink");
     xmlSetGenericErrorFunc(NULL, testErrorHandler);
 #ifdef LIBXML_SCHEMAS_ENABLED
     xmlSchemaInitTypes();
@@ -244,7 +244,7 @@ getNext(xmlNodePtr cur, const char *xpath) {
         return(NULL);
     ctxtXPath->doc = cur->doc;
     ctxtXPath->node = cur;
-    comp = xmlXPathCompile(BAD_CAST xpath);
+    comp = xmlXPathCompile(xpath);
     if (comp == NULL) {
         fprintf(stderr, "Failed to compile %s\n", xpath);
 	return(NULL);
@@ -262,9 +262,9 @@ getNext(xmlNodePtr cur, const char *xpath) {
     return(ret);
 }
 
-static xmlChar *
+static char *
 getString(xmlNodePtr cur, const char *xpath) {
-    xmlChar *ret = NULL;
+    char *ret = NULL;
     xmlXPathObjectPtr res;
     xmlXPathCompExprPtr comp;
 
@@ -272,7 +272,7 @@ getString(xmlNodePtr cur, const char *xpath) {
         return(NULL);
     ctxtXPath->doc = cur->doc;
     ctxtXPath->node = cur;
-    comp = xmlXPathCompile(BAD_CAST xpath);
+    comp = xmlXPathCompile(xpath);
     if (comp == NULL) {
         fprintf(stderr, "Failed to compile %s\n", xpath);
 	return(NULL);
@@ -355,10 +355,10 @@ done:
 }
 
 static void
-installResources(xmlNodePtr tst, const xmlChar *base) {
+installResources(xmlNodePtr tst, const char *base) {
     xmlNodePtr test;
     xmlBufferPtr buf;
-    xmlChar *name, *content, *res;
+    char *name, *content, *res;
 
     buf = xmlBufferCreate();
     if (buf == NULL) {
@@ -373,14 +373,14 @@ installResources(xmlNodePtr tst, const xmlChar *base) {
 	    xmlBufferEmpty(buf);
 	    xmlNodeDump(buf, test->doc, test, 0, 0);
 	    name = getString(tst, "string(@name)");
-	    content = xmlStrdup(buf->content);
+	    content = strdup(buf->content);
 	    if ((name != NULL) && (content != NULL)) {
 	        res = composeDir(base, name);
-		xmlFree(name);
+		free(name);
 	        addEntity((char *) res, (char *) content);
 	    } else {
-	        if (name != NULL) xmlFree(name);
-	        if (content != NULL) xmlFree(content);
+	        if (name != NULL) free(name);
+	        if (content != NULL) free(content);
 	    }
 	}
 	tst = getNext(tst, "following-sibling::resource[1]");
@@ -390,15 +390,15 @@ installResources(xmlNodePtr tst, const xmlChar *base) {
 }
 
 static void
-installDirs(xmlNodePtr tst, const xmlChar *base) {
+installDirs(xmlNodePtr tst, const char *base) {
     xmlNodePtr test;
-    xmlChar *name, *res;
+    char *name, *res;
 
     name = getString(tst, "string(@name)");
     if (name == NULL)
         return;
     res = composeDir(base, name);
-    xmlFree(name);
+    free(name);
     if (res == NULL) {
 	return;
     }
@@ -412,7 +412,7 @@ installDirs(xmlNodePtr tst, const xmlChar *base) {
         installDirs(test, res);
 	test = getNext(test, "following-sibling::dir[1]");
     }
-    xmlFree(res);
+    free(res);
 }
 
 static int
@@ -424,7 +424,7 @@ xsdTestCase(xmlNodePtr tst) {
     xmlRelaxNGValidCtxtPtr ctxt;
     xmlRelaxNGPtr rng = NULL;
     int ret = 0, mem, memt;
-    xmlChar *dtd;
+    char *dtd;
 
     resetEntities();
     testErrorsSize = 0; testErrors[0] = 0;
@@ -483,7 +483,7 @@ xsdTestCase(xmlNodePtr tst) {
      */
     tmp = getNext(cur, "following-sibling::valid[1]");
     while (tmp != NULL) {
-	dtd = xmlGetProp(tmp, BAD_CAST "dtd");
+	dtd = xmlGetProp(tmp, "dtd");
 	test = getNext(tmp, "./*");
 	if (test == NULL) {
 	    fprintf(stderr, "Failed to find test in <valid> line %ld\n",
@@ -535,7 +535,7 @@ xsdTestCase(xmlNodePtr tst) {
 	    }
 	}
 	if (dtd != NULL)
-	    xmlFree(dtd);
+	    free(dtd);
 	tmp = getNext(tmp, "following-sibling::valid[1]");
     }
     /*
@@ -611,11 +611,11 @@ done:
 static int
 xsdTestSuite(xmlNodePtr cur) {
     if (verbose) {
-	xmlChar *doc = getString(cur, "string(documentation)");
+	char *doc = getString(cur, "string(documentation)");
 
 	if (doc != NULL) {
 	    printf("Suite %s\n", doc);
-	    xmlFree(doc);
+	    free(doc);
 	}
     }
     cur = getNext(cur, "./testCase[1]");
@@ -642,14 +642,14 @@ xsdTest(void) {
     printf("## XML Schemas datatypes test suite from James Clark\n");
 
     cur = xmlDocGetRootElement(doc);
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testSuite"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testSuite"))) {
         fprintf(stderr, "Unexpected format %s\n", filename);
 	ret = -1;
 	goto done;
     }
 
     cur = getNext(cur, "./testSuite[1]");
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testSuite"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testSuite"))) {
         fprintf(stderr, "Unexpected format %s\n", filename);
 	ret = -1;
 	goto done;
@@ -668,16 +668,16 @@ done:
 static int
 rngTestSuite(xmlNodePtr cur) {
     if (verbose) {
-	xmlChar *doc = getString(cur, "string(documentation)");
+	char *doc = getString(cur, "string(documentation)");
 
 	if (doc != NULL) {
 	    printf("Suite %s\n", doc);
-	    xmlFree(doc);
+	    free(doc);
 	} else {
 	    doc = getString(cur, "string(section)");
 	    if (doc != NULL) {
 		printf("Section %s\n", doc);
-		xmlFree(doc);
+		free(doc);
 	    }
 	}
     }
@@ -705,14 +705,14 @@ rngTest1(void) {
     printf("## Relax NG test suite from James Clark\n");
 
     cur = xmlDocGetRootElement(doc);
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testSuite"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testSuite"))) {
         fprintf(stderr, "Unexpected format %s\n", filename);
 	ret = -1;
 	goto done;
     }
 
     cur = getNext(cur, "./testSuite[1]");
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testSuite"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testSuite"))) {
         fprintf(stderr, "Unexpected format %s\n", filename);
 	ret = -1;
 	goto done;
@@ -743,14 +743,14 @@ rngTest2(void) {
     printf("## Relax NG test suite for libxml2\n");
 
     cur = xmlDocGetRootElement(doc);
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testSuite"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testSuite"))) {
         fprintf(stderr, "Unexpected format %s\n", filename);
 	ret = -1;
 	goto done;
     }
 
     cur = getNext(cur, "./testSuite[1]");
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testSuite"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testSuite"))) {
         fprintf(stderr, "Unexpected format %s\n", filename);
 	ret = -1;
 	goto done;
@@ -774,10 +774,10 @@ done:
 
 static int
 xstcTestInstance(xmlNodePtr cur, xmlSchemaPtr schemas,
-                 const xmlChar *spath, const char *base) {
-    xmlChar *href = NULL;
-    xmlChar *path = NULL;
-    xmlChar *validity = NULL;
+                 const char *spath, const char *base) {
+    char *href = NULL;
+    char *path = NULL;
+    char *validity = NULL;
     xmlSchemaValidCtxtPtr ctxt = NULL;
     xmlDocPtr doc = NULL;
     int ret = 0, mem;
@@ -793,7 +793,7 @@ xstcTestInstance(xmlNodePtr cur, xmlSchemaPtr schemas,
 	ret = -1;
 	goto done;
     }
-    path = xmlBuildURI(href, BAD_CAST base);
+    path = xmlBuildURI(href, base);
     if (path == NULL) {
 	fprintf(stderr,
 	        "Failed to build path to schemas testGroup line %ld : %s\n",
@@ -831,7 +831,7 @@ xstcTestInstance(xmlNodePtr cur, xmlSchemaPtr schemas,
 	 ctxt);
     ret = xmlSchemaValidateDoc(ctxt, doc);
 
-    if (xmlStrEqual(validity, BAD_CAST "valid")) {
+    if (xmlStrEqual(validity, "valid")) {
 	if (ret > 0) {
 	    test_log("valid instance %s failed to validate against %s\n",
 			path, spath);
@@ -842,7 +842,7 @@ xstcTestInstance(xmlNodePtr cur, xmlSchemaPtr schemas,
 	    nb_internals++;
 	    nb_errors++;
 	}
-    } else if (xmlStrEqual(validity, BAD_CAST "invalid")) {
+    } else if (xmlStrEqual(validity, "invalid")) {
 	if (ret == 0) {
 	    test_log("Failed to detect invalid instance %s against %s\n",
 			path, spath);
@@ -856,9 +856,9 @@ xstcTestInstance(xmlNodePtr cur, xmlSchemaPtr schemas,
     }
 
 done:
-    if (href != NULL) xmlFree(href);
-    if (path != NULL) xmlFree(path);
-    if (validity != NULL) xmlFree(validity);
+    if (href != NULL) free(href);
+    if (path != NULL) free(path);
+    if (validity != NULL) free(validity);
     if (ctxt != NULL) xmlSchemaFreeValidCtxt(ctxt);
     if (doc != NULL) xmlFreeDoc(doc);
     xmlResetLastError();
@@ -872,9 +872,9 @@ done:
 
 static int
 xstcTestGroup(xmlNodePtr cur, const char *base) {
-    xmlChar *href = NULL;
-    xmlChar *path = NULL;
-    xmlChar *validity = NULL;
+    char *href = NULL;
+    char *path = NULL;
+    char *validity = NULL;
     xmlSchemaPtr schemas = NULL;
     xmlSchemaParserCtxtPtr ctxt;
     xmlNodePtr instance;
@@ -891,7 +891,7 @@ xstcTestGroup(xmlNodePtr cur, const char *base) {
 	ret = -1;
 	goto done;
     }
-    path = xmlBuildURI(href, BAD_CAST base);
+    path = xmlBuildURI(href, base);
     if (path == NULL) {
 	test_log("Failed to build path to schemas testGroup line %ld : %s\n",
 		xmlGetLineNo(cur), href);
@@ -913,7 +913,7 @@ xstcTestGroup(xmlNodePtr cur, const char *base) {
 	goto done;
     }
     nb_tests++;
-    if (xmlStrEqual(validity, BAD_CAST "valid")) {
+    if (xmlStrEqual(validity, "valid")) {
         nb_schematas++;
 	ctxt = xmlSchemaNewParserCtxt((const char *) path);
 	xmlSchemaSetParserErrors(ctxt,
@@ -949,7 +949,7 @@ xstcTestGroup(xmlNodePtr cur, const char *base) {
 	    instance = getNext(instance,
 		"following-sibling::ts:instanceTest[1]");
 	}
-    } else if (xmlStrEqual(validity, BAD_CAST "invalid")) {
+    } else if (xmlStrEqual(validity, "invalid")) {
         nb_schematas++;
 	ctxt = xmlSchemaNewParserCtxt((const char *) path);
 	xmlSchemaSetParserErrors(ctxt,
@@ -979,9 +979,9 @@ xstcTestGroup(xmlNodePtr cur, const char *base) {
     }
 
 done:
-    if (href != NULL) xmlFree(href);
-    if (path != NULL) xmlFree(path);
-    if (validity != NULL) xmlFree(validity);
+    if (href != NULL) free(href);
+    if (path != NULL) free(path);
+    if (validity != NULL) free(validity);
     if (schemas != NULL) xmlSchemaFree(schemas);
     xmlResetLastError();
     if ((mem != xmlMemUsed()) && (extraMemoryFromResolver == 0)) {
@@ -996,8 +996,8 @@ static int
 xstcMetadata(const char *metadata, const char *base) {
     xmlDocPtr doc;
     xmlNodePtr cur;
-    xmlChar *contributor;
-    xmlChar *name;
+    char *contributor;
+    char *name;
     int ret = 0;
 
     doc = xmlReadFile(metadata, NULL, XML_PARSE_NOENT);
@@ -1007,24 +1007,24 @@ xstcMetadata(const char *metadata, const char *base) {
     }
 
     cur = xmlDocGetRootElement(doc);
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testSet"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testSet"))) {
         fprintf(stderr, "Unexpected format %s\n", metadata);
 	return(-1);
     }
-    contributor = xmlGetProp(cur, BAD_CAST "contributor");
+    contributor = xmlGetProp(cur, "contributor");
     if (contributor == NULL) {
-        contributor = xmlStrdup(BAD_CAST "Unknown");
+        contributor = strdup("Unknown");
     }
-    name = xmlGetProp(cur, BAD_CAST "name");
+    name = xmlGetProp(cur, "name");
     if (name == NULL) {
-        name = xmlStrdup(BAD_CAST "Unknown");
+        name = strdup("Unknown");
     }
     printf("## %s test suite for Schemas version %s\n", contributor, name);
-    xmlFree(contributor);
-    xmlFree(name);
+    free(contributor);
+    free(name);
 
     cur = getNext(cur, "./ts:testGroup[1]");
-    if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testGroup"))) {
+    if ((cur == NULL) || (!xmlStrEqual(cur->name, "testGroup"))) {
         fprintf(stderr, "Unexpected format %s\n", metadata);
 	ret = -1;
 	goto done;

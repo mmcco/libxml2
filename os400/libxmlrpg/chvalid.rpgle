@@ -42,7 +42,7 @@
 
       * Range checking routine
 
-     d xmlCharInRange  pr                  extproc('xmlCharInRange')
+     d charInRange  pr                  extproc('charInRange')
      d                                     like(xmlCint)
      d val                                 value like(xmlCuint)
      d group                               like(xmlChRangeGroupPtr)             const

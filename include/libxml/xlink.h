@@ -29,9 +29,9 @@ extern "C" {
  * NOTE: the link detection layer will expand URI-Refences found on
  *       href attributes by using the base mechanism if found.
  */
-typedef xmlChar *xlinkHRef;
-typedef xmlChar *xlinkRole;
-typedef xmlChar *xlinkTitle;
+typedef char *xlinkHRef;
+typedef char *xlinkRole;
+typedef char *xlinkTitle;
 
 typedef enum {
     XLINK_TYPE_NONE = 0,
@@ -116,7 +116,7 @@ typedef void
 			 xlinkActuate *actuate,
 			 int nbTitles,
 			 const xlinkTitle *titles,
-			 const xmlChar **langs);
+			 const char **langs);
 
 /**
  * xlinkExtendedLinkSetFunk:
@@ -139,7 +139,7 @@ typedef void
 				 const xlinkRole *roles,
 				 int nbTitles,
 				 const xlinkTitle *titles,
-				 const xmlChar **langs);
+				 const char **langs);
 
 /**
  * This is the structure containing a set of Links detection callbacks.

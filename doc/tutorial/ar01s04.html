@@ -8,7 +8,7 @@ Retrieving the content of an element involves traversing the document
       </p><pre class="programlisting">
 	<a name="getchildnode"></a><img src="images/callouts/1.png" alt="1" border="0">cur = cur-&gt;xmlChildrenNode;
 	<a name="huntstoryinfo"></a><img src="images/callouts/2.png" alt="2" border="0">while (cur != NULL) {
-		if ((!xmlStrcmp(cur-&gt;name, (const xmlChar *)"storyinfo"))){
+		if ((!xmlStrcmp(cur-&gt;name, (const char *)"storyinfo"))){
 			parseStory (doc, cur);
 		}
 		 
@@ -29,10 +29,10 @@ Retrieving the content of an element involves traversing the document
 void
 parseStory (xmlDocPtr doc, xmlNodePtr cur) {
 
-	xmlChar *key;
+	char *key;
 	<a name="anothergetchild"></a><img src="images/callouts/1.png" alt="1" border="0"> cur = cur-&gt;xmlChildrenNode;
 	<a name="findkeyword"></a><img src="images/callouts/2.png" alt="2" border="0"> while (cur != NULL) {
-	    if ((!xmlStrcmp(cur-&gt;name, (const xmlChar *)"keyword"))) {
+	    if ((!xmlStrcmp(cur-&gt;name, (const char *)"keyword"))) {
 	<a name="foundkeyword"></a><img src="images/callouts/3.png" alt="3" border="0">	    key = xmlNodeListGetString(doc, cur-&gt;xmlChildrenNode, 1);
 		    printf("keyword: %s\n", key);
 		    xmlFree(key);

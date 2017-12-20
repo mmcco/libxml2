@@ -24,9 +24,9 @@
       * NOTE: the link detection layer will expand URI-Refences found on
       *       href attributes by using the base mechanism if found.
 
-     d xlinkRef        s               *   based(######typedef######)           xmlChar *
-     d xlinkRole       s               *   based(######typedef######)           xmlChar *
-     d xlinkTitle      s               *   based(######typedef######)           xmlChar *
+     d xlinkRef        s               *   based(######typedef######)           char *
+     d xlinkRole       s               *   based(######typedef######)           char *
+     d xlinkTitle      s               *   based(######typedef######)           char *
 
      d xlinkType       s                   based(######typedef######)
      d                                     like(xmlCenum)
@@ -129,7 +129,7 @@
       * recognition activated, those call backs must be provided before parsing.
 
      d xlinkHandlerPtr...
-     d                 s               *   based(######typedef######)           xmlChar *
+     d                 s               *   based(######typedef######)           char *
 
      d xlinkHandler    ds                  based(xlinkHandlerPtr)
      d                                     align qualified

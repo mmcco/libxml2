@@ -103,9 +103,9 @@
      d  htmlDefaultSAXHandler...
      d                                     likeds(xmlSAXHandlerV1)
      d  xmlFree                            like(xmlFreeFunc)
-     d  xmlMalloc                          like(xmlMallocFunc)
+     d  malloc                          like(mallocFunc)
      d  xmlMemStrdup                       like(xmlStrdupFunc)
-     d  xmlRealloc                         like(xmlReallocFunc)
+     d  realloc                         like(reallocFunc)
      d  xmlGenericError...
      d                                     like(xmlGenericErrorFunc)
      d  xmlStructuredError...
@@ -144,8 +144,8 @@
      d                                     like(xmlRegisterNodeFunc)
      d  xmlDeregisterNodeDefaultValue...
      d                                     like(xmlDeregisterNodeFunc)
-     d  xmlMallocAtomic...
-     d                                     like(xmlMallocFunc)
+     d  malloc...
+     d                                     like(mallocFunc)
      d  xmlLastError                       likeds(xmlError)
      d  xmlParserInputBufferCreateFilenameValue...
      d                                     like(xmlParserInputBuffer...
@@ -556,7 +556,7 @@
      d                                       CreateFilenameValue')
      d                                     like(xmlParserInputBufferPtr)
      d  URI                            *   value options(*string)               const char *
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d get_xmlOutputBufferCreateFilenameValue...
      d                 pr                  extproc('__get_xmlOutputBuffer+
@@ -575,7 +575,7 @@
      d                                       CreateFilenameValue')
      d                                     like(xmlOutputBufferPtr)
      d  URI                            *   value options(*string)               const char *
-     d  encoder                            value like(xmlCharEncodingHandlerPtr)
+     d  encoder                            value like(charEncodingHandlerPtr)
      d  compression                        value like(xmlCint)
 
       /endif                                                                    XML_GLOBALS_H

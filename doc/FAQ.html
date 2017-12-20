@@ -282,14 +282,14 @@ pnode=pxmlDoc-&gt;children-&gt;children;</pre>
     <pre>xmlDocPtr doc; /* your existing document */
 xmlDtdPtr dtd = xmlParseDTD(NULL, filename_of_dtd); /* parse the DTD */
 
-        dtd-&gt;name = xmlStrDup((xmlChar*)"root_name"); /* use the given root */
+        dtd-&gt;name = xmlStrDup((char*)"root_name"); /* use the given root */
 
         doc-&gt;intSubset = dtd;
         if (doc-&gt;children == NULL) xmlAddChild((xmlNodePtr)doc, (xmlNodePtr)dtd);
         else xmlAddPrevSibling(doc-&gt;children, (xmlNodePtr)dtd);
           </pre>
   </li>
-  <li><em>So what is this funky "xmlChar" used all the time?</em>
+  <li><em>So what is this funky "char" used all the time?</em>
     <p>It is a null terminated sequence of utf-8 characters. And only utf-8!
     You need to convert strings encoded in different ways to utf-8 before
     passing them to the API.  This can be accomplished with the iconv library

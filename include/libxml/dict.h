@@ -56,21 +56,21 @@ XMLPUBFUN void XMLCALL
 /*
  * Lookup of entry in the dictionary.
  */
-XMLPUBFUN const xmlChar * XMLCALL
+XMLPUBFUN const char * XMLCALL
 			xmlDictLookup	(xmlDictPtr dict,
-		                         const xmlChar *name,
+		                         const char *name,
 		                         int len);
-XMLPUBFUN const xmlChar * XMLCALL
+XMLPUBFUN const char * XMLCALL
 			xmlDictExists	(xmlDictPtr dict,
-		                         const xmlChar *name,
+		                         const char *name,
 		                         int len);
-XMLPUBFUN const xmlChar * XMLCALL
+XMLPUBFUN const char * XMLCALL
 			xmlDictQLookup	(xmlDictPtr dict,
-		                         const xmlChar *prefix,
-		                         const xmlChar *name);
+		                         const char *prefix,
+		                         const char *name);
 XMLPUBFUN int XMLCALL
 			xmlDictOwns	(xmlDictPtr dict,
-					 const xmlChar *str);
+					 const char *str);
 XMLPUBFUN int XMLCALL
 			xmlDictSize	(xmlDictPtr dict);
 

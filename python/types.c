@@ -135,7 +135,7 @@ libxml_charPtrWrap(char *str)
         return (Py_None);
     }
     ret = PY_IMPORT_STRING(str);
-    xmlFree(str);
+    free(str);
     return (ret);
 }
 
@@ -156,29 +156,29 @@ libxml_charPtrConstWrap(const char *str)
 }
 
 PyObject *
-libxml_xmlCharPtrWrap(xmlChar * str)
+libxml_charPtrWrap(char * str)
 {
     PyObject *ret;
 
 #ifdef DEBUG
-    printf("libxml_xmlCharPtrWrap: str = %s\n", str);
+    printf("libxml_charPtrWrap: str = %s\n", str);
 #endif
     if (str == NULL) {
         Py_INCREF(Py_None);
         return (Py_None);
     }
     ret = PY_IMPORT_STRING((char *) str);
-    xmlFree(str);
+    free(str);
     return (ret);
 }
 
 PyObject *
-libxml_xmlCharPtrConstWrap(const xmlChar * str)
+libxml_charPtrConstWrap(const char * str)
 {
     PyObject *ret;
 
 #ifdef DEBUG
-    printf("libxml_xmlCharPtrWrap: str = %s\n", str);
+    printf("libxml_charPtrWrap: str = %s\n", str);
 #endif
     if (str == NULL) {
         Py_INCREF(Py_None);
@@ -205,12 +205,12 @@ libxml_constcharPtrWrap(const char *str)
 }
 
 PyObject *
-libxml_constxmlCharPtrWrap(const xmlChar * str)
+libxml_constcharPtrWrap(const char * str)
 {
     PyObject *ret;
 
 #ifdef DEBUG
-    printf("libxml_xmlCharPtrWrap: str = %s\n", str);
+    printf("libxml_charPtrWrap: str = %s\n", str);
 #endif
     if (str == NULL) {
         Py_INCREF(Py_None);
@@ -623,29 +623,29 @@ libxml_xmlXPathObjectPtrConvert(PyObject *obj)
         }
 #endif
     } else if PyBytes_Check (obj) {
-        xmlChar *str;
+        char *str;
 
-        str = xmlStrndup((const xmlChar *) PyBytes_AS_STRING(obj),
+        str = xmlStrndup((const char *) PyBytes_AS_STRING(obj),
                          PyBytes_GET_SIZE(obj));
         ret = xmlXPathWrapString(str);
 #ifdef PyUnicode_Check
     } else if PyUnicode_Check (obj) {
 #if PY_VERSION_HEX >= 0x03030000
-        xmlChar *str;
+        char *str;
 	const char *tmp;
 	Py_ssize_t size;
 
 	/* tmp doesn't need to be deallocated */
         tmp = PyUnicode_AsUTF8AndSize(obj, &size);
-        str = xmlStrndup((const xmlChar *) tmp, (int) size);
+        str = xmlStrndup((const char *) tmp, (int) size);
         ret = xmlXPathWrapString(str);
 #else
-        xmlChar *str = NULL;
+        char *str = NULL;
         PyObject *b;
 
 	b = PyUnicode_AsUTF8String(obj);
 	if (b != NULL) {
-	    str = xmlStrndup((const xmlChar *) PyBytes_AS_STRING(b),
+	    str = xmlStrndup((const char *) PyBytes_AS_STRING(b),
 			     PyBytes_GET_SIZE(b));
 	    Py_DECREF(b);
 	}

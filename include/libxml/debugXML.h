@@ -27,7 +27,7 @@ extern "C" {
  */
 XMLPUBFUN void XMLCALL
 	xmlDebugDumpString	(FILE *output,
-				 const xmlChar *str);
+				 const char *str);
 XMLPUBFUN void XMLCALL
 	xmlDebugDumpAttr	(FILE *output,
 				 xmlAttrPtr attr,

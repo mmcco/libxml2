@@ -19,7 +19,7 @@ static int debug = 0;
 static void testRegexp(xmlRegexpPtr comp, const char *value) {
     int ret;
 
-    ret = xmlRegexpExec(comp, (const xmlChar *) value);
+    ret = xmlRegexpExec(comp, (const char *) value);
     if (ret == 1)
 	printf("%s: Ok\n", value);
     else if (ret == 0)
@@ -29,7 +29,7 @@ static void testRegexp(xmlRegexpPtr comp, const char *value) {
     if (repeat) {
 	int j;
 	for (j = 0;j < 999999;j++)
-	    xmlRegexpExec(comp, (const xmlChar *) value);
+	    xmlRegexpExec(comp, (const char *) value);
     }
 }
 
@@ -64,14 +64,14 @@ testRegexpFile(const char *filename) {
 		    comp = NULL;
 		}
 		printf("Regexp: %s\n", pattern) ;
-		comp = xmlRegexpCompile((const xmlChar *) pattern);
+		comp = xmlRegexpCompile((const char *) pattern);
 		if (comp == NULL) {
 		    printf("   failed to compile\n");
 		    break;
 		}
 	    } else if (comp == NULL) {
 		printf("Regexp: %s\n", expression) ;
-		comp = xmlRegexpCompile((const xmlChar *) expression);
+		comp = xmlRegexpCompile((const char *) expression);
 		if (comp == NULL) {
 		    printf("   failed to compile\n");
 		    break;
@@ -231,7 +231,7 @@ exprDebug(xmlExpCtxtPtr ctxt, xmlExpNodePtr expr) {
     printf("Max token input = %d\n", xmlExpMaxToken(expr));
     if (xmlExpIsNillable(expr) == 1)
 	printf("Is nillable\n");
-    ret = xmlExpGetLanguage(ctxt, expr, (const xmlChar **) &list[0], 40);
+    ret = xmlExpGetLanguage(ctxt, expr, (const char **) &list[0], 40);
     if (ret < 0)
 	printf("Failed to get list: %d\n", ret);
     else {
@@ -239,7 +239,7 @@ exprDebug(xmlExpCtxtPtr ctxt, xmlExpNodePtr expr) {
 
 	printf("Language has %d strings, testing string derivations\n", ret);
 	for (i = 0;i < ret;i++) {
-	    deriv = xmlExpStringDerive(ctxt, expr, BAD_CAST list[i], -1);
+	    deriv = xmlExpStringDerive(ctxt, expr, list[i], -1);
 	    if (deriv == NULL) {
 		printf("  %s -> derivation failed\n", list[i]);
 	    } else {
@@ -277,8 +277,6 @@ int main(int argc, char **argv) {
     const char *pattern = NULL;
     char *filename = NULL;
     int i;
-
-    xmlInitMemory();
 
     if (argc <= 1) {
 	usage(argv[0]);
@@ -365,7 +363,7 @@ int main(int argc, char **argv) {
 		    if (pattern == NULL) {
 			pattern = argv[i];
 			printf("Testing %s:\n", pattern);
-			comp = xmlRegexpCompile((const xmlChar *) pattern);
+			comp = xmlRegexpCompile((const char *) pattern);
 			if (comp == NULL) {
 			    printf("   failed to compile\n");
 			    break;

@@ -8,7 +8,7 @@ convert (unsigned char *in, char *encoding)
 {
 	unsigned char *out;
         int ret,size,out_size,temp;
-        xmlCharEncodingHandlerPtr handler;
+        charEncodingHandlerPtr handler;
 
         size = (int)strlen(in)+1; 
         out_size = size*2-1; 
@@ -64,7 +64,7 @@ main(int argc, char **argv) {
 	out = convert(content, encoding);
 
 	doc = xmlNewDoc ("1.0");
-	rootnode = xmlNewDocNode(doc, NULL, (const xmlChar*)"root", out);
+	rootnode = xmlNewDocNode(doc, NULL, (const char*)"root", out);
 	xmlDocSetRootElement(doc, rootnode);
 
 	xmlSaveFormatFileEnc("-", doc, encoding, 1);

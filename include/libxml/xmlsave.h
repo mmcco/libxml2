@@ -75,10 +75,10 @@ XMLPUBFUN int XMLCALL
 		xmlSaveClose		(xmlSaveCtxtPtr ctxt);
 XMLPUBFUN int XMLCALL
 		xmlSaveSetEscape	(xmlSaveCtxtPtr ctxt,
-					 xmlCharEncodingOutputFunc escape);
+					 charEncodingOutputFunc escape);
 XMLPUBFUN int XMLCALL
 		xmlSaveSetAttrEscape	(xmlSaveCtxtPtr ctxt,
-					 xmlCharEncodingOutputFunc escape);
+					 charEncodingOutputFunc escape);
 #ifdef __cplusplus
 }
 #endif

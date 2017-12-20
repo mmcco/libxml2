@@ -299,10 +299,10 @@ channel(void *ctx  ATTRIBUTE_UNUSED, const char *msg, ...) {
 static void
 xmlParserPrintFileContextInternal(xmlParserInputPtr input ,
 		xmlGenericErrorFunc chanl, void *data ) {
-    const xmlChar *cur, *base;
+    const char *cur, *base;
     unsigned int n, col;	/* GCC warns if signed, because compared with sizeof() */
-    xmlChar  content[81]; /* space for 80 chars + line terminator */
-    xmlChar *ctnt;
+    char  content[81]; /* space for 80 chars + line terminator */
+    char *ctnt;
 
     if (input == NULL) return;
     cur = input->cur;
@@ -353,7 +353,7 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
     int domain;
     void *data = NULL;
     const char *str;
-    const xmlChar *name = NULL;
+    const char *name = NULL;
     xmlNodePtr node;
     xmlErrorLevel level;
     xmlParserInputPtr input = NULL;
@@ -491,7 +491,7 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
         return;
     if (str != NULL) {
         int len;
-	len = xmlStrlen((const xmlChar *)str);
+	len = xmlStrlen((const char *)str);
 	if ((len > 0) && (str[len - 1] != '\n'))
 	    channel(data, "%s\n", str);
 	else
@@ -514,8 +514,8 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
     }
     if ((domain == XML_FROM_XPATH) && (err->str1 != NULL) &&
         (err->int1 < 100) &&
-	(err->int1 < xmlStrlen((const xmlChar *)err->str1))) {
-	xmlChar buf[150];
+	(err->int1 < xmlStrlen((const char *)err->str1))) {
+	char buf[150];
 	int i;
 
 	channel(data, "%s\n", err->str1);
@@ -873,8 +873,8 @@ hasExternalSubsetDebug(void *ctx ATTRIBUTE_UNUSED)
  * Does this document has an internal subset
  */
 static void
-internalSubsetDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name,
-	       const xmlChar *ExternalID, const xmlChar *SystemID)
+internalSubsetDebug(void *ctx ATTRIBUTE_UNUSED, const char *name,
+	       const char *ExternalID, const char *SystemID)
 {
     callbacks++;
     if (quiet)
@@ -897,8 +897,8 @@ internalSubsetDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name,
  * Does this document has an external subset
  */
 static void
-externalSubsetDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name,
-	       const xmlChar *ExternalID, const xmlChar *SystemID)
+externalSubsetDebug(void *ctx ATTRIBUTE_UNUSED, const char *name,
+	       const char *ExternalID, const char *SystemID)
 {
     callbacks++;
     if (quiet)
@@ -929,7 +929,7 @@ externalSubsetDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name,
  * Returns the xmlParserInputPtr if inlined or NULL for DOM behaviour.
  */
 static xmlParserInputPtr
-resolveEntityDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *publicId, const xmlChar *systemId)
+resolveEntityDebug(void *ctx ATTRIBUTE_UNUSED, const char *publicId, const char *systemId)
 {
     callbacks++;
     if (quiet)
@@ -964,7 +964,7 @@ resolveEntityDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *publicId, const xm
  * Returns the xmlParserInputPtr if inlined or NULL for DOM behaviour.
  */
 static xmlEntityPtr
-getEntityDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
+getEntityDebug(void *ctx ATTRIBUTE_UNUSED, const char *name)
 {
     callbacks++;
     if (quiet)
@@ -983,7 +983,7 @@ getEntityDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
  * Returns the xmlParserInputPtr
  */
 static xmlEntityPtr
-getParameterEntityDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
+getParameterEntityDebug(void *ctx ATTRIBUTE_UNUSED, const char *name)
 {
     callbacks++;
     if (quiet)
@@ -1005,17 +1005,17 @@ getParameterEntityDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
  * An entity definition has been parsed
  */
 static void
-entityDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, int type,
-          const xmlChar *publicId, const xmlChar *systemId, xmlChar *content)
+entityDeclDebug(void *ctx ATTRIBUTE_UNUSED, const char *name, int type,
+          const char *publicId, const char *systemId, char *content)
 {
-const xmlChar *nullstr = BAD_CAST "(null)";
+const char *nullstr = "(null)";
     /* not all libraries handle printing null pointers nicely */
     if (publicId == NULL)
         publicId = nullstr;
     if (systemId == NULL)
         systemId = nullstr;
     if (content == NULL)
-        content = (xmlChar *)nullstr;
+        content = (char *)nullstr;
     callbacks++;
     if (quiet)
 	return;
@@ -1032,9 +1032,9 @@ const xmlChar *nullstr = BAD_CAST "(null)";
  * An attribute definition has been parsed
  */
 static void
-attributeDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar * elem,
-                   const xmlChar * name, int type, int def,
-                   const xmlChar * defaultValue, xmlEnumerationPtr tree)
+attributeDeclDebug(void *ctx ATTRIBUTE_UNUSED, const char * elem,
+                   const char * name, int type, int def,
+                   const char * defaultValue, xmlEnumerationPtr tree)
 {
     callbacks++;
     if (quiet)
@@ -1058,7 +1058,7 @@ attributeDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar * elem,
  * An element definition has been parsed
  */
 static void
-elementDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, int type,
+elementDeclDebug(void *ctx ATTRIBUTE_UNUSED, const char *name, int type,
 	    xmlElementContentPtr content ATTRIBUTE_UNUSED)
 {
     callbacks++;
@@ -1078,8 +1078,8 @@ elementDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, int type,
  * What to do when a notation declaration has been parsed.
  */
 static void
-notationDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name,
-	     const xmlChar *publicId, const xmlChar *systemId)
+notationDeclDebug(void *ctx ATTRIBUTE_UNUSED, const char *name,
+	     const char *publicId, const char *systemId)
 {
     callbacks++;
     if (quiet)
@@ -1099,11 +1099,11 @@ notationDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name,
  * What to do when an unparsed entity declaration is parsed
  */
 static void
-unparsedEntityDeclDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name,
-		   const xmlChar *publicId, const xmlChar *systemId,
-		   const xmlChar *notationName)
+unparsedEntityDeclDebug(void *ctx ATTRIBUTE_UNUSED, const char *name,
+		   const char *publicId, const char *systemId,
+		   const char *notationName)
 {
-const xmlChar *nullstr = BAD_CAST "(null)";
+const char *nullstr = "(null)";
 
     if (publicId == NULL)
         publicId = nullstr;
@@ -1174,7 +1174,7 @@ endDocumentDebug(void *ctx ATTRIBUTE_UNUSED)
  * called when an opening tag has been processed.
  */
 static void
-startElementDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, const xmlChar **atts)
+startElementDebug(void *ctx ATTRIBUTE_UNUSED, const char *name, const char **atts)
 {
     int i;
 
@@ -1200,7 +1200,7 @@ startElementDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, const xmlChar
  * called when the end of an element has been detected.
  */
 static void
-endElementDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
+endElementDebug(void *ctx ATTRIBUTE_UNUSED, const char *name)
 {
     callbacks++;
     if (quiet)
@@ -1211,14 +1211,14 @@ endElementDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
 /**
  * charactersDebug:
  * @ctxt:  An XML parser context
- * @ch:  a xmlChar string
- * @len: the number of xmlChar
+ * @ch:  a char string
+ * @len: the number of char
  *
  * receiving some chars from the parser.
  * Question: how much at a time ???
  */
 static void
-charactersDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *ch, int len)
+charactersDebug(void *ctx ATTRIBUTE_UNUSED, const char *ch, int len)
 {
     char output[40];
     int i;
@@ -1241,7 +1241,7 @@ charactersDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *ch, int len)
  * called when an entity reference is detected.
  */
 static void
-referenceDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
+referenceDebug(void *ctx ATTRIBUTE_UNUSED, const char *name)
 {
     callbacks++;
     if (quiet)
@@ -1252,15 +1252,15 @@ referenceDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name)
 /**
  * ignorableWhitespaceDebug:
  * @ctxt:  An XML parser context
- * @ch:  a xmlChar string
+ * @ch:  a char string
  * @start: the first char in the string
- * @len: the number of xmlChar
+ * @len: the number of char
  *
  * receiving some ignorable whitespaces from the parser.
  * Question: how much at a time ???
  */
 static void
-ignorableWhitespaceDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *ch, int len)
+ignorableWhitespaceDebug(void *ctx ATTRIBUTE_UNUSED, const char *ch, int len)
 {
     char output[40];
     int i;
@@ -1279,13 +1279,13 @@ ignorableWhitespaceDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *ch, int len)
  * @ctxt:  An XML parser context
  * @target:  the target name
  * @data: the PI data's
- * @len: the number of xmlChar
+ * @len: the number of char
  *
  * A processing instruction has been parsed.
  */
 static void
-processingInstructionDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *target,
-                      const xmlChar *data)
+processingInstructionDebug(void *ctx ATTRIBUTE_UNUSED, const char *target,
+                      const char *data)
 {
     callbacks++;
     if (quiet)
@@ -1307,7 +1307,7 @@ processingInstructionDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *target,
  * called when a pcdata block has been parsed
  */
 static void
-cdataBlockDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *value, int len)
+cdataBlockDebug(void *ctx ATTRIBUTE_UNUSED, const char *value, int len)
 {
     callbacks++;
     if (quiet)
@@ -1324,7 +1324,7 @@ cdataBlockDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *value, int len)
  * A comment has been parsed.
  */
 static void
-commentDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *value)
+commentDebug(void *ctx ATTRIBUTE_UNUSED, const char *value)
 {
     callbacks++;
     if (quiet)
@@ -1450,14 +1450,14 @@ static xmlSAXHandlerPtr debugSAXHandler = &debugSAXHandlerStruct;
  */
 static void
 startElementNsDebug(void *ctx ATTRIBUTE_UNUSED,
-                    const xmlChar *localname,
-                    const xmlChar *prefix,
-                    const xmlChar *URI,
+                    const char *localname,
+                    const char *prefix,
+                    const char *URI,
 		    int nb_namespaces,
-		    const xmlChar **namespaces,
+		    const char **namespaces,
 		    int nb_attributes,
 		    int nb_defaulted,
-		    const xmlChar **attributes)
+		    const char **attributes)
 {
     int i;
 
@@ -1507,9 +1507,9 @@ startElementNsDebug(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 endElementNsDebug(void *ctx ATTRIBUTE_UNUSED,
-                  const xmlChar *localname,
-                  const xmlChar *prefix,
-                  const xmlChar *URI)
+                  const char *localname,
+                  const char *prefix,
+                  const char *URI)
 {
     callbacks++;
     if (quiet)
@@ -1571,7 +1571,7 @@ static xmlSAXHandlerPtr debugSAX2Handler = &debugSAX2HandlerStruct;
  * called when an opening tag has been processed.
  */
 static void
-htmlstartElementDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, const xmlChar **atts)
+htmlstartElementDebug(void *ctx ATTRIBUTE_UNUSED, const char *name, const char **atts)
 {
     int i;
 
@@ -1601,14 +1601,14 @@ htmlstartElementDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, const xml
 /**
  * htmlcharactersDebug:
  * @ctxt:  An XML parser context
- * @ch:  a xmlChar string
- * @len: the number of xmlChar
+ * @ch:  a char string
+ * @len: the number of char
  *
  * receiving some chars from the parser.
  * Question: how much at a time ???
  */
 static void
-htmlcharactersDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *ch, int len)
+htmlcharactersDebug(void *ctx ATTRIBUTE_UNUSED, const char *ch, int len)
 {
     unsigned char output[40];
     int inlen = len, outlen = 30;
@@ -1622,14 +1622,14 @@ htmlcharactersDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *ch, int len)
 /**
  * htmlcdataDebug:
  * @ctxt:  An XML parser context
- * @ch:  a xmlChar string
- * @len: the number of xmlChar
+ * @ch:  a char string
+ * @len: the number of char
  *
  * receiving some cdata chars from the parser.
  * Question: how much at a time ???
  */
 static void
-htmlcdataDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *ch, int len)
+htmlcdataDebug(void *ctx ATTRIBUTE_UNUSED, const char *ch, int len)
 {
     unsigned char output[40];
     int inlen = len, outlen = 30;
@@ -1929,19 +1929,19 @@ pushParseTest(const char *filename, const char *result,
     }
 #ifdef LIBXML_HTML_ENABLED
     if (options & XML_PARSE_HTML)
-	htmlDocDumpMemory(doc, (xmlChar **) &base, &size);
+	htmlDocDumpMemory(doc, (char **) &base, &size);
     else
 #endif
-    xmlDocDumpMemory(doc, (xmlChar **) &base, &size);
+    xmlDocDumpMemory(doc, (char **) &base, &size);
     xmlFreeDoc(doc);
     res = compareFileMem(result, base, size);
     if ((base == NULL) || (res != 0)) {
 	if (base != NULL)
-	    xmlFree((char *)base);
+	    free((char *)base);
         fprintf(stderr, "Result for %s failed in %s\n", filename, result);
 	return(-1);
     }
-    xmlFree((char *)base);
+    free((char *)base);
     if (err != NULL) {
 	res = compareFileMem(err, testErrors, testErrorsSize);
 	if (res != 0) {
@@ -1987,16 +1987,16 @@ memParseTest(const char *filename, const char *result,
     if (doc == NULL) {
         return(1);
     }
-    xmlDocDumpMemory(doc, (xmlChar **) &base, &size);
+    xmlDocDumpMemory(doc, (char **) &base, &size);
     xmlFreeDoc(doc);
     res = compareFileMem(result, base, size);
     if ((base == NULL) || (res != 0)) {
 	if (base != NULL)
-	    xmlFree((char *)base);
+	    free((char *)base);
         fprintf(stderr, "Result for %s failed in %s\n", filename, result);
 	return(-1);
     }
-    xmlFree((char *)base);
+    free((char *)base);
     return(0);
 }
 
@@ -2098,10 +2098,10 @@ errParseTest(const char *filename, const char *result, const char *err,
 	} else {
 #ifdef LIBXML_HTML_ENABLED
 	    if (options & XML_PARSE_HTML) {
-		htmlDocDumpMemory(doc, (xmlChar **) &base, &size);
+		htmlDocDumpMemory(doc, (char **) &base, &size);
 	    } else
 #endif
-	    xmlDocDumpMemory(doc, (xmlChar **) &base, &size);
+	    xmlDocDumpMemory(doc, (char **) &base, &size);
 	}
 	res = compareFileMem(result, base, size);
 	if (res != 0) {
@@ -2111,7 +2111,7 @@ errParseTest(const char *filename, const char *result, const char *err,
     }
     if (doc != NULL) {
 	if (base != NULL)
-	    xmlFree((char *)base);
+	    free((char *)base);
 	xmlFreeDoc(doc);
     }
     if (err != NULL) {
@@ -2136,7 +2136,7 @@ errParseTest(const char *filename, const char *result, const char *err,
  ************************************************************************/
 
 static void processNode(FILE *out, xmlTextReaderPtr reader) {
-    const xmlChar *name, *value;
+    const char *name, *value;
     int type, empty;
 
     type = xmlTextReaderNodeType(reader);
@@ -2144,7 +2144,7 @@ static void processNode(FILE *out, xmlTextReaderPtr reader) {
 
     name = xmlTextReaderConstName(reader);
     if (name == NULL)
-	name = BAD_CAST "--";
+	name = "--";
 
     value = xmlTextReaderConstValue(reader);
 
@@ -2356,18 +2356,18 @@ testXPath(const char *str, int xptr, int expr) {
 #if defined(LIBXML_XPTR_ENABLED)
     if (xptr) {
 	ctxt = xmlXPtrNewContext(xpathDocument, NULL, NULL);
-	res = xmlXPtrEval(BAD_CAST str, ctxt);
+	res = xmlXPtrEval(str, ctxt);
     } else {
 #endif
 	ctxt = xmlXPathNewContext(xpathDocument);
 	ctxt->node = xmlDocGetRootElement(xpathDocument);
 	if (expr)
-	    res = xmlXPathEvalExpression(BAD_CAST str, ctxt);
+	    res = xmlXPathEvalExpression(str, ctxt);
 	else {
-	    /* res = xmlXPathEval(BAD_CAST str, ctxt); */
+	    /* res = xmlXPathEval(str, ctxt); */
 	    xmlXPathCompExprPtr comp;
 
-	    comp = xmlXPathCompile(BAD_CAST str);
+	    comp = xmlXPathCompile(str);
 	    if (comp != NULL) {
 		res = xmlXPathCompiledEval(comp, ctxt);
 		xmlXPathFreeCompExpr(comp);
@@ -2646,7 +2646,7 @@ static void
 handleURI(const char *str, const char *base, FILE *o) {
     int ret;
     xmlURIPtr uri;
-    xmlChar *res = NULL;
+    char *res = NULL;
 
     uri = xmlCreateURI();
 
@@ -2660,7 +2660,7 @@ handleURI(const char *str, const char *base, FILE *o) {
 	    fprintf(o, "\n");
 	}
     } else {
-	res = xmlBuildURI((xmlChar *)str, (xmlChar *) base);
+	res = xmlBuildURI((char *)str, (char *) base);
 	if (res != NULL) {
 	    fprintf(o, "%s\n", (char *) res);
 	}
@@ -2668,7 +2668,7 @@ handleURI(const char *str, const char *base, FILE *o) {
 	    fprintf(o, "::ERROR::\n");
     }
     if (res != NULL)
-	xmlFree(res);
+	free(res);
     xmlFreeURI(uri);
 }
 
@@ -3420,7 +3420,7 @@ rngStreamTest(const char *filename,
 static void patternNode(FILE *out, xmlTextReaderPtr reader,
                         const char *pattern, xmlPatternPtr patternc,
 			xmlStreamCtxtPtr patstream) {
-    xmlChar *path = NULL;
+    char *path = NULL;
     int match = -1;
     int type, empty;
 
@@ -3472,7 +3472,7 @@ static void patternNode(FILE *out, xmlTextReaderPtr reader,
 	}
     }
     if (path != NULL)
-	xmlFree(path);
+	free(path);
 }
 
 /**
@@ -3558,7 +3558,7 @@ patternTest(const char *filename,
 	    ret = 1;
 	} else {
 	    xmlNodePtr root;
-	    const xmlChar *namespaces[22];
+	    const char *namespaces[22];
 	    int j;
 	    xmlNsPtr ns;
 
@@ -3570,7 +3570,7 @@ patternTest(const char *filename,
 	    namespaces[j++] = NULL;
 	    namespaces[j] = NULL;
 
-	    patternc = xmlPatterncompile((const xmlChar *) str, doc->dict,
+	    patternc = xmlPatterncompile((const char *) str, doc->dict,
 					 0, &namespaces[0]);
 	    if (patternc == NULL) {
 		testErrorHandler(NULL,
@@ -3634,7 +3634,7 @@ static xmlXPathObjectPtr
 load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     xmlXPathObjectPtr xpath;
     xmlDocPtr doc;
-    xmlChar *expr;
+    char *expr;
     xmlXPathContextPtr ctx;
     xmlNodePtr node;
     xmlNsPtr ns;
@@ -3661,7 +3661,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     }
 
     node = doc->children;
-    while(node != NULL && !xmlStrEqual(node->name, (const xmlChar *)"XPath")) {
+    while(node != NULL && !xmlStrEqual(node->name, (const char *)"XPath")) {
 	node = node->next;
     }
 
@@ -3681,7 +3681,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     ctx = xmlXPathNewContext(parent_doc);
     if(ctx == NULL) {
         fprintf(stderr,"Error: unable to create new context\n");
-        xmlFree(expr);
+        free(expr);
         xmlFreeDoc(doc);
         return(NULL);
     }
@@ -3693,7 +3693,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     while(ns != NULL) {
 	if(xmlXPathRegisterNs(ctx, ns->prefix, ns->href) != 0) {
 	    fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", ns->prefix, ns->href);
-    xmlFree(expr);
+    free(expr);
 	    xmlXPathFreeContext(ctx);
 	    xmlFreeDoc(doc);
 	    return(NULL);
@@ -3707,7 +3707,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     xpath = xmlXPathEvalExpression(expr, ctx);
     if(xpath == NULL) {
         fprintf(stderr,"Error: unable to evaluate xpath expression\n");
-xmlFree(expr);
+free(expr);
         xmlXPathFreeContext(ctx);
         xmlFreeDoc(doc);
         return(NULL);
@@ -3715,7 +3715,7 @@ xmlFree(expr);
 
     /* print_xpath_nodes(xpath->nodesetval); */
 
-    xmlFree(expr);
+    free(expr);
     xmlXPathFreeContext(ctx);
     xmlFreeDoc(doc);
     return(xpath);
@@ -3726,18 +3726,18 @@ xmlFree(expr);
  */
 #define xxx_growBufferReentrant() {						\
     buffer_size *= 2;							\
-    buffer = (xmlChar **)						\
-	xmlRealloc(buffer, buffer_size * sizeof(xmlChar*));	\
+    buffer = (char **)						\
+	realloc(buffer, buffer_size * sizeof(char*));	\
     if (buffer == NULL) {						\
 	perror("realloc failed");					\
 	return(NULL);							\
     }									\
 }
 
-static xmlChar **
-parse_list(xmlChar *str) {
-    xmlChar **buffer;
-    xmlChar **out = NULL;
+static char **
+parse_list(char *str) {
+    char **buffer;
+    char **out = NULL;
     int buffer_size = 0;
     int len;
 
@@ -3754,7 +3754,7 @@ parse_list(xmlChar *str) {
      * allocate an translation buffer.
      */
     buffer_size = 1000;
-    buffer = (xmlChar **) xmlMalloc(buffer_size * sizeof(xmlChar*));
+    buffer = (char **) malloc(buffer_size * sizeof(char*));
     if (buffer == NULL) {
 	perror("malloc failed");
 	return(NULL);
@@ -3782,9 +3782,9 @@ c14nRunTest(const char* xml_filename, int with_comments, int mode,
 	    const char* result_file) {
     xmlDocPtr doc;
     xmlXPathObjectPtr xpath = NULL;
-    xmlChar *result = NULL;
+    char *result = NULL;
     int ret;
-    xmlChar **inclusive_namespaces = NULL;
+    char **inclusive_namespaces = NULL;
     const char *nslist = NULL;
     int nssize;
 
@@ -3830,7 +3830,7 @@ c14nRunTest(const char* xml_filename, int with_comments, int mode,
 	    xmlFreeDoc(doc);
 	    return(-1);
 	}
-        inclusive_namespaces = parse_list((xmlChar *) nslist);
+        inclusive_namespaces = parse_list((char *) nslist);
     }
 
     /*
@@ -3857,9 +3857,9 @@ c14nRunTest(const char* xml_filename, int with_comments, int mode,
     /*
      * Cleanup
      */
-    if (result != NULL) xmlFree(result);
+    if (result != NULL) free(result);
     if(xpath != NULL) xmlXPathFreeObject(xpath);
-    if (inclusive_namespaces != NULL) xmlFree(inclusive_namespaces);
+    if (inclusive_namespaces != NULL) free(inclusive_namespaces);
     if (nslist != NULL) free((char *) nslist);
     xmlFreeDoc(doc);
 

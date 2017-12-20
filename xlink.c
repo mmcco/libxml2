@@ -32,15 +32,14 @@
 #include <zlib.h>
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/valid.h>
 #include <libxml/xlink.h>
 #include <libxml/globals.h>
 
-#define XLINK_NAMESPACE (BAD_CAST "http://www.w3.org/1999/xlink/namespace/")
-#define XHTML_NAMESPACE (BAD_CAST "http://www.w3.org/1999/xhtml/")
+#define XLINK_NAMESPACE ("http://www.w3.org/1999/xlink/namespace/")
+#define XHTML_NAMESPACE ("http://www.w3.org/1999/xhtml/")
 
 /****************************************************************
  *								*
@@ -121,7 +120,7 @@ xlinkSetDefaultDetect	(xlinkNodeDetectFunc func) {
  */
 xlinkType
 xlinkIsLink	(xmlDocPtr doc, xmlNodePtr node) {
-    xmlChar *type = NULL, *role = NULL;
+    char *type = NULL, *role = NULL;
     xlinkType ret = XLINK_TYPE_NONE;
 
     if (node == NULL) return(XLINK_TYPE_NONE);
@@ -146,21 +145,21 @@ xlinkIsLink	(xmlDocPtr doc, xmlNodePtr node) {
      * We don't prevent a-priori having XML Linking constructs on
      * XHTML elements
      */
-    type = xmlGetNsProp(node, BAD_CAST"type", XLINK_NAMESPACE);
+    type = xmlGetNsProp(node, "type", XLINK_NAMESPACE);
     if (type != NULL) {
-	if (xmlStrEqual(type, BAD_CAST "simple")) {
+	if (xmlStrEqual(type, "simple")) {
             ret = XLINK_TYPE_SIMPLE;
-	} else if (xmlStrEqual(type, BAD_CAST "extended")) {
-	    role = xmlGetNsProp(node, BAD_CAST "role", XLINK_NAMESPACE);
+	} else if (xmlStrEqual(type, "extended")) {
+	    role = xmlGetNsProp(node, "role", XLINK_NAMESPACE);
 	    if (role != NULL) {
 		xmlNsPtr xlink;
 		xlink = xmlSearchNs(doc, node, XLINK_NAMESPACE);
 		if (xlink == NULL) {
 		    /* Humm, fallback method */
-		    if (xmlStrEqual(role, BAD_CAST"xlink:external-linkset"))
+		    if (xmlStrEqual(role, "xlink:external-linkset"))
 			ret = XLINK_TYPE_EXTENDED_SET;
 		} else {
-		    xmlChar buf[200];
+		    char buf[200];
 		    snprintf((char *) buf, sizeof(buf), "%s:external-linkset",
 			     (char *) xlink->prefix);
                     buf[sizeof(buf) - 1] = 0;
@@ -174,8 +173,8 @@ xlinkIsLink	(xmlDocPtr doc, xmlNodePtr node) {
 	}
     }
 
-    if (type != NULL) xmlFree(type);
-    if (role != NULL) xmlFree(role);
+    if (type != NULL) free(type);
+    if (role != NULL) free(role);
     return(ret);
 }
 #endif /* LIBXML_XPTR_ENABLED */

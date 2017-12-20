@@ -1116,7 +1116,7 @@ dlopenqsys(const Qp0l_QSYS_Info_t * dllinfo)
                 free((char *) dlip);
                 dlip = dlip2;
                 }
-        else if (xmlHashAddEntry(dldir, (const xmlChar *) actmarkstr, dlip)) {
+        else if (xmlHashAddEntry(dldir, (const char *) actmarkstr, dlip)) {
                 dlreinit(dlip);
                 free((char *) dlip);
                 dlunlock();

@@ -79,7 +79,7 @@ int main(int argc, char **argv) {&#xA;</xsl:text>
 	<xsl:template match="doc">
 		<xsl:text>	</xsl:text>
 		<xsl:value-of select="@name"/>
-		<xsl:text> = xmlReadDoc(BAD_CAST </xsl:text>
+		<xsl:text> = xmlReadDoc(</xsl:text>
 		<xsl:value-of select="@name"/>
 		<xsl:text>_str, NULL, NULL, 0);&#xA;</xsl:text>
 			
@@ -108,9 +108,9 @@ int main(int argc, char **argv) {&#xA;</xsl:text>
 			<xsl:text>);&#xA;</xsl:text>
 			<!-- Register namespaces. -->
 			<xsl:for-each select="xpath/reg-ns">
-				<xsl:text>	xmlXPathRegisterNs(xp, BAD_CAST "</xsl:text>
+				<xsl:text>	xmlXPathRegisterNs(xp, "</xsl:text>
 				<xsl:value-of select="@prefix"/>
-				<xsl:text>", BAD_CAST "</xsl:text>
+				<xsl:text>", "</xsl:text>
 				<xsl:value-of select="@ns"/>
 				<xsl:text>");&#xA;</xsl:text>
 			</xsl:for-each>
@@ -178,7 +178,7 @@ int main(int argc, char **argv) {&#xA;</xsl:text>
 		<xsl:value-of select="@doc"/>
 		<xsl:text>));&#xA;</xsl:text>
 		<xsl:text>	/* Compare result. */
-	if (! xmlStrEqual(BAD_CAST result_str, BAD_CAST exp_str)) {
+	if (! xmlStrEqual(result_str, exp_str)) {
 		printf("FAILED\n");
 		printf("%s\n", (const char *) result_str);
 		printf("- - -\n");
@@ -195,7 +195,7 @@ int main(int argc, char **argv) {&#xA;</xsl:text>
 		<xsl:text>void nsTest_</xsl:text>
 		<xsl:value-of select="@name"/>
 		<xsl:text>(void) {
-	xmlChar * result_str;
+	char * result_str;
 	xmlXPathContextPtr xp;
 	int memory;&#xA;</xsl:text>
 		<xsl:apply-templates select="*" mode="define"/>
@@ -219,14 +219,14 @@ int main(int argc, char **argv) {&#xA;</xsl:text>
 	<xsl:template name="serializer">
 		<xsl:text>
 		
-xmlChar * nsSerializeNode(xmlNodePtr node) {
-	xmlChar * ret;
+char * nsSerializeNode(xmlNodePtr node) {
+	char * ret;
 
 	xmlOutputBufferPtr buf;
 	buf = xmlAllocOutputBuffer(NULL);
 	xmlNodeDumpOutput(buf, node->doc, node, 0, 0, NULL);
 	xmlOutputBufferFlush(buf);
-	ret = (xmlChar *) buf->buffer->content;
+	ret = (char *) buf->buffer->content;
 	buf->buffer->content = NULL;
 	(void) xmlOutputBufferClose(buf);
 	return (ret);
@@ -236,7 +236,7 @@ xmlNodePtr nsSelectNode(xmlXPathContextPtr xp, const char * xpath) {
 	xmlXPathObjectPtr xpres;
 	xmlNodePtr ret;	
 		
-	xpres = xmlXPathEval(BAD_CAST xpath, xp);
+	xpres = xmlXPathEval(xpath, xp);
 	ret = xpres->nodesetval->nodeTab[0];
 	xmlXPathFreeObject(xpres);
 	return (ret);

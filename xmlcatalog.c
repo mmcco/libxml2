@@ -23,7 +23,6 @@
 #endif
 #endif
 
-#include <libxml/xmlmemory.h>
 #include <libxml/uri.h>
 #include <libxml/catalog.h>
 #include <libxml/parser.h>
@@ -100,7 +99,7 @@ static void usershell(void) {
     char arg[400];
     char *argv[20];
     int i, ret;
-    xmlChar *ans;
+    char *ans;
 
     while (1) {
 	cmdline = xmlShellReadline("> ");
@@ -193,24 +192,24 @@ static void usershell(void) {
 	    if (nbargs != 1) {
 		printf("public requires 1 arguments\n");
 	    } else {
-		ans = xmlCatalogResolvePublic((const xmlChar *) argv[0]);
+		ans = xmlCatalogResolvePublic((const char *) argv[0]);
 		if (ans == NULL) {
 		    printf("No entry for PUBLIC %s\n", argv[0]);
 		} else {
 		    printf("%s\n", (char *) ans);
-		    xmlFree(ans);
+		    free(ans);
 		}
 	    }
 	} else if (!strcmp(command, "system")) {
 	    if (nbargs != 1) {
 		printf("system requires 1 arguments\n");
 	    } else {
-		ans = xmlCatalogResolveSystem((const xmlChar *) argv[0]);
+		ans = xmlCatalogResolveSystem((const char *) argv[0]);
 		if (ans == NULL) {
 		    printf("No entry for SYSTEM %s\n", argv[0]);
 		} else {
 		    printf("%s\n", (char *) ans);
-		    xmlFree(ans);
+		    free(ans);
 		}
 	    }
 	} else if (!strcmp(command, "add")) {
@@ -219,11 +218,11 @@ static void usershell(void) {
 		    printf("add requires 2 or 3 arguments\n");
 		} else {
 		    if (argv[2] == NULL)
-			ret = xmlCatalogAdd(BAD_CAST argv[0], NULL,
-					    BAD_CAST argv[1]);
+			ret = xmlCatalogAdd(argv[0], NULL,
+					    argv[1]);
 		    else
-			ret = xmlCatalogAdd(BAD_CAST argv[0], BAD_CAST argv[1],
-					    BAD_CAST argv[2]);
+			ret = xmlCatalogAdd(argv[0], argv[1],
+					    argv[2]);
 		    if (ret != 0)
 			printf("add command failed\n");
 		}
@@ -232,11 +231,11 @@ static void usershell(void) {
 		    printf("add requires 2 or 3 arguments\n");
 		} else {
 		    if (argv[2] == NULL)
-			ret = xmlCatalogAdd(BAD_CAST argv[0], NULL,
-					    BAD_CAST argv[1]);
+			ret = xmlCatalogAdd(argv[0], NULL,
+					    argv[1]);
 		    else
-			ret = xmlCatalogAdd(BAD_CAST argv[0], BAD_CAST argv[1],
-					    BAD_CAST argv[2]);
+			ret = xmlCatalogAdd(argv[0], argv[1],
+					    argv[2]);
 		    if (ret != 0)
 			printf("add command failed\n");
 		}
@@ -245,7 +244,7 @@ static void usershell(void) {
 	    if (nbargs != 1) {
 		printf("del requires 1\n");
 	    } else {
-		ret = xmlCatalogRemove(BAD_CAST argv[0]);
+		ret = xmlCatalogRemove(argv[0]);
 		if (ret <= 0)
 		    printf("del command failed\n");
 
@@ -254,13 +253,13 @@ static void usershell(void) {
 	    if (nbargs != 2) {
 		printf("resolve requires 2 arguments\n");
 	    } else {
-		ans = xmlCatalogResolve(BAD_CAST argv[0],
-			                BAD_CAST argv[1]);
+		ans = xmlCatalogResolve(argv[0],
+			                argv[1]);
 		if (ans == NULL) {
 		    printf("Resolver failed to find an answer\n");
 		} else {
 		    printf("%s\n", (char *) ans);
-		    xmlFree(ans);
+		    free(ans);
 		}
 	    }
 	} else if (!strcmp(command, "dump")) {
@@ -418,7 +417,7 @@ int main(int argc, char **argv) {
 	    filename = argv[i];
 	    ret = xmlLoadCatalog(argv[i]);
 	    if ((ret < 0) && (create)) {
-		xmlCatalogAdd(BAD_CAST "catalog", BAD_CAST argv[i], NULL);
+		xmlCatalogAdd("catalog", argv[i], NULL);
 	    }
 	}
 	break;
@@ -451,20 +450,20 @@ int main(int argc, char **argv) {
 		    (!strcmp(argv[i], "--add"))) {
 		    if (catal == NULL)
 			catal = xmlNewCatalog(1);
-		    xmlACatalogAdd(catal, BAD_CAST "CATALOG",
-					 BAD_CAST argv[i + 2], NULL);
+		    xmlACatalogAdd(catal, "CATALOG",
+					 argv[i + 2], NULL);
 
 		    if (!no_super_update) {
 			super = xmlLoadSGMLSuperCatalog(XML_SGML_DEFAULT_CATALOG);
 			if (super == NULL)
 			    super = xmlNewCatalog(1);
 
-			xmlACatalogAdd(super, BAD_CAST "CATALOG",
-					     BAD_CAST argv[i + 1], NULL);
+			xmlACatalogAdd(super, "CATALOG",
+					     argv[i + 1], NULL);
 		    }
 		} else {
 		    if (catal != NULL)
-			ret = xmlACatalogRemove(catal, BAD_CAST argv[i + 2]);
+			ret = xmlACatalogRemove(catal, argv[i + 2]);
 		    else
 			ret = -1;
 		    if (ret < 0) {
@@ -478,7 +477,7 @@ int main(int argc, char **argv) {
 				   XML_SGML_DEFAULT_CATALOG);
 			if (super != NULL) {
 			    ret = xmlACatalogRemove(super,
-				    BAD_CAST argv[i + 1]);
+				    argv[i + 1]);
 			    if (ret < 0) {
 				fprintf(stderr,
 					"Failed to remove entry from %s\n",
@@ -531,12 +530,12 @@ int main(int argc, char **argv) {
 		if ((!strcmp(argv[i], "-add")) ||
 		    (!strcmp(argv[i], "--add"))) {
 			if ((argv[i + 3] == NULL) || (argv[i + 3][0] == 0))
-			    ret = xmlCatalogAdd(BAD_CAST argv[i + 1], NULL,
-						BAD_CAST argv[i + 2]);
+			    ret = xmlCatalogAdd(argv[i + 1], NULL,
+						argv[i + 2]);
 			else
-			    ret = xmlCatalogAdd(BAD_CAST argv[i + 1],
-						BAD_CAST argv[i + 2],
-						BAD_CAST argv[i + 3]);
+			    ret = xmlCatalogAdd(argv[i + 1],
+						argv[i + 2],
+						argv[i + 3]);
 			if (ret != 0) {
 			    printf("add command failed\n");
 			    exit_value = 3;
@@ -544,7 +543,7 @@ int main(int argc, char **argv) {
 			i += 3;
 		} else if ((!strcmp(argv[i], "-del")) ||
 		    (!strcmp(argv[i], "--del"))) {
-		    ret = xmlCatalogRemove(BAD_CAST argv[i + 1]);
+		    ret = xmlCatalogRemove(argv[i + 1]);
 		    if (ret < 0) {
 			fprintf(stderr, "Failed to remove entry %s\n",
 				argv[i + 1]);
@@ -560,34 +559,34 @@ int main(int argc, char **argv) {
     } else {
 	for (i++; i < argc; i++) {
 	    xmlURIPtr uri;
-	    xmlChar *ans;
+	    char *ans;
 
 	    uri = xmlParseURI(argv[i]);
 	    if (uri == NULL) {
-		ans = xmlCatalogResolvePublic((const xmlChar *) argv[i]);
+		ans = xmlCatalogResolvePublic((const char *) argv[i]);
 		if (ans == NULL) {
 		    printf("No entry for PUBLIC %s\n", argv[i]);
 		    exit_value = 4;
 		} else {
 		    printf("%s\n", (char *) ans);
-		    xmlFree(ans);
+		    free(ans);
 		}
 	    } else {
                 xmlFreeURI(uri);
-		ans = xmlCatalogResolveSystem((const xmlChar *) argv[i]);
+		ans = xmlCatalogResolveSystem((const char *) argv[i]);
 		if (ans == NULL) {
 		    printf("No entry for SYSTEM %s\n", argv[i]);
-		    ans = xmlCatalogResolveURI ((const xmlChar *) argv[i]);
+		    ans = xmlCatalogResolveURI ((const char *) argv[i]);
 		    if (ans == NULL) {
 			printf ("No entry for URI %s\n", argv[i]);
 		        exit_value = 4;
 		    } else {
 		        printf("%s\n", (char *) ans);
-			xmlFree (ans);
+			free (ans);
 		    }
 		} else {
 		    printf("%s\n", (char *) ans);
-		    xmlFree(ans);
+		    free(ans);
 		}
 	    }
 	}

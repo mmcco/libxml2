@@ -34,7 +34,7 @@ Data encoding compatibility problems are one of the most common
       <span class="application">libxml's</span>
     <tt class="function">xmlFindCharEncodingHandler</tt> function:
       </p><pre class="programlisting">
-	<a name="handlerdatatype"></a><img src="images/callouts/1.png" alt="1" border="0">xmlCharEncodingHandlerPtr handler;
+	<a name="handlerdatatype"></a><img src="images/callouts/1.png" alt="1" border="0">charEncodingHandlerPtr handler;
         <a name="calcsize"></a><img src="images/callouts/2.png" alt="2" border="0">size = (int)strlen(in)+1; 
         out_size = size*2-1; 
         out = malloc((size_t)out_size); 
@@ -47,7 +47,7 @@ Data encoding compatibility problems are one of the most common
 	<a name="outputencoding"></a><img src="images/callouts/5.png" alt="5" border="0">xmlSaveFormatFileEnc("-", doc, encoding, 1);
       </pre><p>
       </p><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a href="#handlerdatatype"><img src="images/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p><tt class="varname">handler</tt> is declared as a pointer to an
-	    <tt class="function">xmlCharEncodingHandler</tt> function.</p></td></tr><tr><td width="5%" valign="top" align="left"><a href="#calcsize"><img src="images/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>The <tt class="function">xmlCharEncodingHandler</tt> function needs
+	    <tt class="function">charEncodingHandler</tt> function.</p></td></tr><tr><td width="5%" valign="top" align="left"><a href="#calcsize"><img src="images/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>The <tt class="function">charEncodingHandler</tt> function needs
 	  to be given the size of the input and output strings, which are
 	    calculated here for strings <tt class="varname">in</tt> and
 	  <tt class="varname">out</tt>.</p></td></tr><tr><td width="5%" valign="top" align="left"><a href="#findhandlerfunction"><img src="images/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p><tt class="function">xmlFindCharEncodingHandler</tt> takes as its

@@ -89,11 +89,11 @@
 
      d xmlBuffer       ds                  based(xmlBufferPtr)
      d                                     align qualified
-     d  content                        *                                        xmlChar *
+     d  content                        *                                        char *
      d  use                                like(xmlCuint)
      d  size                               like(xmlCuint)
      d  alloc                              like(xmlBufferAllocationScheme)      The realloc method
-     d  contentIO                      *                                        xmlChar *
+     d  contentIO                      *                                        char *
 
       * xmlBufPtr:
       *
@@ -105,10 +105,10 @@
       * A few public routines for xmlBuf. As those are expected to be used
       * mostly internally the bulk of the routines are internal in buf.h
 
-     d xmlBufContent   pr              *   extproc('xmlBufContent')             xmlChar *
+     d xmlBufContent   pr              *   extproc('xmlBufContent')             char *
      d  buf                                value like(xmlBufPtr)                const
 
-     d xmlBufEnd       pr              *   extproc('xmlBufEnd')                 xmlChar *
+     d xmlBufEnd       pr              *   extproc('xmlBufEnd')                 char *
      d  buf                                value like(xmlBufPtr)                const
 
      d xmlBufUse       pr                  extproc('xmlBufUse')
@@ -205,9 +205,9 @@
 
      d xmlNotation     ds                  based(xmlNotationPtr)
      d                                     align qualified
-     d  name                           *                                        const xmlChar *
-     d  PublicID                       *                                        const xmlChar *
-     d  SystemID                       *                                        const xmlChar *
+     d  name                           *                                        const char *
+     d  PublicID                       *                                        const char *
+     d  SystemID                       *                                        const char *
 
       * xmlAttributeType:
       *
@@ -263,7 +263,7 @@
      d xmlEnumeration  ds                  based(xmlEnumerationPtr)
      d                                     align qualified
      d  next                               like(xmlEnumerationPtr)              Next one
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
 
       * Forward pointer declarations.
 
@@ -282,7 +282,7 @@
      d                                     align qualified
      d  #private                       *                                        Application data
      d  type                               like(xmlElementType)                 XML_ATTRIBUTE_DECL
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  children                           like(xmlNodePtr)                     NULL
      d  last                               like(xmlNodePtr)                     NULL
      d  parent                             like(xmlDtdPtr)                      -> DTD
@@ -292,10 +292,10 @@
      d  nexth                              like(xmlAttributePtr)                Next in hash table
      d  atype                              like(xmlAttributeType)               The attribute type
      d  def                                like(xmlAttributeDefault)            The default
-     d  defaultValue                   *                                        or const xmlChar *
+     d  defaultValue                   *                                        or const char *
      d  tree                               like(xmlEnumerationPtr)              or enum tree
-     d  prefix                         *                                        const xmlChar *
-     d  elem                           *                                        const xmlChar *
+     d  prefix                         *                                        const char *
+     d  elem                           *                                        const char *
 
       * xmlElementContentType:
       *
@@ -342,11 +342,11 @@
      d                                     align qualified
      d  type                               like(xmlElementContentType)
      d  ocur                               like(xmlElementContentOccur)
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  c1                                 like(xmlElementContentPtr)           First child
      d  c2                                 like(xmlElementContentPtr)           Second child
      d  parent                             like(xmlElementContentPtr)           Parent
-     d  prefix                         *                                        const xmlChar *
+     d  prefix                         *                                        const char *
 
       * xmlElementTypeVal:
       *
@@ -378,7 +378,7 @@
      d                                     align qualified
      d  #private                       *                                        Application data
      d  type                               like(xmlElementType)                 XML_ELEMENT_DECL
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  children                           like(xmlNodePtr)                     NULL
      d  last                               like(xmlNodePtr)                     NULL
      d  parent                             like(xmlDtdPtr)                      -> DTD
@@ -388,7 +388,7 @@
      d  etype                              like(xmlElementTypeVal)              The type
      d  content                            like(xmlElementContentPtr)           Allowed elem content
      d  attributes                         like(xmlAttributePtr)                Declared attributes
-     d  prefix                         *                                        const xmlChar *
+     d  prefix                         *                                        const char *
       /if defined(LIBXML_REGEXP_ENABLED)
      d  contModel                          like(xmlRegexpPtr)                   Validating regexp
       /else
@@ -416,8 +416,8 @@
      d                                     align qualified
      d  next                               like(xmlNsPtr)                       next Ns link
      d  type                               like(xmlNsType)                      Global or local
-     d  href                           *                                        const xmlChar *
-     d  prefix                         *                                        const xmlChar *
+     d  href                           *                                        const char *
+     d  prefix                         *                                        const char *
      d  #private                       *                                        Application data
      d  context                            like(xmlDocPtr)                      normally an xmlDoc
 
@@ -430,7 +430,7 @@
      d                                     align qualified
      d  #private                       *                                        Application data
      d  type                               like(xmlElementType)                 XML_DTD_NODE
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  children                           like(xmlNodePtr)                     Property link value
      d  last                               like(xmlNodePtr)                     Last child link
      d  parent                             like(xmlDocPtr)                      Child->parent link
@@ -440,8 +440,8 @@
      d  notations                      *                                        notations hash table
      d  elements                       *                                        elements hash table
      d  entities                       *                                        entities hash table
-     d  ExternalID                     *                                        const xmlChar *
-     d  SystemID                       *                                        const xmlChar *
+     d  ExternalID                     *                                        const char *
+     d  SystemID                       *                                        const char *
      d  pentities                      *                                        param. ent. h table
 
       * xmlAttr:
@@ -454,7 +454,7 @@
      d                                     align qualified
      d  #private                       *                                        Application data
      d  type                               like(xmlElementType)                 XML_ATTRIBUTE_NODE
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  children                           like(xmlNodePtr)                     Property link value
      d  last                               like(xmlNodePtr)                     NULL
      d  parent                             like(xmlNodePtr)                     Child->parent link
@@ -475,7 +475,7 @@
      d                                     align qualified
      d  next                               like(xmlIdPtr)                       Next ID
      d  attr                               like(xmlAttrPtr)                     Attribute holding it
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  lineno                             like(xmlCint)                        Line # if not avail
      d  doc                                like(xmlDocPtr)                      Doc holding ID
 
@@ -488,9 +488,9 @@
      d xmlRef          ds                  based(xmlRefPtr)
      d                                     align qualified
      d  next                               like(xmlRefPtr)                      Next Ref
-     d  value                          *                                        const xmlChar *
+     d  value                          *                                        const char *
      d  attr                               like(xmlAttrPtr)                     Attribute holding it
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  lineno                             like(xmlCint)                        Line # if not avail
 
       * xmlNode:
@@ -501,7 +501,7 @@
      d                                     align qualified
      d  #private                       *                                        Application data
      d  type                               like(xmlElementType)
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  children                           like(xmlNodePtr)                     Parent->children lnk
      d  last                               like(xmlNodePtr)                     Last child link
      d  parent                             like(xmlNodePtr)                     Child->parent link
@@ -509,7 +509,7 @@
      d  prev                               like(xmlNodePtr)                     previous sibling lnk
      d  doc                                like(xmlDocPtr)                      The containing doc
      d  ns                                 like(xmlNsPtr)                       Associated namespace
-     d  content                        *                                        xmlChar *
+     d  content                        *                                        char *
      d  properties                         like(xmlAttrPtr)                     Properties list
      d  nsDef                              like(xmlNsPtr)                       Node ns definitions
      d  psvi                           *                                        Type/PSVI info
@@ -547,7 +547,7 @@
      d                                     align qualified
      d  #private                       *                                        Application data
      d  type                               like(xmlElementType)                 XML_DOCUMENT_NODE
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  children                           like(xmlNodePtr)                     The document tree
      d  last                               like(xmlNodePtr)                     Last child link
      d  parent                             like(xmlNodePtr)                     Child->parent link
@@ -559,11 +559,11 @@
      d  intSubset                          like(xmlDtdPtr)                      Internal subset
      d  extSubset                          like(xmlDtdPtr)                      External subset
      d  oldns                              like(xmlNsPtr)                       Global namespace
-     d  version                        *                                        const xmlChar *
-     d  encoding                       *                                        const xmlChar *
+     d  version                        *                                        const char *
+     d  encoding                       *                                        const char *
      d  ids                            *                                        IDs hash table
      d  refs                           *                                        IDREFs hash table
-     d  URL                            *                                        const xmlChar *
+     d  URL                            *                                        const char *
      d  charset                            like(xmlCint)                        In-memory encoding
      d  dict                           *                                        xmlDictPtr for names
      d  psvi                           *                                        Type/PSVI ino
@@ -629,7 +629,7 @@
      d xmlValidateNCName...
      d                 pr                  extproc('xmlValidateNCName')
      d                                     like(xmlCint)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
      d  space                              value like(xmlCint)
 
       /undefine XML_TESTVAL
@@ -644,36 +644,36 @@
      d xmlValidateQName...
      d                 pr                  extproc('xmlValidateQName')
      d                                     like(xmlCint)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
      d  space                              value like(xmlCint)
 
      d xmlValidateName...
      d                 pr                  extproc('xmlValidateName')
      d                                     like(xmlCint)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
      d  space                              value like(xmlCint)
 
      d xmlValidateNMToken...
      d                 pr                  extproc('xmlValidateNMToken')
      d                                     like(xmlCint)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
      d  space                              value like(xmlCint)
 
       /undefine XML_TESTVAL
       /endif
 
-     d xmlBuildQName   pr              *   extproc('xmlBuildQName')             xmlChar *
-     d  ncname                         *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
-     d  memory                    65535    options(*varsize: *omit)             xmlChar[]
+     d xmlBuildQName   pr              *   extproc('xmlBuildQName')             char *
+     d  ncname                         *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
+     d  memory                    65535    options(*varsize: *omit)             char[]
      d  len                                value like(xmlCint)                  memory length
 
-     d xmlSplitQName2  pr              *   extproc('xmlSplitQName2')            xmlChar *
-     d  name                           *   value options(*string)               const xmlChar *
-     d  prefix                         *                                        xmlChar *
+     d xmlSplitQName2  pr              *   extproc('xmlSplitQName2')            char *
+     d  name                           *   value options(*string)               const char *
+     d  prefix                         *                                        char *
 
-     d xmlSplitQName3  pr              *   extproc('xmlSplitQName3')            const xmlChar *
-     d  name                           *   value options(*string)               const xmlChar *
+     d xmlSplitQName3  pr              *   extproc('xmlSplitQName3')            const char *
+     d  name                           *   value options(*string)               const char *
      d  len                                like(xmlCint)
 
       * Handling Buffers, the old ones see @xmlBuf for the new ones.
@@ -721,20 +721,20 @@
      d xmlBufferAdd    pr                  extproc('xmlBufferAdd')
      d                                     like(xmlCint)
      d  buf                                value like(xmlBufferPtr)
-     d  str                            *   value options(*string)               const xmlChar *
+     d  str                            *   value options(*string)               const char *
      d  len                                value like(xmlCint)                  str length
 
      d xmlBufferAddHead...
      d                 pr                  extproc('xmlBufferAddHead')
      d                                     like(xmlCint)
      d  buf                                value like(xmlBufferPtr)
-     d  str                            *   value options(*string)               const xmlChar *
+     d  str                            *   value options(*string)               const char *
      d  len                                value like(xmlCint)                  str length
 
      d xmlBufferCat    pr                  extproc('xmlBufferCat')
      d                                     like(xmlCint)
      d  buf                                value like(xmlBufferPtr)
-     d  str                            *   value options(*string)               const xmlChar *
+     d  str                            *   value options(*string)               const char *
 
      d xmlBufferCCat   pr                  extproc('xmlBufferCCat')
      d                                     like(xmlCint)
@@ -756,11 +756,11 @@
      d  buf                                value like(xmlBufferPtr)
 
      d xmlBufferContent...
-     d                 pr              *   extproc('xmlBufferContent')          const xmlChar *
+     d                 pr              *   extproc('xmlBufferContent')          const char *
      d  buf                                value like(xmlBufferPtr)
 
      d xmlBufferDetach...
-     d                 pr              *   extproc('xmlBufferDetach')           xmlChar *
+     d                 pr              *   extproc('xmlBufferDetach')           char *
      d  buf                                value like(xmlBufferPtr)
 
      d xmlBufferSetAllocationScheme...
@@ -781,16 +781,16 @@
      d                 pr                  extproc('xmlCreateIntSubset')
      d                                     like(xmlDtdPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  ExternalID                     *   value options(*string)               const xmlChar *
-     d  SystemlID                      *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  ExternalID                     *   value options(*string)               const char *
+     d  SystemlID                      *   value options(*string)               const char *
 
      d xmlNewDtd       pr                  extproc('xmlNewDtd')
      d                                     like(xmlDtdPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  ExternalID                     *   value options(*string)               const xmlChar *
-     d  SystemlID                      *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  ExternalID                     *   value options(*string)               const char *
+     d  SystemlID                      *   value options(*string)               const char *
 
      d xmlGetIntSubset...
      d                 pr                  extproc('xmlGetIntSubset')
@@ -804,15 +804,15 @@
      d xmlNewGlobalNs  pr                  extproc('xmlNewGlobalNs')
      d                                     like(xmlNsPtr)
      d  doc                                value like(xmlDocPtr)
-     d  href                           *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
+     d  href                           *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
       /endif                                                                    LIBXML_LEGACY_ENABLD
 
      d xmlNewNs        pr                  extproc('xmlNewNs')
      d                                     like(xmlNsPtr)
      d  node                               value like(xmlNodePtr)
-     d  href                           *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
+     d  href                           *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
 
      d xmlFreeNs       pr                  extproc('xmlFreeNs')
      d  cur                                value like(xmlNsPtr)
@@ -822,15 +822,15 @@
 
      d xmlNewDoc       pr                  extproc('xmlNewDoc')
      d                                     like(xmlDocPtr)
-     d  version                        *   value options(*string)               const xmlChar *
+     d  version                        *   value options(*string)               const char *
 
      d xmlFreeDoc      pr                  extproc('xmlFreeDoc')
      d  cur                                value like(xmlDocPtr)
 
      d xmlNewDocProp   pr                  extproc('xmlNewDocProp')
      d                                     like(xmlAttrPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  value                          *   value options(*string)               const char *
 
       /if defined(LIBXML_TREE_ENABLED)
       /define XML_TESTVAL
@@ -843,8 +843,8 @@
      d xmlNewProp      pr                  extproc('xmlNewProp')
      d                                     like(xmlAttrPtr)
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  value                          *   value options(*string)               const char *
 
       /undefine XML_TESTVAL
       /endif
@@ -853,16 +853,16 @@
      d                                     like(xmlAttrPtr)
      d  node                               value like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  value                          *   value options(*string)               const char *
 
      d xmlNewNsPropEatName...
      d                 pr                  extproc('xmlNewNsPropEatName')
      d                                     like(xmlAttrPtr)
      d  node                               value like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value                                xmlChar *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  name                           *   value                                char *
+     d  value                          *   value options(*string)               const char *
 
      d xmlFreePropList...
      d                 pr                  extproc('xmlFreePropList')
@@ -908,27 +908,27 @@
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewDocNodeEatName...
      d                 pr                  extproc('xmlNewDocNodeEatName')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value                                xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  name                           *   value                                char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewNode      pr                  extproc('xmlNewNode')
      d                                     like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlNewNodeEatName...
      d                 pr                  extproc('xmlNewNodeEatName')
      d                                     like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value                                xmlChar *
+     d  name                           *   value                                char *
 
       /if defined(LIBXML_TREE_ENABLED)
       /define XML_TESTVAL
@@ -940,8 +940,8 @@
      d                                     like(xmlNodePtr)
      d  parent                             value like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
       /undefine XML_TESTVAL
       /endif
@@ -949,62 +949,62 @@
      d xmlNewDocText   pr                  extproc('xmlNewDocText')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewText      pr                  extproc('xmlNewText')
      d                                     like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewDocPI     pr                  extproc('xmlNewDocPI')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewPI        pr                  extproc('xmlNewPI')
      d                                     like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewDocTextLen...
      d                 pr                  extproc('xmlNewDocTextLen')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlNewTextLen   pr                  extproc('xmlNewTextLen')
      d                                     like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlNewDocComment...
      d                 pr                  extproc('xmlNewDocComment')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewComment   pr                  extproc('xmlNewComment')
      d                                     like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewCDataBlock...
      d                 pr                  extproc('xmlNewCDataBlock')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlNewCharRef   pr                  extproc('xmlNewCharRef')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlNewReference...
      d                 pr                  extproc('xmlNewReference')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlCopyNode     pr                  extproc('xmlCopyNode')
      d                                     like(xmlNodePtr)
@@ -1034,16 +1034,16 @@
      d                                     like(xmlNodePtr)
      d  parent                             value like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewDocRawNode...
      d                 pr                  extproc('xmlNewDocRawNode')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNewDocFragment...
      d                 pr                  extproc('xmlNewDocFragment')
@@ -1064,7 +1064,7 @@
       /define XML_TESTVAL
       /endif
       /if defined(XML_TESTVAL)
-     d xmlGetNodePath  pr              *   extproc('xmlGetNodePath')            xmlChar *
+     d xmlGetNodePath  pr              *   extproc('xmlGetNodePath')            char *
      d  node                               value like(xmlNodePtr)
 
       /undefine XML_TESTVAL
@@ -1108,7 +1108,7 @@
       /if defined(LIBXML_TREE_ENABLED)
      d xmlNodeSetName  pr                  extproc('xmlNodeSetName')
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
       /endif                                                                    LIBXML_TREE_ENABLED
 
      d xmlAddChild     pr                  extproc('xmlAddChild')
@@ -1175,7 +1175,7 @@
      d xmlTextConcat   pr                  extproc('xmlTextConcat')
      d                                     like(xmlCint)
      d  node                               value like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlFreeNodeList...
@@ -1199,14 +1199,14 @@
      d                                     like(xmlNsPtr)
      d  doc                                value like(xmlDocPtr)
      d  node                               value like(xmlNodePtr)
-     d  nameSpace                      *   value options(*string)               const xmlChar *
+     d  nameSpace                      *   value options(*string)               const char *
 
      d xmlSearchNsByHref...
      d                 pr                  extproc('xmlSearchNsByHref')
      d                                     like(xmlNsPtr)
      d  doc                                value like(xmlDocPtr)
      d  node                               value like(xmlNodePtr)
-     d  href                           *   value options(*string)               const xmlChar *
+     d  href                           *   value options(*string)               const char *
 
       /if defined(LIBXML_TREE_ENABLED)
       /define XML_TESTVAL
@@ -1252,65 +1252,65 @@
      d xmlSetProp      pr                  extproc('xmlSetProp')
      d                                     like(xmlAttrPtr)
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  value                          *   value options(*string)               const char *
 
      d xmlSetNsProp    pr                  extproc('xmlSetNsProp')
      d                                     like(xmlAttrPtr)
      d  node                               value like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  value                          *   value options(*string)               const char *
 
       /undefine XML_TESTVAL
       /endif
 
-     d xmlGetNoNsProp  pr              *   extproc('xmlGetNoNsProp')            xmlChar *
+     d xmlGetNoNsProp  pr              *   extproc('xmlGetNoNsProp')            char *
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
-     d xmlGetProp      pr              *   extproc('xmlGetProp')                xmlChar *
+     d xmlGetProp      pr              *   extproc('xmlGetProp')                char *
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlHasProp      pr                  extproc('xmlHasProp')
      d                                     like(xmlAttrPtr)
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlHasNsProp    pr                  extproc('xmlHasNsProp')
      d                                     like(xmlAttrPtr)
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  nameSpace                      *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  nameSpace                      *   value options(*string)               const char *
 
-     d xmlGetNsProp    pr              *   extproc('xmlGetNsProp')              xmlChar *
+     d xmlGetNsProp    pr              *   extproc('xmlGetNsProp')              char *
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  nameSpace                      *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  nameSpace                      *   value options(*string)               const char *
 
      d xmlStringGetNodeList...
      d                 pr                  extproc('xmlStringGetNodeList')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
 
      d xmlStringLenGetNodeList...
      d                 pr                  extproc('xmlStringLenGetNodeList')
      d                                     like(xmlNodePtr)
      d  doc                                value like(xmlDocPtr)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlNodeListGetString...
-     d                 pr              *   extproc('xmlNodeListGetString')      xmlChar *
+     d                 pr              *   extproc('xmlNodeListGetString')      char *
      d  doc                                value like(xmlDocPtr)
      d  list                               value like(xmlNodePtr)
      d  inLine                             value like(xmlCint)
 
       /if defined(LIBXML_TREE_ENABLED)
      d xmlNodeListGetRawString...
-     d                 pr              *   extproc('xmlNodeListGetRawString')   xmlChar *
+     d                 pr              *   extproc('xmlNodeListGetRawString')   char *
      d  doc                                value like(xmlDocPtr)
      d  list                               value like(xmlNodePtr)
      d  inLine                             value like(xmlCint)
@@ -1319,29 +1319,29 @@
      d xmlNodeSetContent...
      d                 pr                  extproc('xmlNodeSetContent')
      d  cur                                value like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
 
       /if defined(LIBXML_TREE_ENABLED)
      d xmlNodeSetContentLen...
      d                 pr                  extproc('xmlNodeSetContentLen')
      d  cur                                value like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
      d  len                                value like(xmlCint)
       /endif                                                                    LIBXML_TREE_ENABLED
 
      d xmlNodeAddContent...
      d                 pr                  extproc('xmlNodeAddContent')
      d  cur                                value like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
 
      d xmlNodeAddContentLen...
      d                 pr                  extproc('xmlNodeAddContentLen')
      d  cur                                value like(xmlNodePtr)
-     d  content                        *   value options(*string)               const xmlChar *
+     d  content                        *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlNodeGetContent...
-     d                 pr              *   extproc('xmlNodeGetContent')         xmlChar *
+     d                 pr              *   extproc('xmlNodeGetContent')         char *
      d  cur                                value like(xmlNodePtr)
 
      d xmlNodeBufGetContent...
@@ -1356,7 +1356,7 @@
      d  buf                                value like(xmlBufPtr)
      d  cur                                value like(xmlNodePtr)
 
-     d xmlNodeGetLang  pr              *   extproc('xmlNodeGetLang')            xmlChar *
+     d xmlNodeGetLang  pr              *   extproc('xmlNodeGetLang')            char *
      d  cur                                value like(xmlNodePtr)
 
      d xmlNodeGetSpacePreserve...
@@ -1367,7 +1367,7 @@
       /if defined(LIBXML_TREE_ENABLED)
      d xmlNodeSetLang  pr                  extproc('xmlNodeSetLang')
      d  cur                                value like(xmlNodePtr)
-     d  lang                           *   value options(*string)               const xmlChar *
+     d  lang                           *   value options(*string)               const char *
 
      d xmlNodeSetSpacePreserve...
      d                 pr                  extproc('xmlNodeSetSpacePreserve')
@@ -1375,7 +1375,7 @@
      d  val                                value like(xmlCint)
       /endif                                                                    LIBXML_TREE_ENABLED
 
-     d xmlNodeGetBase  pr              *   extproc('xmlNodeGetBase')            xmlChar *
+     d xmlNodeGetBase  pr              *   extproc('xmlNodeGetBase')            char *
      d  doc                                value like(xmlDocPtr)
      d  cur                                value like(xmlNodePtr)
 
@@ -1387,7 +1387,7 @@
       /if defined(XML_TESTVAL)
      d xmlNodeSetBase  pr                  extproc('xmlNodeSetBase')
      d  node                               value like(xmlNodePtr)
-     d  uri                            *   value options(*string)               const xmlChar *
+     d  uri                            *   value options(*string)               const char *
 
       /undefine XML_TESTVAL
       /endif
@@ -1408,12 +1408,12 @@
      d                                     like(xmlCint)
      d  node                               value like(xmlNodePtr)
      d  ns                                 value like(xmlNsPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlUnsetProp    pr                  extproc('xmlUnsetProp')
      d                                     like(xmlCint)
      d  node                               value like(xmlNodePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
       /undefine XML_TESTVAL
       /endif
@@ -1423,24 +1423,24 @@
      d xmlBufferWriteCharacter...                                               Warning: renamed
      d                 pr                  extproc('xmlBufferWriteCHAR')
      d  buf                                value like(xmlBufferPtr)
-     d  string                         *   value options(*string)               const xmlChar *
+     d  string                         *   value options(*string)               const char *
 
      d xmlBufferWriteChar...
      d                 pr                  extproc('xmlBufferWriteChar')
      d  buf                                value like(xmlBufferPtr)
-     d  string                         *   value options(*string)               const xmlChar *
+     d  string                         *   value options(*string)               const char *
 
      d xmlBufferWriteQuotedString...
      d                 pr                  extproc('xmlBufferWriteQuotedString')
      d  buf                                value like(xmlBufferPtr)
-     d  string                         *   value options(*string)               const xmlChar *
+     d  string                         *   value options(*string)               const char *
 
       /if defined(LIBXML_OUTPUT_ENABLED)
      d xmlAttrSerializeTxtContent...
      d                 pr                  extproc('xmlAttrSerializeTxtContent')
      d  buf                                value like(xmlBufferPtr)
      d  attr                               value like(xmlAttrPtr)
-     d  string                         *   value options(*string)               const xmlChar *
+     d  string                         *   value options(*string)               const char *
       /endif                                                                    LIBXML_OUTPUT_ENABLD
 
       /if defined(LIBXML_TREE_ENABLED)
@@ -1461,27 +1461,27 @@
      d xmlDocDumpFormatMemory...
      d                 pr                  extproc('xmlDocDumpFormatMemory')
      d  cur                                value like(xmlDocPtr)
-     d  mem                            *                                        xmlChar * (*)
+     d  mem                            *                                        char * (*)
      d  size                               like(xmlCint)
      d  format                             value like(xmlCint)
 
      d xmlDocDumpMemory...
      d                 pr                  extproc('xmlDocDumpMemory')
      d  cur                                value like(xmlDocPtr)
-     d  mem                            *                                        xmlChar * (*)
+     d  mem                            *                                        char * (*)
      d  size                               like(xmlCint)
 
      d xmlDocDumpMemoryEnc...
      d                 pr                  extproc('xmlDocDumpMemoryEnc')
      d  out_doc                            value like(xmlDocPtr)
-     d  doc_txt_ptr                    *                                        xmlChar * (*)
+     d  doc_txt_ptr                    *                                        char * (*)
      d  doc_txt_len                        like(xmlCint)
      d  txt_encoding                   *   value options(*string)               const char *
 
      d xmlDocDumpFormatMemoryEnc...
      d                 pr                  extproc('xmlDocDumpFormatMemoryEnc')
      d  out_doc                            value like(xmlDocPtr)
-     d  doc_txt_ptr                    *                                        xmlChar * (*)
+     d  doc_txt_ptr                    *                                        char * (*)
      d  doc_txt_len                        like(xmlCint)
      d  txt_encoding                   *   value options(*string)               const char *
      d  format                             value like(xmlCint)
@@ -1573,8 +1573,8 @@
 
      d xmlIsXHTML      pr                  extproc('xmlIsXHTML')
      d                                     like(xmlCint)
-     d  systemID                       *   value options(*string)               const xmlChar *
-     d  publicID                       *   value options(*string)               const xmlChar *
+     d  systemID                       *   value options(*string)               const char *
+     d  publicID                       *   value options(*string)               const char *
 
       * Compression.
 

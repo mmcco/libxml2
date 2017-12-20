@@ -97,7 +97,7 @@ XMLPUBFUN xmlXPathContextPtr XMLCALL
 						 xmlNodePtr here,
 						 xmlNodePtr origin);
 XMLPUBFUN xmlXPathObjectPtr XMLCALL
-		    xmlXPtrEval			(const xmlChar *str,
+		    xmlXPtrEval			(const char *str,
 						 xmlXPathContextPtr ctx);
 XMLPUBFUN void XMLCALL
 		    xmlXPtrRangeToFunction	(xmlXPathParserContextPtr ctxt,

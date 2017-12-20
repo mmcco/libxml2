@@ -155,7 +155,7 @@ const xmlChRangeGroup xmlIsIdeographicGroup =
 
 
 /**
- * xmlCharInRange:
+ * charInRange:
  * @val: character to be validated
  * @rptr: pointer to range to be used to validate
  *
@@ -165,7 +165,7 @@ const xmlChRangeGroup xmlIsIdeographicGroup =
  * Returns: true if character valid, false otherwise
  */
 int
-xmlCharInRange (unsigned int val, const xmlChRangeGroup *rptr) {
+charInRange (unsigned int val, const xmlChRangeGroup *rptr) {
     int low, high, mid;
     const xmlChSRange *sptr;
     const xmlChLRange *lptr;

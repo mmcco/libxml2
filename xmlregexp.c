@@ -171,7 +171,7 @@ struct _xmlRegRange {
     xmlRegAtomType type;
     int start;
     int end;
-    xmlChar *blockName;
+    char *blockName;
 };
 
 typedef struct _xmlRegAtom xmlRegAtom;
@@ -240,8 +240,8 @@ typedef xmlRegParserCtxt *xmlRegParserCtxtPtr;
 #define AM_AUTOMATA_RNG 1
 
 struct _xmlAutomata {
-    xmlChar *string;
-    xmlChar *cur;
+    char *string;
+    char *cur;
 
     int error;
     int neg;
@@ -270,7 +270,7 @@ struct _xmlAutomata {
 };
 
 struct _xmlRegexp {
-    xmlChar *string;
+    char *string;
     int nbStates;
     xmlRegStatePtr *states;
     int nbAtoms;
@@ -286,7 +286,7 @@ struct _xmlRegexp {
     int *compact;
     void **transdata;
     int nbstrings;
-    xmlChar **stringMap;
+    char **stringMap;
 };
 
 typedef struct _xmlRegExecRollback xmlRegExecRollback;
@@ -303,7 +303,7 @@ typedef struct _xmlRegInputToken xmlRegInputToken;
 typedef xmlRegInputToken *xmlRegInputTokenPtr;
 
 struct _xmlRegInputToken {
-    xmlChar *value;
+    char *value;
     void *data;
 };
 
@@ -337,7 +337,7 @@ struct _xmlRegExecCtxt {
     int inputStackNr;
     int index;
     int *charStack;
-    const xmlChar *inputString; /* when operating on characters */
+    const char *inputString; /* when operating on characters */
     xmlRegInputTokenPtr inputStack;/* when operating on strings */
 
     /*
@@ -345,7 +345,7 @@ struct _xmlRegExecCtxt {
      */
     int errStateNo;		/* the error state number */
     xmlRegStatePtr errState;    /* the error state */
-    xmlChar *errString;		/* the string raising the error */
+    char *errString;		/* the string raising the error */
     int *errCounts;		/* counters at the error state */
     int nbPush;
 };
@@ -356,10 +356,10 @@ struct _xmlRegExecCtxt {
 static void xmlFAParseRegExp(xmlRegParserCtxtPtr ctxt, int top);
 static void xmlRegFreeState(xmlRegStatePtr state);
 static void xmlRegFreeAtom(xmlRegAtomPtr atom);
-static int xmlRegStrEqualWildcard(const xmlChar *expStr, const xmlChar *valStr);
+static int xmlRegStrEqualWildcard(const char *expStr, const char *valStr);
 static int xmlRegCheckCharacter(xmlRegAtomPtr atom, int codepoint);
 static int xmlRegCheckCharacterRange(xmlRegAtomType type, int codepoint,
-                  int neg, int start, int end, const xmlChar *blockName);
+                  int neg, int start, int end, const char *blockName);
 
 void xmlAutomataSetFlags(xmlAutomataPtr am, int flags);
 
@@ -430,7 +430,7 @@ static xmlRegexpPtr
 xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
     xmlRegexpPtr ret;
 
-    ret = (xmlRegexpPtr) xmlMalloc(sizeof(xmlRegexp));
+    ret = (xmlRegexpPtr) malloc(sizeof(xmlRegexp));
     if (ret == NULL) {
 	xmlRegexpErrMemory(ctxt, "compiling regexp");
 	return(NULL);
@@ -460,8 +460,8 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	int *stringRemap;
 	int *transitions;
 	void **transdata;
-	xmlChar **stringMap;
-        xmlChar *value;
+	char **stringMap;
+        char *value;
 
 	/*
 	 * Switch to a compact representation
@@ -471,10 +471,10 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	 * 3/ build a table state x atom for the transitions
 	 */
 
-	stateRemap = xmlMalloc(ret->nbStates * sizeof(int));
+	stateRemap = malloc(ret->nbStates * sizeof(int));
 	if (stateRemap == NULL) {
 	    xmlRegexpErrMemory(ctxt, "compiling regexp");
-	    xmlFree(ret);
+	    free(ret);
 	    return(NULL);
 	}
 	for (i = 0;i < ret->nbStates;i++) {
@@ -488,19 +488,19 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 #ifdef DEBUG_COMPACTION
 	printf("Final: %d states\n", nbstates);
 #endif
-	stringMap = xmlMalloc(ret->nbAtoms * sizeof(char *));
+	stringMap = malloc(ret->nbAtoms * sizeof(char *));
 	if (stringMap == NULL) {
 	    xmlRegexpErrMemory(ctxt, "compiling regexp");
-	    xmlFree(stateRemap);
-	    xmlFree(ret);
+	    free(stateRemap);
+	    free(ret);
 	    return(NULL);
 	}
-	stringRemap = xmlMalloc(ret->nbAtoms * sizeof(int));
+	stringRemap = malloc(ret->nbAtoms * sizeof(int));
 	if (stringRemap == NULL) {
 	    xmlRegexpErrMemory(ctxt, "compiling regexp");
-	    xmlFree(stringMap);
-	    xmlFree(stateRemap);
-	    xmlFree(ret);
+	    free(stringMap);
+	    free(stateRemap);
+	    free(ret);
 	    return(NULL);
 	}
 	for (i = 0;i < ret->nbAtoms;i++) {
@@ -515,38 +515,38 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 		}
 		if (j >= nbatoms) {
 		    stringRemap[i] = nbatoms;
-		    stringMap[nbatoms] = xmlStrdup(value);
+		    stringMap[nbatoms] = strdup(value);
 		    if (stringMap[nbatoms] == NULL) {
 			for (i = 0;i < nbatoms;i++)
-			    xmlFree(stringMap[i]);
-			xmlFree(stringRemap);
-			xmlFree(stringMap);
-			xmlFree(stateRemap);
-			xmlFree(ret);
+			    free(stringMap[i]);
+			free(stringRemap);
+			free(stringMap);
+			free(stateRemap);
+			free(ret);
 			return(NULL);
 		    }
 		    nbatoms++;
 		}
 	    } else {
-		xmlFree(stateRemap);
-		xmlFree(stringRemap);
+		free(stateRemap);
+		free(stringRemap);
 		for (i = 0;i < nbatoms;i++)
-		    xmlFree(stringMap[i]);
-		xmlFree(stringMap);
-		xmlFree(ret);
+		    free(stringMap[i]);
+		free(stringMap);
+		free(ret);
 		return(NULL);
 	    }
 	}
 #ifdef DEBUG_COMPACTION
 	printf("Final: %d atoms\n", nbatoms);
 #endif
-	transitions = (int *) xmlMalloc((nbstates + 1) *
+	transitions = (int *) malloc((nbstates + 1) *
 	                                (nbatoms + 1) * sizeof(int));
 	if (transitions == NULL) {
-	    xmlFree(stateRemap);
-	    xmlFree(stringRemap);
-	    xmlFree(stringMap);
-	    xmlFree(ret);
+	    free(stateRemap);
+	    free(stringRemap);
+	    free(stringMap);
+	    free(ret);
 	    return(NULL);
 	}
 	memset(transitions, 0, (nbstates + 1) * (nbatoms + 1) * sizeof(int));
@@ -575,7 +575,7 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 		    continue;
                 atomno = stringRemap[trans->atom->no];
 		if ((trans->atom->data != NULL) && (transdata == NULL)) {
-		    transdata = (void **) xmlMalloc(nbstates * nbatoms *
+		    transdata = (void **) malloc(nbstates * nbatoms *
 			                            sizeof(void *));
 		    if (transdata != NULL)
 			memset(transdata, 0,
@@ -601,13 +601,13 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 			printf("       previous to is %d\n", prev);
 #endif
 			if (transdata != NULL)
-			    xmlFree(transdata);
-			xmlFree(transitions);
-			xmlFree(stateRemap);
-			xmlFree(stringRemap);
+			    free(transdata);
+			free(transitions);
+			free(stateRemap);
+			free(stringRemap);
 			for (i = 0;i < nbatoms;i++)
-			    xmlFree(stringMap[i]);
-			xmlFree(stringMap);
+			    free(stringMap[i]);
+			free(stringMap);
 			goto not_determ;
 		    }
 		} else {
@@ -642,14 +642,14 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	if (ret->states != NULL) {
 	    for (i = 0;i < ret->nbStates;i++)
 		xmlRegFreeState(ret->states[i]);
-	    xmlFree(ret->states);
+	    free(ret->states);
 	}
 	ret->states = NULL;
 	ret->nbStates = 0;
 	if (ret->atoms != NULL) {
 	    for (i = 0;i < ret->nbAtoms;i++)
 		xmlRegFreeAtom(ret->atoms[i]);
-	    xmlFree(ret->atoms);
+	    free(ret->atoms);
 	}
 	ret->atoms = NULL;
 	ret->nbAtoms = 0;
@@ -659,8 +659,8 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	ret->stringMap = stringMap;
 	ret->nbstrings = nbatoms;
 	ret->nbstates = nbstates;
-	xmlFree(stateRemap);
-	xmlFree(stringRemap);
+	free(stateRemap);
+	free(stringRemap);
     }
 not_determ:
     ctxt->string = NULL;
@@ -682,15 +682,15 @@ not_determ:
  * Returns the new context or NULL in case of error
  */
 static xmlRegParserCtxtPtr
-xmlRegNewParserCtxt(const xmlChar *string) {
+xmlRegNewParserCtxt(const char *string) {
     xmlRegParserCtxtPtr ret;
 
-    ret = (xmlRegParserCtxtPtr) xmlMalloc(sizeof(xmlRegParserCtxt));
+    ret = (xmlRegParserCtxtPtr) malloc(sizeof(xmlRegParserCtxt));
     if (ret == NULL)
 	return(NULL);
     memset(ret, 0, sizeof(xmlRegParserCtxt));
     if (string != NULL)
-	ret->string = xmlStrdup(string);
+	ret->string = strdup(string);
     ret->cur = ret->string;
     ret->neg = 0;
     ret->negs = 0;
@@ -716,7 +716,7 @@ xmlRegNewRange(xmlRegParserCtxtPtr ctxt,
 	       int neg, xmlRegAtomType type, int start, int end) {
     xmlRegRangePtr ret;
 
-    ret = (xmlRegRangePtr) xmlMalloc(sizeof(xmlRegRange));
+    ret = (xmlRegRangePtr) malloc(sizeof(xmlRegRange));
     if (ret == NULL) {
 	xmlRegexpErrMemory(ctxt, "allocating range");
 	return(NULL);
@@ -740,8 +740,8 @@ xmlRegFreeRange(xmlRegRangePtr range) {
 	return;
 
     if (range->blockName != NULL)
-	xmlFree(range->blockName);
-    xmlFree(range);
+	free(range->blockName);
+    free(range);
 }
 
 /**
@@ -764,7 +764,7 @@ xmlRegCopyRange(xmlRegParserCtxtPtr ctxt, xmlRegRangePtr range) {
     if (ret == NULL)
         return(NULL);
     if (range->blockName != NULL) {
-	ret->blockName = xmlStrdup(range->blockName);
+	ret->blockName = strdup(range->blockName);
 	if (ret->blockName == NULL) {
 	    xmlRegexpErrMemory(ctxt, "allocating range");
 	    xmlRegFreeRange(ret);
@@ -787,7 +787,7 @@ static xmlRegAtomPtr
 xmlRegNewAtom(xmlRegParserCtxtPtr ctxt, xmlRegAtomType type) {
     xmlRegAtomPtr ret;
 
-    ret = (xmlRegAtomPtr) xmlMalloc(sizeof(xmlRegAtom));
+    ret = (xmlRegAtomPtr) malloc(sizeof(xmlRegAtom));
     if (ret == NULL) {
 	xmlRegexpErrMemory(ctxt, "allocating atom");
 	return(NULL);
@@ -816,14 +816,14 @@ xmlRegFreeAtom(xmlRegAtomPtr atom) {
     for (i = 0;i < atom->nbRanges;i++)
 	xmlRegFreeRange(atom->ranges[i]);
     if (atom->ranges != NULL)
-	xmlFree(atom->ranges);
+	free(atom->ranges);
     if ((atom->type == XML_REGEXP_STRING) && (atom->valuep != NULL))
-	xmlFree(atom->valuep);
+	free(atom->valuep);
     if ((atom->type == XML_REGEXP_STRING) && (atom->valuep2 != NULL))
-	xmlFree(atom->valuep2);
+	free(atom->valuep2);
     if ((atom->type == XML_REGEXP_BLOCK_NAME) && (atom->valuep != NULL))
-	xmlFree(atom->valuep);
-    xmlFree(atom);
+	free(atom->valuep);
+    free(atom);
 }
 
 /**
@@ -839,7 +839,7 @@ static xmlRegAtomPtr
 xmlRegCopyAtom(xmlRegParserCtxtPtr ctxt, xmlRegAtomPtr atom) {
     xmlRegAtomPtr ret;
 
-    ret = (xmlRegAtomPtr) xmlMalloc(sizeof(xmlRegAtom));
+    ret = (xmlRegAtomPtr) malloc(sizeof(xmlRegAtom));
     if (ret == NULL) {
 	xmlRegexpErrMemory(ctxt, "copying atom");
 	return(NULL);
@@ -852,7 +852,7 @@ xmlRegCopyAtom(xmlRegParserCtxtPtr ctxt, xmlRegAtomPtr atom) {
     if (atom->nbRanges > 0) {
         int i;
 
-        ret->ranges = (xmlRegRangePtr *) xmlMalloc(sizeof(xmlRegRangePtr) *
+        ret->ranges = (xmlRegRangePtr *) malloc(sizeof(xmlRegRangePtr) *
 	                                           atom->nbRanges);
 	if (ret->ranges == NULL) {
 	    xmlRegexpErrMemory(ctxt, "copying atom");
@@ -876,7 +876,7 @@ static xmlRegStatePtr
 xmlRegNewState(xmlRegParserCtxtPtr ctxt) {
     xmlRegStatePtr ret;
 
-    ret = (xmlRegStatePtr) xmlMalloc(sizeof(xmlRegState));
+    ret = (xmlRegStatePtr) malloc(sizeof(xmlRegState));
     if (ret == NULL) {
 	xmlRegexpErrMemory(ctxt, "allocating state");
 	return(NULL);
@@ -899,10 +899,10 @@ xmlRegFreeState(xmlRegStatePtr state) {
 	return;
 
     if (state->trans != NULL)
-	xmlFree(state->trans);
+	free(state->trans);
     if (state->transTo != NULL)
-	xmlFree(state->transTo);
-    xmlFree(state);
+	free(state->transTo);
+    free(state);
 }
 
 /**
@@ -918,20 +918,20 @@ xmlRegFreeParserCtxt(xmlRegParserCtxtPtr ctxt) {
 	return;
 
     if (ctxt->string != NULL)
-	xmlFree(ctxt->string);
+	free(ctxt->string);
     if (ctxt->states != NULL) {
 	for (i = 0;i < ctxt->nbStates;i++)
 	    xmlRegFreeState(ctxt->states[i]);
-	xmlFree(ctxt->states);
+	free(ctxt->states);
     }
     if (ctxt->atoms != NULL) {
 	for (i = 0;i < ctxt->nbAtoms;i++)
 	    xmlRegFreeAtom(ctxt->atoms[i]);
-	xmlFree(ctxt->atoms);
+	free(ctxt->atoms);
     }
     if (ctxt->counters != NULL)
-	xmlFree(ctxt->counters);
-    xmlFree(ctxt);
+	free(ctxt->counters);
+    free(ctxt);
 }
 
 /************************************************************************
@@ -1216,7 +1216,7 @@ xmlRegPrintCtxt(FILE *output, xmlRegParserCtxtPtr ctxt) {
 static void
 xmlRegAtomAddRange(xmlRegParserCtxtPtr ctxt, xmlRegAtomPtr atom,
 	           int neg, xmlRegAtomType type, int start, int end,
-		   xmlChar *blockName) {
+		   char *blockName) {
     xmlRegRangePtr range;
 
     if (atom == NULL) {
@@ -1229,7 +1229,7 @@ xmlRegAtomAddRange(xmlRegParserCtxtPtr ctxt, xmlRegAtomPtr atom,
     }
     if (atom->maxRanges == 0) {
 	atom->maxRanges = 4;
-	atom->ranges = (xmlRegRangePtr *) xmlMalloc(atom->maxRanges *
+	atom->ranges = (xmlRegRangePtr *) malloc(atom->maxRanges *
 		                             sizeof(xmlRegRangePtr));
 	if (atom->ranges == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding ranges");
@@ -1239,7 +1239,7 @@ xmlRegAtomAddRange(xmlRegParserCtxtPtr ctxt, xmlRegAtomPtr atom,
     } else if (atom->nbRanges >= atom->maxRanges) {
 	xmlRegRangePtr *tmp;
 	atom->maxRanges *= 2;
-	tmp = (xmlRegRangePtr *) xmlRealloc(atom->ranges, atom->maxRanges *
+	tmp = (xmlRegRangePtr *) realloc(atom->ranges, atom->maxRanges *
 		                             sizeof(xmlRegRangePtr));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding ranges");
@@ -1260,7 +1260,7 @@ static int
 xmlRegGetCounter(xmlRegParserCtxtPtr ctxt) {
     if (ctxt->maxCounters == 0) {
 	ctxt->maxCounters = 4;
-	ctxt->counters = (xmlRegCounter *) xmlMalloc(ctxt->maxCounters *
+	ctxt->counters = (xmlRegCounter *) malloc(ctxt->maxCounters *
 		                             sizeof(xmlRegCounter));
 	if (ctxt->counters == NULL) {
 	    xmlRegexpErrMemory(ctxt, "allocating counter");
@@ -1270,7 +1270,7 @@ xmlRegGetCounter(xmlRegParserCtxtPtr ctxt) {
     } else if (ctxt->nbCounters >= ctxt->maxCounters) {
 	xmlRegCounter *tmp;
 	ctxt->maxCounters *= 2;
-	tmp = (xmlRegCounter *) xmlRealloc(ctxt->counters, ctxt->maxCounters *
+	tmp = (xmlRegCounter *) realloc(ctxt->counters, ctxt->maxCounters *
 		                           sizeof(xmlRegCounter));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(ctxt, "allocating counter");
@@ -1292,7 +1292,7 @@ xmlRegAtomPush(xmlRegParserCtxtPtr ctxt, xmlRegAtomPtr atom) {
     }
     if (ctxt->maxAtoms == 0) {
 	ctxt->maxAtoms = 4;
-	ctxt->atoms = (xmlRegAtomPtr *) xmlMalloc(ctxt->maxAtoms *
+	ctxt->atoms = (xmlRegAtomPtr *) malloc(ctxt->maxAtoms *
 		                             sizeof(xmlRegAtomPtr));
 	if (ctxt->atoms == NULL) {
 	    xmlRegexpErrMemory(ctxt, "pushing atom");
@@ -1302,7 +1302,7 @@ xmlRegAtomPush(xmlRegParserCtxtPtr ctxt, xmlRegAtomPtr atom) {
     } else if (ctxt->nbAtoms >= ctxt->maxAtoms) {
 	xmlRegAtomPtr *tmp;
 	ctxt->maxAtoms *= 2;
-	tmp = (xmlRegAtomPtr *) xmlRealloc(ctxt->atoms, ctxt->maxAtoms *
+	tmp = (xmlRegAtomPtr *) realloc(ctxt->atoms, ctxt->maxAtoms *
 		                             sizeof(xmlRegAtomPtr));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(ctxt, "allocating counter");
@@ -1321,7 +1321,7 @@ xmlRegStateAddTransTo(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr target,
                       int from) {
     if (target->maxTransTo == 0) {
 	target->maxTransTo = 8;
-	target->transTo = (int *) xmlMalloc(target->maxTransTo *
+	target->transTo = (int *) malloc(target->maxTransTo *
 		                             sizeof(int));
 	if (target->transTo == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding transition");
@@ -1331,7 +1331,7 @@ xmlRegStateAddTransTo(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr target,
     } else if (target->nbTransTo >= target->maxTransTo) {
 	int *tmp;
 	target->maxTransTo *= 2;
-	tmp = (int *) xmlRealloc(target->transTo, target->maxTransTo *
+	tmp = (int *) realloc(target->transTo, target->maxTransTo *
 		                             sizeof(int));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding transition");
@@ -1381,7 +1381,7 @@ xmlRegStateAddTrans(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr state,
 
     if (state->maxTrans == 0) {
 	state->maxTrans = 8;
-	state->trans = (xmlRegTrans *) xmlMalloc(state->maxTrans *
+	state->trans = (xmlRegTrans *) malloc(state->maxTrans *
 		                             sizeof(xmlRegTrans));
 	if (state->trans == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding transition");
@@ -1391,7 +1391,7 @@ xmlRegStateAddTrans(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr state,
     } else if (state->nbTrans >= state->maxTrans) {
 	xmlRegTrans *tmp;
 	state->maxTrans *= 2;
-	tmp = (xmlRegTrans *) xmlRealloc(state->trans, state->maxTrans *
+	tmp = (xmlRegTrans *) realloc(state->trans, state->maxTrans *
 		                             sizeof(xmlRegTrans));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding transition");
@@ -1428,7 +1428,7 @@ xmlRegStatePush(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr state) {
     if (state == NULL) return(-1);
     if (ctxt->maxStates == 0) {
 	ctxt->maxStates = 4;
-	ctxt->states = (xmlRegStatePtr *) xmlMalloc(ctxt->maxStates *
+	ctxt->states = (xmlRegStatePtr *) malloc(ctxt->maxStates *
 		                             sizeof(xmlRegStatePtr));
 	if (ctxt->states == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding state");
@@ -1438,7 +1438,7 @@ xmlRegStatePush(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr state) {
     } else if (ctxt->nbStates >= ctxt->maxStates) {
 	xmlRegStatePtr *tmp;
 	ctxt->maxStates *= 2;
-	tmp = (xmlRegStatePtr *) xmlRealloc(ctxt->states, ctxt->maxStates *
+	tmp = (xmlRegStatePtr *) realloc(ctxt->states, ctxt->maxStates *
 		                             sizeof(xmlRegStatePtr));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(ctxt, "adding state");
@@ -2471,8 +2471,8 @@ xmlFAEqualAtoms(xmlRegAtomPtr atom1, xmlRegAtomPtr atom2, int deep) {
             if (!deep)
                 ret = (atom1->valuep == atom2->valuep);
             else
-                ret = xmlStrEqual((xmlChar *)atom1->valuep,
-                                  (xmlChar *)atom2->valuep);
+                ret = xmlStrEqual((char *)atom1->valuep,
+                                  (char *)atom2->valuep);
 	    break;
         case XML_REGEXP_CHARVAL:
 	    ret = (atom1->codepoint == atom2->codepoint);
@@ -2527,8 +2527,8 @@ xmlFACompareAtoms(xmlRegAtomPtr atom1, xmlRegAtomPtr atom2, int deep) {
             if (!deep)
                 ret = (atom1->valuep != atom2->valuep);
             else
-                ret = xmlRegStrEqualWildcard((xmlChar *)atom1->valuep,
-                                             (xmlChar *)atom2->valuep);
+                ret = xmlRegStrEqualWildcard((char *)atom1->valuep,
+                                             (char *)atom2->valuep);
 	    break;
         case XML_REGEXP_EPSILON:
 	    goto not_determinist;
@@ -2793,7 +2793,7 @@ xmlFAComputesDeterminism(xmlRegParserCtxtPtr ctxt) {
 
 static int
 xmlRegCheckCharacterRange(xmlRegAtomType type, int codepoint, int neg,
-	                  int start, int end, const xmlChar *blockName) {
+	                  int start, int end, const char *blockName) {
     int ret = 0;
 
     switch (type) {
@@ -3061,7 +3061,7 @@ xmlRegCheckCharacter(xmlRegAtomPtr atom, int codepoint) {
         case XML_REGEXP_OTHER_NA:
 	case XML_REGEXP_BLOCK_NAME:
 	    ret = xmlRegCheckCharacterRange(atom->type, codepoint, 0, 0, 0,
-		                            (const xmlChar *)atom->valuep);
+		                            (const char *)atom->valuep);
 	    if (atom->neg)
 		ret = !ret;
 	    break;
@@ -3109,7 +3109,7 @@ xmlFARegExecSave(xmlRegExecCtxtPtr exec) {
 
     if (exec->maxRollbacks == 0) {
 	exec->maxRollbacks = 4;
-	exec->rollbacks = (xmlRegExecRollback *) xmlMalloc(exec->maxRollbacks *
+	exec->rollbacks = (xmlRegExecRollback *) malloc(exec->maxRollbacks *
 		                             sizeof(xmlRegExecRollback));
 	if (exec->rollbacks == NULL) {
 	    xmlRegexpErrMemory(NULL, "saving regexp");
@@ -3123,7 +3123,7 @@ xmlFARegExecSave(xmlRegExecCtxtPtr exec) {
 	int len = exec->maxRollbacks;
 
 	exec->maxRollbacks *= 2;
-	tmp = (xmlRegExecRollback *) xmlRealloc(exec->rollbacks,
+	tmp = (xmlRegExecRollback *) realloc(exec->rollbacks,
 			exec->maxRollbacks * sizeof(xmlRegExecRollback));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(NULL, "saving regexp");
@@ -3140,7 +3140,7 @@ xmlFARegExecSave(xmlRegExecCtxtPtr exec) {
     if (exec->comp->nbCounters > 0) {
 	if (exec->rollbacks[exec->nbRollbacks].counts == NULL) {
 	    exec->rollbacks[exec->nbRollbacks].counts = (int *)
-		xmlMalloc(exec->comp->nbCounters * sizeof(int));
+		malloc(exec->comp->nbCounters * sizeof(int));
 	    if (exec->rollbacks[exec->nbRollbacks].counts == NULL) {
 		xmlRegexpErrMemory(NULL, "saving regexp");
 		exec->status = -5;
@@ -3191,7 +3191,7 @@ xmlFARegExecRollBack(xmlRegExecCtxtPtr exec) {
  ************************************************************************/
 
 static int
-xmlFARegExec(xmlRegexpPtr comp, const xmlChar *content) {
+xmlFARegExec(xmlRegexpPtr comp, const char *content) {
     xmlRegExecCtxt execval;
     xmlRegExecCtxtPtr exec = &execval;
     int ret, codepoint = 0, len, deter;
@@ -3211,7 +3211,7 @@ xmlFARegExec(xmlRegexpPtr comp, const xmlChar *content) {
     exec->inputStack = NULL;
     exec->inputStackMax = 0;
     if (comp->nbCounters > 0) {
-	exec->counts = (int *) xmlMalloc(comp->nbCounters * sizeof(int));
+	exec->counts = (int *) malloc(comp->nbCounters * sizeof(int));
 	if (exec->counts == NULL) {
 	    xmlRegexpErrMemory(NULL, "running regexp");
 	    return(-1);
@@ -3469,14 +3469,14 @@ error:
 
 	    for (i = 0;i < exec->maxRollbacks;i++)
 		if (exec->rollbacks[i].counts != NULL)
-		    xmlFree(exec->rollbacks[i].counts);
+		    free(exec->rollbacks[i].counts);
 	}
-	xmlFree(exec->rollbacks);
+	free(exec->rollbacks);
     }
     if (exec->state == NULL)
         return(-1);
     if (exec->counts != NULL)
-	xmlFree(exec->counts);
+	free(exec->counts);
     if (exec->status == 0)
 	return(1);
     if (exec->status == -1) {
@@ -3515,7 +3515,7 @@ xmlRegNewExecCtxt(xmlRegexpPtr comp, xmlRegExecCallbacks callback, void *data) {
 	return(NULL);
     if ((comp->compact == NULL) && (comp->states == NULL))
         return(NULL);
-    exec = (xmlRegExecCtxtPtr) xmlMalloc(sizeof(xmlRegExecCtxt));
+    exec = (xmlRegExecCtxtPtr) malloc(sizeof(xmlRegExecCtxt));
     if (exec == NULL) {
 	xmlRegexpErrMemory(NULL, "creating execution context");
 	return(NULL);
@@ -3540,11 +3540,11 @@ xmlRegNewExecCtxt(xmlRegexpPtr comp, xmlRegExecCallbacks callback, void *data) {
 	 * For error handling, exec->counts is allocated twice the size
 	 * the second half is used to store the data in case of rollback
 	 */
-	exec->counts = (int *) xmlMalloc(comp->nbCounters * sizeof(int)
+	exec->counts = (int *) malloc(comp->nbCounters * sizeof(int)
 	                                 * 2);
 	if (exec->counts == NULL) {
 	    xmlRegexpErrMemory(NULL, "creating execution context");
-	    xmlFree(exec);
+	    free(exec);
 	    return(NULL);
 	}
         memset(exec->counts, 0, comp->nbCounters * sizeof(int) * 2);
@@ -3579,28 +3579,28 @@ xmlRegFreeExecCtxt(xmlRegExecCtxtPtr exec) {
 
 	    for (i = 0;i < exec->maxRollbacks;i++)
 		if (exec->rollbacks[i].counts != NULL)
-		    xmlFree(exec->rollbacks[i].counts);
+		    free(exec->rollbacks[i].counts);
 	}
-	xmlFree(exec->rollbacks);
+	free(exec->rollbacks);
     }
     if (exec->counts != NULL)
-	xmlFree(exec->counts);
+	free(exec->counts);
     if (exec->inputStack != NULL) {
 	int i;
 
 	for (i = 0;i < exec->inputStackNr;i++) {
 	    if (exec->inputStack[i].value != NULL)
-		xmlFree(exec->inputStack[i].value);
+		free(exec->inputStack[i].value);
 	}
-	xmlFree(exec->inputStack);
+	free(exec->inputStack);
     }
     if (exec->errString != NULL)
-        xmlFree(exec->errString);
-    xmlFree(exec);
+        free(exec->errString);
+    free(exec);
 }
 
 static void
-xmlFARegExecSaveInputString(xmlRegExecCtxtPtr exec, const xmlChar *value,
+xmlFARegExecSaveInputString(xmlRegExecCtxtPtr exec, const char *value,
 	                    void *data) {
 #ifdef DEBUG_PUSH
     printf("saving value: %d:%s\n", exec->inputStackNr, value);
@@ -3608,7 +3608,7 @@ xmlFARegExecSaveInputString(xmlRegExecCtxtPtr exec, const xmlChar *value,
     if (exec->inputStackMax == 0) {
 	exec->inputStackMax = 4;
 	exec->inputStack = (xmlRegInputTokenPtr)
-	    xmlMalloc(exec->inputStackMax * sizeof(xmlRegInputToken));
+	    malloc(exec->inputStackMax * sizeof(xmlRegInputToken));
 	if (exec->inputStack == NULL) {
 	    xmlRegexpErrMemory(NULL, "pushing input string");
 	    exec->inputStackMax = 0;
@@ -3618,7 +3618,7 @@ xmlFARegExecSaveInputString(xmlRegExecCtxtPtr exec, const xmlChar *value,
 	xmlRegInputTokenPtr tmp;
 
 	exec->inputStackMax *= 2;
-	tmp = (xmlRegInputTokenPtr) xmlRealloc(exec->inputStack,
+	tmp = (xmlRegInputTokenPtr) realloc(exec->inputStack,
 			exec->inputStackMax * sizeof(xmlRegInputToken));
 	if (tmp == NULL) {
 	    xmlRegexpErrMemory(NULL, "pushing input string");
@@ -3627,7 +3627,7 @@ xmlFARegExecSaveInputString(xmlRegExecCtxtPtr exec, const xmlChar *value,
 	}
 	exec->inputStack = tmp;
     }
-    exec->inputStack[exec->inputStackNr].value = xmlStrdup(value);
+    exec->inputStack[exec->inputStackNr].value = strdup(value);
     exec->inputStack[exec->inputStackNr].data = data;
     exec->inputStackNr++;
     exec->inputStack[exec->inputStackNr].value = NULL;
@@ -3648,7 +3648,7 @@ xmlFARegExecSaveInputString(xmlRegExecCtxtPtr exec, const xmlChar *value,
  */
 
 static int
-xmlRegStrEqualWildcard(const xmlChar *expStr, const xmlChar *valStr) {
+xmlRegStrEqualWildcard(const char *expStr, const char *valStr) {
     if (expStr == valStr) return(1);
     if (expStr == NULL) return(0);
     if (valStr == NULL) return(0);
@@ -3659,7 +3659,7 @@ xmlRegStrEqualWildcard(const xmlChar *expStr, const xmlChar *valStr) {
         if (*expStr != *valStr) {
 	    /* if one of them starts with a wildcard make valStr be it */
 	    if (*valStr == '*') {
-	        const xmlChar *tmp;
+	        const char *tmp;
 
 		tmp = valStr;
 		valStr = expStr;
@@ -3699,7 +3699,7 @@ xmlRegStrEqualWildcard(const xmlChar *expStr, const xmlChar *valStr) {
 static int
 xmlRegCompactPushString(xmlRegExecCtxtPtr exec,
 	                xmlRegexpPtr comp,
-	                const xmlChar *value,
+	                const char *value,
 	                void *data) {
     int state = exec->index;
     int i, target;
@@ -3757,8 +3757,8 @@ xmlRegCompactPushString(xmlRegExecCtxtPtr exec,
 #endif
 error:
     if (exec->errString != NULL)
-        xmlFree(exec->errString);
-    exec->errString = xmlStrdup(value);
+        free(exec->errString);
+    exec->errString = strdup(value);
     exec->errStateNo = state;
     exec->status = -1;
 #ifdef DEBUG_ERR
@@ -3780,7 +3780,7 @@ error:
  *     a negative value in case of error.
  */
 static int
-xmlRegExecPushStringInternal(xmlRegExecCtxtPtr exec, const xmlChar *value,
+xmlRegExecPushStringInternal(xmlRegExecCtxtPtr exec, const char *value,
 	                     void *data, int compound) {
     xmlRegTransPtr trans;
     xmlRegAtomPtr atom;
@@ -4043,8 +4043,8 @@ xmlRegExecPushStringInternal(xmlRegExecCtxtPtr exec, const xmlChar *value,
 		     * state.
 		     */
 		    if (exec->errString != NULL)
-			xmlFree(exec->errString);
-		    exec->errString = xmlStrdup(value);
+			free(exec->errString);
+		    exec->errString = strdup(value);
 		    exec->errState = exec->state;
 		    memcpy(exec->errCounts, exec->counts,
 			   exec->comp->nbCounters * sizeof(int));
@@ -4091,8 +4091,8 @@ rollback:
 	        (exec->state->type != XML_REGEXP_SINK_STATE)) {
 	        progress = 0;
 		if (exec->errString != NULL)
-		    xmlFree(exec->errString);
-		exec->errString = xmlStrdup(value);
+		    free(exec->errString);
+		exec->errString = strdup(value);
 		exec->errState = exec->state;
                 if (exec->comp->nbCounters)
                     memcpy(exec->errCounts, exec->counts,
@@ -4140,7 +4140,7 @@ progress:
  *     a negative value in case of error.
  */
 int
-xmlRegExecPushString(xmlRegExecCtxtPtr exec, const xmlChar *value,
+xmlRegExecPushString(xmlRegExecCtxtPtr exec, const char *value,
 	             void *data) {
     return(xmlRegExecPushStringInternal(exec, value, data, 0));
 }
@@ -4158,11 +4158,11 @@ xmlRegExecPushString(xmlRegExecCtxtPtr exec, const xmlChar *value,
  *     a negative value in case of error.
  */
 int
-xmlRegExecPushString2(xmlRegExecCtxtPtr exec, const xmlChar *value,
-                      const xmlChar *value2, void *data) {
-    xmlChar buf[150];
+xmlRegExecPushString2(xmlRegExecCtxtPtr exec, const char *value,
+                      const char *value2, void *data) {
+    char buf[150];
     int lenn, lenp, ret;
-    xmlChar *str;
+    char *str;
 
     if (exec == NULL)
 	return(-1);
@@ -4178,7 +4178,7 @@ xmlRegExecPushString2(xmlRegExecCtxtPtr exec, const xmlChar *value,
     lenp = strlen((char *) value);
 
     if (150 < lenn + lenp + 2) {
-	str = (xmlChar *) xmlMallocAtomic(lenn + lenp + 2);
+	str = (char *) malloc(lenn + lenp + 2);
 	if (str == NULL) {
 	    exec->status = -1;
 	    return(-1);
@@ -4197,7 +4197,7 @@ xmlRegExecPushString2(xmlRegExecCtxtPtr exec, const xmlChar *value,
         ret = xmlRegExecPushStringInternal(exec, str, data, 1);
 
     if (str != buf)
-        xmlFree(str);
+        free(str);
     return(ret);
 }
 
@@ -4218,7 +4218,7 @@ xmlRegExecPushString2(xmlRegExecCtxtPtr exec, const xmlChar *value,
 static int
 xmlRegExecGetValues(xmlRegExecCtxtPtr exec, int err,
                     int *nbval, int *nbneg,
-		    xmlChar **values, int *terminal) {
+		    char **values, int *terminal) {
     int maxval;
     int nb = 0;
 
@@ -4313,9 +4313,9 @@ xmlRegExecGetValues(xmlRegExecCtxtPtr exec, int err,
 		    counter = &exec->comp->counters[trans->counter];
 		if ((counter == NULL) || (count < counter->max)) {
 		    if (atom->neg)
-			values[nb++] = (xmlChar *) atom->valuep2;
+			values[nb++] = (char *) atom->valuep2;
 		    else
-			values[nb++] = (xmlChar *) atom->valuep;
+			values[nb++] = (char *) atom->valuep;
 		    (*nbval)++;
 		}
 	    } else {
@@ -4323,9 +4323,9 @@ xmlRegExecGetValues(xmlRegExecCtxtPtr exec, int err,
 		    (exec->comp->states[trans->to]->type !=
 		     XML_REGEXP_SINK_STATE)) {
 		    if (atom->neg)
-			values[nb++] = (xmlChar *) atom->valuep2;
+			values[nb++] = (char *) atom->valuep2;
 		    else
-			values[nb++] = (xmlChar *) atom->valuep;
+			values[nb++] = (char *) atom->valuep;
 		    (*nbval)++;
 		}
 	    }
@@ -4350,9 +4350,9 @@ xmlRegExecGetValues(xmlRegExecCtxtPtr exec, int err,
 		    (exec->comp->states[trans->to]->type ==
 		     XML_REGEXP_SINK_STATE)) {
 		    if (atom->neg)
-			values[nb++] = (xmlChar *) atom->valuep2;
+			values[nb++] = (char *) atom->valuep2;
 		    else
-			values[nb++] = (xmlChar *) atom->valuep;
+			values[nb++] = (char *) atom->valuep;
 		    (*nbneg)++;
 		}
 	    }
@@ -4380,7 +4380,7 @@ xmlRegExecGetValues(xmlRegExecCtxtPtr exec, int err,
  */
 int
 xmlRegExecNextValues(xmlRegExecCtxtPtr exec, int *nbval, int *nbneg,
-                     xmlChar **values, int *terminal) {
+                     char **values, int *terminal) {
     return(xmlRegExecGetValues(exec, 0, nbval, nbneg, values, terminal));
 }
 
@@ -4404,8 +4404,8 @@ xmlRegExecNextValues(xmlRegExecCtxtPtr exec, int *nbval, int *nbneg,
  * Returns: 0 in case of success or -1 in case of error.
  */
 int
-xmlRegExecErrInfo(xmlRegExecCtxtPtr exec, const xmlChar **string,
-                  int *nbval, int *nbneg, xmlChar **values, int *terminal) {
+xmlRegExecErrInfo(xmlRegExecCtxtPtr exec, const char **string,
+                  int *nbval, int *nbneg, char **values, int *terminal) {
     if (exec == NULL)
         return(-1);
     if (string != NULL) {
@@ -4419,8 +4419,8 @@ xmlRegExecErrInfo(xmlRegExecCtxtPtr exec, const xmlChar **string,
 
 #ifdef DEBUG_ERR
 static void testerr(xmlRegExecCtxtPtr exec) {
-    const xmlChar *string;
-    xmlChar *values[5];
+    const char *string;
+    char *values[5];
     int nb = 5;
     int nbneg;
     int terminal;
@@ -4632,7 +4632,7 @@ static void
 xmlFAParseCharProp(xmlRegParserCtxtPtr ctxt) {
     int cur;
     xmlRegAtomType type = (xmlRegAtomType) 0;
-    xmlChar *blockName = NULL;
+    char *blockName = NULL;
 
     cur = CUR;
     if (cur == 'L') {
@@ -4795,7 +4795,7 @@ xmlFAParseCharProp(xmlRegParserCtxtPtr ctxt) {
 	    type = XML_REGEXP_OTHER;
 	}
     } else if (cur == 'I') {
-	const xmlChar *start;
+	const char *start;
 	NEXT;
 	cur = CUR;
 	if (cur != 's') {
@@ -5463,7 +5463,7 @@ xmlRegexpPrint(FILE *output, xmlRegexpPtr regexp) {
  * Returns the compiled expression or NULL in case of error
  */
 xmlRegexpPtr
-xmlRegexpCompile(const xmlChar *regexp) {
+xmlRegexpCompile(const char *regexp) {
     xmlRegexpPtr ret;
     xmlRegParserCtxtPtr ctxt;
 
@@ -5512,7 +5512,7 @@ xmlRegexpCompile(const xmlChar *regexp) {
  * Returns 1 if it matches, 0 if not and a negative value in case of error
  */
 int
-xmlRegexpExec(xmlRegexpPtr comp, const xmlChar *content) {
+xmlRegexpExec(xmlRegexpPtr comp, const char *content) {
     if ((comp == NULL) || (content == NULL))
 	return(-1);
     return(xmlFARegExec(comp, content));
@@ -5542,7 +5542,7 @@ xmlRegexpIsDeterminist(xmlRegexpPtr comp) {
 
 	for (i = 0;i < am->nbStates;i++)
 	    xmlRegFreeState(am->states[i]);
-	xmlFree(am->states);
+	free(am->states);
     }
     am->nbAtoms = comp->nbAtoms;
     am->atoms = comp->atoms;
@@ -5571,30 +5571,30 @@ xmlRegFreeRegexp(xmlRegexpPtr regexp) {
 	return;
 
     if (regexp->string != NULL)
-	xmlFree(regexp->string);
+	free(regexp->string);
     if (regexp->states != NULL) {
 	for (i = 0;i < regexp->nbStates;i++)
 	    xmlRegFreeState(regexp->states[i]);
-	xmlFree(regexp->states);
+	free(regexp->states);
     }
     if (regexp->atoms != NULL) {
 	for (i = 0;i < regexp->nbAtoms;i++)
 	    xmlRegFreeAtom(regexp->atoms[i]);
-	xmlFree(regexp->atoms);
+	free(regexp->atoms);
     }
     if (regexp->counters != NULL)
-	xmlFree(regexp->counters);
+	free(regexp->counters);
     if (regexp->compact != NULL)
-	xmlFree(regexp->compact);
+	free(regexp->compact);
     if (regexp->transdata != NULL)
-	xmlFree(regexp->transdata);
+	free(regexp->transdata);
     if (regexp->stringMap != NULL) {
 	for (i = 0; i < regexp->nbstrings;i++)
-	    xmlFree(regexp->stringMap[i]);
-	xmlFree(regexp->stringMap);
+	    free(regexp->stringMap[i]);
+	free(regexp->stringMap);
     }
 
-    xmlFree(regexp);
+    free(regexp);
 }
 
 #ifdef LIBXML_AUTOMATA_ENABLED
@@ -5712,7 +5712,7 @@ xmlAutomataSetFinalState(xmlAutomataPtr am, xmlAutomataStatePtr state) {
  */
 xmlAutomataStatePtr
 xmlAutomataNewTransition(xmlAutomataPtr am, xmlAutomataStatePtr from,
-			 xmlAutomataStatePtr to, const xmlChar *token,
+			 xmlAutomataStatePtr to, const char *token,
 			 void *data) {
     xmlRegAtomPtr atom;
 
@@ -5722,7 +5722,7 @@ xmlAutomataNewTransition(xmlAutomataPtr am, xmlAutomataStatePtr from,
     if (atom == NULL)
         return(NULL);
     atom->data = data;
-    atom->valuep = xmlStrdup(token);
+    atom->valuep = strdup(token);
 
     if (xmlFAGenerateTransitions(am, from, to, atom) < 0) {
         xmlRegFreeAtom(atom);
@@ -5750,8 +5750,8 @@ xmlAutomataNewTransition(xmlAutomataPtr am, xmlAutomataStatePtr from,
  */
 xmlAutomataStatePtr
 xmlAutomataNewTransition2(xmlAutomataPtr am, xmlAutomataStatePtr from,
-			  xmlAutomataStatePtr to, const xmlChar *token,
-			  const xmlChar *token2, void *data) {
+			  xmlAutomataStatePtr to, const char *token,
+			  const char *token2, void *data) {
     xmlRegAtomPtr atom;
 
     if ((am == NULL) || (from == NULL) || (token == NULL))
@@ -5761,15 +5761,15 @@ xmlAutomataNewTransition2(xmlAutomataPtr am, xmlAutomataStatePtr from,
 	return(NULL);
     atom->data = data;
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
-	xmlChar *str;
+	char *str;
 
 	lenn = strlen((char *) token2);
 	lenp = strlen((char *) token);
 
-	str = (xmlChar *) xmlMallocAtomic(lenn + lenp + 2);
+	str = (char *) malloc(lenn + lenp + 2);
 	if (str == NULL) {
 	    xmlRegFreeAtom(atom);
 	    return(NULL);
@@ -5810,10 +5810,10 @@ xmlAutomataNewTransition2(xmlAutomataPtr am, xmlAutomataStatePtr from,
  */
 xmlAutomataStatePtr
 xmlAutomataNewNegTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
-		       xmlAutomataStatePtr to, const xmlChar *token,
-		       const xmlChar *token2, void *data) {
+		       xmlAutomataStatePtr to, const char *token,
+		       const char *token2, void *data) {
     xmlRegAtomPtr atom;
-    xmlChar err_msg[200];
+    char err_msg[200];
 
     if ((am == NULL) || (from == NULL) || (token == NULL))
 	return(NULL);
@@ -5823,15 +5823,15 @@ xmlAutomataNewNegTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     atom->data = data;
     atom->neg = 1;
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
-	xmlChar *str;
+	char *str;
 
 	lenn = strlen((char *) token2);
 	lenp = strlen((char *) token);
 
-	str = (xmlChar *) xmlMallocAtomic(lenn + lenp + 2);
+	str = (char *) malloc(lenn + lenp + 2);
 	if (str == NULL) {
 	    xmlRegFreeAtom(atom);
 	    return(NULL);
@@ -5845,7 +5845,7 @@ xmlAutomataNewNegTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     }
     snprintf((char *) err_msg, 199, "not %s", (const char *) atom->valuep);
     err_msg[199] = 0;
-    atom->valuep2 = xmlStrdup(err_msg);
+    atom->valuep2 = strdup(err_msg);
 
     if (xmlFAGenerateTransitions(am, from, to, atom) < 0) {
         xmlRegFreeAtom(atom);
@@ -5877,8 +5877,8 @@ xmlAutomataNewNegTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
  */
 xmlAutomataStatePtr
 xmlAutomataNewCountTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
-			 xmlAutomataStatePtr to, const xmlChar *token,
-			 const xmlChar *token2,
+			 xmlAutomataStatePtr to, const char *token,
+			 const char *token2,
 			 int min, int max, void *data) {
     xmlRegAtomPtr atom;
     int counter;
@@ -5893,15 +5893,15 @@ xmlAutomataNewCountTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
     if (atom == NULL)
 	return(NULL);
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
-	xmlChar *str;
+	char *str;
 
 	lenn = strlen((char *) token2);
 	lenp = strlen((char *) token);
 
-	str = (xmlChar *) xmlMallocAtomic(lenn + lenp + 2);
+	str = (char *) malloc(lenn + lenp + 2);
 	if (str == NULL) {
 	    xmlRegFreeAtom(atom);
 	    return(NULL);
@@ -5964,7 +5964,7 @@ xmlAutomataNewCountTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
  */
 xmlAutomataStatePtr
 xmlAutomataNewCountTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
-			 xmlAutomataStatePtr to, const xmlChar *token,
+			 xmlAutomataStatePtr to, const char *token,
 			 int min, int max, void *data) {
     xmlRegAtomPtr atom;
     int counter;
@@ -5978,7 +5978,7 @@ xmlAutomataNewCountTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     atom = xmlRegNewAtom(am, XML_REGEXP_STRING);
     if (atom == NULL)
 	return(NULL);
-    atom->valuep = xmlStrdup(token);
+    atom->valuep = strdup(token);
     atom->data = data;
     if (min == 0)
 	atom->min = 1;
@@ -6032,8 +6032,8 @@ xmlAutomataNewCountTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
  */
 xmlAutomataStatePtr
 xmlAutomataNewOnceTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
-			 xmlAutomataStatePtr to, const xmlChar *token,
-			 const xmlChar *token2,
+			 xmlAutomataStatePtr to, const char *token,
+			 const char *token2,
 			 int min, int max, void *data) {
     xmlRegAtomPtr atom;
     int counter;
@@ -6048,15 +6048,15 @@ xmlAutomataNewOnceTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
     if (atom == NULL)
 	return(NULL);
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
-	xmlChar *str;
+	char *str;
 
 	lenn = strlen((char *) token2);
 	lenp = strlen((char *) token);
 
-	str = (xmlChar *) xmlMallocAtomic(lenn + lenp + 2);
+	str = (char *) malloc(lenn + lenp + 2);
 	if (str == NULL) {
 	    xmlRegFreeAtom(atom);
 	    return(NULL);
@@ -6112,7 +6112,7 @@ xmlAutomataNewOnceTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
  */
 xmlAutomataStatePtr
 xmlAutomataNewOnceTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
-			 xmlAutomataStatePtr to, const xmlChar *token,
+			 xmlAutomataStatePtr to, const char *token,
 			 int min, int max, void *data) {
     xmlRegAtomPtr atom;
     int counter;
@@ -6126,7 +6126,7 @@ xmlAutomataNewOnceTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     atom = xmlRegNewAtom(am, XML_REGEXP_STRING);
     if (atom == NULL)
 	return(NULL);
-    atom->valuep = xmlStrdup(token);
+    atom->valuep = strdup(token);
     atom->data = data;
     atom->quant = XML_REGEXP_QUANT_ONCEONLY;
     atom->min = min;
@@ -6372,24 +6372,24 @@ xmlExpNewCtxt(int maxNodes, xmlDictPtr dict) {
     if (maxNodes <= 4096)
         maxNodes = 4096;
 
-    ret = (xmlExpCtxtPtr) xmlMalloc(sizeof(xmlExpCtxt));
+    ret = (xmlExpCtxtPtr) malloc(sizeof(xmlExpCtxt));
     if (ret == NULL)
         return(NULL);
     memset(ret, 0, sizeof(xmlExpCtxt));
     ret->size = size;
     ret->nbElems = 0;
     ret->maxNodes = maxNodes;
-    ret->table = xmlMalloc(size * sizeof(xmlExpNodePtr));
+    ret->table = malloc(size * sizeof(xmlExpNodePtr));
     if (ret->table == NULL) {
-        xmlFree(ret);
+        free(ret);
 	return(NULL);
     }
     memset(ret->table, 0, size * sizeof(xmlExpNodePtr));
     if (dict == NULL) {
         ret->dict = xmlDictCreate();
 	if (ret->dict == NULL) {
-	    xmlFree(ret->table);
-	    xmlFree(ret);
+	    free(ret->table);
+	    free(ret);
 	    return(NULL);
 	}
     } else {
@@ -6411,8 +6411,8 @@ xmlExpFreeCtxt(xmlExpCtxtPtr ctxt) {
         return;
     xmlDictFree(ctxt->dict);
     if (ctxt->table != NULL)
-	xmlFree(ctxt->table);
-    xmlFree(ctxt);
+	free(ctxt->table);
+    free(ctxt);
 }
 
 /************************************************************************
@@ -6459,7 +6459,7 @@ struct _xmlExpNode {
 	struct {
 	    xmlExpNodePtr f_right;
 	} children;
-        const xmlChar *f_str;
+        const char *f_str;
     } field;
 };
 
@@ -6490,7 +6490,7 @@ xmlExpNodePtr emptyExp = &emptyExpNode;
  * Calculate the hash key for a token
  */
 static unsigned short
-xmlExpHashNameComputeKey(const xmlChar *name) {
+xmlExpHashNameComputeKey(const char *name) {
     unsigned short value = 0L;
     char ch;
 
@@ -6544,7 +6544,7 @@ xmlExpNewNode(xmlExpCtxtPtr ctxt, xmlExpNodeType type) {
 
     if (ctxt->nb_nodes >= MAX_NODES)
         return(NULL);
-    ret = (xmlExpNodePtr) xmlMalloc(sizeof(xmlExpNode));
+    ret = (xmlExpNodePtr) malloc(sizeof(xmlExpNode));
     if (ret == NULL)
         return(NULL);
     memset(ret, 0, sizeof(xmlExpNode));
@@ -6568,7 +6568,7 @@ xmlExpNewNode(xmlExpCtxtPtr ctxt, xmlExpNodeType type) {
 static xmlExpNodePtr
 xmlExpHashGetEntry(xmlExpCtxtPtr ctxt, xmlExpNodeType type,
                    xmlExpNodePtr left, xmlExpNodePtr right,
-		   const xmlChar *name, int min, int max) {
+		   const char *name, int min, int max) {
     unsigned short kbase, key;
     xmlExpNodePtr entry;
     xmlExpNodePtr insert;
@@ -6830,7 +6830,7 @@ xmlExpFree(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp) {
 	} else if (exp->type == XML_EXP_COUNT) {
 	    xmlExpFree(ctxt, exp->exp_left);
 	}
-        xmlFree(exp);
+        free(exp);
 	ctxt->nb_nodes--;
     }
 }
@@ -6858,7 +6858,7 @@ xmlExpRef(xmlExpNodePtr exp) {
  * Returns the node or NULL in case of error
  */
 xmlExpNodePtr
-xmlExpNewAtom(xmlExpCtxtPtr ctxt, const xmlChar *name, int len) {
+xmlExpNewAtom(xmlExpCtxtPtr ctxt, const char *name, int len) {
     if ((ctxt == NULL) || (name == NULL))
         return(NULL);
     name = xmlDictLookup(ctxt->dict, name, len);
@@ -6952,7 +6952,7 @@ xmlExpNewRange(xmlExpCtxtPtr ctxt, xmlExpNodePtr subset, int min, int max) {
 
 static int
 xmlExpGetLanguageInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp,
-                     const xmlChar**list, int len, int nb) {
+                     const char**list, int len, int nb) {
     int tmp, tmp2;
 tail:
     switch (exp->type) {
@@ -6997,7 +6997,7 @@ tail:
  */
 int
 xmlExpGetLanguage(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp,
-                  const xmlChar**langList, int len) {
+                  const char**langList, int len) {
     if ((ctxt == NULL) || (exp == NULL) || (langList == NULL) || (len <= 0))
         return(-1);
     return(xmlExpGetLanguageInt(ctxt, exp, langList, len, 0));
@@ -7005,7 +7005,7 @@ xmlExpGetLanguage(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp,
 
 static int
 xmlExpGetStartInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp,
-                  const xmlChar**list, int len, int nb) {
+                  const char**list, int len, int nb) {
     int tmp, tmp2;
 tail:
     switch (exp->type) {
@@ -7065,7 +7065,7 @@ tail:
  */
 int
 xmlExpGetStart(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp,
-               const xmlChar**tokList, int len) {
+               const char**tokList, int len) {
     if ((ctxt == NULL) || (exp == NULL) || (tokList == NULL) || (len <= 0))
         return(-1);
     return(xmlExpGetStartInt(ctxt, exp, tokList, len, 0));
@@ -7087,7 +7087,7 @@ xmlExpIsNillable(xmlExpNodePtr exp) {
 }
 
 static xmlExpNodePtr
-xmlExpStringDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, const xmlChar *str)
+xmlExpStringDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, const char *str)
 {
     xmlExpNodePtr ret;
 
@@ -7210,8 +7210,8 @@ xmlExpStringDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, const xmlChar *str)
  */
 xmlExpNodePtr
 xmlExpStringDerive(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp,
-                   const xmlChar *str, int len) {
-    const xmlChar *input;
+                   const char *str, int len) {
+    const char *input;
 
     if ((exp == NULL) || (ctxt == NULL) || (str == NULL)) {
         return(NULL);
@@ -7325,7 +7325,7 @@ xmlExpDivide(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub,
 static xmlExpNodePtr
 xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
     xmlExpNodePtr ret, tmp, tmp2, tmp3;
-    const xmlChar **tab;
+    const char **tab;
     int len, i;
 
     /*
@@ -7702,8 +7702,8 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
     if (ctxt->tabSize == 0)
         ctxt->tabSize = 40;
 
-    tab = (const xmlChar **) xmlMalloc(ctxt->tabSize *
-	                               sizeof(const xmlChar *));
+    tab = (const char **) malloc(ctxt->tabSize *
+	                               sizeof(const char *));
     if (tab == NULL) {
 	return(NULL);
     }
@@ -7713,11 +7713,11 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
      */
     len = xmlExpGetStartInt(ctxt, sub, tab, ctxt->tabSize, 0);
     while (len < 0) {
-        const xmlChar **temp;
-	temp = (const xmlChar **) xmlRealloc((xmlChar **) tab, ctxt->tabSize * 2 *
-	                                     sizeof(const xmlChar *));
+        const char **temp;
+	temp = (const char **) realloc((char **) tab, ctxt->tabSize * 2 *
+	                                     sizeof(const char *));
 	if (temp == NULL) {
-	    xmlFree((xmlChar **) tab);
+	    free((char **) tab);
 	    return(NULL);
 	}
 	tab = temp;
@@ -7728,14 +7728,14 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
         tmp = xmlExpStringDeriveInt(ctxt, exp, tab[i]);
 	if ((tmp == NULL) || (tmp == forbiddenExp)) {
 	    xmlExpFree(ctxt, ret);
-	    xmlFree((xmlChar **) tab);
+	    free((char **) tab);
 	    return(tmp);
 	}
 	tmp2 = xmlExpStringDeriveInt(ctxt, sub, tab[i]);
 	if ((tmp2 == NULL) || (tmp2 == forbiddenExp)) {
 	    xmlExpFree(ctxt, tmp);
 	    xmlExpFree(ctxt, ret);
-	    xmlFree((xmlChar **) tab);
+	    free((char **) tab);
 	    return(tmp);
 	}
 	tmp3 = xmlExpExpDeriveInt(ctxt, tmp, tmp2);
@@ -7744,7 +7744,7 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
 
 	if ((tmp3 == NULL) || (tmp3 == forbiddenExp)) {
 	    xmlExpFree(ctxt, ret);
-	    xmlFree((xmlChar **) tab);
+	    free((char **) tab);
 	    return(tmp3);
 	}
 
@@ -7753,12 +7753,12 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
 	else {
 	    ret = xmlExpHashGetEntry(ctxt, XML_EXP_OR, ret, tmp3, NULL, 0, 0);
 	    if (ret == NULL) {
-		xmlFree((xmlChar **) tab);
+		free((char **) tab);
 	        return(NULL);
 	    }
 	}
     }
-    xmlFree((xmlChar **) tab);
+    free((char **) tab);
     return(ret);
 }
 
@@ -7893,7 +7893,7 @@ static xmlExpNodePtr
 xmlExpParseOr(xmlExpCtxtPtr ctxt) {
     const char *base;
     xmlExpNodePtr ret;
-    const xmlChar *val;
+    const char *val;
 
     SKIP_BLANKS
     base = ctxt->cur;
@@ -7914,7 +7914,7 @@ xmlExpParseOr(xmlExpCtxtPtr ctxt) {
            (CUR != ')') && (CUR != '|') && (CUR != ',') && (CUR != '{') &&
 	   (CUR != '*') && (CUR != '+') && (CUR != '?') && (CUR != '}'))
 	NEXT;
-    val = xmlDictLookup(ctxt->dict, BAD_CAST base, ctxt->cur - base);
+    val = xmlDictLookup(ctxt->dict, base, ctxt->cur - base);
     if (val == NULL)
         return(NULL);
     ret = xmlExpHashGetEntry(ctxt, XML_EXP_ATOM, NULL, NULL, val, 0, 0);

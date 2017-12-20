@@ -110,14 +110,14 @@ __xmlLoadExtDtdDefaultValue
 xmlLoadExtDtdDefaultValue DATA
 #endif
 #ifdef LIBXML_THREAD_ALLOC_ENABLED
-__xmlMalloc
+__malloc
 #else
-xmlMalloc DATA
+malloc DATA
 #endif
 #ifdef LIBXML_THREAD_ALLOC_ENABLED
-__xmlMallocAtomic
+__malloc
 #else
-xmlMallocAtomic DATA
+malloc DATA
 #endif
 #ifdef LIBXML_THREAD_ALLOC_ENABLED
 __xmlMemStrdup
@@ -143,9 +143,9 @@ __xmlPedanticParserDefaultValue
 xmlPedanticParserDefaultValue DATA
 #endif
 #ifdef LIBXML_THREAD_ALLOC_ENABLED
-__xmlRealloc
+__realloc
 #else
-xmlRealloc DATA
+realloc DATA
 #endif
 #ifdef LIBXML_THREAD_ENABLED
 __xmlRegisterNodeDefaultValue
@@ -656,13 +656,13 @@ xmlCatalogSetDefaultPrefer
 #ifdef LIBXML_CATALOG_ENABLED
 xmlCatalogSetDefaults
 #endif
-xmlCharEncCloseFunc
-xmlCharEncFirstLine
-xmlCharEncInFunc
-xmlCharEncOutFunc
-xmlCharInRange
-xmlCharStrdup
-xmlCharStrndup
+charEncCloseFunc
+charEncFirstLine
+charEncInFunc
+charEncOutFunc
+charInRange
+charStrdup
+charStrndup
 xmlCheckFilename
 xmlCheckHTTPInput
 xmlCheckLanguageID
@@ -1071,10 +1071,10 @@ xmlLsCountNode
 xmlLsOneNode
 #endif
 #ifdef DEBUG_MEMORY_LOCATION
-xmlMallocAtomicLoc
+mallocLoc
 #endif
 #ifdef DEBUG_MEMORY_LOCATION
-xmlMallocLoc
+mallocLoc
 #endif
 xmlMemBlocks
 xmlMemDisplay
@@ -1432,7 +1432,7 @@ xmlReaderNewMemory
 xmlReaderNewWalker
 xmlReaderWalker
 #ifdef DEBUG_MEMORY_LOCATION
-xmlReallocLoc
+reallocLoc
 #endif
 xmlReconciliateNs
 xmlRecoverDoc

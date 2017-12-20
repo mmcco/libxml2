@@ -16,7 +16,7 @@ getdoc (char *docname) {
 }
 
 xmlXPathObjectPtr
-getnodeset (xmlDocPtr doc, xmlChar *xpath){
+getnodeset (xmlDocPtr doc, char *xpath){
 	
 	xmlXPathContextPtr context;
 	xmlXPathObjectPtr result;
@@ -44,11 +44,11 @@ main(int argc, char **argv) {
 
 	char *docname;
 	xmlDocPtr doc;
-	xmlChar *xpath = (xmlChar*) "//keyword";
+	char *xpath = (char*) "//keyword";
 	xmlNodeSetPtr nodeset;
 	xmlXPathObjectPtr result;
 	int i;
-	xmlChar *keyword;
+	char *keyword;
 		
 	if (argc <= 1) {
 		printf("Usage: %s docname\n", argv[0]);
@@ -63,7 +63,7 @@ main(int argc, char **argv) {
 		for (i=0; i < nodeset->nodeNr; i++) {
 			keyword = xmlNodeListGetString(doc, nodeset->nodeTab[i]->xmlChildrenNode, 1);
 		printf("keyword: %s\n", keyword);
-		xmlFree(keyword);
+		free(keyword);
 		}
 		xmlXPathFreeObject (result);
 	}

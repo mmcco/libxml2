@@ -23,9 +23,9 @@
 
 
 static void usage(const char *name);
-static int example4(const char *filename, const xmlChar * xpathExpr,
-                    const xmlChar * value);
-static void update_xpath_nodes(xmlNodeSetPtr nodes, const xmlChar * value);
+static int example4(const char *filename, const char * xpathExpr,
+                    const char * value);
+static void update_xpath_nodes(xmlNodeSetPtr nodes, const char * value);
 
 
 int 
@@ -42,7 +42,7 @@ main(int argc, char **argv) {
     LIBXML_TEST_VERSION
 
     /* Do the main job */
-    if (example4(argv[1], BAD_CAST argv[2], BAD_CAST argv[3])) {
+    if (example4(argv[1], argv[2], argv[3])) {
 	usage(argv[0]);
 	return(-1);
     }
@@ -82,7 +82,7 @@ usage(const char *name) {
  * Returns 0 on success and a negative value otherwise.
  */
 static int 
-example4(const char* filename, const xmlChar* xpathExpr, const xmlChar* value) {
+example4(const char* filename, const char* xpathExpr, const char* value) {
     xmlDocPtr doc;
     xmlXPathContextPtr xpathCtx; 
     xmlXPathObjectPtr xpathObj; 
@@ -141,7 +141,7 @@ example4(const char* filename, const xmlChar* xpathExpr, const xmlChar* value) {
  * Prints the @nodes content to @output.
  */
 static void
-update_xpath_nodes(xmlNodeSetPtr nodes, const xmlChar* value) {
+update_xpath_nodes(xmlNodeSetPtr nodes, const char* value) {
     int size;
     int i;
     

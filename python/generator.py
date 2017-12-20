@@ -184,12 +184,12 @@ py_types = {
     'long':  ('l', None, "long", "long"),
     'double':  ('d', None, "double", "double"),
     'unsigned int':  ('i', None, "int", "int"),
-    'xmlChar':  ('c', None, "int", "int"),
+    'char':  ('c', None, "int", "int"),
     'unsigned char *':  ('z', None, "charPtr", "char *"),
     'char *':  ('z', None, "charPtr", "char *"),
     'const char *':  ('z', None, "charPtrConst", "const char *"),
-    'xmlChar *':  ('z', None, "xmlCharPtr", "xmlChar *"),
-    'const xmlChar *':  ('z', None, "xmlCharPtrConst", "const xmlChar *"),
+    'char *':  ('z', None, "charPtr", "char *"),
+    'const char *':  ('z', None, "charPtrConst", "const char *"),
     'xmlNodePtr':  ('O', "xmlNode", "xmlNodePtr", "xmlNodePtr"),
     'const xmlNodePtr':  ('O', "xmlNode", "xmlNodePtr", "xmlNodePtr"),
     'xmlNode *':  ('O', "xmlNode", "xmlNodePtr", "xmlNodePtr"),
@@ -415,10 +415,10 @@ def print_function_wrapper(name, output, export, include):
 
     if ret[0] == 'void':
         if file == "python_accessor":
-            if args[1][1] == "char *" or args[1][1] == "xmlChar *":
+            if args[1][1] == "char *" or args[1][1] == "char *":
                 c_call = "\n    if (%s->%s != NULL) xmlFree(%s->%s);\n" % (
                                  args[0][0], args[1][0], args[0][0], args[1][0])
-                c_call = c_call + "    %s->%s = (%s)xmlStrdup((const xmlChar *)%s);\n" % (args[0][0],
+                c_call = c_call + "    %s->%s = (%s)xmlStrdup((const char *)%s);\n" % (args[0][0],
                                  args[1][0], args[1][1], args[1][0])
             else:
                 c_call = "\n    %s->%s = %s;\n" % (args[0][0], args[1][0],
@@ -927,7 +927,7 @@ def buildWrappers():
             continue
         if name[0:6] == "xmlStr":
             continue
-        if name[0:10] == "xmlCharStr":
+        if name[0:10] == "charStr":
             continue
         func = nameFixup(name, "None", file, file)
         info = (0, func, name, ret, args, file)

@@ -98,7 +98,7 @@ testRegexpFile(const char *filename) {
 		    states[to] = xmlAutomataNewState(am);
 		ptr++;
 		xmlAutomataNewTransition(am, states[from], states[to],
-			                 BAD_CAST ptr, NULL);
+			                 ptr, NULL);
 	    } else if ((am != NULL) && (expr[0] == 'e') && (expr[1] == ' ')) {
 		char *ptr = &expr[2];
 		int from, to;
@@ -165,7 +165,7 @@ testRegexpFile(const char *filename) {
 		}
 		ptr++;
 		xmlAutomataNewCountTrans(am, states[from], states[to],
-			                 BAD_CAST ptr, min, max, NULL);
+			                 ptr, min, max, NULL);
 	    } else if ((am != NULL) && (expr[0] == '-') && (expr[1] == '-')) {
 		/* end of the automata */
 		regexp = xmlAutomataCompile(am);
@@ -198,7 +198,7 @@ testRegexpFile(const char *filename) {
 	    } else if (regexp != NULL) {
 		if (exec == NULL)
 		    exec = xmlRegNewExecCtxt(regexp, NULL, NULL);
-		ret = xmlRegExecPushString(exec, BAD_CAST expr, NULL);
+		ret = xmlRegExecPushString(exec, expr, NULL);
 	    } else {
 		xmlGenericError(xmlGenericErrorContext,
 			"Unexpected line %s\n", expr);
@@ -216,8 +216,6 @@ testRegexpFile(const char *filename) {
 
 int main(int argc, char **argv) {
 
-    xmlInitMemory();
-
     if (argc == 1) {
 	int ret;
 	xmlAutomataPtr am;
@@ -229,10 +227,10 @@ int main(int argc, char **argv) {
 	start = xmlAutomataGetInitState(am);
 
 	/* generate a[ba]*a */
-	cur = xmlAutomataNewTransition(am, start, NULL, BAD_CAST"a", NULL);
-	xmlAutomataNewTransition(am, cur, cur, BAD_CAST"b", NULL);
-	xmlAutomataNewTransition(am, cur, cur, BAD_CAST"a", NULL);
-	cur = xmlAutomataNewCountTrans(am, cur, NULL, BAD_CAST"a", 2, 3, NULL);
+	cur = xmlAutomataNewTransition(am, start, NULL, "a", NULL);
+	xmlAutomataNewTransition(am, cur, cur, "b", NULL);
+	xmlAutomataNewTransition(am, cur, cur, "a", NULL);
+	cur = xmlAutomataNewCountTrans(am, cur, NULL, "a", 2, 3, NULL);
 	xmlAutomataSetFinalState(am, cur);
 
 	/* compile it in a regexp and free the automata */
@@ -242,37 +240,37 @@ int main(int argc, char **argv) {
 	/* test the regexp */
 	xmlRegexpPrint(stdout, regexp);
 	exec = xmlRegNewExecCtxt(regexp, NULL, NULL);
-	ret = xmlRegExecPushString(exec, BAD_CAST"a", NULL);
+	ret = xmlRegExecPushString(exec, "a", NULL);
 	if (ret == 1)
 	    printf("final\n");
 	else if (ret < 0)
 	    printf("error\n");
-	ret =xmlRegExecPushString(exec, BAD_CAST"a", NULL);
+	ret =xmlRegExecPushString(exec, "a", NULL);
 	if (ret == 1)
 	    printf("final\n");
 	else if (ret < 0)
 	    printf("error\n");
-	ret =xmlRegExecPushString(exec, BAD_CAST"b", NULL);
+	ret =xmlRegExecPushString(exec, "b", NULL);
 	if (ret == 1)
 	    printf("final\n");
 	else if (ret < 0)
 	    printf("error\n");
-	ret =xmlRegExecPushString(exec, BAD_CAST"a", NULL);
+	ret =xmlRegExecPushString(exec, "a", NULL);
 	if (ret == 1)
 	    printf("final\n");
 	else if (ret < 0)
 	    printf("error\n");
-	ret =xmlRegExecPushString(exec, BAD_CAST"a", NULL);
+	ret =xmlRegExecPushString(exec, "a", NULL);
 	if (ret == 1)
 	    printf("final\n");
 	else if (ret < 0)
 	    printf("error\n");
-	ret =xmlRegExecPushString(exec, BAD_CAST"a", NULL);
+	ret =xmlRegExecPushString(exec, "a", NULL);
 	if (ret == 1)
 	    printf("final\n");
 	else if (ret < 0)
 	    printf("error\n");
-	ret =xmlRegExecPushString(exec, BAD_CAST"a", NULL);
+	ret =xmlRegExecPushString(exec, "a", NULL);
 	if (ret == 1)
 	    printf("final\n");
 	else if (ret < 0)

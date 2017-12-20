@@ -51,10 +51,10 @@
      d xmlPatterncompile...
      d                 pr                  extproc('xmlPatterncompile')
      d                                     like(xmlPatternPtr)
-     d  pattern                        *   value options(*string)               const xmlChar *
+     d  pattern                        *   value options(*string)               const char *
      d  dict                           *   value                                xmlDict *
      d  flags                              value like(xmlCint)
-     d  namespaces                     *                                        const xmlChar *(*)
+     d  namespaces                     *                                        const char *(*)
 
      d xmlPatternMatch...
      d                 pr                  extproc('xmlPatternMatch')
@@ -100,22 +100,22 @@
      d                 pr                  extproc('xmlStreamPushNode')
      d                                     like(xmlCint)
      d  stream                             value like(xmlStreamCtxtPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  ns                             *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  ns                             *   value options(*string)               const char *
      d  nodeType                           value like(xmlCint)
 
      d xmlStreamPush   pr                  extproc('xmlStreamPush')
      d                                     like(xmlCint)
      d  stream                             value like(xmlStreamCtxtPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  ns                             *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  ns                             *   value options(*string)               const char *
 
      d xmlStreamPushAttr...
      d                 pr                  extproc('xmlStreamPushAttr')
      d                                     like(xmlCint)
      d  stream                             value like(xmlStreamCtxtPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  ns                             *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  ns                             *   value options(*string)               const char *
 
      d xmlStreamPop    pr                  extproc('xmlStreamPop')
      d                                     like(xmlCint)

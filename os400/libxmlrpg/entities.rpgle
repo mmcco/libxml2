@@ -37,21 +37,21 @@
      d                                     align qualified
      d  #private                       *                                        void *
      d  type                               like(xmlElementType)                 XML_ENTITY_DECL
-     d  name                           *                                        const xmlChar *
+     d  name                           *                                        const char *
      d  children                           like(xmlNodePtr)                     First child link
      d  last                               like(xmlNodePtr)                     Last child link
      d  parent                             like(xmlDtdPtr)                      -> DTD
      d  next                               like(xmlNodePtr)                     next sibling link
      d  prev                               like(xmlNodePtr)                     prev sibling link
      d  doc                                like(xmlDocPtr)                      containing document
-     d  orig                           *                                        xmlChar *
-     d  content                        *                                        xmlChar *
+     d  orig                           *                                        char *
+     d  content                        *                                        char *
      d  length                             like(xmlCint)                        content length
      d  etype                              like(xmlEntityType)                  The entity type
-     d  ExternalID                     *                                        const xmlChar *
-     d  SystemlID                      *                                        const xmlChar *
+     d  ExternalID                     *                                        const char *
+     d  SystemlID                      *                                        const char *
      d  nexte                              like(xmlEntityPtr)                   unused
-     d  URI                            *                                        const xmlChar *
+     d  URI                            *                                        const char *
      d  owner                              like(xmlCint)                        Owns children ?
      d  checked                            like(xmlCint)                        Content checked ?
 
@@ -72,73 +72,73 @@
      d xmlNewEntity    pr                  extproc('xmlNewEntity')
      d                                     like(xmlEntityPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  type                               value like(xmlCint)
-     d  ExternalID                     *   value options(*string)               const xmlChar *
-     d  SystemID                       *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  ExternalID                     *   value options(*string)               const char *
+     d  SystemID                       *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlAddDocEntity...
      d                 pr                  extproc('xmlAddDocEntity')
      d                                     like(xmlEntityPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  type                               value like(xmlCint)
-     d  ExternalID                     *   value options(*string)               const xmlChar *
-     d  SystemID                       *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  ExternalID                     *   value options(*string)               const char *
+     d  SystemID                       *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlAddDtdEntity...
      d                 pr                  extproc('xmlAddDtdEntity')
      d                                     like(xmlEntityPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  type                               value like(xmlCint)
-     d  ExternalID                     *   value options(*string)               const xmlChar *
-     d  SystemID                       *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               const xmlChar *
+     d  ExternalID                     *   value options(*string)               const char *
+     d  SystemID                       *   value options(*string)               const char *
+     d  content                        *   value options(*string)               const char *
 
      d xmlGetPredefinedEntity...
      d                 pr                  extproc('xmlGetPredefinedEntity')
      d                                     like(xmlEntityPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlGetDocEntity...
      d                 pr                  extproc('xmlGetDocEntity')
      d                                     like(xmlEntityPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlGetDtdEntity...
      d                 pr                  extproc('xmlGetDtdEntity')
      d                                     like(xmlEntityPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlGetParameterEntity...
      d                 pr                  extproc('xmlGetParameterEntity')
      d                                     like(xmlEntityPtr)
      d  doc                                value like(xmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
 
       /if defined(LIBXML_LEGACY_ENABLED)
      d xmlEncodeEntities...
-     d                 pr              *   extproc('xmlEncodeEntities')         xmlChar *
+     d                 pr              *   extproc('xmlEncodeEntities')         char *
      d  doc                                value like(xmlDocPtr)
-     d  input                          *   value options(*string)               const xmlChar *
+     d  input                          *   value options(*string)               const char *
       /endif                                                                    LIBXML_LEGACY_ENABLD
 
      d xmlEncodeEntitiesReentrant...
-     d                 pr              *   extproc(                             xmlChar *
+     d                 pr              *   extproc(                             char *
      d                                      'xmlEncodeEntitiesReentrant')
      d  doc                                value like(xmlDocPtr)
-     d  input                          *   value options(*string)               const xmlChar *
+     d  input                          *   value options(*string)               const char *
 XMLPU
      d xmlEncodeSpecialChars...
-     d                 pr              *   extproc('xmlSpecialChars')           xmlChar *
+     d                 pr              *   extproc('xmlSpecialChars')           char *
      d  doc                                value like(xmlDocPtr)
-     d  input                          *   value options(*string)               const xmlChar *
+     d  input                          *   value options(*string)               const char *
 XMLPU
      d xmlCreateEntitiesTable...
      d                 pr                  extproc('xmlCreateEntitiesTable')

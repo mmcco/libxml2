@@ -61,7 +61,7 @@
      d  am                                 value like(xmlAutomataPtr)
      d  from                               value like(xmlAutomataStatePtr)
      d  to                                 value like(xmlAutomataStatePtr)
-     d  token                          *   value options(*string)               const xmlChar *
+     d  token                          *   value options(*string)               const char *
      d  data                           *   value options(*string)               void *
 
      d xmlAutomataNewTransition2...
@@ -70,8 +70,8 @@
      d  am                                 value like(xmlAutomataPtr)
      d  from                               value like(xmlAutomataStatePtr)
      d  to                                 value like(xmlAutomataStatePtr)
-     d  token                          *   value options(*string)               const xmlChar *
-     d  token2                         *   value options(*string)               const xmlChar *
+     d  token                          *   value options(*string)               const char *
+     d  token2                         *   value options(*string)               const char *
      d  data                           *   value options(*string)               void *
 
      d xmlAutomataNewNegTrans...
@@ -80,8 +80,8 @@
      d  am                                 value like(xmlAutomataPtr)
      d  from                               value like(xmlAutomataStatePtr)
      d  to                                 value like(xmlAutomataStatePtr)
-     d  token                          *   value options(*string)               const xmlChar *
-     d  token2                         *   value options(*string)               const xmlChar *
+     d  token                          *   value options(*string)               const char *
+     d  token2                         *   value options(*string)               const char *
      d  data                           *   value options(*string)               void *
 
      d xmlAutomataNewCountTrans...
@@ -90,7 +90,7 @@
      d  am                                 value like(xmlAutomataPtr)
      d  from                               value like(xmlAutomataStatePtr)
      d  to                                 value like(xmlAutomataStatePtr)
-     d  token                          *   value options(*string)               const xmlChar *
+     d  token                          *   value options(*string)               const char *
      d  min                                value like(xmlCint)
      d  max                                value like(xmlCint)
      d  data                           *   value options(*string)               void *
@@ -101,8 +101,8 @@
      d  am                                 value like(xmlAutomataPtr)
      d  from                               value like(xmlAutomataStatePtr)
      d  to                                 value like(xmlAutomataStatePtr)
-     d  token                          *   value options(*string)               const xmlChar *
-     d  token2                         *   value options(*string)               const xmlChar *
+     d  token                          *   value options(*string)               const char *
+     d  token2                         *   value options(*string)               const char *
      d  min                                value like(xmlCint)
      d  max                                value like(xmlCint)
      d  data                           *   value options(*string)               void *
@@ -113,7 +113,7 @@
      d  am                                 value like(xmlAutomataPtr)
      d  from                               value like(xmlAutomataStatePtr)
      d  to                                 value like(xmlAutomataStatePtr)
-     d  token                          *   value options(*string)               const xmlChar *
+     d  token                          *   value options(*string)               const char *
      d  min                                value like(xmlCint)
      d  max                                value like(xmlCint)
      d  data                           *   value options(*string)               void *
@@ -124,8 +124,8 @@
      d  am                                 value like(xmlAutomataPtr)
      d  from                               value like(xmlAutomataStatePtr)
      d  to                                 value like(xmlAutomataStatePtr)
-     d  token                          *   value options(*string)               const xmlChar *
-     d  token2                         *   value options(*string)               const xmlChar *
+     d  token                          *   value options(*string)               const char *
+     d  token2                         *   value options(*string)               const char *
      d  min                                value like(xmlCint)
      d  max                                value like(xmlCint)
      d  data                           *   value options(*string)               void *

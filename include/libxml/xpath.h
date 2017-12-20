@@ -116,7 +116,7 @@ struct _xmlXPathObject {
     xmlNodeSetPtr nodesetval;
     int boolval;
     double floatval;
-    xmlChar *stringval;
+    char *stringval;
     void *user;
     int index;
     void *user2;
@@ -142,7 +142,7 @@ typedef int (*xmlXPathConvertFunc) (xmlXPathObjectPtr obj, int type);
 typedef struct _xmlXPathType xmlXPathType;
 typedef xmlXPathType *xmlXPathTypePtr;
 struct _xmlXPathType {
-    const xmlChar         *name;		/* the type name */
+    const char         *name;		/* the type name */
     xmlXPathConvertFunc func;		/* the conversion function */
 };
 
@@ -153,7 +153,7 @@ struct _xmlXPathType {
 typedef struct _xmlXPathVariable xmlXPathVariable;
 typedef xmlXPathVariable *xmlXPathVariablePtr;
 struct _xmlXPathVariable {
-    const xmlChar       *name;		/* the variable name */
+    const char       *name;		/* the variable name */
     xmlXPathObjectPtr value;		/* the value */
 };
 
@@ -175,7 +175,7 @@ typedef void (*xmlXPathEvalFunc)(xmlXPathParserContextPtr ctxt,
 typedef struct _xmlXPathFunct xmlXPathFunct;
 typedef xmlXPathFunct *xmlXPathFuncPtr;
 struct _xmlXPathFunct {
-    const xmlChar      *name;		/* the function name */
+    const char      *name;		/* the function name */
     xmlXPathEvalFunc func;		/* the evaluation function */
 };
 
@@ -201,7 +201,7 @@ typedef xmlXPathObjectPtr (*xmlXPathAxisFunc) (xmlXPathParserContextPtr ctxt,
 typedef struct _xmlXPathAxis xmlXPathAxis;
 typedef xmlXPathAxis *xmlXPathAxisPtr;
 struct _xmlXPathAxis {
-    const xmlChar      *name;		/* the axis name */
+    const char      *name;		/* the axis name */
     xmlXPathAxisFunc func;		/* the search function */
 };
 
@@ -233,8 +233,8 @@ typedef void (*xmlXPathFunction) (xmlXPathParserContextPtr ctxt, int nargs);
  * Returns the XPath object value or NULL if not found.
  */
 typedef xmlXPathObjectPtr (*xmlXPathVariableLookupFunc) (void *ctxt,
-                                         const xmlChar *name,
-                                         const xmlChar *ns_uri);
+                                         const char *name,
+                                         const char *ns_uri);
 
 /**
  * xmlXPathFuncLookupFunc:
@@ -248,8 +248,8 @@ typedef xmlXPathObjectPtr (*xmlXPathVariableLookupFunc) (void *ctxt,
  * Returns the XPath function or NULL if not found.
  */
 typedef xmlXPathFunction (*xmlXPathFuncLookupFunc) (void *ctxt,
-					 const xmlChar *name,
-					 const xmlChar *ns_uri);
+					 const char *name,
+					 const char *ns_uri);
 
 /**
  * xmlXPathFlags:
@@ -328,8 +328,8 @@ struct _xmlXPathContext {
     void *extra;                        /* needed for XSLT */
 
     /* The function name and URI when calling a function */
-    const xmlChar *function;
-    const xmlChar *functionURI;
+    const char *function;
+    const char *functionURI;
 
     /* function lookup function and data */
     xmlXPathFuncLookupFunc funcLookupFunc;/* function lookup func */
@@ -368,8 +368,8 @@ typedef xmlXPathCompExpr *xmlXPathCompExprPtr;
  * an xmlXPathContext, and the stack of objects.
  */
 struct _xmlXPathParserContext {
-    const xmlChar *cur;			/* the current char being parsed */
-    const xmlChar *base;			/* the full expression */
+    const char *cur;			/* the current char being parsed */
+    const char *base;			/* the full expression */
 
     int error;				/* error code */
 
@@ -456,7 +456,7 @@ XMLPUBFUN int XMLCALL
 XMLPUBFUN int XMLCALL
 		    xmlXPathCastNumberToBoolean	(double val);
 XMLPUBFUN int XMLCALL
-		    xmlXPathCastStringToBoolean	(const xmlChar * val);
+		    xmlXPathCastStringToBoolean	(const char * val);
 XMLPUBFUN int XMLCALL
 		    xmlXPathCastNodeSetToBoolean(xmlNodeSetPtr ns);
 XMLPUBFUN int XMLCALL
@@ -465,7 +465,7 @@ XMLPUBFUN int XMLCALL
 XMLPUBFUN double XMLCALL
 		    xmlXPathCastBooleanToNumber	(int val);
 XMLPUBFUN double XMLCALL
-		    xmlXPathCastStringToNumber	(const xmlChar * val);
+		    xmlXPathCastStringToNumber	(const char * val);
 XMLPUBFUN double XMLCALL
 		    xmlXPathCastNodeToNumber	(xmlNodePtr node);
 XMLPUBFUN double XMLCALL
@@ -473,15 +473,15 @@ XMLPUBFUN double XMLCALL
 XMLPUBFUN double XMLCALL
 		    xmlXPathCastToNumber	(xmlXPathObjectPtr val);
 
-XMLPUBFUN xmlChar * XMLCALL
+XMLPUBFUN char * XMLCALL
 		    xmlXPathCastBooleanToString	(int val);
-XMLPUBFUN xmlChar * XMLCALL
+XMLPUBFUN char * XMLCALL
 		    xmlXPathCastNumberToString	(double val);
-XMLPUBFUN xmlChar * XMLCALL
+XMLPUBFUN char * XMLCALL
 		    xmlXPathCastNodeToString	(xmlNodePtr node);
-XMLPUBFUN xmlChar * XMLCALL
+XMLPUBFUN char * XMLCALL
 		    xmlXPathCastNodeSetToString	(xmlNodeSetPtr ns);
-XMLPUBFUN xmlChar * XMLCALL
+XMLPUBFUN char * XMLCALL
 		    xmlXPathCastToString	(xmlXPathObjectPtr val);
 
 XMLPUBFUN xmlXPathObjectPtr XMLCALL
@@ -513,13 +513,13 @@ XMLPUBFUN int XMLCALL
 						 xmlXPathContextPtr ctx);
 XMLPUBFUN xmlXPathObjectPtr XMLCALL
 		    xmlXPathNodeEval		(xmlNodePtr node,
-						 const xmlChar *str,
+						 const char *str,
 						 xmlXPathContextPtr ctx);
 XMLPUBFUN xmlXPathObjectPtr XMLCALL
-		    xmlXPathEval		(const xmlChar *str,
+		    xmlXPathEval		(const char *str,
 						 xmlXPathContextPtr ctx);
 XMLPUBFUN xmlXPathObjectPtr XMLCALL
-		    xmlXPathEvalExpression	(const xmlChar *str,
+		    xmlXPathEvalExpression	(const char *str,
 						 xmlXPathContextPtr ctxt);
 XMLPUBFUN int XMLCALL
 		    xmlXPathEvalPredicate	(xmlXPathContextPtr ctxt,
@@ -528,10 +528,10 @@ XMLPUBFUN int XMLCALL
  * Separate compilation/evaluation entry points.
  */
 XMLPUBFUN xmlXPathCompExprPtr XMLCALL
-		    xmlXPathCompile		(const xmlChar *str);
+		    xmlXPathCompile		(const char *str);
 XMLPUBFUN xmlXPathCompExprPtr XMLCALL
 		    xmlXPathCtxtCompile		(xmlXPathContextPtr ctxt,
-						 const xmlChar *str);
+						 const char *str);
 XMLPUBFUN xmlXPathObjectPtr XMLCALL
 		    xmlXPathCompiledEval	(xmlXPathCompExprPtr comp,
 						 xmlXPathContextPtr ctx);

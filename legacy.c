@@ -28,16 +28,16 @@ void xmlUpgradeOldNs(xmlDocPtr doc);
  ************************************************************************/
 
 #ifdef LIBXML_HTML_ENABLED
-xmlChar *htmlDecodeEntities(htmlParserCtxtPtr ctxt, int len, xmlChar end,
-                            xmlChar end2, xmlChar end3);
+char *htmlDecodeEntities(htmlParserCtxtPtr ctxt, int len, char end,
+                            char end2, char end3);
 
 /**
  * htmlDecodeEntities:
  * @ctxt:  the parser context
  * @len:  the len to decode (in bytes !), -1 for no size limit
- * @end:  an end marker xmlChar, 0 if none
- * @end2:  an end marker xmlChar, 0 if none
- * @end3:  an end marker xmlChar, 0 if none
+ * @end:  an end marker char, 0 if none
+ * @end2:  an end marker char, 0 if none
+ * @end3:  an end marker char, 0 if none
  *
  * Substitute the HTML entities by their value
  *
@@ -46,11 +46,11 @@ xmlChar *htmlDecodeEntities(htmlParserCtxtPtr ctxt, int len, xmlChar end,
  * Returns A newly allocated string with the substitution done. The caller
  *      must deallocate it !
  */
-xmlChar *
+char *
 htmlDecodeEntities(htmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
-                   int len ATTRIBUTE_UNUSED, xmlChar end ATTRIBUTE_UNUSED,
-                   xmlChar end2 ATTRIBUTE_UNUSED,
-                   xmlChar end3 ATTRIBUTE_UNUSED)
+                   int len ATTRIBUTE_UNUSED, char end ATTRIBUTE_UNUSED,
+                   char end2 ATTRIBUTE_UNUSED,
+                   char end3 ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
 
@@ -390,9 +390,9 @@ xmlSetFeature(xmlParserCtxtPtr ctxt, const char *name, void *value)
  * @ctxt:  the parser context
  * @len:  the len to decode (in bytes !), -1 for no size limit
  * @what:  combination of XML_SUBSTITUTE_REF and XML_SUBSTITUTE_PEREF
- * @end:  an end marker xmlChar, 0 if none
- * @end2:  an end marker xmlChar, 0 if none
- * @end3:  an end marker xmlChar, 0 if none
+ * @end:  an end marker char, 0 if none
+ * @end2:  an end marker char, 0 if none
+ * @end3:  an end marker char, 0 if none
  *
  * This function is deprecated, we now always process entities content
  * through xmlStringDecodeEntities
@@ -406,12 +406,12 @@ xmlSetFeature(xmlParserCtxtPtr ctxt, const char *name, void *value)
  * Returns A newly allocated string with the substitution done. The caller
  *      must deallocate it !
  */
-xmlChar *
+char *
 xmlDecodeEntities(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
                   int len ATTRIBUTE_UNUSED, int what ATTRIBUTE_UNUSED,
-                  xmlChar end ATTRIBUTE_UNUSED,
-                  xmlChar end2 ATTRIBUTE_UNUSED,
-                  xmlChar end3 ATTRIBUTE_UNUSED)
+                  char end ATTRIBUTE_UNUSED,
+                  char end2 ATTRIBUTE_UNUSED,
+                  char end3 ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
 
@@ -440,7 +440,7 @@ xmlDecodeEntities(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
  * Returns the namespace name or NULL
  */
 
-xmlChar *
+char *
 xmlNamespaceParseNCName(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
@@ -456,7 +456,7 @@ xmlNamespaceParseNCName(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
 /**
  * xmlNamespaceParseQName:
  * @ctxt:  an XML parser context
- * @prefix:  a xmlChar **
+ * @prefix:  a char **
  *
  * TODO: this seems not in use anymore, the namespace handling is done on
  *       top of the SAX interfaces, i.e. not on raw input.
@@ -473,9 +473,9 @@ xmlNamespaceParseNCName(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
  *   to get the Prefix if any.
  */
 
-xmlChar *
+char *
 xmlNamespaceParseQName(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
-                       xmlChar ** prefix ATTRIBUTE_UNUSED)
+                       char ** prefix ATTRIBUTE_UNUSED)
 {
 
     static int deprecated = 0;
@@ -504,7 +504,7 @@ xmlNamespaceParseQName(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
  * Returns the namespace name
  */
 
-xmlChar *
+char *
 xmlNamespaceParseNSDef(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
@@ -527,7 +527,7 @@ xmlNamespaceParseNSDef(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
  *
  * Returns the string parser or NULL.
  */
-xmlChar *
+char *
 xmlParseQuotedString(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
@@ -587,7 +587,7 @@ xmlParseNamespace(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
  * Returns the Name parsed or NULL
  */
 
-xmlChar *
+char *
 xmlScanName(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
@@ -677,8 +677,8 @@ xmlHandleEntity(xmlParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
  */
 xmlNsPtr
 xmlNewGlobalNs(xmlDocPtr doc ATTRIBUTE_UNUSED,
-               const xmlChar * href ATTRIBUTE_UNUSED,
-               const xmlChar * prefix ATTRIBUTE_UNUSED)
+               const char * href ATTRIBUTE_UNUSED,
+               const char * prefix ATTRIBUTE_UNUSED)
 {
     static int deprecated = 0;
 
@@ -722,9 +722,9 @@ xmlUpgradeOldNs(xmlDocPtr doc ATTRIBUTE_UNUSED)
  *
  * Returns NULL
  */
-const xmlChar *
+const char *
 xmlEncodeEntities(xmlDocPtr doc ATTRIBUTE_UNUSED,
-                  const xmlChar * input ATTRIBUTE_UNUSED)
+                  const char * input ATTRIBUTE_UNUSED)
 {
     static int warning = 1;
 
@@ -758,9 +758,9 @@ static int deprecated_v1_msg = 0;
  * Provides the public ID e.g. "-//SGMLSOURCE//DTD DEMO//EN"
  * DEPRECATED: use xmlSAX2GetPublicId()
  *
- * Returns a xmlChar *
+ * Returns a char *
  */
-const xmlChar *
+const char *
 getPublicId(void *ctx)
 {
     DEPRECATED("getPublicId")
@@ -775,9 +775,9 @@ getPublicId(void *ctx)
  * http://www.sgmlsource.com/dtds/memo.dtd
  * DEPRECATED: use xmlSAX2GetSystemId()
  *
- * Returns a xmlChar *
+ * Returns a char *
  */
-const xmlChar *
+const char *
 getSystemId(void *ctx)
 {
     DEPRECATED("getSystemId")
@@ -875,8 +875,8 @@ hasExternalSubset(void *ctx)
  * DEPRECATED: use xmlSAX2InternalSubset()
  */
 void
-internalSubset(void *ctx, const xmlChar * name,
-               const xmlChar * ExternalID, const xmlChar * SystemID)
+internalSubset(void *ctx, const char * name,
+               const char * ExternalID, const char * SystemID)
 {
     DEPRECATED("internalSubset")
         xmlSAX2InternalSubset(ctx, name, ExternalID, SystemID);
@@ -893,8 +893,8 @@ internalSubset(void *ctx, const xmlChar * name,
  * DEPRECATED: use xmlSAX2ExternalSubset()
  */
 void
-externalSubset(void *ctx, const xmlChar * name,
-               const xmlChar * ExternalID, const xmlChar * SystemID)
+externalSubset(void *ctx, const char * name,
+               const char * ExternalID, const char * SystemID)
 {
     DEPRECATED("externalSubset")
         xmlSAX2ExternalSubset(ctx, name, ExternalID, SystemID);
@@ -916,8 +916,8 @@ externalSubset(void *ctx, const xmlChar * name,
  * Returns the xmlParserInputPtr if inlined or NULL for DOM behaviour.
  */
 xmlParserInputPtr
-resolveEntity(void *ctx, const xmlChar * publicId,
-              const xmlChar * systemId)
+resolveEntity(void *ctx, const char * publicId,
+              const char * systemId)
 {
     DEPRECATED("resolveEntity")
         return (xmlSAX2ResolveEntity(ctx, publicId, systemId));
@@ -934,7 +934,7 @@ resolveEntity(void *ctx, const xmlChar * publicId,
  * Returns the xmlEntityPtr if found.
  */
 xmlEntityPtr
-getEntity(void *ctx, const xmlChar * name)
+getEntity(void *ctx, const char * name)
 {
     DEPRECATED("getEntity")
         return (xmlSAX2GetEntity(ctx, name));
@@ -951,7 +951,7 @@ getEntity(void *ctx, const xmlChar * name)
  * Returns the xmlEntityPtr if found.
  */
 xmlEntityPtr
-getParameterEntity(void *ctx, const xmlChar * name)
+getParameterEntity(void *ctx, const char * name)
 {
     DEPRECATED("getParameterEntity")
         return (xmlSAX2GetParameterEntity(ctx, name));
@@ -971,9 +971,9 @@ getParameterEntity(void *ctx, const xmlChar * name)
  * DEPRECATED: use xmlSAX2EntityDecl()
  */
 void
-entityDecl(void *ctx, const xmlChar * name, int type,
-           const xmlChar * publicId, const xmlChar * systemId,
-           xmlChar * content)
+entityDecl(void *ctx, const char * name, int type,
+           const char * publicId, const char * systemId,
+           char * content)
 {
     DEPRECATED("entityDecl")
         xmlSAX2EntityDecl(ctx, name, type, publicId, systemId, content);
@@ -993,8 +993,8 @@ entityDecl(void *ctx, const xmlChar * name, int type,
  * DEPRECATED: use xmlSAX2AttributeDecl()
  */
 void
-attributeDecl(void *ctx, const xmlChar * elem, const xmlChar * fullname,
-              int type, int def, const xmlChar * defaultValue,
+attributeDecl(void *ctx, const char * elem, const char * fullname,
+              int type, int def, const char * defaultValue,
               xmlEnumerationPtr tree)
 {
     DEPRECATED("attributeDecl")
@@ -1013,7 +1013,7 @@ attributeDecl(void *ctx, const xmlChar * elem, const xmlChar * fullname,
  * DEPRECATED: use xmlSAX2ElementDecl()
  */
 void
-elementDecl(void *ctx, const xmlChar * name, int type,
+elementDecl(void *ctx, const char * name, int type,
             xmlElementContentPtr content)
 {
     DEPRECATED("elementDecl")
@@ -1031,8 +1031,8 @@ elementDecl(void *ctx, const xmlChar * name, int type,
  * DEPRECATED: use xmlSAX2NotationDecl()
  */
 void
-notationDecl(void *ctx, const xmlChar * name,
-             const xmlChar * publicId, const xmlChar * systemId)
+notationDecl(void *ctx, const char * name,
+             const char * publicId, const char * systemId)
 {
     DEPRECATED("notationDecl")
         xmlSAX2NotationDecl(ctx, name, publicId, systemId);
@@ -1050,9 +1050,9 @@ notationDecl(void *ctx, const xmlChar * name,
  * DEPRECATED: use xmlSAX2UnparsedEntityDecl()
  */
 void
-unparsedEntityDecl(void *ctx, const xmlChar * name,
-                   const xmlChar * publicId, const xmlChar * systemId,
-                   const xmlChar * notationName)
+unparsedEntityDecl(void *ctx, const char * name,
+                   const char * publicId, const char * systemId,
+                   const char * notationName)
 {
     DEPRECATED("unparsedEntityDecl")
         xmlSAX2UnparsedEntityDecl(ctx, name, publicId, systemId,
@@ -1118,8 +1118,8 @@ endDocument(void *ctx)
  */
 void
 attribute(void *ctx ATTRIBUTE_UNUSED,
-          const xmlChar * fullname ATTRIBUTE_UNUSED,
-          const xmlChar * value ATTRIBUTE_UNUSED)
+          const char * fullname ATTRIBUTE_UNUSED,
+          const char * value ATTRIBUTE_UNUSED)
 {
     DEPRECATED("attribute")
 }
@@ -1134,7 +1134,7 @@ attribute(void *ctx ATTRIBUTE_UNUSED,
  * DEPRECATED: use xmlSAX2StartElement()
  */
 void
-startElement(void *ctx, const xmlChar * fullname, const xmlChar ** atts)
+startElement(void *ctx, const char * fullname, const char ** atts)
 {
     xmlSAX2StartElement(ctx, fullname, atts);
 }
@@ -1148,7 +1148,7 @@ startElement(void *ctx, const xmlChar * fullname, const xmlChar ** atts)
  * DEPRECATED: use xmlSAX2EndElement()
  */
 void
-endElement(void *ctx, const xmlChar * name ATTRIBUTE_UNUSED)
+endElement(void *ctx, const char * name ATTRIBUTE_UNUSED)
 {
     DEPRECATED("endElement")
     xmlSAX2EndElement(ctx, name);
@@ -1163,7 +1163,7 @@ endElement(void *ctx, const xmlChar * name ATTRIBUTE_UNUSED)
  * DEPRECATED: use xmlSAX2Reference()
  */
 void
-reference(void *ctx, const xmlChar * name)
+reference(void *ctx, const char * name)
 {
     DEPRECATED("reference")
         xmlSAX2Reference(ctx, name);
@@ -1172,14 +1172,14 @@ reference(void *ctx, const xmlChar * name)
 /**
  * characters:
  * @ctx: the user data (XML parser context)
- * @ch:  a xmlChar string
- * @len: the number of xmlChar
+ * @ch:  a char string
+ * @len: the number of char
  *
  * receiving some chars from the parser.
  * DEPRECATED: use xmlSAX2Characters()
  */
 void
-characters(void *ctx, const xmlChar * ch, int len)
+characters(void *ctx, const char * ch, int len)
 {
     DEPRECATED("characters")
         xmlSAX2Characters(ctx, ch, len);
@@ -1188,8 +1188,8 @@ characters(void *ctx, const xmlChar * ch, int len)
 /**
  * ignorableWhitespace:
  * @ctx: the user data (XML parser context)
- * @ch:  a xmlChar string
- * @len: the number of xmlChar
+ * @ch:  a char string
+ * @len: the number of char
  *
  * receiving some ignorable whitespaces from the parser.
  * UNUSED: by default the DOM building will use characters
@@ -1197,7 +1197,7 @@ characters(void *ctx, const xmlChar * ch, int len)
  */
 void
 ignorableWhitespace(void *ctx ATTRIBUTE_UNUSED,
-                    const xmlChar * ch ATTRIBUTE_UNUSED,
+                    const char * ch ATTRIBUTE_UNUSED,
                     int len ATTRIBUTE_UNUSED)
 {
     DEPRECATED("ignorableWhitespace")
@@ -1213,8 +1213,8 @@ ignorableWhitespace(void *ctx ATTRIBUTE_UNUSED,
  * DEPRECATED: use xmlSAX2ProcessingInstruction()
  */
 void
-processingInstruction(void *ctx, const xmlChar * target,
-                      const xmlChar * data)
+processingInstruction(void *ctx, const char * target,
+                      const char * data)
 {
     DEPRECATED("processingInstruction")
         xmlSAX2ProcessingInstruction(ctx, target, data);
@@ -1231,8 +1231,8 @@ processingInstruction(void *ctx, const xmlChar * target,
  */
 void
 globalNamespace(void *ctx ATTRIBUTE_UNUSED,
-                const xmlChar * href ATTRIBUTE_UNUSED,
-                const xmlChar * prefix ATTRIBUTE_UNUSED)
+                const char * href ATTRIBUTE_UNUSED,
+                const char * prefix ATTRIBUTE_UNUSED)
 {
     DEPRECATED("globalNamespace")
 }
@@ -1248,7 +1248,7 @@ globalNamespace(void *ctx ATTRIBUTE_UNUSED,
 
 void
 setNamespace(void *ctx ATTRIBUTE_UNUSED,
-             const xmlChar * name ATTRIBUTE_UNUSED)
+             const char * name ATTRIBUTE_UNUSED)
 {
     DEPRECATED("setNamespace")
 }
@@ -1284,7 +1284,7 @@ getNamespace(void *ctx ATTRIBUTE_UNUSED)
 
 int
 checkNamespace(void *ctx ATTRIBUTE_UNUSED,
-               xmlChar * namespace ATTRIBUTE_UNUSED)
+               char * namespace ATTRIBUTE_UNUSED)
 {
     DEPRECATED("checkNamespace")
         return (0);
@@ -1301,8 +1301,8 @@ checkNamespace(void *ctx ATTRIBUTE_UNUSED,
  */
 void
 namespaceDecl(void *ctx ATTRIBUTE_UNUSED,
-              const xmlChar * href ATTRIBUTE_UNUSED,
-              const xmlChar * prefix ATTRIBUTE_UNUSED)
+              const char * href ATTRIBUTE_UNUSED,
+              const char * prefix ATTRIBUTE_UNUSED)
 {
     DEPRECATED("namespaceDecl")
 }
@@ -1316,7 +1316,7 @@ namespaceDecl(void *ctx ATTRIBUTE_UNUSED,
  * DEPRECATED: use xmlSAX2Comment()
  */
 void
-comment(void *ctx, const xmlChar * value)
+comment(void *ctx, const char * value)
 {
     DEPRECATED("comment")
         xmlSAX2Comment(ctx, value);
@@ -1332,7 +1332,7 @@ comment(void *ctx, const xmlChar * value)
  * DEPRECATED: use xmlSAX2CDataBlock()
  */
 void
-cdataBlock(void *ctx, const xmlChar * value, int len)
+cdataBlock(void *ctx, const char * value, int len)
 {
     DEPRECATED("cdataBlock")
         xmlSAX2CDataBlock(ctx, value, len);

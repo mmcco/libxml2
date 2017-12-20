@@ -285,7 +285,7 @@
      d                                     like(xmlCint)
      d ctxt                                value like(xmlSchemaValidCtxtPtr)
      d input                               value like(xmlParserInputBufferPtr)
-     d enc                                 value like(xmlCharEncoding)
+     d enc                                 value like(charEncoding)
      d sax                                 value like(xmlSAXHandlerPtr)
      d user_data                       *   value                                void *
 

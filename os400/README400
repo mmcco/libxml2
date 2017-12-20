@@ -105,20 +105,20 @@ The procedures are:
 
 #include <libxml/transcode.h>
 
-const char *  xmlTranscodeResult(const xmlChar * s,
+const char *  xmlTranscodeResult(const char * s,
                                  const char * encoding,
                                  xmlDictPtr * dict,
                                  void (*freeproc)(const void *));
 
-const xmlChar * xmlTranscodeString(const char * s,
+const char * xmlTranscodeString(const char * s,
                                    const char * encoding,
                                    xmlDictPtr * dict);
 
-const xmlChar * xmlTranscodeWString(const char * s,
+const char * xmlTranscodeWString(const char * s,
                                     const char * encoding,
                                     xmlDictPtr * dict);
 
-const xmlChar * xmlTranscodeWString(const char * s,
+const char * xmlTranscodeWString(const char * s,
                                     const char * encoding,
                                     xmlDictPtr * dict);
 
@@ -181,7 +181,7 @@ Additionally, a formatter into latched/dynamic storage is provided:
 
 const char *    xmlVasprintf(xmlDictPtr * dict,
                              const char * encoding,
-                             const xmlChar * fmt,
+                             const char * fmt,
                              va_list args);
 
 

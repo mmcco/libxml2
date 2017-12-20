@@ -506,21 +506,21 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaAttribute">Structure </a>xmlSchemaAttribute</h3><pre class="programlisting">struct _xmlSchemaAttribute {
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>	type
     struct _xmlSchemaAttribute *	next	: the next <a href="libxml2-SAX.html#attribute">attribute</a> (not used?)
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	name	: the name of the declaration
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	id	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	ref	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refNs	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	typeName	: the local name of the type definition
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	typeNs	: the ns URI of the type definition
+    const <a href="libxml2-xmlstring.html#char">char</a> *	name	: the name of the declaration
+    const <a href="libxml2-xmlstring.html#char">char</a> *	id	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	ref	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refNs	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	typeName	: the local name of the type definition
+    const <a href="libxml2-xmlstring.html#char">char</a> *	typeNs	: the ns URI of the type definition
     <a href="libxml2-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>	annot
     <a href="libxml2-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a>	base	: Deprecated; not used
     int	occurs	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	defValue	: The initial value of the value constraint
+    const <a href="libxml2-xmlstring.html#char">char</a> *	defValue	: The initial value of the value constraint
     <a href="libxml2-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a>	subtypes	: the type definition
     <a href="libxml2-tree.html#xmlNodePtr">xmlNodePtr</a>	node
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	targetNamespace
+    const <a href="libxml2-xmlstring.html#char">char</a> *	targetNamespace
     int	flags
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refPrefix	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refPrefix	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaValPtr">xmlSchemaValPtr</a>	defVal	: The compiled value constraint
     <a href="libxml2-schemasInternals.html#xmlSchemaAttributePtr">xmlSchemaAttributePtr</a>	refDecl	: Deprecated; not used
 } xmlSchemaAttribute;
@@ -530,18 +530,18 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaAttributeGroup">Structure </a>xmlSchemaAttributeGroup</h3><pre class="programlisting">struct _xmlSchemaAttributeGroup {
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>	type	: The kind of type
     struct _xmlSchemaAttribute *	next	: the next <a href="libxml2-SAX.html#attribute">attribute</a> if in a group ...
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	name
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	id
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	ref	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refNs	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	name
+    const <a href="libxml2-xmlstring.html#char">char</a> *	id
+    const <a href="libxml2-xmlstring.html#char">char</a> *	ref	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refNs	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>	annot
     <a href="libxml2-schemasInternals.html#xmlSchemaAttributePtr">xmlSchemaAttributePtr</a>	attributes	: Deprecated; not used
     <a href="libxml2-tree.html#xmlNodePtr">xmlNodePtr</a>	node
     int	flags
     <a href="libxml2-schemasInternals.html#xmlSchemaWildcardPtr">xmlSchemaWildcardPtr</a>	attributeWildcard
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refPrefix	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refPrefix	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaAttributeGroupPtr">xmlSchemaAttributeGroupPtr</a>	refItem	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	targetNamespace
+    const <a href="libxml2-xmlstring.html#char">char</a> *	targetNamespace
     void *	attrUses
 } xmlSchemaAttributeGroup;
 </pre><p/>
@@ -582,10 +582,10 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaElement">Structure </a>xmlSchemaElement</h3><pre class="programlisting">struct _xmlSchemaElement {
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>	type	: The kind of type
     struct _xmlSchemaType *	next	: Not used?
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	name
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	id	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	ref	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refNs	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	name
+    const <a href="libxml2-xmlstring.html#char">char</a> *	id	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	ref	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refNs	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>	annot
     <a href="libxml2-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a>	subtypes	: the type definition
     <a href="libxml2-schemasInternals.html#xmlSchemaAttributePtr">xmlSchemaAttributePtr</a>	attributes
@@ -593,17 +593,17 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
     int	minOccurs	: Deprecated; not used
     int	maxOccurs	: Deprecated; not used
     int	flags
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	targetNamespace
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	namedType
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	namedTypeNs
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	substGroup
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	substGroupNs
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	scope
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	value	: The original value of the value constraint.
+    const <a href="libxml2-xmlstring.html#char">char</a> *	targetNamespace
+    const <a href="libxml2-xmlstring.html#char">char</a> *	namedType
+    const <a href="libxml2-xmlstring.html#char">char</a> *	namedTypeNs
+    const <a href="libxml2-xmlstring.html#char">char</a> *	substGroup
+    const <a href="libxml2-xmlstring.html#char">char</a> *	substGroupNs
+    const <a href="libxml2-xmlstring.html#char">char</a> *	scope
+    const <a href="libxml2-xmlstring.html#char">char</a> *	value	: The original value of the value constraint.
     struct _xmlSchemaElement *	refDecl	: This will now be used for the substitution group affiliation
     <a href="libxml2-xmlregexp.html#xmlRegexpPtr">xmlRegexpPtr</a>	contModel	: Obsolete for WXS, maybe used for RelaxNG
     <a href="libxml2-schemasInternals.html#xmlSchemaContentType">xmlSchemaContentType</a>	contentType
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refPrefix	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refPrefix	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaValPtr">xmlSchemaValPtr</a>	defVal	: The compiled value contraint.
     void *	idcs	: The identity-constraint defs
 } xmlSchemaElement;
@@ -617,8 +617,8 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaFacet">Structure </a>xmlSchemaFacet</h3><pre class="programlisting">struct _xmlSchemaFacet {
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>	type	: The kind of type
     struct _xmlSchemaFacet *	next	: the next type if in a sequence ...
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	value	: The original value
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	id	: Obsolete
+    const <a href="libxml2-xmlstring.html#char">char</a> *	value	: The original value
+    const <a href="libxml2-xmlstring.html#char">char</a> *	id	: Obsolete
     <a href="libxml2-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>	annot
     <a href="libxml2-tree.html#xmlNodePtr">xmlNodePtr</a>	node
     int	fixed	: XML_SCHEMAS_FACET_PRESERVE, etc.
@@ -646,10 +646,10 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
         <hr/>
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaNotation">Structure </a>xmlSchemaNotation</h3><pre class="programlisting">struct _xmlSchemaNotation {
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>	type	: The kind of type
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	name
+    const <a href="libxml2-xmlstring.html#char">char</a> *	name
     <a href="libxml2-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>	annot
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	identifier
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	targetNamespace
+    const <a href="libxml2-xmlstring.html#char">char</a> *	identifier
+    const <a href="libxml2-xmlstring.html#char">char</a> *	targetNamespace
 } xmlSchemaNotation;
 </pre><p/>
 </div>
@@ -661,10 +661,10 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaType">Structure </a>xmlSchemaType</h3><pre class="programlisting">struct _xmlSchemaType {
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>	type	: The kind of type
     struct _xmlSchemaType *	next	: the next type if in a sequence ...
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	name
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	id	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	ref	: Deprecated; not used
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refNs	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	name
+    const <a href="libxml2-xmlstring.html#char">char</a> *	id	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	ref	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refNs	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>	annot
     <a href="libxml2-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a>	subtypes
     <a href="libxml2-schemasInternals.html#xmlSchemaAttributePtr">xmlSchemaAttributePtr</a>	attributes	: Deprecated; not used
@@ -673,8 +673,8 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
     int	maxOccurs	: Deprecated; not used
     int	flags
     <a href="libxml2-schemasInternals.html#xmlSchemaContentType">xmlSchemaContentType</a>	contentType
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	base	: Base type's local name
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	baseNs	: Base type's target namespace
+    const <a href="libxml2-xmlstring.html#char">char</a> *	base	: Base type's local name
+    const <a href="libxml2-xmlstring.html#char">char</a> *	baseNs	: Base type's target namespace
     <a href="libxml2-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a>	baseType	: The base type component
     <a href="libxml2-schemasInternals.html#xmlSchemaFacetPtr">xmlSchemaFacetPtr</a>	facets	: Local facets
     struct _xmlSchemaType *	redef	: Deprecated; not used
@@ -684,10 +684,10 @@ void	<a href="#xmlSchemaFreeWildcard">xmlSchemaFreeWildcard</a>		(<a href="libxm
     int	builtInType	: Type of built-in types.
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeLinkPtr">xmlSchemaTypeLinkPtr</a>	memberTypes	: member-types if a union type.
     <a href="libxml2-schemasInternals.html#xmlSchemaFacetLinkPtr">xmlSchemaFacetLinkPtr</a>	facetSet	: All facets (incl. inherited)
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	refPrefix	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	refPrefix	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a>	contentTypeDef	: Used for the simple content of complex types. Could we use @subtypes
     <a href="libxml2-xmlregexp.html#xmlRegexpPtr">xmlRegexpPtr</a>	contModel	: Holds the automaton of the content model
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	targetNamespace
+    const <a href="libxml2-xmlstring.html#char">char</a> *	targetNamespace
     void *	attrUses
 } xmlSchemaType;
 </pre><p/>
@@ -817,7 +817,7 @@ The content of this structure is not made public by the API.
         <hr/>
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaWildcard">Structure </a>xmlSchemaWildcard</h3><pre class="programlisting">struct _xmlSchemaWildcard {
     <a href="libxml2-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>	type	: The kind of type
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	id	: Deprecated; not used
+    const <a href="libxml2-xmlstring.html#char">char</a> *	id	: Deprecated; not used
     <a href="libxml2-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>	annot
     <a href="libxml2-tree.html#xmlNodePtr">xmlNodePtr</a>	node
     int	minOccurs	: Deprecated; not used
@@ -833,7 +833,7 @@ The content of this structure is not made public by the API.
         <hr/>
         <div class="refsect2" lang="en"><h3><a name="xmlSchemaWildcardNs">Structure </a>xmlSchemaWildcardNs</h3><pre class="programlisting">struct _xmlSchemaWildcardNs {
     struct _xmlSchemaWildcardNs *	next	: the next constraint link ...
-    const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> *	value	: the value
+    const <a href="libxml2-xmlstring.html#char">char</a> *	value	: the value
 } xmlSchemaWildcardNs;
 </pre><p/>
 </div>

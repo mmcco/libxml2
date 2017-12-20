@@ -23,7 +23,7 @@
       /include "libxmlrpg/xmlversion"
       /include "libxmlrpg/xmlTypesC"
 
-      * xmlCharEncoding:
+      * charEncoding:
       *
       * Predefined values for some standard encodings.
       * Libxml does not do beforehand translation on UTF8 and ISOLatinX.
@@ -43,7 +43,7 @@
       * Note that the generic "UTF-16" is not a predefined value.  Instead, only
       * the specific UTF-16LE and UTF-16BE are present.
 
-     d xmlCharEncoding...
+     d charEncoding...
      d                 s                   based(######typedef######)
      d                                     like(xmlCenum)
      d  XML_CHAR_ENCODING_ERROR...                                              No encoding detected
@@ -95,7 +95,7 @@
      d  XML_CHAR_ENCODING_ASCII...                                              Pure ASCII
      d                 c                   22
 
-      * xmlCharEncodingInputFunc:
+      * charEncodingInputFunc:
       * @out:  a pointer to an array of bytes to store the UTF-8 result
       * @outlen:  the length of @out
       * @in:  a pointer to an array of chars in the original encoding
@@ -110,11 +110,11 @@
       *     if the return value is positive, else unpredictiable.
       * The value of @outlen after return is the number of octets consumed.
 
-     d xmlCharEncodingInputFunc...
+     d charEncodingInputFunc...
      d                 s               *   based(######typedef######)
      d                                     procptr
 
-      * xmlCharEncodingOutputFunc:
+      * charEncodingOutputFunc:
       * @out:  a pointer to an array of bytes to store the result
       * @outlen:  the length of @out
       * @in:  a pointer to an array of UTF-8 chars
@@ -131,7 +131,7 @@
       *     if the return value is positive, else unpredictiable.
       * The value of @outlen after return is the number of octets produced.
 
-     d xmlCharEncodingOutputFunc...
+     d charEncodingOutputFunc...
      d                 s               *   based(######typedef######)
      d                                     procptr
 
@@ -145,15 +145,15 @@
      d  utf8                           *                                        UConverter *
       /endif
 
-     d xmlCharEncodingHandlerPtr...
+     d charEncodingHandlerPtr...
      d                 s               *   based(######typedef######)
 
-     d xmlCharEncodingHandler...
-     d                 ds                  based(xmlCharEncodingHandlerPtr)
+     d charEncodingHandler...
+     d                 ds                  based(charEncodingHandlerPtr)
      d                                     align qualified
      d  name                           *                                        char *
-     d  input                              like(xmlCharEncodingInputFunc)
-     d  output                             like(xmlCharEncodingOutputFunc)
+     d  input                              like(charEncodingInputFunc)
+     d  output                             like(charEncodingOutputFunc)
       *
       /if defined(LIBXML_ICONV_ENABLED)
      d  iconv_in                       *                                        iconv_t
@@ -180,24 +180,24 @@
      d xmlRegisterCharEncodingHandler...
      d                 pr                  extproc(
      d                                      'xmlRegisterCharEncodingHandler')
-     d  handler                            value like(xmlCharEncodingHandlerPtr)
+     d  handler                            value like(charEncodingHandlerPtr)
 
      d xmlGetCharEncodingHandler...
      d                 pr                  extproc('xmlGetCharEncodingHandler')
-     d                                     like(xmlCharEncodingHandlerPtr)
-     d  enc                                value like(xmlCharEncoding)
+     d                                     like(charEncodingHandlerPtr)
+     d  enc                                value like(charEncoding)
 
      d xmlFindCharEncodingHandler...
      d                 pr                  extproc('xmlFindCharEncodingHandler')
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
      d  name                           *   value options(*string)               const char *
 
      d xmlNewCharEncodingHandler...
      d                 pr                  extproc('xmlNewCharEncodingHandler')
-     d                                     like(xmlCharEncodingHandlerPtr)
+     d                                     like(charEncodingHandlerPtr)
      d  name                           *   value options(*string)               const char *
-     d  input                              value like(xmlCharEncodingInputFunc)
-     d  output                             value like(xmlCharEncodingOutputFunc)
+     d  input                              value like(charEncodingInputFunc)
+     d  output                             value like(charEncodingOutputFunc)
 
       * Interfaces for encoding names and aliases.
 
@@ -221,46 +221,46 @@
 
      d xmlParseCharEncoding...
      d                 pr                  extproc('xmlParseCharEncoding')
-     d                                     like(xmlCharEncoding)
+     d                                     like(charEncoding)
      d  name                           *   value options(*string)               const char *
 
      d xmlGetCharEncodingName...
      d                 pr              *   extproc('xmlGetCharEncodingName')    const char *
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
       * Interfaces directly used by the parsers.
 
      d xmlDetectCharEncoding...
      d                 pr                  extproc('xmlDetectCharEncoding')
-     d                                     like(xmlCharEncoding)
+     d                                     like(charEncoding)
      d  in                             *   value options(*string)               const unsigned char*
      d  len                                value like(xmlCint)
 
-     d xmlCharEncOutFunc...
-     d                 pr                  extproc('xmlCharEncOutFunc')
+     d charEncOutFunc...
+     d                 pr                  extproc('charEncOutFunc')
      d                                     like(xmlCint)
-     d  handler                            likeds(xmlCharEncodingHandler)
+     d  handler                            likeds(charEncodingHandler)
      d  out                                value like(xmlBufferPtr)
      d  in                                 value like(xmlBufferPtr)
 
-     d xmlCharEncInFunc...
-     d                 pr                  extproc('xmlCharEncInFunc')
+     d charEncInFunc...
+     d                 pr                  extproc('charEncInFunc')
      d                                     like(xmlCint)
-     d  handler                            likeds(xmlCharEncodingHandler)
+     d  handler                            likeds(charEncodingHandler)
      d  out                                value like(xmlBufferPtr)
      d  in                                 value like(xmlBufferPtr)
 
-     d xmlCharEncFirstLine...
-     d                 pr                  extproc('xmlCharEncFirstLine')
+     d charEncFirstLine...
+     d                 pr                  extproc('charEncFirstLine')
      d                                     like(xmlCint)
-     d  handler                            likeds(xmlCharEncodingHandler)
+     d  handler                            likeds(charEncodingHandler)
      d  out                                value like(xmlBufferPtr)
      d  in                                 value like(xmlBufferPtr)
 
-     d xmlCharEncCloseFunc...
-     d                 pr                  extproc('xmlCharEncCloseFunc')
+     d charEncCloseFunc...
+     d                 pr                  extproc('charEncCloseFunc')
      d                                     like(xmlCint)
-     d  handler                            likeds(xmlCharEncodingHandler)
+     d  handler                            likeds(charEncodingHandler)
 
       * Export a few useful functions
 

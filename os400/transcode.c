@@ -11,7 +11,6 @@
 
 #include <sys/types.h>
 #include <iconv.h>
-#include "libxml/xmlmemory.h"
 #include "libxml/dict.h"
 #include "transcode.h"
 
@@ -39,11 +38,11 @@ xmlZapDict(xmlDictPtr * dict)
 ***     -       Keep it in a dictionary.
 ***     -       Free original string if a release procedure is provided.
 ***     Can also be called without dictionary to convert a string from/to UTF-8
-***             into xmlMalloc'ed dynamic storage.
+***             into malloc'ed dynamic storage.
 **/
 
 const char *
-xmlTranscodeResult(const xmlChar * s, const char * encoding,
+xmlTranscodeResult(const char * s, const char * encoding,
                         xmlDictPtr * dict, void (*freeproc)(const void *))
 
 {
@@ -75,7 +74,7 @@ xmlTranscodeResult(const xmlChar * s, const char * encoding,
                         err = !(*dict = xmlDictCreate());
 
                 if (!err)
-                        err = !(ts = xmlMalloc(4 * l + 4));
+                        err = !(ts = malloc(4 * l + 4));
 
                 dstp = ts;
                 dstc = 4 * l;
@@ -102,19 +101,19 @@ xmlTranscodeResult(const xmlChar * s, const char * encoding,
 
                         if (!dict) {
                                 if (dstc)
-                                        ts = xmlRealloc(ts, (dstp - ts) + 4);
+                                        ts = realloc(ts, (dstp - ts) + 4);
 
                                 ret = (const char *) ts;
                                 ts = (char *) NULL;
                                 }
                         else
                                 ret = (char *) xmlDictLookup(*dict,
-                                    (xmlChar *) ts, dstp - ts + 1);
+                                    (char *) ts, dstp - ts + 1);
                         }
                 }
 
         if (ts)
-                xmlFree(ts);
+                free(ts);
 
         if (freeproc)
                 (*freeproc)(s);
@@ -129,10 +128,10 @@ xmlTranscodeResult(const xmlChar * s, const char * encoding,
 ***     -       Convert string to UTF-8.
 ***     -       Keep it in a dictionary.
 ***     Can also be called without dictionary to convert a string to UTF-8 into
-***             xmlMalloc'ed dynamic storage.
+***             malloc'ed dynamic storage.
 **/
 
-static const xmlChar *
+static const char *
 inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
 
 {
@@ -141,21 +140,21 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
         char * dstp;
         size_t srcc;
         size_t dstc;
-        xmlChar * ts;
-        const xmlChar * ret;
-        static const xmlChar nullstring[] = { 0 };
+        char * ts;
+        const char * ret;
+        static const char nullstring[] = { 0 };
 
         if (!l && dict)
                 return nullstring;
 
         if (dict && !*dict)
                 if (!(*dict = xmlDictCreate()))
-                        return (const xmlChar *) NULL;
+                        return (const char *) NULL;
 
-        ts = (xmlChar *) xmlMalloc(6 * l + 1);
+        ts = (char *) malloc(6 * l + 1);
 
         if (!ts)
-                return (const xmlChar *) NULL;
+                return (const char *) NULL;
 
         dstp = (char *) ts;
         dstc = 6 * l;
@@ -167,8 +166,8 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
                 cd = iconv_open("UTF-8", encoding);
 
                 if (cd == (iconv_t) -1) {
-                        xmlFree((char *) ts);
-                        return (const xmlChar *) NULL;
+                        free((char *) ts);
+                        return (const char *) NULL;
                         }
 
                 srcp = (char *) s;
@@ -177,8 +176,8 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
                 iconv_close(cd);
 
                 if (srcc == (size_t) -1) {
-                        xmlFree((char *) ts);
-                        return (const xmlChar *) NULL;
+                        free((char *) ts);
+                        return (const char *) NULL;
                         }
                 }
 
@@ -186,13 +185,13 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
 
         if (!dict) {
                 if (dstc)
-                        ts = xmlRealloc(ts, (dstp - ts) + 1);
+                        ts = realloc(ts, (dstp - ts) + 1);
 
                 return ts;
                 }
 
         ret = xmlDictLookup(*dict, ts, dstp - ts + 1);
-        xmlFree((char *) ts);
+        free((char *) ts);
         return ret;
 }
 
@@ -201,12 +200,12 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
 ***     Input 8-bit character string parameter.
 **/
 
-const xmlChar *
+const char *
 xmlTranscodeString(const char * s, const char * encoding, xmlDictPtr * dict)
 
 {
         if (!s)
-                return (const xmlChar *) NULL;
+                return (const char *) NULL;
 
         return inTranscode(s, xmlStrlen(s), encoding, dict);
 }
@@ -216,14 +215,14 @@ xmlTranscodeString(const char * s, const char * encoding, xmlDictPtr * dict)
 ***     Input 16-bit character string parameter.
 **/
 
-const xmlChar *
+const char *
 xmlTranscodeWString(const char * s, const char * encoding, xmlDictPtr * dict)
 
 {
         size_t i;
 
         if (!s)
-                return (const xmlChar *) NULL;
+                return (const char *) NULL;
 
         for (i = 0; s[i] && s[i + 1]; i += 2)
                 ;
@@ -236,14 +235,14 @@ xmlTranscodeWString(const char * s, const char * encoding, xmlDictPtr * dict)
 ***     Input 32-bit character string parameter.
 **/
 
-const xmlChar *
+const char *
 xmlTranscodeHString(const char * s, const char * encoding, xmlDictPtr * dict)
 
 {
         size_t i;
 
         if (!s)
-                return (const xmlChar *) NULL;
+                return (const char *) NULL;
 
         for (i = 0; s[i] && s[i + 1] && s[i + 2] && s[i + 3]; i += 4)
                 ;
@@ -258,11 +257,11 @@ xmlTranscodeHString(const char * s, const char * encoding, xmlDictPtr * dict)
 
 const char *
 xmlVasprintf(xmlDictPtr * dict, const char * encoding,
-                                        const xmlChar * fmt, va_list args)
+                                        const char * fmt, va_list args)
 
 {
         char * s = NULL;
 
         vasprintf(&s, fmt, args);
-        return xmlTranscodeResult((const xmlChar *) s, encoding, dict, free);
+        return xmlTranscodeResult((const char *) s, encoding, dict, free);
 }

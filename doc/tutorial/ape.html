@@ -34,7 +34,7 @@ parseDoc(char *docname, char *keyword) {
 		return (NULL);
 	}
 	
-	if (xmlStrcmp(cur-&gt;name, (const xmlChar *) "story")) {
+	if (xmlStrcmp(cur-&gt;name, (const char *) "story")) {
 		fprintf(stderr,"document of the wrong type, root node != story");
 		xmlFreeDoc(doc);
 		return (NULL);
@@ -42,7 +42,7 @@ parseDoc(char *docname, char *keyword) {
 	
 	cur = cur-&gt;xmlChildrenNode;
 	while (cur != NULL) {
-		if ((!xmlStrcmp(cur-&gt;name, (const xmlChar *)"storyinfo"))){
+		if ((!xmlStrcmp(cur-&gt;name, (const char *)"storyinfo"))){
 			parseStory (doc, cur, keyword);
 		}
 		 

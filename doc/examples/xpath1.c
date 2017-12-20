@@ -22,8 +22,8 @@
 
 
 static void usage(const char *name);
-int  execute_xpath_expression(const char* filename, const xmlChar* xpathExpr, const xmlChar* nsList);
-int  register_namespaces(xmlXPathContextPtr xpathCtx, const xmlChar* nsList);
+int  execute_xpath_expression(const char* filename, const char* xpathExpr, const char* nsList);
+int  register_namespaces(xmlXPathContextPtr xpathCtx, const char* nsList);
 void print_xpath_nodes(xmlNodeSetPtr nodes, FILE* output);
 
 int 
@@ -40,7 +40,7 @@ main(int argc, char **argv) {
     LIBXML_TEST_VERSION
 
     /* Do the main job */
-    if(execute_xpath_expression(argv[1], BAD_CAST argv[2], (argc > 3) ? BAD_CAST argv[3] : NULL) < 0) {
+    if(execute_xpath_expression(argv[1], argv[2], (argc > 3) ? argv[3] : NULL) < 0) {
 	usage(argv[0]);
 	return(-1);
     }
@@ -82,7 +82,7 @@ usage(const char *name) {
  * Returns 0 on success and a negative value otherwise.
  */
 int 
-execute_xpath_expression(const char* filename, const xmlChar* xpathExpr, const xmlChar* nsList) {
+execute_xpath_expression(const char* filename, const char* xpathExpr, const char* nsList) {
     xmlDocPtr doc;
     xmlXPathContextPtr xpathCtx; 
     xmlXPathObjectPtr xpathObj; 
@@ -144,16 +144,16 @@ execute_xpath_expression(const char* filename, const xmlChar* xpathExpr, const x
  * Returns 0 on success and a negative value otherwise.
  */
 int 
-register_namespaces(xmlXPathContextPtr xpathCtx, const xmlChar* nsList) {
-    xmlChar* nsListDup;
-    xmlChar* prefix;
-    xmlChar* href;
-    xmlChar* next;
+register_namespaces(xmlXPathContextPtr xpathCtx, const char* nsList) {
+    char* nsListDup;
+    char* prefix;
+    char* href;
+    char* next;
     
     assert(xpathCtx);
     assert(nsList);
 
-    nsListDup = xmlStrdup(nsList);
+    nsListDup = strdup(nsList);
     if(nsListDup == NULL) {
 	fprintf(stderr, "Error: unable to strdup namespaces list\n");
 	return(-1);	
@@ -167,17 +167,17 @@ register_namespaces(xmlXPathContextPtr xpathCtx, const xmlChar* nsList) {
 
 	/* find prefix */
 	prefix = next;
-	next = (xmlChar*)xmlStrchr(next, '=');
+	next = (char*)xmlStrchr(next, '=');
 	if(next == NULL) {
 	    fprintf(stderr,"Error: invalid namespaces list format\n");
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);	
 	}
 	*(next++) = '\0';	
 	
 	/* find href */
 	href = next;
-	next = (xmlChar*)xmlStrchr(next, ' ');
+	next = (char*)xmlStrchr(next, ' ');
 	if(next != NULL) {
 	    *(next++) = '\0';	
 	}
@@ -185,12 +185,12 @@ register_namespaces(xmlXPathContextPtr xpathCtx, const xmlChar* nsList) {
 	/* do register namespace */
 	if(xmlXPathRegisterNs(xpathCtx, prefix, href) != 0) {
 	    fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", prefix, href);
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);	
 	}
     }
     
-    xmlFree(nsListDup);
+    free(nsListDup);
     return(0);
 }
 

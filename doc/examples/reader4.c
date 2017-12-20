@@ -19,7 +19,7 @@
 static void processDoc(xmlTextReaderPtr readerPtr) {
     int ret;
     xmlDocPtr docPtr;
-    const xmlChar *URL;
+    const char *URL;
 
     ret = xmlTextReaderRead(readerPtr);
     while (ret == 1) {

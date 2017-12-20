@@ -497,7 +497,7 @@
     <symbol file="list">xmlListSort</symbol>
     <symbol file="list">xmlListWalk</symbol>
     <symbol file="xmlmemory">xmlInitMemory</symbol>
-    <symbol file="xmlmemory">xmlMallocLoc</symbol>
+    <symbol file="xmlmemory">mallocLoc</symbol>
     <symbol file="xmlmemory">xmlMemDisplay</symbol>
     <symbol file="xmlmemory">xmlMemFree</symbol>
     <symbol file="xmlmemory">xmlMemGet</symbol>
@@ -509,7 +509,7 @@
     <symbol file="xmlmemory">xmlMemUsed</symbol>
     <symbol file="xmlmemory">xmlMemoryDump</symbol>
     <symbol file="xmlmemory">xmlMemoryStrdup</symbol>
-    <symbol file="xmlmemory">xmlReallocLoc</symbol>
+    <symbol file="xmlmemory">reallocLoc</symbol>
     <symbol file="xmlIO">xmlAllocOutputBuffer</symbol>
     <symbol file="xmlIO">xmlAllocParserInputBuffer</symbol>
     <symbol file="xmlIO">xmlCheckFilename</symbol>
@@ -637,8 +637,8 @@
     <symbol file="HTMLparser">htmlSAXParseDoc</symbol>
     <symbol file="HTMLparser">htmlSAXParseFile</symbol>
     <symbol file="HTMLparser">htmlTagLookup</symbol>
-    <symbol file="xmlstring">xmlCharStrdup</symbol>
-    <symbol file="xmlstring">xmlCharStrndup</symbol>
+    <symbol file="xmlstring">charStrdup</symbol>
+    <symbol file="xmlstring">charStrndup</symbol>
     <symbol file="parser">xmlCleanupParser</symbol>
     <symbol file="parser">xmlClearNodeInfoSeq</symbol>
     <symbol file="parser">xmlClearParserCtxt</symbol>
@@ -738,12 +738,12 @@
     <symbol file="globals">xmlKeepBlanksDefaultValue</symbol>
     <symbol file="globals">xmlLineNumbersDefaultValue</symbol>
     <symbol file="globals">xmlLoadExtDtdDefaultValue</symbol>
-    <symbol file="globals">xmlMalloc</symbol>
+    <symbol file="globals">malloc</symbol>
     <symbol file="globals">xmlMemStrdup</symbol>
     <symbol file="globals">xmlParserDebugEntities</symbol>
     <symbol file="globals">xmlParserVersion</symbol>
     <symbol file="globals">xmlPedanticParserDefaultValue</symbol>
-    <symbol file="globals">xmlRealloc</symbol>
+    <symbol file="globals">realloc</symbol>
     <symbol file="globals">xmlSaveNoEmptyTags</symbol>
     <symbol file="globals">xmlSubstituteEntitiesDefaultValue</symbol>
     <symbol file="globals">xmlTreeIndentString</symbol>
@@ -1096,10 +1096,10 @@
     <symbol file="encoding">UTF8Toisolat1</symbol>
     <symbol file="encoding">isolat1ToUTF8</symbol>
     <symbol file="encoding">xmlAddEncodingAlias</symbol>
-    <symbol file="encoding">xmlCharEncCloseFunc</symbol>
-    <symbol file="encoding">xmlCharEncFirstLine</symbol>
-    <symbol file="encoding">xmlCharEncInFunc</symbol>
-    <symbol file="encoding">xmlCharEncOutFunc</symbol>
+    <symbol file="encoding">charEncCloseFunc</symbol>
+    <symbol file="encoding">charEncFirstLine</symbol>
+    <symbol file="encoding">charEncInFunc</symbol>
+    <symbol file="encoding">charEncOutFunc</symbol>
     <symbol file="xmlstring">xmlCheckUTF8</symbol>
     <symbol file="encoding">xmlCleanupCharEncodingHandlers</symbol>
     <symbol file="encoding">xmlCleanupEncodingAliases</symbol>
@@ -1196,7 +1196,7 @@
     <symbol file="tree">xmlBuildQName</symbol>
     <symbol file="xmlmemory">xmlGcMemGet</symbol>
     <symbol file="xmlmemory">xmlGcMemSetup</symbol>
-    <symbol file="globals">xmlMallocAtomic</symbol>
+    <symbol file="globals">malloc</symbol>
     <symbol file="xmlregexp">xmlRegExecPushString2</symbol>
     <symbol file="relaxng">xmlRelaxNGNewDocParserCtxt</symbol>
     <symbol file="relaxng">xmlRelaxNGValidateFullElement</symbol>
@@ -1256,7 +1256,7 @@
     <symbol file="globals">xmlThrDefTreeIndentString</symbol>
   </release>
   <release version="2.5.9">
-    <symbol file="xmlmemory">xmlMallocAtomicLoc</symbol>
+    <symbol file="xmlmemory">mallocLoc</symbol>
     <symbol file="relaxng">xmlRelaxNGGetParserErrors</symbol>
     <symbol file="relaxng">xmlRelaxNGGetValidErrors</symbol>
     <symbol file="tree">xmlSplitQName3</symbol>
@@ -1313,7 +1313,7 @@
     <symbol file="HTMLparser">htmlReadIO</symbol>
     <symbol file="HTMLparser">htmlReadMemory</symbol>
     <symbol file="tree">xmlBufferCreateStatic</symbol>
-    <symbol file="chvalid">xmlCharInRange</symbol>
+    <symbol file="chvalid">charInRange</symbol>
     <symbol file="xmlIO">xmlCheckHTTPInput</symbol>
     <symbol file="xmlerror">xmlCopyError</symbol>
     <symbol file="xmlerror">xmlCtxtGetLastError</symbol>

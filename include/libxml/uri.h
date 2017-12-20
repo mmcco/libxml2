@@ -46,17 +46,17 @@ struct _xmlURI {
 
 /*
  * This function is in tree.h:
- * xmlChar *	xmlNodeGetBase	(xmlDocPtr doc,
+ * char *	xmlNodeGetBase	(xmlDocPtr doc,
  *                               xmlNodePtr cur);
  */
 XMLPUBFUN xmlURIPtr XMLCALL
 		xmlCreateURI		(void);
-XMLPUBFUN xmlChar * XMLCALL
-		xmlBuildURI		(const xmlChar *URI,
-					 const xmlChar *base);
-XMLPUBFUN xmlChar * XMLCALL
-		xmlBuildRelativeURI	(const xmlChar *URI,
-					 const xmlChar *base);
+XMLPUBFUN char * XMLCALL
+		xmlBuildURI		(const char *URI,
+					 const char *base);
+XMLPUBFUN char * XMLCALL
+		xmlBuildRelativeURI	(const char *URI,
+					 const char *base);
 XMLPUBFUN xmlURIPtr XMLCALL
 		xmlParseURI		(const char *str);
 XMLPUBFUN xmlURIPtr XMLCALL
@@ -65,28 +65,28 @@ XMLPUBFUN xmlURIPtr XMLCALL
 XMLPUBFUN int XMLCALL
 		xmlParseURIReference	(xmlURIPtr uri,
 					 const char *str);
-XMLPUBFUN xmlChar * XMLCALL
+XMLPUBFUN char * XMLCALL
 		xmlSaveUri		(xmlURIPtr uri);
 XMLPUBFUN void XMLCALL
 		xmlPrintURI		(FILE *stream,
 					 xmlURIPtr uri);
-XMLPUBFUN xmlChar * XMLCALL
-		xmlURIEscapeStr         (const xmlChar *str,
-					 const xmlChar *list);
+XMLPUBFUN char * XMLCALL
+		xmlURIEscapeStr         (const char *str,
+					 const char *list);
 XMLPUBFUN char * XMLCALL
 		xmlURIUnescapeString	(const char *str,
 					 int len,
 					 char *target);
 XMLPUBFUN int XMLCALL
 		xmlNormalizeURIPath	(char *path);
-XMLPUBFUN xmlChar * XMLCALL
-		xmlURIEscape		(const xmlChar *str);
+XMLPUBFUN char * XMLCALL
+		xmlURIEscape		(const char *str);
 XMLPUBFUN void XMLCALL
 		xmlFreeURI		(xmlURIPtr uri);
-XMLPUBFUN xmlChar* XMLCALL
-		xmlCanonicPath		(const xmlChar *path);
-XMLPUBFUN xmlChar* XMLCALL
-		xmlPathToURI		(const xmlChar *path);
+XMLPUBFUN char* XMLCALL
+		xmlCanonicPath		(const char *path);
+XMLPUBFUN char* XMLCALL
+		xmlPathToURI		(const char *path);
 
 #ifdef __cplusplus
 }

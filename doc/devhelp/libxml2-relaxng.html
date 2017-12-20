@@ -74,7 +74,7 @@ int	<a href="#xmlRelaxNGGetValidErrors">xmlRelaxNGGetValidErrors</a>	(<a href="l
 int	<a href="#xmlRelaxNGInitTypes">xmlRelaxNGInitTypes</a>		(void);
 void	<a href="#xmlRelaxNGDumpTree">xmlRelaxNGDumpTree</a>		(FILE * output, <br/>					 <a href="libxml2-relaxng.html#xmlRelaxNGPtr">xmlRelaxNGPtr</a> schema);
 void	<a href="#xmlRelaxNGCleanupTypes">xmlRelaxNGCleanupTypes</a>		(void);
-int	<a href="#xmlRelaxNGValidatePushCData">xmlRelaxNGValidatePushCData</a>	(<a href="libxml2-relaxng.html#xmlRelaxNGValidCtxtPtr">xmlRelaxNGValidCtxtPtr</a> ctxt, <br/>					 const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> * data, <br/>					 int len);
+int	<a href="#xmlRelaxNGValidatePushCData">xmlRelaxNGValidatePushCData</a>	(<a href="libxml2-relaxng.html#xmlRelaxNGValidCtxtPtr">xmlRelaxNGValidCtxtPtr</a> ctxt, <br/>					 const <a href="libxml2-xmlstring.html#char">char</a> * data, <br/>					 int len);
 int	<a href="#xmlRelaxParserSetFlag">xmlRelaxParserSetFlag</a>		(<a href="libxml2-relaxng.html#xmlRelaxNGParserCtxtPtr">xmlRelaxNGParserCtxtPtr</a> ctxt, <br/>					 int flags);
 typedef void <a href="#xmlRelaxNGValidityWarningFunc">xmlRelaxNGValidityWarningFunc</a>	(void * ctx, <br/>					 const char * msg, <br/>					 ... ...);
 </pre>
@@ -260,7 +260,7 @@ The content of this structure is not made public by the API.
 </pre><p>Pop the element end from the RelaxNG validation stack.</p>
 <div class="variablelist"><table border="0"><col align="left"/><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i>:</span></td><td>the RelaxNG validation context</td></tr><tr><td><span class="term"><i><tt>doc</tt></i>:</span></td><td>a document instance</td></tr><tr><td><span class="term"><i><tt>elem</tt></i>:</span></td><td>an element instance</td></tr><tr><td><span class="term"><i><tt>Returns</tt></i>:</span></td><td>1 if no validation problem was found or 0 otherwise</td></tr></tbody></table></div></div>
         <hr/>
-        <div class="refsect2" lang="en"><h3><a name="xmlRelaxNGValidatePushCData"/>xmlRelaxNGValidatePushCData ()</h3><pre class="programlisting">int	xmlRelaxNGValidatePushCData	(<a href="libxml2-relaxng.html#xmlRelaxNGValidCtxtPtr">xmlRelaxNGValidCtxtPtr</a> ctxt, <br/>					 const <a href="libxml2-xmlstring.html#xmlChar">xmlChar</a> * data, <br/>					 int len)<br/>
+        <div class="refsect2" lang="en"><h3><a name="xmlRelaxNGValidatePushCData"/>xmlRelaxNGValidatePushCData ()</h3><pre class="programlisting">int	xmlRelaxNGValidatePushCData	(<a href="libxml2-relaxng.html#xmlRelaxNGValidCtxtPtr">xmlRelaxNGValidCtxtPtr</a> ctxt, <br/>					 const <a href="libxml2-xmlstring.html#char">char</a> * data, <br/>					 int len)<br/>
 </pre><p>check the CData parsed for validation in the current stack</p>
 <div class="variablelist"><table border="0"><col align="left"/><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i>:</span></td><td>the RelaxNG validation context</td></tr><tr><td><span class="term"><i><tt>data</tt></i>:</span></td><td>some character data read</td></tr><tr><td><span class="term"><i><tt>len</tt></i>:</span></td><td>the length of the data</td></tr><tr><td><span class="term"><i><tt>Returns</tt></i>:</span></td><td>1 if no validation problem was found or -1 otherwise</td></tr></tbody></table></div></div>
         <hr/>

@@ -54,25 +54,25 @@
 
       * Lookup of entry in the dictionary.
 
-     d xmlDictLookup   pr              *   extproc('xmlDictLookup')             const xmlChar *
+     d xmlDictLookup   pr              *   extproc('xmlDictLookup')             const char *
      d  dict                               value like(xmlDictPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
-     d xmlDictExists   pr              *   extproc('xmlDictExists')             const xmlChar *
+     d xmlDictExists   pr              *   extproc('xmlDictExists')             const char *
      d  dict                               value like(xmlDictPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
-     d xmlDictQLookup  pr              *   extproc('xmlDictQLookup')            const xmlChar *
+     d xmlDictQLookup  pr              *   extproc('xmlDictQLookup')            const char *
      d  dict                               value like(xmlDictPtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name                           *   value options(*string)               const char *
 
      d xmlDictOwns     pr                  extproc('xmlDictOwns')
      d                                     like(xmlCint)
      d  dict                               value like(xmlDictPtr)
-     d  str                            *   value options(*string)               const xmlChar *
+     d  str                            *   value options(*string)               const char *
 
      d xmlDictSize     pr                  extproc('xmlDictSize')
      d                                     like(xmlCint)

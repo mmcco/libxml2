@@ -287,7 +287,7 @@
      d                                     'xmlRelaxNGValidatePushCData')
      d                                     like(xmlCint)
      d  ctxt                               value like(xmlRelaxNGValidCtxtPtr)
-     d  data                           *   value options(*string)               const xmlChar *
+     d  data                           *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlRelaxNGValidatePopElement...

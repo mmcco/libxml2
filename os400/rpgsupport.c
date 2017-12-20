@@ -10,7 +10,6 @@
 
 #include <stdarg.h>
 
-#include "libxml/xmlmemory.h"
 #include "libxml/xpath.h"
 #include "libxml/parser.h"
 #include "libxml/HTMLparser.h"
@@ -30,53 +29,43 @@
                 void __set_##name(type arg) { name = arg; }
 
 
-THREADED_VAR(xmlFree, xmlFreeFunc)
+THREADED_VAR(free, xmlFreeFunc)
 
 void
 __call_xmlFree(void * mem)
 
 {
-        xmlFree(mem);
+        free(mem);
 }
 
 
-THREADED_VAR(xmlMalloc, xmlMallocFunc)
+THREADED_VAR(malloc, mallocFunc)
 
 void *
-__call_xmlMalloc(size_t size)
+__call_malloc(size_t size)
 
 {
-        return xmlMalloc(size);
+        return malloc(size);
 }
 
 
-THREADED_VAR(xmlMallocAtomic, xmlMallocFunc)
+THREADED_VAR(malloc, mallocFunc)
 
 void *
-__call_xmlMallocAtomic(size_t size)
+__call_malloc(size_t size)
 
 {
-        return xmlMallocAtomic(size);
+        return malloc(size);
 }
 
 
-THREADED_VAR(xmlRealloc, xmlReallocFunc)
+THREADED_VAR(realloc, reallocFunc)
 
 void *
-__call_xmlRealloc(void * mem, size_t size)
+__call_realloc(void * mem, size_t size)
 
 {
-        return xmlRealloc(mem, size);
-}
-
-
-THREADED_VAR(xmlMemStrdup, xmlStrdupFunc)
-
-char *
-__call_xmlMemStrdup(const char * str)
-
-{
-        return xmlMemStrdup(str);
+        return realloc(mem, size);
 }
 
 
@@ -151,7 +140,7 @@ THREADED_VAR(xmlParserInputBufferCreateFilenameValue, xmlParserInputBufferCreate
 
 xmlParserInputBufferPtr
 __call_xmlParserInputBufferCreateFilenameValue(const char *URI,
-                                                        xmlCharEncoding enc)
+                                                        charEncoding enc)
 
 {
         return xmlParserInputBufferCreateFilenameValue(URI, enc);
@@ -162,7 +151,7 @@ THREADED_VAR(xmlOutputBufferCreateFilenameValue, xmlOutputBufferCreateFilenameFu
 
 xmlOutputBufferPtr
 __call_xmlOutputBufferCreateFilenameValue(const char *URI,
-                        xmlCharEncodingHandlerPtr encoder, int compression)
+                        charEncodingHandlerPtr encoder, int compression)
 
 {
         return xmlOutputBufferCreateFilenameValue(URI, encoder, compression);

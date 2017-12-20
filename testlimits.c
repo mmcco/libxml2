@@ -434,10 +434,10 @@ channel(void *ctx  ATTRIBUTE_UNUSED, const char *msg, ...) {
 static void
 xmlParserPrintFileContextInternal(xmlParserInputPtr input ,
 		xmlGenericErrorFunc chanl, void *data ) {
-    const xmlChar *cur, *base;
+    const char *cur, *base;
     unsigned int n, col;	/* GCC warns if signed, because compared with sizeof() */
-    xmlChar  content[81]; /* space for 80 chars + line terminator */
-    xmlChar *ctnt;
+    char  content[81]; /* space for 80 chars + line terminator */
+    char *ctnt;
 
     if (input == NULL) return;
     cur = input->cur;
@@ -488,7 +488,7 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
     int domain;
     void *data = NULL;
     const char *str;
-    const xmlChar *name = NULL;
+    const char *name = NULL;
     xmlNodePtr node;
     xmlErrorLevel level;
     xmlParserInputPtr input = NULL;
@@ -626,7 +626,7 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
         return;
     if (str != NULL) {
         int len;
-	len = xmlStrlen((const xmlChar *)str);
+	len = xmlStrlen((const char *)str);
 	if ((len > 0) && (str[len - 1] != '\n'))
 	    channel(data, "%s\n", str);
 	else
@@ -649,8 +649,8 @@ testStructuredErrorHandler(void *ctx  ATTRIBUTE_UNUSED, xmlErrorPtr err) {
     }
     if ((domain == XML_FROM_XPATH) && (err->str1 != NULL) &&
         (err->int1 < 100) &&
-	(err->int1 < xmlStrlen((const xmlChar *)err->str1))) {
-	xmlChar buf[150];
+	(err->int1 < xmlStrlen((const char *)err->str1))) {
+	char buf[150];
 	int i;
 
 	channel(data, "%s\n", err->str1);
@@ -747,9 +747,9 @@ hasExternalSubsetCallback(void *ctx ATTRIBUTE_UNUSED)
  */
 static void
 internalSubsetCallback(void *ctx ATTRIBUTE_UNUSED,
-                       const xmlChar * name ATTRIBUTE_UNUSED,
-                       const xmlChar * ExternalID ATTRIBUTE_UNUSED,
-                       const xmlChar * SystemID ATTRIBUTE_UNUSED)
+                       const char * name ATTRIBUTE_UNUSED,
+                       const char * ExternalID ATTRIBUTE_UNUSED,
+                       const char * SystemID ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -763,9 +763,9 @@ internalSubsetCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 externalSubsetCallback(void *ctx ATTRIBUTE_UNUSED,
-                       const xmlChar * name ATTRIBUTE_UNUSED,
-                       const xmlChar * ExternalID ATTRIBUTE_UNUSED,
-                       const xmlChar * SystemID ATTRIBUTE_UNUSED)
+                       const char * name ATTRIBUTE_UNUSED,
+                       const char * ExternalID ATTRIBUTE_UNUSED,
+                       const char * SystemID ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -787,8 +787,8 @@ externalSubsetCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static xmlParserInputPtr
 resolveEntityCallback(void *ctx ATTRIBUTE_UNUSED,
-                      const xmlChar * publicId ATTRIBUTE_UNUSED,
-                      const xmlChar * systemId ATTRIBUTE_UNUSED)
+                      const char * publicId ATTRIBUTE_UNUSED,
+                      const char * systemId ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return (NULL);
@@ -805,7 +805,7 @@ resolveEntityCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static xmlEntityPtr
 getEntityCallback(void *ctx ATTRIBUTE_UNUSED,
-                  const xmlChar * name ATTRIBUTE_UNUSED)
+                  const char * name ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return (NULL);
@@ -822,7 +822,7 @@ getEntityCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static xmlEntityPtr
 getParameterEntityCallback(void *ctx ATTRIBUTE_UNUSED,
-                           const xmlChar * name ATTRIBUTE_UNUSED)
+                           const char * name ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return (NULL);
@@ -842,11 +842,11 @@ getParameterEntityCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 entityDeclCallback(void *ctx ATTRIBUTE_UNUSED,
-                   const xmlChar * name ATTRIBUTE_UNUSED,
+                   const char * name ATTRIBUTE_UNUSED,
                    int type ATTRIBUTE_UNUSED,
-                   const xmlChar * publicId ATTRIBUTE_UNUSED,
-                   const xmlChar * systemId ATTRIBUTE_UNUSED,
-                   xmlChar * content ATTRIBUTE_UNUSED)
+                   const char * publicId ATTRIBUTE_UNUSED,
+                   const char * systemId ATTRIBUTE_UNUSED,
+                   char * content ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -862,10 +862,10 @@ entityDeclCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 attributeDeclCallback(void *ctx ATTRIBUTE_UNUSED,
-                      const xmlChar * elem ATTRIBUTE_UNUSED,
-                      const xmlChar * name ATTRIBUTE_UNUSED,
+                      const char * elem ATTRIBUTE_UNUSED,
+                      const char * name ATTRIBUTE_UNUSED,
                       int type ATTRIBUTE_UNUSED, int def ATTRIBUTE_UNUSED,
-                      const xmlChar * defaultValue ATTRIBUTE_UNUSED,
+                      const char * defaultValue ATTRIBUTE_UNUSED,
                       xmlEnumerationPtr tree ATTRIBUTE_UNUSED)
 {
     callbacks++;
@@ -883,7 +883,7 @@ attributeDeclCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 elementDeclCallback(void *ctx ATTRIBUTE_UNUSED,
-                    const xmlChar * name ATTRIBUTE_UNUSED,
+                    const char * name ATTRIBUTE_UNUSED,
                     int type ATTRIBUTE_UNUSED,
                     xmlElementContentPtr content ATTRIBUTE_UNUSED)
 {
@@ -902,9 +902,9 @@ elementDeclCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 notationDeclCallback(void *ctx ATTRIBUTE_UNUSED,
-                     const xmlChar * name ATTRIBUTE_UNUSED,
-                     const xmlChar * publicId ATTRIBUTE_UNUSED,
-                     const xmlChar * systemId ATTRIBUTE_UNUSED)
+                     const char * name ATTRIBUTE_UNUSED,
+                     const char * publicId ATTRIBUTE_UNUSED,
+                     const char * systemId ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -922,10 +922,10 @@ notationDeclCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 unparsedEntityDeclCallback(void *ctx ATTRIBUTE_UNUSED,
-                           const xmlChar * name ATTRIBUTE_UNUSED,
-                           const xmlChar * publicId ATTRIBUTE_UNUSED,
-                           const xmlChar * systemId ATTRIBUTE_UNUSED,
-                           const xmlChar * notationName ATTRIBUTE_UNUSED)
+                           const char * name ATTRIBUTE_UNUSED,
+                           const char * publicId ATTRIBUTE_UNUSED,
+                           const char * systemId ATTRIBUTE_UNUSED,
+                           const char * notationName ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -983,8 +983,8 @@ endDocumentCallback(void *ctx ATTRIBUTE_UNUSED)
  */
 static void
 startElementCallback(void *ctx ATTRIBUTE_UNUSED,
-                     const xmlChar * name ATTRIBUTE_UNUSED,
-                     const xmlChar ** atts ATTRIBUTE_UNUSED)
+                     const char * name ATTRIBUTE_UNUSED,
+                     const char ** atts ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -999,7 +999,7 @@ startElementCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 endElementCallback(void *ctx ATTRIBUTE_UNUSED,
-                   const xmlChar * name ATTRIBUTE_UNUSED)
+                   const char * name ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -1009,15 +1009,15 @@ endElementCallback(void *ctx ATTRIBUTE_UNUSED,
 /**
  * charactersCallback:
  * @ctxt:  An XML parser context
- * @ch:  a xmlChar string
- * @len: the number of xmlChar
+ * @ch:  a char string
+ * @len: the number of char
  *
  * receiving some chars from the parser.
  * Question: how much at a time ???
  */
 static void
 charactersCallback(void *ctx ATTRIBUTE_UNUSED,
-                   const xmlChar * ch ATTRIBUTE_UNUSED,
+                   const char * ch ATTRIBUTE_UNUSED,
                    int len ATTRIBUTE_UNUSED)
 {
     callbacks++;
@@ -1033,7 +1033,7 @@ charactersCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 referenceCallback(void *ctx ATTRIBUTE_UNUSED,
-                  const xmlChar * name ATTRIBUTE_UNUSED)
+                  const char * name ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -1042,16 +1042,16 @@ referenceCallback(void *ctx ATTRIBUTE_UNUSED,
 /**
  * ignorableWhitespaceCallback:
  * @ctxt:  An XML parser context
- * @ch:  a xmlChar string
+ * @ch:  a char string
  * @start: the first char in the string
- * @len: the number of xmlChar
+ * @len: the number of char
  *
  * receiving some ignorable whitespaces from the parser.
  * Question: how much at a time ???
  */
 static void
 ignorableWhitespaceCallback(void *ctx ATTRIBUTE_UNUSED,
-                            const xmlChar * ch ATTRIBUTE_UNUSED,
+                            const char * ch ATTRIBUTE_UNUSED,
                             int len ATTRIBUTE_UNUSED)
 {
     callbacks++;
@@ -1063,14 +1063,14 @@ ignorableWhitespaceCallback(void *ctx ATTRIBUTE_UNUSED,
  * @ctxt:  An XML parser context
  * @target:  the target name
  * @data: the PI data's
- * @len: the number of xmlChar
+ * @len: the number of char
  *
  * A processing instruction has been parsed.
  */
 static void
 processingInstructionCallback(void *ctx ATTRIBUTE_UNUSED,
-                              const xmlChar * target ATTRIBUTE_UNUSED,
-                              const xmlChar * data ATTRIBUTE_UNUSED)
+                              const char * target ATTRIBUTE_UNUSED,
+                              const char * data ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -1086,7 +1086,7 @@ processingInstructionCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 cdataBlockCallback(void *ctx ATTRIBUTE_UNUSED,
-                   const xmlChar * value ATTRIBUTE_UNUSED,
+                   const char * value ATTRIBUTE_UNUSED,
                    int len ATTRIBUTE_UNUSED)
 {
     callbacks++;
@@ -1102,7 +1102,7 @@ cdataBlockCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 commentCallback(void *ctx ATTRIBUTE_UNUSED,
-                const xmlChar * value ATTRIBUTE_UNUSED)
+                const char * value ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -1172,14 +1172,14 @@ fatalErrorCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 startElementNsCallback(void *ctx ATTRIBUTE_UNUSED,
-                       const xmlChar * localname ATTRIBUTE_UNUSED,
-                       const xmlChar * prefix ATTRIBUTE_UNUSED,
-                       const xmlChar * URI ATTRIBUTE_UNUSED,
+                       const char * localname ATTRIBUTE_UNUSED,
+                       const char * prefix ATTRIBUTE_UNUSED,
+                       const char * URI ATTRIBUTE_UNUSED,
                        int nb_namespaces ATTRIBUTE_UNUSED,
-                       const xmlChar ** namespaces ATTRIBUTE_UNUSED,
+                       const char ** namespaces ATTRIBUTE_UNUSED,
                        int nb_attributes ATTRIBUTE_UNUSED,
                        int nb_defaulted ATTRIBUTE_UNUSED,
-                       const xmlChar ** attributes ATTRIBUTE_UNUSED)
+                       const char ** attributes ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;
@@ -1194,9 +1194,9 @@ startElementNsCallback(void *ctx ATTRIBUTE_UNUSED,
  */
 static void
 endElementNsCallback(void *ctx ATTRIBUTE_UNUSED,
-                     const xmlChar * localname ATTRIBUTE_UNUSED,
-                     const xmlChar * prefix ATTRIBUTE_UNUSED,
-                     const xmlChar * URI ATTRIBUTE_UNUSED)
+                     const char * localname ATTRIBUTE_UNUSED,
+                     const char * prefix ATTRIBUTE_UNUSED,
+                     const char * URI ATTRIBUTE_UNUSED)
 {
     callbacks++;
     return;

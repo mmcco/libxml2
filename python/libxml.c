@@ -14,13 +14,11 @@
 #include <Python.h>
 #include <fileobject.h>
 /* #include "config.h" */
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xmlerror.h>
 #include <libxml/xpathInternals.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/xmlIO.h>
 #include <libxml/c14n.h>
 #include <libxml/xmlreader.h>
@@ -70,8 +68,8 @@ static int libxml_xpathCallbacksInitialized = 0;
 
 typedef struct libxml_xpathCallback {
     xmlXPathContextPtr ctx;
-    xmlChar *name;
-    xmlChar *ns_uri;
+    char *name;
+    char *ns_uri;
     PyObject *function;
 } libxml_xpathCallback, *libxml_xpathCallbackPtr;
 typedef libxml_xpathCallback libxml_xpathCallbackArray[];
@@ -97,9 +95,8 @@ static long libxmlMemoryAllocatedBase = 0;
 
 static int libxmlMemoryDebug = 0;
 static xmlFreeFunc freeFunc = NULL;
-static xmlMallocFunc mallocFunc = NULL;
-static xmlReallocFunc reallocFunc = NULL;
-static xmlStrdupFunc strdupFunc = NULL;
+static mallocFunc mallocFunc = NULL;
+static reallocFunc reallocFunc = NULL;
 
 static void
 libxml_xmlErrorInitialize(void); /* forward declare */
@@ -113,71 +110,6 @@ libxml_xmlMemoryUsed(PyObject * self ATTRIBUTE_UNUSED,
 
     ret = xmlMemUsed();
 
-    py_retval = libxml_longWrap(ret);
-    return (py_retval);
-}
-
-PyObject *
-libxml_xmlDebugMemory(PyObject * self ATTRIBUTE_UNUSED, PyObject * args)
-{
-    int activate;
-    PyObject *py_retval;
-    long ret;
-
-    if (!PyArg_ParseTuple(args, (char *) "i:xmlDebugMemory", &activate))
-        return (NULL);
-
-#ifdef DEBUG_MEMORY
-    printf("libxml_xmlDebugMemory(%d) called\n", activate);
-#endif
-
-    if (activate != 0) {
-        if (libxmlMemoryDebug == 0) {
-            /*
-             * First initialize the library and grab the old memory handlers
-             * and switch the library to memory debugging
-             */
-            xmlMemGet((xmlFreeFunc *) & freeFunc,
-                      (xmlMallocFunc *) & mallocFunc,
-                      (xmlReallocFunc *) & reallocFunc,
-                      (xmlStrdupFunc *) & strdupFunc);
-            if ((freeFunc == xmlMemFree) && (mallocFunc == xmlMemMalloc) &&
-                (reallocFunc == xmlMemRealloc) &&
-                (strdupFunc == xmlMemoryStrdup)) {
-                libxmlMemoryAllocatedBase = xmlMemUsed();
-            } else {
-                /* 
-                 * cleanup first, because some memory has been
-                 * allocated with the non-debug malloc in xmlInitParser
-                 * when the python module was imported
-                 */
-                xmlCleanupParser();
-                ret = (long) xmlMemSetup(xmlMemFree, xmlMemMalloc,
-                                         xmlMemRealloc, xmlMemoryStrdup);
-                if (ret < 0)
-                    goto error;
-                libxmlMemoryAllocatedBase = xmlMemUsed();
-                /* reinitialize */
-                xmlInitParser();
-                libxml_xmlErrorInitialize();
-            }
-            ret = 0;
-        } else if (libxmlMemoryDebugActivated == 0) {
-            libxmlMemoryAllocatedBase = xmlMemUsed();
-            ret = 0;
-        } else {
-            ret = xmlMemUsed() - libxmlMemoryAllocatedBase;
-        }
-        libxmlMemoryDebug = 1;
-        libxmlMemoryDebugActivated = 1;
-    } else {
-        if (libxmlMemoryDebugActivated == 1)
-            ret = xmlMemUsed() - libxmlMemoryAllocatedBase;
-        else
-            ret = 0;
-        libxmlMemoryDebugActivated = 0;
-    }
-  error:
     py_retval = libxml_longWrap(ret);
     return (py_retval);
 }
@@ -202,12 +134,12 @@ libxml_xmlPythonCleanupParser(PyObject *self ATTRIBUTE_UNUSED,
     if (libxml_xpathCallbacks != NULL) {	/* if ext funcs declared */
 	for (ix=0; ix<libxml_xpathCallbacksNb; ix++) {
 	    if ((*libxml_xpathCallbacks)[ix].name != NULL)
-	        xmlFree((*libxml_xpathCallbacks)[ix].name);
+	        free((*libxml_xpathCallbacks)[ix].name);
 	    if ((*libxml_xpathCallbacks)[ix].ns_uri != NULL)
-	        xmlFree((*libxml_xpathCallbacks)[ix].ns_uri);
+	        free((*libxml_xpathCallbacks)[ix].ns_uri);
 	}
 	libxml_xpathCallbacksNb = 0;
-        xmlFree(libxml_xpathCallbacks);
+        free(libxml_xpathCallbacks);
 	libxml_xpathCallbacks = NULL;
     }
 
@@ -481,7 +413,7 @@ xmlPythonFileClose (void * context) {
  */
 static xmlOutputBufferPtr
 xmlOutputBufferCreatePythonFile(PyObject *file, 
-	                        xmlCharEncodingHandlerPtr encoder) {
+	                        charEncodingHandlerPtr encoder) {
     xmlOutputBufferPtr ret;
 
     if (file == NULL) return(NULL);
@@ -501,8 +433,8 @@ PyObject *
 libxml_xmlCreateOutputBuffer(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     PyObject *file;
-    xmlChar  *encoding;
-    xmlCharEncodingHandlerPtr handler = NULL;
+    char  *encoding;
+    charEncodingHandlerPtr handler = NULL;
     xmlOutputBufferPtr buffer;
 
 
@@ -658,7 +590,7 @@ libxml_xmlSaveFormatFileTo(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
  */
 static xmlParserInputBufferPtr
 xmlParserInputBufferCreatePythonFile(PyObject *file, 
-	                        xmlCharEncoding encoding) {
+	                        charEncoding encoding) {
     xmlParserInputBufferPtr ret;
 
     if (file == NULL) return(NULL);
@@ -678,8 +610,8 @@ PyObject *
 libxml_xmlCreateInputBuffer(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     PyObject *file;
-    xmlChar  *encoding;
-    xmlCharEncoding enc = XML_CHAR_ENCODING_NONE;
+    char  *encoding;
+    charEncoding enc = XML_CHAR_ENCODING_NONE;
     xmlParserInputBufferPtr buffer;
 
 
@@ -749,7 +681,7 @@ pythonExternalEntityLoader(const char *URL, const char *ID,
 	    if (result == NULL) {
 		Py_DECREF(ret);
 	    } else if (URL != NULL) {
-		result->filename = (char *) xmlStrdup((const xmlChar *)URL);
+		result->filename = strdup(URL);
 		result->directory = xmlParserGetDirectory((const char *) URL);
 	    }
 	}
@@ -885,8 +817,8 @@ libxml_xmlUnregisterInputCallback(ATTRIBUTE_UNUSED PyObject *self,
  ************************************************************************/
 
 static void
-pythonStartElement(void *user_data, const xmlChar * name,
-                   const xmlChar ** attrs)
+pythonStartElement(void *user_data, const char * name,
+                   const char ** attrs)
 {
     int i;
     PyObject *handler;
@@ -987,7 +919,7 @@ pythonEndDocument(void *user_data)
 }
 
 static void
-pythonEndElement(void *user_data, const xmlChar * name)
+pythonEndElement(void *user_data, const char * name)
 {
     PyObject *handler;
     PyObject *result;
@@ -1012,7 +944,7 @@ pythonEndElement(void *user_data, const xmlChar * name)
 }
 
 static void
-pythonReference(void *user_data, const xmlChar * name)
+pythonReference(void *user_data, const char * name)
 {
     PyObject *handler;
     PyObject *result;
@@ -1031,7 +963,7 @@ pythonReference(void *user_data, const xmlChar * name)
 }
 
 static void
-pythonCharacters(void *user_data, const xmlChar * ch, int len)
+pythonCharacters(void *user_data, const char * ch, int len)
 {
     PyObject *handler;
     PyObject *result = NULL;
@@ -1059,7 +991,7 @@ pythonCharacters(void *user_data, const xmlChar * ch, int len)
 }
 
 static void
-pythonIgnorableWhitespace(void *user_data, const xmlChar * ch, int len)
+pythonIgnorableWhitespace(void *user_data, const char * ch, int len)
 {
     PyObject *handler;
     PyObject *result = NULL;
@@ -1089,7 +1021,7 @@ pythonIgnorableWhitespace(void *user_data, const xmlChar * ch, int len)
 
 static void
 pythonProcessingInstruction(void *user_data,
-                            const xmlChar * target, const xmlChar * data)
+                            const char * target, const char * data)
 {
     PyObject *handler;
     PyObject *result;
@@ -1107,7 +1039,7 @@ pythonProcessingInstruction(void *user_data,
 }
 
 static void
-pythonComment(void *user_data, const xmlChar * value)
+pythonComment(void *user_data, const char * value)
 {
     PyObject *handler;
     PyObject *result;
@@ -1205,7 +1137,7 @@ pythonFatalError(void *user_data, const char *msg, ...)
 }
 
 static void
-pythonCdataBlock(void *user_data, const xmlChar * ch, int len)
+pythonCdataBlock(void *user_data, const char * ch, int len)
 {
     PyObject *handler;
     PyObject *result = NULL;
@@ -1236,8 +1168,8 @@ pythonCdataBlock(void *user_data, const xmlChar * ch, int len)
 
 static void
 pythonExternalSubset(void *user_data,
-                     const xmlChar * name,
-                     const xmlChar * externalID, const xmlChar * systemID)
+                     const char * name,
+                     const char * externalID, const char * systemID)
 {
     PyObject *handler;
     PyObject *result;
@@ -1258,10 +1190,10 @@ pythonExternalSubset(void *user_data,
 
 static void
 pythonEntityDecl(void *user_data,
-                 const xmlChar * name,
+                 const char * name,
                  int type,
-                 const xmlChar * publicId,
-                 const xmlChar * systemId, xmlChar * content)
+                 const char * publicId,
+                 const char * systemId, char * content)
 {
     PyObject *handler;
     PyObject *result;
@@ -1282,8 +1214,8 @@ pythonEntityDecl(void *user_data,
 static void
 
 pythonNotationDecl(void *user_data,
-                   const xmlChar * name,
-                   const xmlChar * publicId, const xmlChar * systemId)
+                   const char * name,
+                   const char * publicId, const char * systemId)
 {
     PyObject *handler;
     PyObject *result;
@@ -1301,11 +1233,11 @@ pythonNotationDecl(void *user_data,
 
 static void
 pythonAttributeDecl(void *user_data,
-                    const xmlChar * elem,
-                    const xmlChar * name,
+                    const char * elem,
+                    const char * name,
                     int type,
                     int def,
-                    const xmlChar * defaultValue, xmlEnumerationPtr tree)
+                    const char * defaultValue, xmlEnumerationPtr tree)
 {
     PyObject *handler;
     PyObject *nameList;
@@ -1340,7 +1272,7 @@ pythonAttributeDecl(void *user_data,
 
 static void
 pythonElementDecl(void *user_data,
-                  const xmlChar * name,
+                  const char * name,
                   int type, ATTRIBUTE_UNUSED xmlElementContentPtr content)
 {
     PyObject *handler;
@@ -1364,10 +1296,10 @@ pythonElementDecl(void *user_data,
 
 static void
 pythonUnparsedEntityDecl(void *user_data,
-                         const xmlChar * name,
-                         const xmlChar * publicId,
-                         const xmlChar * systemId,
-                         const xmlChar * notationName)
+                         const char * name,
+                         const char * publicId,
+                         const char * systemId,
+                         const char * notationName)
 {
     PyObject *handler;
     PyObject *result;
@@ -1385,8 +1317,8 @@ pythonUnparsedEntityDecl(void *user_data,
 }
 
 static void
-pythonInternalSubset(void *user_data, const xmlChar * name,
-                     const xmlChar * ExternalID, const xmlChar * SystemID)
+pythonInternalSubset(void *user_data, const char * name,
+                     const char * ExternalID, const char * SystemID)
 {
     PyObject *handler;
     PyObject *result;
@@ -1588,7 +1520,7 @@ libxml_htmlSAXParseFile(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 static PyObject *libxml_xmlPythonErrorFuncHandler = NULL;
 static PyObject *libxml_xmlPythonErrorFuncCtxt = NULL;
 
-/* helper to build a xmlMalloc'ed string from a format and va_list */
+/* helper to build a malloc'ed string from a format and va_list */
 /* 
  * disabled the loop, the repeated call to vsnprintf without reset of ap
  * in case the initial buffer was too small segfaulted on x86_64
@@ -1600,7 +1532,7 @@ libxml_buildMessage(const char *msg, va_list ap)
     int chars;
     char *str;
 
-    str = (char *) xmlMalloc(1000);
+    str = (char *) malloc(1000);
     if (str == NULL)
         return NULL;
 
@@ -1794,7 +1726,7 @@ libxml_xmlParserCtxtSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
         return(NULL);
     ctxt = (xmlParserCtxtPtr) PyparserCtxt_Get(pyobj_ctxt);
     if (ctxt->_private == NULL) {
-	pyCtxt = xmlMalloc(sizeof(xmlParserCtxtPyCtxt));
+	pyCtxt = malloc(sizeof(xmlParserCtxtPyCtxt));
 	if (pyCtxt == NULL) {
 	    py_retval = libxml_intWrap(-1);
 	    return(py_retval);
@@ -1876,7 +1808,7 @@ libxml_xmlFreeParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 	if (pyCtxt) {
 	    Py_XDECREF(pyCtxt->f);
 	    Py_XDECREF(pyCtxt->arg);
-	    xmlFree(pyCtxt);
+	    free(pyCtxt);
 	}
 	xmlFreeParserCtxt(ctxt);
     }
@@ -1991,7 +1923,7 @@ libxml_xmlSetValidErrors(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 #endif
 
     ctxt = PyValidCtxt_Get(pyobj_ctx);
-    pyCtxt = xmlMalloc(sizeof(xmlValidCtxtPyCtxt));
+    pyCtxt = malloc(sizeof(xmlValidCtxtPyCtxt));
     if (pyCtxt == NULL) {
             py_retval = libxml_intWrap(-1);
             return(py_retval);
@@ -2037,7 +1969,7 @@ libxml_xmlFreeValidCtxt(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
             Py_XDECREF(pyCtxt->error);
             Py_XDECREF(pyCtxt->warn);
             Py_XDECREF(pyCtxt->arg);
-            xmlFree(pyCtxt);
+            free(pyCtxt);
     }
 
     xmlFreeValidCtxt(cur);
@@ -2108,7 +2040,7 @@ libxml_xmlTextReaderSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
 	    pyCtxt = (xmlTextReaderPyCtxtPtr)arg;
 	    Py_XDECREF(pyCtxt->f);
 	    Py_XDECREF(pyCtxt->arg);
-	    xmlFree(pyCtxt);
+	    free(pyCtxt);
 	}
 	else {
 	    /* 
@@ -2124,7 +2056,7 @@ libxml_xmlTextReaderSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
     /* set new error handler */
     if (pyobj_f != Py_None)
     {
-	pyCtxt = (xmlTextReaderPyCtxtPtr)xmlMalloc(sizeof(xmlTextReaderPyCtxt));
+	pyCtxt = (xmlTextReaderPyCtxtPtr)malloc(sizeof(xmlTextReaderPyCtxt));
 	if (pyCtxt == NULL) {
 	    py_retval = libxml_intWrap(-1);
 	    return(py_retval);
@@ -2203,7 +2135,7 @@ libxml_xmlFreeTextReader(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 	    pyCtxt = (xmlTextReaderPyCtxtPtr)arg;
 	    Py_XDECREF(pyCtxt->f);
 	    Py_XDECREF(pyCtxt->arg);
-	    xmlFree(pyCtxt);
+	    free(pyCtxt);
 	}
 	/* 
 	 * else, something wrong happened, because the error handler is
@@ -2230,8 +2162,8 @@ libxml_xmlXPathFuncCallback(xmlXPathParserContextPtr ctxt, int nargs)
     xmlXPathObjectPtr obj;
     xmlXPathContextPtr rctxt;
     PyObject *current_function = NULL;
-    const xmlChar *name;
-    const xmlChar *ns_uri;
+    const char *name;
+    const char *ns_uri;
     int i;
 
     if (ctxt == NULL)
@@ -2278,8 +2210,8 @@ libxml_xmlXPathFuncCallback(xmlXPathParserContextPtr ctxt, int nargs)
 }
 
 static xmlXPathFunction
-libxml_xmlXPathFuncLookupFunc(void *ctxt, const xmlChar * name,
-                              const xmlChar * ns_uri)
+libxml_xmlXPathFuncLookupFunc(void *ctxt, const char * name,
+                              const char * ns_uri)
 {
     int i;
 
@@ -2314,7 +2246,7 @@ libxml_xpathCallbacksInitialize(void)
 #ifdef DEBUG_XPATH
     printf("libxml_xpathCallbacksInitialized called\n");
 #endif
-    libxml_xpathCallbacks = (libxml_xpathCallbackArray*)xmlMalloc(
+    libxml_xpathCallbacks = (libxml_xpathCallbackArray*)malloc(
     		libxml_xpathCallbacksAllocd*sizeof(libxml_xpathCallback));
 
     for (i = 0; i < libxml_xpathCallbacksAllocd; i++) {
@@ -2332,8 +2264,8 @@ libxml_xmlRegisterXPathFunction(ATTRIBUTE_UNUSED PyObject * self,
 {
     PyObject *py_retval;
     int c_retval = 0;
-    xmlChar *name;
-    xmlChar *ns_uri;
+    char *name;
+    char *ns_uri;
     xmlXPathContextPtr ctx;
     PyObject *pyobj_ctx;
     PyObject *pyobj_f;
@@ -2370,15 +2302,15 @@ libxml_xmlRegisterXPathFunction(ATTRIBUTE_UNUSED PyObject * self,
     }
     if (libxml_xpathCallbacksNb >= libxml_xpathCallbacksAllocd) {
 			libxml_xpathCallbacksAllocd+=10;
-	libxml_xpathCallbacks = (libxml_xpathCallbackArray*)xmlRealloc(
+	libxml_xpathCallbacks = (libxml_xpathCallbackArray*)realloc(
 		libxml_xpathCallbacks,
 		libxml_xpathCallbacksAllocd*sizeof(libxml_xpathCallback));
     } 
     i = libxml_xpathCallbacksNb++;
     Py_XINCREF(pyobj_f);
     (*libxml_xpathCallbacks)[i].ctx = ctx;
-    (*libxml_xpathCallbacks)[i].name = xmlStrdup(name);
-    (*libxml_xpathCallbacks)[i].ns_uri = xmlStrdup(ns_uri);
+    (*libxml_xpathCallbacks)[i].name = strdup(name);
+    (*libxml_xpathCallbacks)[i].ns_uri = strdup(ns_uri);
     (*libxml_xpathCallbacks)[i].function = pyobj_f;
         c_retval = 1;
     
@@ -2393,8 +2325,8 @@ libxml_xmlXPathRegisterVariable(ATTRIBUTE_UNUSED PyObject * self,
 {
     PyObject *py_retval;
     int c_retval = 0;
-    xmlChar *name;
-    xmlChar *ns_uri;
+    char *name;
+    char *ns_uri;
     xmlXPathContextPtr ctx;
     xmlXPathObjectPtr val;
     PyObject *pyobj_ctx;
@@ -2423,7 +2355,7 @@ libxml_name(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 {
     PyObject *resultobj, *obj;
     xmlNodePtr cur;
-    const xmlChar *res;
+    const char *res;
 
     if (!PyArg_ParseTuple(args, (char *) "O:name", &obj))
         return NULL;
@@ -2460,7 +2392,7 @@ libxml_name(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
             res = cur->name;
             break;
     }
-    resultobj = libxml_constxmlCharPtrWrap(res);
+    resultobj = libxml_constcharPtrWrap(res);
 
     return resultobj;
 }
@@ -2741,7 +2673,7 @@ libxml_type(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 {
     PyObject *resultobj, *obj;
     xmlNodePtr cur;
-    const xmlChar *res = NULL;
+    const char *res = NULL;
 
     if (!PyArg_ParseTuple(args, (char *) "O:last", &obj))
         return NULL;
@@ -2757,68 +2689,68 @@ libxml_type(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 
     switch (cur->type) {
         case XML_ELEMENT_NODE:
-            res = (const xmlChar *) "element";
+            res = (const char *) "element";
             break;
         case XML_ATTRIBUTE_NODE:
-            res = (const xmlChar *) "attribute";
+            res = (const char *) "attribute";
             break;
         case XML_TEXT_NODE:
-            res = (const xmlChar *) "text";
+            res = (const char *) "text";
             break;
         case XML_CDATA_SECTION_NODE:
-            res = (const xmlChar *) "cdata";
+            res = (const char *) "cdata";
             break;
         case XML_ENTITY_REF_NODE:
-            res = (const xmlChar *) "entity_ref";
+            res = (const char *) "entity_ref";
             break;
         case XML_ENTITY_NODE:
-            res = (const xmlChar *) "entity";
+            res = (const char *) "entity";
             break;
         case XML_PI_NODE:
-            res = (const xmlChar *) "pi";
+            res = (const char *) "pi";
             break;
         case XML_COMMENT_NODE:
-            res = (const xmlChar *) "comment";
+            res = (const char *) "comment";
             break;
         case XML_DOCUMENT_NODE:
-            res = (const xmlChar *) "document_xml";
+            res = (const char *) "document_xml";
             break;
         case XML_DOCUMENT_TYPE_NODE:
-            res = (const xmlChar *) "doctype";
+            res = (const char *) "doctype";
             break;
         case XML_DOCUMENT_FRAG_NODE:
-            res = (const xmlChar *) "fragment";
+            res = (const char *) "fragment";
             break;
         case XML_NOTATION_NODE:
-            res = (const xmlChar *) "notation";
+            res = (const char *) "notation";
             break;
         case XML_HTML_DOCUMENT_NODE:
-            res = (const xmlChar *) "document_html";
+            res = (const char *) "document_html";
             break;
         case XML_DTD_NODE:
-            res = (const xmlChar *) "dtd";
+            res = (const char *) "dtd";
             break;
         case XML_ELEMENT_DECL:
-            res = (const xmlChar *) "elem_decl";
+            res = (const char *) "elem_decl";
             break;
         case XML_ATTRIBUTE_DECL:
-            res = (const xmlChar *) "attribute_decl";
+            res = (const char *) "attribute_decl";
             break;
         case XML_ENTITY_DECL:
-            res = (const xmlChar *) "entity_decl";
+            res = (const char *) "entity_decl";
             break;
         case XML_NAMESPACE_DECL:
-            res = (const xmlChar *) "namespace";
+            res = (const char *) "namespace";
             break;
         case XML_XINCLUDE_START:
-            res = (const xmlChar *) "xinclude_start";
+            res = (const char *) "xinclude_start";
             break;
         case XML_XINCLUDE_END:
-            res = (const xmlChar *) "xinclude_end";
+            res = (const char *) "xinclude_end";
             break;
 #ifdef LIBXML_DOCB_ENABLED
         case XML_DOCB_DOCUMENT_NODE:
-            res = (const xmlChar *) "document_docbook";
+            res = (const char *) "document_docbook";
             break;
 #endif
     }
@@ -2826,7 +2758,7 @@ libxml_type(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
     printf("libxml_type: cur = %p: %s\n", cur, res);
 #endif
 
-    resultobj = libxml_constxmlCharPtrWrap(res);
+    resultobj = libxml_constcharPtrWrap(res);
     return resultobj;
 }
 
@@ -2864,7 +2796,7 @@ libxml_xmlNodeRemoveNsDef(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
     xmlNsPtr ns, prev;
     xmlNodePtr node;
     PyObject *pyobj_node;
-    xmlChar *href;
+    char *href;
     xmlNsPtr c_retval;
 
     if (!PyArg_ParseTuple
@@ -2940,7 +2872,7 @@ static PyObject *
 libxml_serializeNode(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 {
     PyObject *py_retval = NULL;
-    xmlChar *c_retval;
+    char *c_retval;
     PyObject *pyobj_node;
     xmlNodePtr node;
     xmlDocPtr doc;
@@ -3022,7 +2954,7 @@ libxml_saveNodeTo(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
     int format;
     int len;
     xmlOutputBufferPtr buf;
-    xmlCharEncodingHandlerPtr handler = NULL;
+    charEncodingHandlerPtr handler = NULL;
 
     if (!PyArg_ParseTuple(args, (char *) "OOzi:serializeNode", &pyobj_node,
                           &py_file, &encoding, &format))
@@ -3091,7 +3023,7 @@ PyObject *
 libxml_xmlNewNode(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 {
     PyObject *py_retval;
-    xmlChar *name;
+    char *name;
     xmlNodePtr node;
 
     if (!PyArg_ParseTuple(args, (char *) "s:xmlNewNode", &name))
@@ -3118,7 +3050,7 @@ libxml_xmlNewNode(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 static PyObject *
 libxml_addLocalCatalog(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 {
-    xmlChar *URL;
+    char *URL;
     xmlParserCtxtPtr ctxt;
     PyObject *pyobj_ctxt;
 
@@ -3258,7 +3190,7 @@ libxml_xmlRelaxNGSetValidErrors(ATTRIBUTE_UNUSED PyObject * self, PyObject * arg
     if (pyCtxt == NULL)
     {
         /* first time to set the error handlers */
-        pyCtxt = xmlMalloc(sizeof(xmlRelaxNGValidCtxtPyCtxt));
+        pyCtxt = malloc(sizeof(xmlRelaxNGValidCtxtPyCtxt));
         if (pyCtxt == NULL) {
             py_retval = libxml_intWrap(-1);
             return(py_retval);
@@ -3302,7 +3234,7 @@ libxml_xmlRelaxNGFreeValidCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
             Py_XDECREF(pyCtxt->error);
             Py_XDECREF(pyCtxt->warn);
             Py_XDECREF(pyCtxt->arg);
-            xmlFree(pyCtxt);
+            free(pyCtxt);
         }
     }
     
@@ -3422,7 +3354,7 @@ libxml_xmlSchemaSetValidErrors(ATTRIBUTE_UNUSED PyObject * self, PyObject * args
 	if (pyCtxt == NULL)
 	{
 		/* first time to set the error handlers */
-		pyCtxt = xmlMalloc(sizeof(xmlSchemaValidCtxtPyCtxt));
+		pyCtxt = malloc(sizeof(xmlSchemaValidCtxtPyCtxt));
 		if (pyCtxt == NULL) {
 			py_retval = libxml_intWrap(-1);
 			return(py_retval);
@@ -3467,7 +3399,7 @@ libxml_xmlSchemaFreeValidCtxt(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 			Py_XDECREF(pyCtxt->error);
 			Py_XDECREF(pyCtxt->warn);
 			Py_XDECREF(pyCtxt->arg);
-			xmlFree(pyCtxt);
+			free(pyCtxt);
 		}
 	}
 
@@ -3507,7 +3439,7 @@ PyxmlNodeSet_Convert(PyObject *py_nodeset, xmlNodeSetPtr *result)
         return -1;
     }
 
-    nodeSet = (xmlNodeSetPtr) xmlMalloc(sizeof(xmlNodeSet));
+    nodeSet = (xmlNodeSetPtr) malloc(sizeof(xmlNodeSet));
     if (nodeSet == NULL) {
         PyErr_SetString(PyExc_MemoryError, "");
         return -1;
@@ -3518,10 +3450,10 @@ PyxmlNodeSet_Convert(PyObject *py_nodeset, xmlNodeSetPtr *result)
                         ? PyTuple_GET_SIZE(py_nodeset)
                         : PyList_GET_SIZE(py_nodeset));
     nodeSet->nodeTab
-        = (xmlNodePtr *) xmlMalloc (nodeSet->nodeMax
+        = (xmlNodePtr *) malloc (nodeSet->nodeMax
                                     * sizeof(xmlNodePtr));
     if (nodeSet->nodeTab == NULL) {
-        xmlFree(nodeSet);
+        free(nodeSet);
         PyErr_SetString(PyExc_MemoryError, "");
         return -1;
     }
@@ -3544,12 +3476,12 @@ PyxmlNodeSet_Convert(PyObject *py_nodeset, xmlNodeSetPtr *result)
 }
 
 static int
-PystringSet_Convert(PyObject *py_strings, xmlChar *** result)
+PystringSet_Convert(PyObject *py_strings, char *** result)
 {
     /* NOTE: the array should be freed, but the strings are shared
        with the python strings and so must not be freed. */
 
-    xmlChar ** strings;
+    char ** strings;
     int is_tuple = 0;
     int count;
     int init_index = 0;
@@ -3572,14 +3504,14 @@ PystringSet_Convert(PyObject *py_strings, xmlChar *** result)
              ? PyTuple_GET_SIZE(py_strings)
              : PyList_GET_SIZE(py_strings));
 
-    strings = (xmlChar **) xmlMalloc(sizeof(xmlChar *) * count);
+    strings = (char **) malloc(sizeof(char *) * count);
 
     if (strings == NULL) {
         PyErr_SetString(PyExc_MemoryError, "");
         return -1;
     }
 
-    memset(strings, 0 , sizeof(xmlChar *) * count);
+    memset(strings, 0 , sizeof(char *) * count);
 
     {
         int idx;
@@ -3589,9 +3521,9 @@ PystringSet_Convert(PyObject *py_strings, xmlChar *** result)
                  ? PyTuple_GET_ITEM(py_strings, idx)
                  : PyList_GET_ITEM(py_strings, idx));
             if (s)
-                strings[init_index++] = (xmlChar *)s;
+                strings[init_index++] = (char *)s;
             else {
-                xmlFree(strings);
+                free(strings);
                 PyErr_SetString(PyExc_TypeError,
                                 "must be a tuple or list of strings.");
                 return -1;
@@ -3617,8 +3549,8 @@ libxml_C14NDocDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
 
     xmlDocPtr doc;
     xmlNodeSetPtr nodes;
-    xmlChar **prefixes = NULL;
-    xmlChar *doc_txt;
+    char **prefixes = NULL;
+    char *doc_txt;
 
     int result;
 
@@ -3643,8 +3575,8 @@ libxml_C14NDocDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
         result = PystringSet_Convert(pyobj_prefixes, &prefixes);
         if (result < 0) {
             if (nodes) {
-                xmlFree(nodes->nodeTab);
-                xmlFree(nodes);
+                free(nodes->nodeTab);
+                free(nodes);
             }
             return NULL;
         }
@@ -3658,13 +3590,13 @@ libxml_C14NDocDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
                                   &doc_txt);
 
     if (nodes) {
-        xmlFree(nodes->nodeTab);
-        xmlFree(nodes);
+        free(nodes->nodeTab);
+        free(nodes);
     }
     if (prefixes) {
-        xmlChar ** idx = prefixes;
-        while (*idx) xmlFree(*(idx++));
-        xmlFree(prefixes);
+        char ** idx = prefixes;
+        while (*idx) free(*(idx++));
+        free(prefixes);
     }
 
     if (result < 0) {
@@ -3675,7 +3607,7 @@ libxml_C14NDocDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
     else {
         py_retval = PY_IMPORT_STRING_SIZE((const char *) doc_txt,
                                                 result);
-        xmlFree(doc_txt);
+        free(doc_txt);
         return py_retval;
     }
 }
@@ -3693,7 +3625,7 @@ libxml_C14NDocSaveTo(ATTRIBUTE_UNUSED PyObject * self,
 
     xmlDocPtr doc;
     xmlNodeSetPtr nodes;
-    xmlChar **prefixes = NULL;
+    char **prefixes = NULL;
     FILE * output;
     xmlOutputBufferPtr buf;
 
@@ -3729,8 +3661,8 @@ libxml_C14NDocSaveTo(ATTRIBUTE_UNUSED PyObject * self,
         result = PystringSet_Convert(pyobj_prefixes, &prefixes);
         if (result < 0) {
             if (nodes) {
-                xmlFree(nodes->nodeTab);
-                xmlFree(nodes);
+                free(nodes->nodeTab);
+                free(nodes);
             }
             return NULL;
         }
@@ -3744,13 +3676,13 @@ libxml_C14NDocSaveTo(ATTRIBUTE_UNUSED PyObject * self,
                               buf);
 
     if (nodes) {
-        xmlFree(nodes->nodeTab);
-        xmlFree(nodes);
+        free(nodes->nodeTab);
+        free(nodes);
     }
     if (prefixes) {
-        xmlChar ** idx = prefixes;
-        while (*idx) xmlFree(*(idx++));
-        xmlFree(prefixes);
+        char ** idx = prefixes;
+        while (*idx) free(*(idx++));
+        free(prefixes);
     }
 
     PyFile_Release(output);

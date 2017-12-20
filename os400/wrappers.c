@@ -16,7 +16,6 @@
 
 #include "config.h"
 
-#include "libxml/xmlmemory.h"
 
 #include "transcode.h"
 
@@ -56,13 +55,13 @@ _lx_inet_ntop(int af, const void * src, char * dst, socklen_t size)
         i = strlen(cp2);
 
         if (i >= size) {
-                xmlFree((char *) cp2);
+                free((char *) cp2);
                 errno = ENOSPC;
                 return (const char *) NULL;
                 }
 
         memcpy(dst, cp2, i + 1);
-        xmlFree((char *) cp2);
+        free((char *) cp2);
         return dst;
 }
 
@@ -103,7 +102,7 @@ _lx_dlerror(void)
                 return cp1;
 
         if (lxdles)
-                xmlFree((char *) lxdles);
+                free((char *) lxdles);
 
         lxdles = (const char *) xmlTranscodeString(cp1, NULL, NULL);
         return (char *) lxdles;

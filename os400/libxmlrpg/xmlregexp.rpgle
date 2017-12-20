@@ -37,7 +37,7 @@
      d xmlRegexpCompile...
      d                 pr                  extproc('xmlRegexpCompile')
      d                                     like(xmlRegexpPtr)
-     d  regexp                         *   value options(*string)               const xmlChar *
+     d  regexp                         *   value options(*string)               const char *
 
      d xmlRegFreeRegexp...
      d                 pr                  extproc('xmlRegFreeRegexp')
@@ -46,7 +46,7 @@
      d xmlRegexpExec   pr                  extproc('xmlRegexpExec')
      d                                     like(xmlCint)
      d  comp                               value like(xmlRegexpPtr)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
 
      d xmlRegexpPrint  pr                  extproc('xmlRegexpPrint')
      d  output                         *   value                                FILE *
@@ -86,15 +86,15 @@
      d                 pr                  extproc('xmlRegExecPushString')
      d                                     like(xmlCint)
      d  exec                               value like(xmlRegExecCtxtPtr)
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
      d  data                           *   value                                void *
 
      d xmlRegExecPushString2...
      d                 pr                  extproc('xmlRegExecPushString2')
      d                                     like(xmlCint)
      d  exec                               value like(xmlRegExecCtxtPtr)
-     d  value                          *   value options(*string)               const xmlChar *
-     d  value2                         *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
+     d  value2                         *   value options(*string)               const char *
      d  data                           *   value                                void *
 
      d xmlRegExecNextValues...
@@ -103,17 +103,17 @@
      d  exec                               value like(xmlRegExecCtxtPtr)
      d  nbval                              like(xmlCint)
      d  nbneg                              like(xmlCint)
-     d  values                         *                                        xmlChar * (*)
+     d  values                         *                                        char * (*)
      d  terminal                           like(xmlCint)
 
      d xmlRegExecErrInfo...
      d                 pr                  extproc('xmlRegExecErrInfo')
      d                                     like(xmlCint)
      d  exec                               value like(xmlRegExecCtxtPtr)
-     d  string                         *                                        const xmlChar * (*)
+     d  string                         *                                        const char * (*)
      d  nbval                              like(xmlCint)
      d  nbneg                              like(xmlCint)
-     d  values                         *                                        xmlChar * (*)
+     d  values                         *                                        char * (*)
      d  terminal                           like(xmlCint)
 
       /if defined(LIBXML_EXPR_ENABLED)
@@ -185,7 +185,7 @@
      d xmlExpNewAtom   pr                  extproc('xmlExpNewAtom')
      d                                     like(xmlExpNodePtr)
      d  ctxt                               value like(xmlExpCtxtPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlExpNewOr     pr                  extproc('xmlExpNewOr')
@@ -223,14 +223,14 @@
      d                                     like(xmlCint)
      d  ctxt                               value like(xmlExpCtxtPtr)
      d  expr                               value like(xmlExpNodePtr)
-     d  langList                       *                                        const xmlChar *(*)
+     d  langList                       *                                        const char *(*)
      d  len                                value like(xmlCint)
 
      d xmlExpGetStart  pr                  extproc('xmlExpGetStart')
      d                                     like(xmlCint)
      d  ctxt                               value like(xmlExpCtxtPtr)
      d  expr                               value like(xmlExpNodePtr)
-     d  tokList                        *                                        const xmlChar *(*)
+     d  tokList                        *                                        const char *(*)
      d  len                                value like(xmlCint)
 
      d xmlExpStringDerive...
@@ -238,7 +238,7 @@
      d                                     like(xmlExpNodePtr)
      d  ctxt                               value like(xmlExpCtxtPtr)
      d  expr                               value like(xmlExpNodePtr)
-     d  str                            *   value options(*string)               const xmlChar *
+     d  str                            *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlExpExpDerive...

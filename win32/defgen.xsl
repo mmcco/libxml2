@@ -107,17 +107,17 @@
 					or (@name = 'xmlXPathDebugDumpCompExpr')">
 				<xsl:text>#ifdef LIBXML_DEBUG_ENABLED&nl;</xsl:text>
 			</xsl:if>
-			<xsl:if test="(@name = 'xmlMallocLoc') 
-					or (@name = 'xmlMallocAtomicLoc') 
-					or (@name = 'xmlReallocLoc') 
+			<xsl:if test="(@name = 'mallocLoc') 
+					or (@name = 'mallocLoc') 
+					or (@name = 'reallocLoc') 
 					or (@name = 'xmlMemStrdupLoc')">
 				<xsl:text>#ifdef DEBUG_MEMORY_LOCATION&nl;</xsl:text>
 			</xsl:if>
 			<!-- Symbol -->
 			<xsl:choose>
-				<xsl:when test="(@name = 'xmlMalloc') 
-						or (@name = 'xmlMallocAtomic') 
-						or (@name = 'xmlRealloc') 
+				<xsl:when test="(@name = 'malloc') 
+						or (@name = 'malloc') 
+						or (@name = 'realloc') 
 						or (@name = 'xmlFree') 
 						or (@name = 'xmlMemStrdup')">
 					<xsl:text>#ifdef LIBXML_THREAD_ALLOC_ENABLED&nl;</xsl:text>
@@ -276,9 +276,9 @@
 					or (@name = 'xmlXPathDebugDumpCompExpr')">
 				<xsl:text>#endif&nl;</xsl:text>
 			</xsl:if>
-			<xsl:if test="(@name = 'xmlMallocLoc') 
-					or (@name = 'xmlMallocAtomicLoc') 
-					or (@name = 'xmlReallocLoc') 
+			<xsl:if test="(@name = 'mallocLoc') 
+					or (@name = 'mallocLoc') 
+					or (@name = 'reallocLoc') 
 					or (@name = 'xmlMemStrdupLoc')">
 				<xsl:text>#endif&nl;</xsl:text>
 			</xsl:if>

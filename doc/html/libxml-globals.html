@@ -21,11 +21,11 @@ void	<a href="#xmlDeregisterNodeFunc">xmlDeregisterNodeFunc</a>		(<a href="libxm
 <pre class="programlisting">void	<a href="#xmlInitializeGlobalState">xmlInitializeGlobalState</a>	(<a href="libxml-globals.html#xmlGlobalStatePtr">xmlGlobalStatePtr</a> gs)</pre>
 <pre class="programlisting"><a href="libxml-globals.html#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a>	<a href="#xmlOutputBufferCreateFilenameDefault">xmlOutputBufferCreateFilenameDefault</a>	(<a href="libxml-globals.html#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a> func)</pre>
 <pre class="programlisting">Function type: <a href="#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a>
-<a href="libxml-tree.html#xmlOutputBufferPtr">xmlOutputBufferPtr</a>	<a href="#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a>	(const char * URI, <br />							 <a href="libxml-encoding.html#xmlCharEncodingHandlerPtr">xmlCharEncodingHandlerPtr</a> encoder, <br />							 int compression)
+<a href="libxml-tree.html#xmlOutputBufferPtr">xmlOutputBufferPtr</a>	<a href="#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a>	(const char * URI, <br />							 <a href="libxml-encoding.html#charEncodingHandlerPtr">charEncodingHandlerPtr</a> encoder, <br />							 int compression)
 </pre>
 <pre class="programlisting"><a href="libxml-globals.html#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a>	<a href="#xmlParserInputBufferCreateFilenameDefault">xmlParserInputBufferCreateFilenameDefault</a>	(<a href="libxml-globals.html#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a> func)</pre>
 <pre class="programlisting">Function type: <a href="#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a>
-<a href="libxml-tree.html#xmlParserInputBufferPtr">xmlParserInputBufferPtr</a>	<a href="#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a>	(const char * URI, <br />							 <a href="libxml-encoding.html#xmlCharEncoding">xmlCharEncoding</a> enc)
+<a href="libxml-tree.html#xmlParserInputBufferPtr">xmlParserInputBufferPtr</a>	<a href="#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a>	(const char * URI, <br />							 <a href="libxml-encoding.html#charEncoding">charEncoding</a> enc)
 </pre>
 <pre class="programlisting"><a href="libxml-globals.html#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a>	<a href="#xmlRegisterNodeDefault">xmlRegisterNodeDefault</a>	(<a href="libxml-globals.html#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a> func)</pre>
 <pre class="programlisting">Function type: <a href="#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a>
@@ -58,9 +58,9 @@ void	<a href="#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a>		(<a href="libxml-tr
     <a href="libxml-parser.html#xmlSAXHandlerV1">xmlSAXHandlerV1</a>	docbDefaultSAXHandler
     <a href="libxml-parser.html#xmlSAXHandlerV1">xmlSAXHandlerV1</a>	htmlDefaultSAXHandler
     <a href="libxml-xmlmemory.html#xmlFreeFunc">xmlFreeFunc</a>	xmlFree
-    <a href="libxml-xmlmemory.html#xmlMallocFunc">xmlMallocFunc</a>	xmlMalloc
+    <a href="libxml-xmlmemory.html#mallocFunc">mallocFunc</a>	malloc
     <a href="libxml-xmlmemory.html#xmlStrdupFunc">xmlStrdupFunc</a>	xmlMemStrdup
-    <a href="libxml-xmlmemory.html#xmlReallocFunc">xmlReallocFunc</a>	xmlRealloc
+    <a href="libxml-xmlmemory.html#reallocFunc">reallocFunc</a>	realloc
     <a href="libxml-xmlerror.html#xmlGenericErrorFunc">xmlGenericErrorFunc</a>	xmlGenericError
     <a href="libxml-xmlerror.html#xmlStructuredErrorFunc">xmlStructuredErrorFunc</a>	xmlStructuredError
     void *	xmlGenericErrorContext
@@ -80,7 +80,7 @@ void	<a href="#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a>		(<a href="libxml-tr
     const char *	xmlTreeIndentString
     <a href="libxml-globals.html#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a>	xmlRegisterNodeDefaultValue
     <a href="libxml-globals.html#xmlDeregisterNodeFunc">xmlDeregisterNodeFunc</a>	xmlDeregisterNodeDefaultValue
-    <a href="libxml-xmlmemory.html#xmlMallocFunc">xmlMallocFunc</a>	xmlMallocAtomic
+    <a href="libxml-xmlmemory.html#mallocFunc">mallocFunc</a>	malloc
     <a href="libxml-xmlerror.html#xmlError">xmlError</a>	xmlLastError
     <a href="libxml-globals.html#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a>	xmlParserInputBufferCreateFilenameValue
     <a href="libxml-globals.html#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a>	xmlOutputBufferCreateFilenameValue
@@ -99,12 +99,12 @@ void	xmlDeregisterNodeFunc		(<a href="libxml-tree.html#xmlNodePtr">xmlNodePtr</a
 <div class="variablelist"><table border="0"><col align="left" /><tbody><tr><td><span class="term"><i><tt>gs</tt></i>:</span></td><td>a pointer to a newly allocated global state</td></tr></tbody></table></div><h3><a name="xmlOutputBufferCreateFilenameDefault" id="xmlOutputBufferCreateFilenameDefault"></a>Function: xmlOutputBufferCreateFilenameDefault</h3><pre class="programlisting"><a href="libxml-globals.html#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a>	xmlOutputBufferCreateFilenameDefault	(<a href="libxml-globals.html#xmlOutputBufferCreateFilenameFunc">xmlOutputBufferCreateFilenameFunc</a> func)<br />
 </pre><p>Registers a callback for URI output file handling</p>
 <div class="variablelist"><table border="0"><col align="left" /><tbody><tr><td><span class="term"><i><tt>func</tt></i>:</span></td><td>function pointer to the new OutputBufferCreateFilenameFunc</td></tr><tr><td><span class="term"><i><tt>Returns</tt></i>:</span></td><td>the old value of the registration function</td></tr></tbody></table></div><h3><a name="xmlOutputBufferCreateFilenameFunc" id="xmlOutputBufferCreateFilenameFunc"></a>Function type: xmlOutputBufferCreateFilenameFunc</h3><pre class="programlisting">Function type: xmlOutputBufferCreateFilenameFunc
-<a href="libxml-tree.html#xmlOutputBufferPtr">xmlOutputBufferPtr</a>	xmlOutputBufferCreateFilenameFunc	(const char * URI, <br />							 <a href="libxml-encoding.html#xmlCharEncodingHandlerPtr">xmlCharEncodingHandlerPtr</a> encoder, <br />							 int compression)
+<a href="libxml-tree.html#xmlOutputBufferPtr">xmlOutputBufferPtr</a>	xmlOutputBufferCreateFilenameFunc	(const char * URI, <br />							 <a href="libxml-encoding.html#charEncodingHandlerPtr">charEncodingHandlerPtr</a> encoder, <br />							 int compression)
 </pre><p>Signature for the function doing the lookup for a suitable output method corresponding to an URI.</p><div class="variablelist"><table border="0"><col align="left" /><tbody><tr><td><span class="term"><i><tt>URI</tt></i>:</span></td><td>the URI to write to</td></tr><tr><td><span class="term"><i><tt>encoder</tt></i>:</span></td><td></td></tr><tr><td><span class="term"><i><tt>compression</tt></i>:</span></td><td></td></tr><tr><td><span class="term"><i><tt>Returns</tt></i>:</span></td><td>the new <a href="libxml-tree.html#xmlOutputBufferPtr">xmlOutputBufferPtr</a> in case of success or NULL if no method was found.</td></tr></tbody></table></div><br />
 <h3><a name="xmlParserInputBufferCreateFilenameDefault" id="xmlParserInputBufferCreateFilenameDefault"></a>Function: xmlParserInputBufferCreateFilenameDefault</h3><pre class="programlisting"><a href="libxml-globals.html#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a>	xmlParserInputBufferCreateFilenameDefault	(<a href="libxml-globals.html#xmlParserInputBufferCreateFilenameFunc">xmlParserInputBufferCreateFilenameFunc</a> func)<br />
 </pre><p>Registers a callback for URI input file handling</p>
 <div class="variablelist"><table border="0"><col align="left" /><tbody><tr><td><span class="term"><i><tt>func</tt></i>:</span></td><td>function pointer to the new ParserInputBufferCreateFilenameFunc</td></tr><tr><td><span class="term"><i><tt>Returns</tt></i>:</span></td><td>the old value of the registration function</td></tr></tbody></table></div><h3><a name="xmlParserInputBufferCreateFilenameFunc" id="xmlParserInputBufferCreateFilenameFunc"></a>Function type: xmlParserInputBufferCreateFilenameFunc</h3><pre class="programlisting">Function type: xmlParserInputBufferCreateFilenameFunc
-<a href="libxml-tree.html#xmlParserInputBufferPtr">xmlParserInputBufferPtr</a>	xmlParserInputBufferCreateFilenameFunc	(const char * URI, <br />							 <a href="libxml-encoding.html#xmlCharEncoding">xmlCharEncoding</a> enc)
+<a href="libxml-tree.html#xmlParserInputBufferPtr">xmlParserInputBufferPtr</a>	xmlParserInputBufferCreateFilenameFunc	(const char * URI, <br />							 <a href="libxml-encoding.html#charEncoding">charEncoding</a> enc)
 </pre><p>Signature for the function doing the lookup for a suitable input method corresponding to an URI.</p><div class="variablelist"><table border="0"><col align="left" /><tbody><tr><td><span class="term"><i><tt>URI</tt></i>:</span></td><td>the URI to read from</td></tr><tr><td><span class="term"><i><tt>enc</tt></i>:</span></td><td>the requested source encoding</td></tr><tr><td><span class="term"><i><tt>Returns</tt></i>:</span></td><td>the new <a href="libxml-tree.html#xmlParserInputBufferPtr">xmlParserInputBufferPtr</a> in case of success or NULL if no method was found.</td></tr></tbody></table></div><br />
 <h3><a name="xmlRegisterNodeDefault" id="xmlRegisterNodeDefault"></a>Function: xmlRegisterNodeDefault</h3><pre class="programlisting"><a href="libxml-globals.html#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a>	xmlRegisterNodeDefault	(<a href="libxml-globals.html#xmlRegisterNodeFunc">xmlRegisterNodeFunc</a> func)<br />
 </pre><p>Registers a callback for node creation</p>

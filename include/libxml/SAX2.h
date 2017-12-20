@@ -21,9 +21,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-XMLPUBFUN const xmlChar * XMLCALL
+XMLPUBFUN const char * XMLCALL
 		xmlSAX2GetPublicId		(void *ctx);
-XMLPUBFUN const xmlChar * XMLCALL
+XMLPUBFUN const char * XMLCALL
 		xmlSAX2GetSystemId		(void *ctx);
 XMLPUBFUN void XMLCALL
 		xmlSAX2SetDocumentLocator	(void *ctx,
@@ -43,56 +43,56 @@ XMLPUBFUN int XMLCALL
 
 XMLPUBFUN void XMLCALL
 		xmlSAX2InternalSubset		(void *ctx,
-						 const xmlChar *name,
-						 const xmlChar *ExternalID,
-						 const xmlChar *SystemID);
+						 const char *name,
+						 const char *ExternalID,
+						 const char *SystemID);
 XMLPUBFUN void XMLCALL
 		xmlSAX2ExternalSubset		(void *ctx,
-						 const xmlChar *name,
-						 const xmlChar *ExternalID,
-						 const xmlChar *SystemID);
+						 const char *name,
+						 const char *ExternalID,
+						 const char *SystemID);
 XMLPUBFUN xmlEntityPtr XMLCALL
 		xmlSAX2GetEntity		(void *ctx,
-						 const xmlChar *name);
+						 const char *name);
 XMLPUBFUN xmlEntityPtr XMLCALL
 		xmlSAX2GetParameterEntity	(void *ctx,
-						 const xmlChar *name);
+						 const char *name);
 XMLPUBFUN xmlParserInputPtr XMLCALL
 		xmlSAX2ResolveEntity		(void *ctx,
-						 const xmlChar *publicId,
-						 const xmlChar *systemId);
+						 const char *publicId,
+						 const char *systemId);
 
 XMLPUBFUN void XMLCALL
 		xmlSAX2EntityDecl		(void *ctx,
-						 const xmlChar *name,
+						 const char *name,
 						 int type,
-						 const xmlChar *publicId,
-						 const xmlChar *systemId,
-						 xmlChar *content);
+						 const char *publicId,
+						 const char *systemId,
+						 char *content);
 XMLPUBFUN void XMLCALL
 		xmlSAX2AttributeDecl		(void *ctx,
-						 const xmlChar *elem,
-						 const xmlChar *fullname,
+						 const char *elem,
+						 const char *fullname,
 						 int type,
 						 int def,
-						 const xmlChar *defaultValue,
+						 const char *defaultValue,
 						 xmlEnumerationPtr tree);
 XMLPUBFUN void XMLCALL
 		xmlSAX2ElementDecl		(void *ctx,
-						 const xmlChar *name,
+						 const char *name,
 						 int type,
 						 xmlElementContentPtr content);
 XMLPUBFUN void XMLCALL
 		xmlSAX2NotationDecl		(void *ctx,
-						 const xmlChar *name,
-						 const xmlChar *publicId,
-						 const xmlChar *systemId);
+						 const char *name,
+						 const char *publicId,
+						 const char *systemId);
 XMLPUBFUN void XMLCALL
 		xmlSAX2UnparsedEntityDecl	(void *ctx,
-						 const xmlChar *name,
-						 const xmlChar *publicId,
-						 const xmlChar *systemId,
-						 const xmlChar *notationName);
+						 const char *name,
+						 const char *publicId,
+						 const char *systemId,
+						 const char *notationName);
 
 XMLPUBFUN void XMLCALL
 		xmlSAX2StartDocument		(void *ctx);
@@ -103,48 +103,48 @@ XMLPUBFUN void XMLCALL
     defined(LIBXML_LEGACY_ENABLED)
 XMLPUBFUN void XMLCALL
 		xmlSAX2StartElement		(void *ctx,
-						 const xmlChar *fullname,
-						 const xmlChar **atts);
+						 const char *fullname,
+						 const char **atts);
 XMLPUBFUN void XMLCALL
 		xmlSAX2EndElement		(void *ctx,
-						 const xmlChar *name);
+						 const char *name);
 #endif /* LIBXML_SAX1_ENABLED or LIBXML_HTML_ENABLED or LIBXML_LEGACY_ENABLED */
 XMLPUBFUN void XMLCALL
 		xmlSAX2StartElementNs		(void *ctx,
-						 const xmlChar *localname,
-						 const xmlChar *prefix,
-						 const xmlChar *URI,
+						 const char *localname,
+						 const char *prefix,
+						 const char *URI,
 						 int nb_namespaces,
-						 const xmlChar **namespaces,
+						 const char **namespaces,
 						 int nb_attributes,
 						 int nb_defaulted,
-						 const xmlChar **attributes);
+						 const char **attributes);
 XMLPUBFUN void XMLCALL
 		xmlSAX2EndElementNs		(void *ctx,
-						 const xmlChar *localname,
-						 const xmlChar *prefix,
-						 const xmlChar *URI);
+						 const char *localname,
+						 const char *prefix,
+						 const char *URI);
 XMLPUBFUN void XMLCALL
 		xmlSAX2Reference		(void *ctx,
-						 const xmlChar *name);
+						 const char *name);
 XMLPUBFUN void XMLCALL
 		xmlSAX2Characters		(void *ctx,
-						 const xmlChar *ch,
+						 const char *ch,
 						 int len);
 XMLPUBFUN void XMLCALL
 		xmlSAX2IgnorableWhitespace	(void *ctx,
-						 const xmlChar *ch,
+						 const char *ch,
 						 int len);
 XMLPUBFUN void XMLCALL
 		xmlSAX2ProcessingInstruction	(void *ctx,
-						 const xmlChar *target,
-						 const xmlChar *data);
+						 const char *target,
+						 const char *data);
 XMLPUBFUN void XMLCALL
 		xmlSAX2Comment			(void *ctx,
-						 const xmlChar *value);
+						 const char *value);
 XMLPUBFUN void XMLCALL
 		xmlSAX2CDataBlock		(void *ctx,
-						 const xmlChar *value,
+						 const char *value,
 						 int len);
 
 #ifdef LIBXML_SAX1_ENABLED

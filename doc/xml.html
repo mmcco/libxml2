@@ -471,14 +471,14 @@ pnode=pxmlDoc-&gt;children-&gt;children;</pre>
     <pre>xmlDocPtr doc; /* your existing document */
 xmlDtdPtr dtd = xmlParseDTD(NULL, filename_of_dtd); /* parse the DTD */
 
-        dtd-&gt;name = xmlStrDup((xmlChar*)"root_name"); /* use the given root */
+        dtd-&gt;name = xmlStrDup((char*)"root_name"); /* use the given root */
 
         doc-&gt;intSubset = dtd;
         if (doc-&gt;children == NULL) xmlAddChild((xmlNodePtr)doc, (xmlNodePtr)dtd);
         else xmlAddPrevSibling(doc-&gt;children, (xmlNodePtr)dtd);
           </pre>
   </li>
-  <li><em>So what is this funky "xmlChar" used all the time?</em>
+  <li><em>So what is this funky "char" used all the time?</em>
     <p>It is a null terminated sequence of utf-8 characters. And only utf-8!
     You need to convert strings encoded in different ways to utf-8 before
     passing them to the API.  This can be accomplished with the iconv library
@@ -955,7 +955,7 @@ to the <a href="http://git.gnome.org/browse/libxml2/">GIT</a> code base.</p>
 
   <li>Bug Fixes:<br/>
   Avoid an out of bound access when serializing malformed strings (Daniel Veillard),<br/>
-  Unsigned addition may overflow in xmlMallocAtomicLoc() (David Kilzer),<br/>
+  Unsigned addition may overflow in mallocLoc() (David Kilzer),<br/>
   Integer signed/unsigned type mismatch in xmlParserInputGrow() (David Kilzer),<br/>
   Bug 763071: heap-buffer-overflow in xmlStrncat &lt;https://bugzilla.gnome.org/show_bug.cgi?id=763071&gt; (Pranjal Jumde),<br/>
   Integer overflow parsing port number in URI (Michael Paddon),<br/>
@@ -2011,7 +2011,7 @@ Gansterer),<br/>
       typo (Bjorn Reese), entity content failure, xmlListAppend() fix
       (Georges-AndrÃ© Silber), XPath number serialization (William Brack),
       nanohttp gzipped stream fix (William Brack and Alex Cornejo),
-      xmlCharEncFirstLine typo (Mark Rowe), uri bug (FranÃ§ois Delyon),
+      charEncFirstLine typo (Mark Rowe), uri bug (FranÃ§ois Delyon),
       XPath string value of PI nodes (William Brack), XPath node set
       sorting bugs (William Brack), avoid outputting namespace decl
       dups in the writer (Rob Richards), xmlCtxtReset bug, UTF-8 encoding
@@ -2608,7 +2608,7 @@ Gansterer),<br/>
     (William), xmllint error go to stderr, DTD validation problem with
     namespace, memory leak (William), SAX1 cleanup and minimal options fixes
     (Mark Vadoc), parser context reset on error (Shaun McCance), XPath union
-    evaluation problem (William) , xmlReallocLoc with NULL (Aleksey Sanin),
+    evaluation problem (William) , reallocLoc with NULL (Aleksey Sanin),
     XML Schemas double free (Steve Ball), XInclude with no href, argument
     callbacks order for XPath callbacks (Frederic Peters)</li>
   <li>Documentation: python scripts (William Brack), xslt stylesheets (John
@@ -2861,7 +2861,7 @@ Gansterer),<br/>
     behaviour of the parser and validator in the presence of "out of memory"
     error conditions</li>
   <li>extended the API to be able to plug a garbage collecting memory
-    allocator, added xmlMallocAtomic() and modified the allocations
+    allocator, added malloc() and modified the allocations
     accordingly.</li>
   <li>Performances: removed excessive malloc() calls, speedup of the push and
     xmlReader interfaces, removed excessive thread locking</li>
@@ -3814,7 +3814,7 @@ it's actually not compiled in by default. The real fixes are:
 <h3>1.7.1: Sep 24 1999</h3>
 <ul>
   <li>The basic type for strings manipulated by libxml has been renamed in
-    1.7.1 from <strong>CHAR</strong> to <strong>xmlChar</strong>. The reason
+    1.7.1 from <strong>CHAR</strong> to <strong>char</strong>. The reason
     is that CHAR was conflicting with a predefined type on Windows. However
     on non WIN32 environment, compatibility is provided by the way of  a
     <strong>#define </strong>.</li>
@@ -4596,7 +4596,7 @@ href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlmemory.h</a></code>
 provides the interfaces to the libxml2 memory system:</p>
 <ul>
   <li>libxml2 does not use the libc memory allocator directly but xmlFree(),
-    xmlMalloc() and xmlRealloc()</li>
+    malloc() and realloc()</li>
   <li>those routines can be reallocated to a specific set of routine, by
     default the libc ones i.e. free(), malloc() and realloc()</li>
   <li>the xmlmemory.c module includes a set of debugging routine</li>
@@ -4652,9 +4652,9 @@ other debugging routines allow to dump the memory allocated infos to a file
 or call a specific routine when a given block number is allocated:</p>
 <ul>
   <li><a
-    href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlMallocLoc()</a>
+    href="http://xmlsoft.org/html/libxml-xmlmemory.html">mallocLoc()</a>
     <a
-    href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlReallocLoc()</a>
+    href="http://xmlsoft.org/html/libxml-xmlmemory.html">reallocLoc()</a>
     and <a
     href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlMemStrdupLoc()</a>
     are the memory debugging replacement allocation routines</li>
@@ -4683,7 +4683,7 @@ possible to find more easily:</p>
     <p>before running the program.</p>
   </li>
   <li>run the program under a debugger and set a breakpoint on
-    xmlMallocBreakpoint() a specific function called when this precise block
+    mallocBreakpoint() a specific function called when this precise block
     is allocated</li>
   <li>when the breakpoint is reached you can then do a fine analysis of the
     allocation an step  to see the condition resulting in the missing
@@ -4858,8 +4858,8 @@ rationales for those choices:</p>
 
 <p>What does this mean in practice for the libxml2 user:</p>
 <ul>
-  <li>xmlChar, the libxml2 data type is a byte, those bytes must be assembled
-    as UTF-8 valid strings. The proper way to terminate an xmlChar * string
+  <li>char, the libxml2 data type is a byte, those bytes must be assembled
+    as UTF-8 valid strings. The proper way to terminate an char * string
     is simply to append 0 byte, as usual.</li>
   <li>One just need to make sure that when using chars outside the ASCII set,
     the values has been properly converted to UTF-8</li>
@@ -5157,7 +5157,7 @@ new output handler with the closing call deactivated:</p>
   <li>First define a new I/O output allocator where the output don't close
     the file:
     <pre>xmlOutputBufferPtr
-xmlOutputBufferCreateOwn(FILE *file, xmlCharEncodingHandlerPtr encoder) {
+xmlOutputBufferCreateOwn(FILE *file, charEncodingHandlerPtr encoder) {
 &nbsp;&nbsp;&nbsp;&nbsp;xmlOutputBufferPtr ret;
 &nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;if (xmlOutputCallbackInitialized == 0)
@@ -5712,14 +5712,14 @@ to an element which is not the document Root Element; a function
 <p>Functions are provided for reading and writing the document content. Here
 is an excerpt from the <a href="html/libxml-tree.html">tree API</a>:</p>
 <dl>
-  <dt><code>xmlAttrPtr xmlSetProp(xmlNodePtr node, const xmlChar *name, const
-  xmlChar *value);</code></dt>
+  <dt><code>xmlAttrPtr xmlSetProp(xmlNodePtr node, const char *name, const
+  char *value);</code></dt>
     <dd><p>This sets (or changes) an attribute carried by an ELEMENT node.
       The value can be NULL.</p>
     </dd>
 </dl>
 <dl>
-  <dt><code>const xmlChar *xmlGetProp(xmlNodePtr node, const xmlChar
+  <dt><code>const char *xmlGetProp(xmlNodePtr node, const char
   *name);</code></dt>
     <dd><p>This function returns a pointer to new copy of the property
       content. Note that the user must deallocate the result.</p>
@@ -5729,7 +5729,7 @@ is an excerpt from the <a href="html/libxml-tree.html">tree API</a>:</p>
 <p>Two functions are provided for reading and writing the text associated
 with elements:</p>
 <dl>
-  <dt><code>xmlNodePtr xmlStringGetNodeList(xmlDocPtr doc, const xmlChar
+  <dt><code>xmlNodePtr xmlStringGetNodeList(xmlDocPtr doc, const char
   *value);</code></dt>
     <dd><p>This function takes an "external" string and converts it to one
       text node or possibly to a list of entity and text nodes. All
@@ -5739,7 +5739,7 @@ with elements:</p>
     </dd>
 </dl>
 <dl>
-  <dt><code>xmlChar *xmlNodeListGetString(xmlDocPtr doc, xmlNodePtr list, int
+  <dt><code>char *xmlNodeListGetString(xmlDocPtr doc, xmlNodePtr list, int
   inLine);</code></dt>
     <dd><p>This function is the inverse of
       <code>xmlStringGetNodeList()</code>. It generates a new string
@@ -5755,7 +5755,7 @@ with elements:</p>
 
 <p>Basically 3 options are possible:</p>
 <dl>
-  <dt><code>void xmlDocDumpMemory(xmlDocPtr cur, xmlChar**mem, int
+  <dt><code>void xmlDocDumpMemory(xmlDocPtr cur, char**mem, int
   *size);</code></dt>
     <dd><p>Returns a buffer into which the document has been saved.</p>
     </dd>

@@ -17,7 +17,6 @@
 #include "libxml.h"
 
 #include <string.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/xmlerror.h>
 #include <libxml/xmlmodule.h>
 #include <libxml/globals.h>
@@ -69,7 +68,7 @@ xmlModuleErrMemory(xmlModulePtr module, const char *extra)
  * NOTE: that due to portability issues, behaviour can only be
  * guaranteed with @name using ASCII. We canot guarantee that
  * an UTF-8 string would work, which is why name is a const char *
- * and not a const xmlChar * .
+ * and not a const char * .
  * TODO: options are not yet implemented.
  *
  * Returns a handle for the module or NULL in case of error
@@ -79,7 +78,7 @@ xmlModuleOpen(const char *name, int options ATTRIBUTE_UNUSED)
 {
     xmlModulePtr module;
 
-    module = (xmlModulePtr) xmlMalloc(sizeof(xmlModule));
+    module = (xmlModulePtr) malloc(sizeof(xmlModule));
     if (module == NULL) {
         xmlModuleErrMemory(NULL, "creating module");
         return (NULL);
@@ -90,14 +89,14 @@ xmlModuleOpen(const char *name, int options ATTRIBUTE_UNUSED)
     module->handle = xmlModulePlatformOpen(name);
 
     if (module->handle == NULL) {
-        xmlFree(module);
+        free(module);
         __xmlRaiseError(NULL, NULL, NULL, NULL, NULL, XML_FROM_MODULE,
                         XML_MODULE_OPEN, XML_ERR_FATAL, NULL, 0, 0,
                         name, NULL, 0, 0, "failed to open %s\n", name);
         return(NULL);
     }
 
-    module->name = xmlStrdup((const xmlChar *) name);
+    module->name = strdup( name);
     return (module);
 }
 
@@ -111,7 +110,7 @@ xmlModuleOpen(const char *name, int options ATTRIBUTE_UNUSED)
  * NOTE: that due to portability issues, behaviour can only be
  * guaranteed with @name using ASCII. We canot guarantee that
  * an UTF-8 string would work, which is why name is a const char *
- * and not a const xmlChar * .
+ * and not a const char * .
  *
  * Returns 0 if the symbol was found, or -1 in case of error
  */
@@ -197,8 +196,8 @@ xmlModuleFree(xmlModulePtr module)
         return -1;
     }
 
-    xmlFree(module->name);
-    xmlFree(module);
+    free(module->name);
+    free(module);
 
     return (0);
 }

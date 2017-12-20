@@ -105,12 +105,12 @@
 
      d htmlTagLookup   pr                  extproc('htmlTagLookup')
      d                                     like(htmlElemDescPtr)                const
-     d  tag                            *   value options(*string)               const xmlChar *
+     d  tag                            *   value options(*string)               const char *
 
      d htmlEntityLookup...
      d                 pr                  extproc('htmlEntityLookup')
      d                                     like(htmlEntityDescPtr)              const
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d htmlEntityValueLookup...
      d                 pr                  extproc('htmlEntityValueLookup')
@@ -127,14 +127,14 @@
      d                 pr                  extproc('htmlAutoCloseTag')
      d                                     like(xmlCint)
      d  doc                                value like(htmlDocPtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  elem                               value like(htmlNodePtr)
 
      d htmlParseEntityRef...
      d                 pr                  extproc('htmlParseEntityRef')
      d                                     like(htmlEntityDescPtr)              const
      d  ctxt                               value like(htmlParserCtxtPtr)
-     d  str                            *                                        const xmlChar *(*)
+     d  str                            *                                        const char *(*)
 
      d htmlParseCharRef...
      d                 pr                  extproc('htmlParseCharRef')
@@ -163,14 +163,14 @@
      d htmlSAXParseDoc...
      d                 pr                  extproc('htmlSAXParseDoc')
      d                                     like(htmlDocPtr)
-     d  cur                            *   value options(*string)               xmlChar *
+     d  cur                            *   value options(*string)               char *
      d  encoding                       *   value options(*string)               const char *
      d  sax                                value like(htmlSAXHandlerPtr)
      d  userData                       *   value                                void *
 
      d htmlParseDoc    pr                  extproc('htmlParseDoc')
      d                                     like(htmlDocPtr)
-     d  cur                            *   value options(*string)               xmlChar *
+     d  cur                            *   value options(*string)               char *
      d  encoding                       *   value options(*string)               const char *
 
      d htmlSAXParseFile...
@@ -205,7 +205,7 @@
      d htmlIsScriptAttribute...
      d                 pr                  extproc('htmlIsScriptAttribute')
      d                                     like(xmlCint)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d htmlHandleOmittedElem...
      d                 pr                  extproc('htmlHandleOmittedElem')
@@ -224,7 +224,7 @@
      d  chunk                          *   value options(*string)               const char *
      d  size                               value like(xmlCint)
      d  filename                       *   value options(*string)               const char *
-     d  enc                                value like(xmlCharEncoding)
+     d  enc                                value like(charEncoding)
 
      d htmlParseChunk  pr                  extproc('htmlParseChunk')
      d                                     like(xmlCint)
@@ -280,7 +280,7 @@
 
      d htmlReadDoc     pr                  extproc('htmlReadDoc')
      d                                     like(htmlDocPtr)
-     d  cur                            *   value options(*string)               const xmlChar *
+     d  cur                            *   value options(*string)               const char *
      d  URL                            *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  options                            value like(xmlCint)
@@ -319,7 +319,7 @@
      d                 pr                  extproc('htmlCtxtReadDoc')
      d                                     like(htmlDocPtr)
      d  ctxt                               value like(xmlParserCtxtPtr)
-     d  cur                            *   value options(*string)               const xmlChar *
+     d  cur                            *   value options(*string)               const char *
      d  URL                            *   value options(*string)               const char *
      d  encoding                       *   value options(*string)               const char *
      d  options                            value like(xmlCint)
@@ -378,14 +378,14 @@
      d                 pr                  extproc('htmlAttrAllowed')
      d                                     like(htmlStatus)
      d  #param1                            value like(htmlElemDescPtr)          const
-     d  #param2                        *   value options(*string)               const xmlChar *
+     d  #param2                        *   value options(*string)               const char *
      d  #param3                            value like(xmlCint)
 
      d htmlElementAllowedHere...
      d                 pr                  extproc('htmlElementAllowedHere')
      d                                     like(xmlCint)
      d  #param1                            value like(htmlElemDescPtr)          const
-     d  #param2                        *   value options(*string)               const xmlChar *
+     d  #param2                        *   value options(*string)               const char *
 
      d htmlElementStatusHere...
      d                 pr                  extproc('htmlElementStatusHere')

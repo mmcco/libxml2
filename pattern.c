@@ -27,7 +27,6 @@
 #include "libxml.h"
 
 #include <string.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/tree.h>
 #include <libxml/hash.h>
 #include <libxml/dict.h>
@@ -81,8 +80,8 @@
 
 #define XML_PAT_COPY_NSNAME(c, r, nsname) \
     if ((c)->comp->dict) \
-	r = (xmlChar *) xmlDictLookup((c)->comp->dict, BAD_CAST nsname, -1); \
-    else r = xmlStrdup(BAD_CAST nsname);
+	r = (char *) xmlDictLookup((c)->comp->dict, nsname, -1); \
+    else r = strdup(nsname);
 
 #define XML_PAT_FREE_STRING(c, r) if ((c)->comp->dict == NULL) xmlFree(r);
 
@@ -90,8 +89,8 @@ typedef struct _xmlStreamStep xmlStreamStep;
 typedef xmlStreamStep *xmlStreamStepPtr;
 struct _xmlStreamStep {
     int flags;			/* properties of that step */
-    const xmlChar *name;	/* first string value if NULL accept all */
-    const xmlChar *ns;		/* second string value */
+    const char *name;	/* first string value if NULL accept all */
+    const char *ns;		/* second string value */
     int nodeType;		/* type of node */
 };
 
@@ -154,8 +153,8 @@ typedef struct _xmlStepOp xmlStepOp;
 typedef xmlStepOp *xmlStepOpPtr;
 struct _xmlStepOp {
     xmlPatOp op;
-    const xmlChar *value;
-    const xmlChar *value2; /* The namespace name */
+    const char *value;
+    const char *value2; /* The namespace name */
 };
 
 #define PAT_FROM_ROOT	(1<<8)
@@ -165,7 +164,7 @@ struct _xmlPattern {
     void *data;		/* the associated template */
     xmlDictPtr dict;		/* the optional dictionary */
     struct _xmlPattern *next;	/* next pattern if | is used */
-    const xmlChar *pattern;	/* the pattern */
+    const char *pattern;	/* the pattern */
     int flags;			/* flags */
     int nbStep;
     int maxStep;
@@ -176,13 +175,13 @@ struct _xmlPattern {
 typedef struct _xmlPatParserContext xmlPatParserContext;
 typedef xmlPatParserContext *xmlPatParserContextPtr;
 struct _xmlPatParserContext {
-    const xmlChar *cur;			/* the current char being parsed */
-    const xmlChar *base;		/* the full expression */
+    const char *cur;			/* the current char being parsed */
+    const char *base;		/* the full expression */
     int	           error;		/* error code */
     xmlDictPtr     dict;		/* the dictionary if any */
     xmlPatternPtr  comp;		/* the result */
     xmlNodePtr     elem;		/* the current node if any */
-    const xmlChar **namespaces;		/* the namespaces definitions */
+    const char **namespaces;		/* the namespaces definitions */
     int   nb_namespaces;		/* the number of namespaces */
 };
 
@@ -203,7 +202,7 @@ static xmlPatternPtr
 xmlNewPattern(void) {
     xmlPatternPtr cur;
 
-    cur = (xmlPatternPtr) xmlMalloc(sizeof(xmlPattern));
+    cur = (xmlPatternPtr) malloc(sizeof(xmlPattern));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewPattern : malloc failed\n");
@@ -211,7 +210,7 @@ xmlNewPattern(void) {
     }
     memset(cur, 0, sizeof(xmlPattern));
     cur->maxStep = 10;
-    cur->steps = (xmlStepOpPtr) xmlMalloc(cur->maxStep * sizeof(xmlStepOp));
+    cur->steps = (xmlStepOpPtr) malloc(cur->maxStep * sizeof(xmlStepOp));
     if (cur->steps == NULL) {
         xmlFree(cur);
 	ERROR(NULL, NULL, NULL,
@@ -239,15 +238,15 @@ xmlFreePattern(xmlPatternPtr comp) {
     if (comp->stream != NULL)
         xmlFreeStreamComp(comp->stream);
     if (comp->pattern != NULL)
-	xmlFree((xmlChar *)comp->pattern);
+	xmlFree((char *)comp->pattern);
     if (comp->steps != NULL) {
         if (comp->dict == NULL) {
 	    for (i = 0;i < comp->nbStep;i++) {
 		op = &comp->steps[i];
 		if (op->value != NULL)
-		    xmlFree((xmlChar *) op->value);
+		    xmlFree((char *) op->value);
 		if (op->value2 != NULL)
-		    xmlFree((xmlChar *) op->value2);
+		    xmlFree((char *) op->value2);
 	    }
 	}
 	xmlFree(comp->steps);
@@ -289,14 +288,14 @@ xmlFreePatternList(xmlPatternPtr comp) {
  * Returns the newly allocated xmlPatParserContextPtr or NULL in case of error
  */
 static xmlPatParserContextPtr
-xmlNewPatParserContext(const xmlChar *pattern, xmlDictPtr dict,
-                       const xmlChar **namespaces) {
+xmlNewPatParserContext(const char *pattern, xmlDictPtr dict,
+                       const char **namespaces) {
     xmlPatParserContextPtr cur;
 
     if (pattern == NULL)
         return(NULL);
 
-    cur = (xmlPatParserContextPtr) xmlMalloc(sizeof(xmlPatParserContext));
+    cur = (xmlPatParserContextPtr) malloc(sizeof(xmlPatParserContext));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewPatParserContext : malloc failed\n");
@@ -346,11 +345,11 @@ xmlFreePatParserContext(xmlPatParserContextPtr ctxt) {
 static int
 xmlPatternAdd(xmlPatParserContextPtr ctxt ATTRIBUTE_UNUSED,
                 xmlPatternPtr comp,
-                xmlPatOp op, xmlChar * value, xmlChar * value2)
+                xmlPatOp op, char * value, char * value2)
 {
     if (comp->nbStep >= comp->maxStep) {
         xmlStepOpPtr temp;
-	temp = (xmlStepOpPtr) xmlRealloc(comp->steps, comp->maxStep * 2 *
+	temp = (xmlStepOpPtr) realloc(comp->steps, comp->maxStep * 2 *
 	                                 sizeof(xmlStepOp));
         if (temp == NULL) {
 	    ERROR(ctxt, NULL, NULL,
@@ -380,7 +379,7 @@ xsltSwapTopPattern(xmlPatternPtr comp) {
     int j = comp->nbStep - 1;
 
     if (j > 0) {
-	register const xmlChar *tmp;
+	register const char *tmp;
 	register xmlPatOp op;
 	i = j - 1;
 	tmp = comp->steps[i].value;
@@ -421,7 +420,7 @@ xmlReversePattern(xmlPatternPtr comp) {
     }
     if (comp->nbStep >= comp->maxStep) {
         xmlStepOpPtr temp;
-	temp = (xmlStepOpPtr) xmlRealloc(comp->steps, comp->maxStep * 2 *
+	temp = (xmlStepOpPtr) realloc(comp->steps, comp->maxStep * 2 *
 	                                 sizeof(xmlStepOp));
         if (temp == NULL) {
 	    ERROR(ctxt, NULL, NULL,
@@ -434,7 +433,7 @@ xmlReversePattern(xmlPatternPtr comp) {
     i = 0;
     j = comp->nbStep - 1;
     while (j > i) {
-	register const xmlChar *tmp;
+	register const char *tmp;
 	register xmlPatOp op;
 	tmp = comp->steps[i].value;
 	comp->steps[i].value = comp->steps[j].value;
@@ -465,12 +464,12 @@ xmlPatPushState(xmlStepStates *states, int step, xmlNodePtr node) {
     if ((states->states == NULL) || (states->maxstates <= 0)) {
         states->maxstates = 4;
 	states->nbstates = 0;
-	states->states = xmlMalloc(4 * sizeof(xmlStepState));
+	states->states = malloc(4 * sizeof(xmlStepState));
     }
     else if (states->maxstates <= states->nbstates) {
         xmlStepState *tmp;
 
-	tmp = (xmlStepStatePtr) xmlRealloc(states->states,
+	tmp = (xmlStepStatePtr) realloc(states->states,
 			       2 * states->maxstates * sizeof(xmlStepState));
 	if (tmp == NULL)
 	    return(-1);
@@ -750,10 +749,10 @@ rollback:
  * Returns the Literal parsed or NULL
  */
 
-static xmlChar *
+static char *
 xmlPatScanLiteral(xmlPatParserContextPtr ctxt) {
-    const xmlChar *q, *cur;
-    xmlChar *ret = NULL;
+    const char *q, *cur;
+    char *ret = NULL;
     int val, len;
 
     SKIP_BLANKS;
@@ -770,7 +769,7 @@ xmlPatScanLiteral(xmlPatParserContextPtr ctxt) {
 	    return(NULL);
 	} else {
 	    if (ctxt->dict)
-		ret = (xmlChar *) xmlDictLookup(ctxt->dict, q, cur - q);
+		ret = (char *) xmlDictLookup(ctxt->dict, q, cur - q);
 	    else
 		ret = xmlStrndup(q, cur - q);
         }
@@ -789,7 +788,7 @@ xmlPatScanLiteral(xmlPatParserContextPtr ctxt) {
 	    return(NULL);
 	} else {
 	    if (ctxt->dict)
-		ret = (xmlChar *) xmlDictLookup(ctxt->dict, q, cur - q);
+		ret = (char *) xmlDictLookup(ctxt->dict, q, cur - q);
 	    else
 		ret = xmlStrndup(q, cur - q);
         }
@@ -818,10 +817,10 @@ xmlPatScanLiteral(xmlPatParserContextPtr ctxt) {
  * Returns the Name parsed or NULL
  */
 
-static xmlChar *
+static char *
 xmlPatScanName(xmlPatParserContextPtr ctxt) {
-    const xmlChar *q, *cur;
-    xmlChar *ret = NULL;
+    const char *q, *cur;
+    char *ret = NULL;
     int val, len;
 
     SKIP_BLANKS;
@@ -840,7 +839,7 @@ xmlPatScanName(xmlPatParserContextPtr ctxt) {
 	val = xmlStringCurrentChar(NULL, cur, &len);
     }
     if (ctxt->dict)
-	ret = (xmlChar *) xmlDictLookup(ctxt->dict, q, cur - q);
+	ret = (char *) xmlDictLookup(ctxt->dict, q, cur - q);
     else
 	ret = xmlStrndup(q, cur - q);
     CUR_PTR = cur;
@@ -856,10 +855,10 @@ xmlPatScanName(xmlPatParserContextPtr ctxt) {
  * Returns the Name parsed or NULL
  */
 
-static xmlChar *
+static char *
 xmlPatScanNCName(xmlPatParserContextPtr ctxt) {
-    const xmlChar *q, *cur;
-    xmlChar *ret = NULL;
+    const char *q, *cur;
+    char *ret = NULL;
     int val, len;
 
     SKIP_BLANKS;
@@ -878,7 +877,7 @@ xmlPatScanNCName(xmlPatParserContextPtr ctxt) {
 	val = xmlStringCurrentChar(NULL, cur, &len);
     }
     if (ctxt->dict)
-	ret = (xmlChar *) xmlDictLookup(ctxt->dict, q, cur - q);
+	ret = (char *) xmlDictLookup(ctxt->dict, q, cur - q);
     else
 	ret = xmlStrndup(q, cur - q);
     CUR_PTR = cur;
@@ -896,9 +895,9 @@ xmlPatScanNCName(xmlPatParserContextPtr ctxt) {
  * Returns the Name parsed or NULL
  */
 
-static xmlChar *
-xmlPatScanQName(xmlPatParserContextPtr ctxt, xmlChar **prefix) {
-    xmlChar *ret = NULL;
+static char *
+xmlPatScanQName(xmlPatParserContextPtr ctxt, char **prefix) {
+    char *ret = NULL;
 
     *prefix = NULL;
     ret = xmlPatScanNCName(ctxt);
@@ -919,9 +918,9 @@ xmlPatScanQName(xmlPatParserContextPtr ctxt, xmlChar **prefix) {
  */
 static void
 xmlCompileAttributeTest(xmlPatParserContextPtr ctxt) {
-    xmlChar *token = NULL;
-    xmlChar *name = NULL;
-    xmlChar *URL = NULL;
+    char *token = NULL;
+    char *name = NULL;
+    char *URL = NULL;
 
     SKIP_BLANKS;
     name = xmlPatScanNCName(ctxt);
@@ -938,7 +937,7 @@ xmlCompileAttributeTest(xmlPatParserContextPtr ctxt) {
     }
     if (CUR == ':') {
 	int i;
-	xmlChar *prefix = name;
+	char *prefix = name;
 
 	NEXT;
 
@@ -1012,9 +1011,9 @@ error:
 
 static void
 xmlCompileStepPattern(xmlPatParserContextPtr ctxt) {
-    xmlChar *token = NULL;
-    xmlChar *name = NULL;
-    xmlChar *URL = NULL;
+    char *token = NULL;
+    char *name = NULL;
+    char *URL = NULL;
     int hasBlanks = 0;
 
     SKIP_BLANKS;
@@ -1062,7 +1061,7 @@ xmlCompileStepPattern(xmlPatParserContextPtr ctxt) {
     if (CUR == ':') {
 	NEXT;
 	if (CUR != ':') {
-	    xmlChar *prefix = name;
+	    char *prefix = name;
 	    int i;
 
 	    if (hasBlanks || IS_BLANK_CH(CUR)) {
@@ -1112,7 +1111,7 @@ xmlCompileStepPattern(xmlPatParserContextPtr ctxt) {
 	    }
 	} else {
 	    NEXT;
-	    if (xmlStrEqual(name, (const xmlChar *) "child")) {
+	    if (xmlStrEqual(name, (const char *) "child")) {
 		XML_PAT_FREE_STRING(ctxt, name);
 		name = xmlPatScanName(ctxt);
 		if (name == NULL) {
@@ -1128,7 +1127,7 @@ xmlCompileStepPattern(xmlPatParserContextPtr ctxt) {
 		    }
 		}
 		if (CUR == ':') {
-		    xmlChar *prefix = name;
+		    char *prefix = name;
 		    int i;
 
 		    NEXT;
@@ -1180,7 +1179,7 @@ xmlCompileStepPattern(xmlPatParserContextPtr ctxt) {
 		} else
 		    PUSH(XML_OP_CHILD, name, NULL);
 		return;
-	    } else if (xmlStrEqual(name, (const xmlChar *) "attribute")) {
+	    } else if (xmlStrEqual(name, (const char *) "attribute")) {
 		XML_PAT_FREE_STRING(ctxt, name)
 		name = NULL;
 		if (XML_STREAM_XS_IDC_SEL(ctxt->comp)) {
@@ -1495,14 +1494,14 @@ xmlNewStreamComp(int size) {
     if (size < 4)
         size  = 4;
 
-    cur = (xmlStreamCompPtr) xmlMalloc(sizeof(xmlStreamComp));
+    cur = (xmlStreamCompPtr) malloc(sizeof(xmlStreamComp));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewStreamComp: malloc failed\n");
 	return(NULL);
     }
     memset(cur, 0, sizeof(xmlStreamComp));
-    cur->steps = (xmlStreamStepPtr) xmlMalloc(size * sizeof(xmlStreamStep));
+    cur->steps = (xmlStreamStepPtr) malloc(size * sizeof(xmlStreamStep));
     if (cur->steps == NULL) {
 	xmlFree(cur);
 	ERROR(NULL, NULL, NULL,
@@ -1543,12 +1542,12 @@ xmlFreeStreamComp(xmlStreamCompPtr comp) {
  * Returns -1 in case of error or the step index if successful
  */
 static int
-xmlStreamCompAddStep(xmlStreamCompPtr comp, const xmlChar *name,
-                     const xmlChar *ns, int nodeType, int flags) {
+xmlStreamCompAddStep(xmlStreamCompPtr comp, const char *name,
+                     const char *ns, int nodeType, int flags) {
     xmlStreamStepPtr cur;
 
     if (comp->nbStep >= comp->maxStep) {
-	cur = (xmlStreamStepPtr) xmlRealloc(comp->steps,
+	cur = (xmlStreamStepPtr) realloc(comp->steps,
 				 comp->maxStep * 2 * sizeof(xmlStreamStep));
 	if (cur == NULL) {
 	    ERROR(NULL, NULL, NULL,
@@ -1760,14 +1759,14 @@ static xmlStreamCtxtPtr
 xmlNewStreamCtxt(xmlStreamCompPtr stream) {
     xmlStreamCtxtPtr cur;
 
-    cur = (xmlStreamCtxtPtr) xmlMalloc(sizeof(xmlStreamCtxt));
+    cur = (xmlStreamCtxtPtr) malloc(sizeof(xmlStreamCtxt));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewStreamCtxt: malloc failed\n");
 	return(NULL);
     }
     memset(cur, 0, sizeof(xmlStreamCtxt));
-    cur->states = (int *) xmlMalloc(4 * 2 * sizeof(int));
+    cur->states = (int *) malloc(4 * 2 * sizeof(int));
     if (cur->states == NULL) {
 	xmlFree(cur);
 	ERROR(NULL, NULL, NULL,
@@ -1823,7 +1822,7 @@ xmlStreamCtxtAddState(xmlStreamCtxtPtr comp, int idx, int level) {
     if (comp->nbState >= comp->maxState) {
         int *cur;
 
-	cur = (int *) xmlRealloc(comp->states,
+	cur = (int *) realloc(comp->states,
 				 comp->maxState * 4 * sizeof(int));
 	if (cur == NULL) {
 	    ERROR(NULL, NULL, NULL,
@@ -1856,7 +1855,7 @@ xmlStreamCtxtAddState(xmlStreamCtxtPtr comp, int idx, int level) {
  */
 static int
 xmlStreamPushInternal(xmlStreamCtxtPtr stream,
-		      const xmlChar *name, const xmlChar *ns,
+		      const char *name, const char *ns,
 		      int nodeType) {
     int ret = 0, err = 0, final = 0, tmp, i, m, match, stepNr, desc;
     xmlStreamCompPtr comp;
@@ -2215,7 +2214,7 @@ stream_next:
  */
 int
 xmlStreamPush(xmlStreamCtxtPtr stream,
-              const xmlChar *name, const xmlChar *ns) {
+              const char *name, const char *ns) {
     return (xmlStreamPushInternal(stream, name, ns, (int) XML_ELEMENT_NODE));
 }
 
@@ -2240,7 +2239,7 @@ xmlStreamPush(xmlStreamCtxtPtr stream,
  */
 int
 xmlStreamPushNode(xmlStreamCtxtPtr stream,
-		  const xmlChar *name, const xmlChar *ns,
+		  const char *name, const char *ns,
 		  int nodeType)
 {
     return (xmlStreamPushInternal(stream, name, ns,
@@ -2265,7 +2264,7 @@ xmlStreamPushNode(xmlStreamCtxtPtr stream,
 */
 int
 xmlStreamPushAttr(xmlStreamCtxtPtr stream,
-		  const xmlChar *name, const xmlChar *ns) {
+		  const char *name, const char *ns) {
     return (xmlStreamPushInternal(stream, name, ns, (int) XML_ATTRIBUTE_NODE));
 }
 
@@ -2356,12 +2355,12 @@ xmlStreamWantsAnyNode(xmlStreamCtxtPtr streamCtxt)
  * Returns the compiled form of the pattern or NULL in case of error
  */
 xmlPatternPtr
-xmlPatterncompile(const xmlChar *pattern, xmlDict *dict, int flags,
-                  const xmlChar **namespaces) {
+xmlPatterncompile(const char *pattern, xmlDict *dict, int flags,
+                  const char **namespaces) {
     xmlPatternPtr ret = NULL, cur;
     xmlPatParserContextPtr ctxt = NULL;
-    const xmlChar *or, *start;
-    xmlChar *tmp = NULL;
+    const char *or, *start;
+    char *tmp = NULL;
     int type = 0;
     int streamable = 1;
 

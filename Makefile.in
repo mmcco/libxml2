@@ -155,11 +155,11 @@ libxml2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am__libxml2_la_SOURCES_DIST = SAX.c entities.c encoding.c error.c \
-	parserInternals.c parser.c tree.c hash.c list.c xmlIO.c \
-	xmlmemory.c uri.c valid.c xlink.c HTMLparser.c HTMLtree.c \
-	debugXML.c xpath.c xpointer.c xinclude.c nanohttp.c nanoftp.c \
-	DOCBparser.c catalog.c globals.c threads.c c14n.c xmlstring.c \
-	buf.c xmlregexp.c xmlschemas.c xmlschemastypes.c xmlunicode.c \
+	parserInternals.c parser.c tree.c hash.c list.c xmlIO.c uri.c \
+	valid.c xlink.c HTMLparser.c HTMLtree.c debugXML.c xpath.c \
+	xpointer.c xinclude.c nanohttp.c nanoftp.c DOCBparser.c \
+	catalog.c globals.c threads.c c14n.c xmlstring.c buf.c \
+	xmlregexp.c xmlschemas.c xmlschemastypes.c xmlunicode.c \
 	triostr.c trio.c xmlreader.c relaxng.c dict.c SAX2.c \
 	xmlwriter.c legacy.c chvalid.c pattern.c xmlsave.c xmlmodule.c \
 	schematron.c xzlib.c
@@ -167,14 +167,13 @@ am__libxml2_la_SOURCES_DIST = SAX.c entities.c encoding.c error.c \
 @WITH_TRIO_SOURCES_TRUE@am__objects_2 = triostr.lo trio.lo
 am_libxml2_la_OBJECTS = SAX.lo entities.lo encoding.lo error.lo \
 	parserInternals.lo parser.lo tree.lo hash.lo list.lo xmlIO.lo \
-	xmlmemory.lo uri.lo valid.lo xlink.lo HTMLparser.lo \
-	HTMLtree.lo debugXML.lo xpath.lo xpointer.lo xinclude.lo \
-	nanohttp.lo nanoftp.lo $(am__objects_1) catalog.lo globals.lo \
-	threads.lo c14n.lo xmlstring.lo buf.lo xmlregexp.lo \
-	xmlschemas.lo xmlschemastypes.lo xmlunicode.lo \
-	$(am__objects_2) xmlreader.lo relaxng.lo dict.lo SAX2.lo \
-	xmlwriter.lo legacy.lo chvalid.lo pattern.lo xmlsave.lo \
-	xmlmodule.lo schematron.lo xzlib.lo
+	uri.lo valid.lo xlink.lo HTMLparser.lo HTMLtree.lo debugXML.lo \
+	xpath.lo xpointer.lo xinclude.lo nanohttp.lo nanoftp.lo \
+	$(am__objects_1) catalog.lo globals.lo threads.lo c14n.lo \
+	xmlstring.lo buf.lo xmlregexp.lo xmlschemas.lo \
+	xmlschemastypes.lo xmlunicode.lo $(am__objects_2) xmlreader.lo \
+	relaxng.lo dict.lo SAX2.lo xmlwriter.lo legacy.lo chvalid.lo \
+	pattern.lo xmlsave.lo xmlmodule.lo schematron.lo xzlib.lo
 libxml2_la_OBJECTS = $(am_libxml2_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -709,7 +708,7 @@ libxml2_la_LDFLAGS = $(CYGWIN_EXTRA_LDFLAGS) $(WIN32_EXTRA_LDFLAGS) \
 @WITH_TRIO_SOURCES_FALSE@trio_sources = 
 @WITH_TRIO_SOURCES_TRUE@trio_sources = triostr.c trio.c
 libxml2_la_SOURCES = SAX.c entities.c encoding.c error.c parserInternals.c  \
-		parser.c tree.c hash.c list.c xmlIO.c xmlmemory.c uri.c  \
+		parser.c tree.c hash.c list.c xmlIO.c uri.c  \
 		valid.c xlink.c HTMLparser.c HTMLtree.c debugXML.c xpath.c  \
 		xpointer.c xinclude.c nanohttp.c nanoftp.c \
 		$(docb_sources) \
@@ -1217,7 +1216,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlIO.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlcatalog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmllint.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlmemory.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlmodule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlreader.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlregexp.Plo@am__quote@

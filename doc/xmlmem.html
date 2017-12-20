@@ -17,7 +17,7 @@ A:link, A:visited, A:active { text-decoration: underline }
 </ol><h3><a name="General3" id="General3">General overview</a></h3><p>The module <code><a href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlmemory.h</a></code>
 provides the interfaces to the libxml2 memory system:</p><ul>
   <li>libxml2 does not use the libc memory allocator directly but xmlFree(),
-    xmlMalloc() and xmlRealloc()</li>
+    malloc() and realloc()</li>
   <li>those routines can be reallocated to a specific set of routine, by
     default the libc ones i.e. free(), malloc() and realloc()</li>
   <li>the xmlmemory.c module includes a set of debugging routine</li>
@@ -52,8 +52,8 @@ a set of memory allocation debugging routines keeping track of all allocated
 blocks and the location in the code where the routine was called. A couple of
 other debugging routines allow to dump the memory allocated infos to a file
 or call a specific routine when a given block number is allocated:</p><ul>
-  <li><a href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlMallocLoc()</a>
-    <a href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlReallocLoc()</a>
+  <li><a href="http://xmlsoft.org/html/libxml-xmlmemory.html">mallocLoc()</a>
+    <a href="http://xmlsoft.org/html/libxml-xmlmemory.html">reallocLoc()</a>
     and <a href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlMemStrdupLoc()</a>
     are the memory debugging replacement allocation routines</li>
   <li><a href="http://xmlsoft.org/html/libxml-xmlmemory.html">xmlMemoryDump
@@ -76,7 +76,7 @@ possible to find more easily:</p><ol>
     <p>before running the program.</p>
   </li>
   <li>run the program under a debugger and set a breakpoint on
-    xmlMallocBreakpoint() a specific function called when this precise block
+    mallocBreakpoint() a specific function called when this precise block
     is allocated</li>
   <li>when the breakpoint is reached you can then do a fine analysis of the
     allocation an step  to see the condition resulting in the missing

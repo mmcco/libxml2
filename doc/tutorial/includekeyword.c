@@ -2,19 +2,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
 void
 parseStory (xmlDocPtr doc, xmlNodePtr cur) {
 
-	xmlChar *key;
+	char *key;
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL) {
-	    if ((!xmlStrcmp(cur->name, (const xmlChar *)"keyword"))) {
+	    if ((!xmlStrcmp(cur->name, (const char *)"keyword"))) {
 		    key = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
 		    printf("keyword: %s\n", key);
-		    xmlFree(key);
+		    free(key);
  	    }
 	cur = cur->next;
 	}
@@ -42,7 +41,7 @@ parseDoc(char *docname) {
 		return;
 	}
 	
-	if (xmlStrcmp(cur->name, (const xmlChar *) "story")) {
+	if (xmlStrcmp(cur->name, (const char *) "story")) {
 		fprintf(stderr,"document of the wrong type, root node != story");
 		xmlFreeDoc(doc);
 		return;
@@ -50,7 +49,7 @@ parseDoc(char *docname) {
 	
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL) {
-		if ((!xmlStrcmp(cur->name, (const xmlChar *)"storyinfo"))){
+		if ((!xmlStrcmp(cur->name, (const char *)"storyinfo"))){
 			parseStory (doc, cur);
 		}
 		 

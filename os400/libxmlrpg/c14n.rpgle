@@ -67,7 +67,7 @@
      d  nodes                              value like(xmlNodeSetPtr)
      d  mode                               value like(xmlCint)
      d  inclusive_ns_prefixes...
-     d                                 *   options(*omit)                       xmlChar *(*)
+     d                                 *   options(*omit)                       char *(*)
      d  with_comments                      value like(xmlCint)
      d  buf                                value like(xmlOutputBufferPtr)
 
@@ -78,9 +78,9 @@
      d  nodes                              value like(xmlNodeSetPtr)
      d  mode                               value like(xmlCint)
      d  inclusive_ns_prefixes...
-     d                                 *   options(*omit)                       xmlChar *(*)
+     d                                 *   options(*omit)                       char *(*)
      d  with_comments                      value like(xmlCint)
-     d  doc_txt_ptr                    *                                        xmlChar *(*)
+     d  doc_txt_ptr                    *                                        char *(*)
 
      d xmlC14NDocSave  pr                  extproc('xmlC14NDocSave')
      d                                     like(xmlCint)
@@ -88,7 +88,7 @@
      d  nodes                              value like(xmlNodeSetPtr)
      d  mode                               value like(xmlCint)
      d  inclusive_ns_prefixes...
-     d                                 *   options(*omit)                       xmlChar *(*)
+     d                                 *   options(*omit)                       char *(*)
      d  with_comments                      value like(xmlCint)
      d  filename                       *   value options(*string)               const char *
      d  compression                        value like(xmlCint)
@@ -116,7 +116,7 @@
      d  user_data                      *   value                                void *
      d  mode                               value like(xmlCint)
      d  inclusive_ns_prefixes...
-     d                                 *   options(*omit)                       xmlChar *(*)
+     d                                 *   options(*omit)                       char *(*)
      d  with_comments                      value like(xmlCint)
      d  buf                                value like(xmlOutputBufferPtr)
 

@@ -121,28 +121,28 @@
      d xmlCreateEntityParserCtxt...
      d                 pr                  extproc('xmlCreateEntityParserCtxt')
      d                                     like(xmlParserCtxtPtr)
-     d URL                             *   value options(*string)               const xmlChar *
-     d ID                              *   value options(*string)               const xmlChar *
-     d base                            *   value options(*string)               const xmlChar *
+     d URL                             *   value options(*string)               const char *
+     d ID                              *   value options(*string)               const char *
+     d base                            *   value options(*string)               const char *
 
      d xmlSwitchEncoding...
      d                 pr                  extproc('xmlSwitchEncoding')
      d                                     like(xmlCint)
      d ctxt                                value like(xmlParserCtxtPtr)
-     d enc                                 value like(xmlCharEncoding)
+     d enc                                 value like(charEncoding)
 
      d xmlSwitchToEncoding...
      d                 pr                  extproc('xmlSwitchToEncoding')
      d                                     like(xmlCint)
      d ctxt                                value like(xmlParserCtxtPtr)
-     d handler                             value like(xmlCharEncodingHandlerPtr)
+     d handler                             value like(charEncodingHandlerPtr)
 
      d xmlSwitchInputEncoding...
      d                 pr                  extproc('xmlSwitchInputEncoding')
      d                                     like(xmlCint)
      d ctxt                                value like(xmlParserCtxtPtr)
      d input                               value like(xmlParserInputPtr)
-     d handler                             value like(xmlCharEncodingHandlerPtr)
+     d handler                             value like(charEncodingHandlerPtr)
 
       * Input Streams.
 
@@ -150,7 +150,7 @@
      d                 pr                  extproc('xmlNewStringInputStream')
      d                                     like(xmlParserInputPtr)
      d ctxt                                value like(xmlParserCtxtPtr)
-     d buffer                          *   value options(*string)               const xmlChar *
+     d buffer                          *   value options(*string)               const char *
 
      d xmlNewEntityInputStream...
      d                 pr                  extproc('xmlNewEntityInputStream')
@@ -164,7 +164,7 @@
      d input                               value like(xmlParserInputPtr)
 
      d xmlPopInput     pr                  extproc('xmlPopInput')
-     d                                     like(xmlChar)
+     d                                     like(char)
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlFreeInputStream...
@@ -184,35 +184,35 @@
 
       * Namespaces.
 
-     d xmlSplitQName   pr              *   extproc('xmlSplitQName')             xmlChar *
+     d xmlSplitQName   pr              *   extproc('xmlSplitQName')             char *
      d ctxt                                value like(xmlParserCtxtPtr)
-     d name                            *   value options(*string)               const xmlChar *
-     d prefix                          *                                        xmlChar *(*)
+     d name                            *   value options(*string)               const char *
+     d prefix                          *                                        char *(*)
 
       * Generic production rules.
 
-     d xmlParseName    pr              *   extproc('xmlParseName')              const xmlChar *
+     d xmlParseName    pr              *   extproc('xmlParseName')              const char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseNmtoken...
-     d                 pr              *   extproc('xmlParseNmtoken')           xmlChar *
+     d                 pr              *   extproc('xmlParseNmtoken')           char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseEntityValue...
-     d                 pr              *   extproc('xmlParseEntityValue')       xmlChar *
+     d                 pr              *   extproc('xmlParseEntityValue')       char *
      d ctxt                                value like(xmlParserCtxtPtr)
-     d orig                            *                                        xmlChar *(*)
+     d orig                            *                                        char *(*)
 
      d xmlParseAttValue...
-     d                 pr              *   extproc('xmlParseAttValue')          xmlChar *
+     d                 pr              *   extproc('xmlParseAttValue')          char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseSystemLiteral...
-     d                 pr              *   extproc('xmlParseSystemLiteral')     xmlChar *
+     d                 pr              *   extproc('xmlParseSystemLiteral')     char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParsePubidLiteral...
-     d                 pr              *   extproc('xmlParsePubidLiteral')      xmlChar *
+     d                 pr              *   extproc('xmlParsePubidLiteral')      char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseCharData...
@@ -221,9 +221,9 @@
      d cdata                               value like(xmlCint)
 
      d xmlParseExternalID...
-     d                 pr              *   extproc('xmlParseExternalID')        xmlChar *
+     d                 pr              *   extproc('xmlParseExternalID')        char *
      d ctxt                                value like(xmlParserCtxtPtr)
-     d publicID                        *                                        xmlChar *(*)
+     d publicID                        *                                        char *(*)
      d strict                              value like(xmlCint)
 
      d xmlParseComment...
@@ -231,7 +231,7 @@
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParsePITarget...
-     d                 pr              *   extproc('xmlParsePITarget')          const xmlChar *
+     d                 pr              *   extproc('xmlParsePITarget')          const char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParsePI      pr                  extproc('xmlParsePI')
@@ -249,7 +249,7 @@
      d                 pr                  extproc('xmlParseDefaultDecl')
      d                                     like(xmlCint)
      d ctxt                                value like(xmlParserCtxtPtr)
-     d value                           *                                        xmlChar *(*)
+     d value                           *                                        char *(*)
 
      d xmlParseNotationType...
      d                 pr                  extproc('xmlParseNotationType')
@@ -295,7 +295,7 @@
      d                 pr                  extproc('xmlParseElementContentDecl')
      d                                     like(xmlCint)
      d ctxt                                value like(xmlParserCtxtPtr)
-     d name                            *   value options(*string)               const xmlChar *
+     d name                            *   value options(*string)               const char *
      d result                          *   value                                xmlElementContentPtr
      d                                                                          *
 
@@ -332,12 +332,12 @@
 
       /if defined(LIBXML_SAX1_ENABLED)
      d xmlParseAttribute...
-     d                 pr              *   extproc('xmlParseAttribute')         const xmlChar *
+     d                 pr              *   extproc('xmlParseAttribute')         const char *
      d ctxt                                value like(xmlParserCtxtPtr)
-     d value                           *                                        xmlChar *(*)
+     d value                           *                                        char *(*)
 
      d xmlParseStartTag...
-     d                 pr              *   extproc('xmlParseStartTag')          const xmlChar *
+     d                 pr              *   extproc('xmlParseStartTag')          const char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseEndTag  pr                  extproc('xmlParseEndTag')
@@ -356,19 +356,19 @@
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseVersionNum...
-     d                 pr              *   extproc('xmlParseVersionNum')        xmlChar *
+     d                 pr              *   extproc('xmlParseVersionNum')        char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseVersionInfo...
-     d                 pr              *   extproc('xmlParseVersionInfo')       xmlChar *
+     d                 pr              *   extproc('xmlParseVersionInfo')       char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseEncName...
-     d                 pr              *   extproc('xmlParseEncName')           xmlChar *
+     d                 pr              *   extproc('xmlParseEncName')           char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseEncodingDecl...
-     d                 pr              *   extproc('xmlParseEncodingDecl')      const xmlChar *
+     d                 pr              *   extproc('xmlParseEncodingDecl')      const char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseSDDecl  pr                  extproc('xmlParseSDDecl')
@@ -389,8 +389,8 @@
      d xmlParseExternalSubset...
      d                 pr                  extproc('xmlParseExternalSubset')
      d ctxt                                value like(xmlParserCtxtPtr)
-     d ExternalID                      *   value options(*string)               const xmlChar *
-     d SystemID                        *   value options(*string)               const xmlChar *
+     d ExternalID                      *   value options(*string)               const char *
+     d SystemID                        *   value options(*string)               const char *
 
       * XML_SUBSTITUTE_NONE:
       *
@@ -421,23 +421,23 @@
      d                 c                   3
 
      d xmlStringDecodeEntities...
-     d                 pr              *   extproc('xmlStringDecodeEntities')   xmlChar *
+     d                 pr              *   extproc('xmlStringDecodeEntities')   char *
      d ctxt                                value like(xmlParserCtxtPtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
      d what                                value like(xmlCint)
-     d end                                 value like(xmlChar)
-     d end2                                value like(xmlChar)
-     d end3                                value like(xmlChar)
+     d end                                 value like(char)
+     d end2                                value like(char)
+     d end3                                value like(char)
 
      d xmlStringLenDecodeEntities...
-     d                 pr              *   extproc('xmlStringLenDecodeEntities')xmlChar *
+     d                 pr              *   extproc('xmlStringLenDecodeEntities')char *
      d ctxt                                value like(xmlParserCtxtPtr)
-     d str                             *   value options(*string)               const xmlChar *
+     d str                             *   value options(*string)               const char *
      d len                                 value like(xmlCint)
      d what                                value like(xmlCint)
-     d end                                 value like(xmlChar)
-     d end2                                value like(xmlChar)
-     d end3                                value like(xmlChar)
+     d end                                 value like(char)
+     d end2                                value like(char)
+     d end3                                value like(char)
 
       * Generated by MACROS on top of parser.c c.f. PUSH_AND_POP.
 
@@ -459,13 +459,13 @@
      d                                     like(xmlParserInputPtr)
      d ctxt                                value like(xmlParserCtxtPtr)
 
-     d namePop         pr              *   extproc('namePop')                   const xmlChar *
+     d namePop         pr              *   extproc('namePop')                   const char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d namePush        pr                  extproc('namePush')
      d                                     like(xmlCint)
      d ctxt                                value like(xmlParserCtxtPtr)
-     d value                           *   value options(*string)               const xmlChar *
+     d value                           *   value options(*string)               const char *
 
       * other commodities shared between parser.c and parserInternals.
 
@@ -478,7 +478,7 @@
      d                 pr                  extproc('xmlStringCurrentChar')
      d                                     like(xmlCint)
      d ctxt                                value like(xmlParserCtxtPtr)
-     d cur                             *   value options(*string)               const xmlChar *
+     d cur                             *   value options(*string)               const char *
      d len                             *   value                                int *
 
      d xmlParserHandlePEReference...
@@ -488,7 +488,7 @@
      d xmlCheckLanguageID...
      d                 pr                  extproc('xmlCheckLanguageID')
      d                                     like(xmlCint)
-     d lang                            *   value options(*string)               const xmlChar *
+     d lang                            *   value options(*string)               const char *
 
       * Really core function shared with HTML parser.
 
@@ -500,13 +500,13 @@
      d xmlCopyCharMultiByte...
      d                 pr                  extproc('xmlCopyCharMultiByte')
      d                                     like(xmlCint)
-     d out                             *   value options(*string)               xmlChar *
+     d out                             *   value options(*string)               char *
      d val                                 value like(xmlCint)
 
      d xmlCopyChar     pr                  extproc('xmlCopyChar')
      d                                     like(xmlCint)
      d len                                 value like(xmlCint)
-     d out                             *   value options(*string)               xmlChar *
+     d out                             *   value options(*string)               char *
      d val                                 value like(xmlCint)
 
      d xmlNextChar     pr                  extproc('xmlNextChar')
@@ -551,7 +551,7 @@
      d func                                value like(xmlEntityReferenceFunc)
 
      d xmlParseQuotedString...
-     d                 pr              *   extproc('xmlParseQuotedString')      xmlChar *
+     d                 pr              *   extproc('xmlParseQuotedString')      char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParseNamespace...
@@ -559,14 +559,14 @@
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlNamespaceParseNSDef...
-     d                 pr              *   extproc('xmlNamespaceParseNSDef')    xmlChar *
+     d                 pr              *   extproc('xmlNamespaceParseNSDef')    char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
-     d xmlScanName     pr              *   extproc('xmlScanName')               xmlChar *
+     d xmlScanName     pr              *   extproc('xmlScanName')               char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlNamespaceParseNCName...
-     d                 pr              *   extproc('xmlNamespaceParseNCName')   xmlChar *
+     d                 pr              *   extproc('xmlNamespaceParseNCName')   char *
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlParserHandleReference...
@@ -574,20 +574,20 @@
      d ctxt                                value like(xmlParserCtxtPtr)
 
      d xmlNamespaceParseQName...
-     d                 pr              *   extproc('xmlNamespaceParseQName')    xmlChar *
+     d                 pr              *   extproc('xmlNamespaceParseQName')    char *
      d ctxt                                value like(xmlParserCtxtPtr)
-     d prefix                          *                                        xmlChar *(*)
+     d prefix                          *                                        char *(*)
 
       * Entities
 
      d xmlDecodeEntities...
-     d                 pr              *   extproc('xmlDecodeEntities')         xmlChar *
+     d                 pr              *   extproc('xmlDecodeEntities')         char *
      d ctxt                                value like(xmlParserCtxtPtr)
      d len                                 value like(xmlCint)
      d what                                value like(xmlCint)
-     d end                                 value like(xmlChar)
-     d end2                                value like(xmlChar)
-     d end3                                value like(xmlChar)
+     d end                                 value like(char)
+     d end2                                value like(char)
+     d end3                                value like(char)
 
      d xmlHandleEntity...
      d                 pr                  extproc('xmlHandleEntity')

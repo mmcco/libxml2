@@ -13,7 +13,6 @@
 #include <stdarg.h>
 #include <libxml/parser.h>
 #include <libxml/xmlerror.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/globals.h>
 
 void XMLCDECL xmlGenericErrorDefaultFunc	(void *ctx ATTRIBUTE_UNUSED,
@@ -26,7 +25,7 @@ void XMLCDECL xmlGenericErrorDefaultFunc	(void *ctx ATTRIBUTE_UNUSED,
     char      *larger;						\
     va_list   ap;						\
 								\
-    str = (char *) xmlMalloc(150);				\
+    str = malloc(150);						\
     if (str != NULL) {						\
 								\
     size = 150;							\
@@ -46,7 +45,7 @@ void XMLCDECL xmlGenericErrorDefaultFunc	(void *ctx ATTRIBUTE_UNUSED,
 	    size += chars + 1;					\
 	else							\
 	    size += 100;					\
-	if ((larger = (char *) xmlRealloc(str, size)) == NULL) {\
+	if ((larger = (char *) realloc(str, size)) == NULL) {\
 	    break;						\
 	}							\
 	str = larger;						\
@@ -172,10 +171,10 @@ xmlParserPrintFileInfo(xmlParserInputPtr input) {
 static void
 xmlParserPrintFileContextInternal(xmlParserInputPtr input ,
 		xmlGenericErrorFunc channel, void *data ) {
-    const xmlChar *cur, *base;
+    const char *cur, *base;
     unsigned int n, col;	/* GCC warns if signed, because compared with sizeof() */
-    xmlChar  content[81]; /* space for 80 chars + line terminator */
-    xmlChar *ctnt;
+    char  content[81]; /* space for 80 chars + line terminator */
+    char *ctnt;
 
     if ((input == NULL) || (input->cur == NULL))
         return;
@@ -249,7 +248,7 @@ xmlReportError(xmlErrorPtr err, xmlParserCtxtPtr ctxt, const char *str,
     int line = 0;
     int code = -1;
     int domain;
-    const xmlChar *name = NULL;
+    const char *name = NULL;
     xmlNodePtr node;
     xmlErrorLevel level;
     xmlParserInputPtr input = NULL;
@@ -393,7 +392,7 @@ xmlReportError(xmlErrorPtr err, xmlParserCtxtPtr ctxt, const char *str,
     }
     if (str != NULL) {
         int len;
-	len = xmlStrlen((const xmlChar *)str);
+	len = xmlStrlen((const char *)str);
 	if ((len > 0) && (str[len - 1] != '\n'))
 	    channel(data, "%s\n", str);
 	else
@@ -414,8 +413,8 @@ xmlReportError(xmlErrorPtr err, xmlParserCtxtPtr ctxt, const char *str,
     }
     if ((domain == XML_FROM_XPATH) && (err->str1 != NULL) &&
         (err->int1 < 100) &&
-	(err->int1 < xmlStrlen((const xmlChar *)err->str1))) {
-	xmlChar buf[150];
+	(err->int1 < xmlStrlen((const char *)err->str1))) {
+	char buf[150];
 	int i;
 
 	channel(data, "%s\n", err->str1);
@@ -496,7 +495,7 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
      * Formatting the message
      */
     if (msg == NULL) {
-        str = (char *) xmlStrdup(BAD_CAST "No error message provided");
+        str = strdup("No error message provided");
     } else {
         XML_GET_VAR_STR(msg, str);
     }
@@ -548,7 +547,7 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
     to->message = str;
     to->level = level;
     if (file != NULL)
-        to->file = (char *) xmlStrdup((const xmlChar *) file);
+        to->file = strdup(file);
     else if (baseptr != NULL) {
 #ifdef LIBXML_XINCLUDE_ENABLED
 	/*
@@ -573,25 +572,25 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
 	if (prev != NULL) {
 	    if (prev->type == XML_XINCLUDE_START) {
 		prev->type = XML_ELEMENT_NODE;
-		to->file = (char *) xmlGetProp(prev, BAD_CAST "href");
+		to->file = (char *) xmlGetProp(prev, "href");
 		prev->type = XML_XINCLUDE_START;
 	    } else {
-		to->file = (char *) xmlGetProp(prev, BAD_CAST "href");
+		to->file = (char *) xmlGetProp(prev, "href");
 	    }
 	} else
 #endif
-	    to->file = (char *) xmlStrdup(baseptr->doc->URL);
+	    to->file = strdup(baseptr->doc->URL);
 	if ((to->file == NULL) && (node != NULL) && (node->doc != NULL)) {
-	    to->file = (char *) xmlStrdup(node->doc->URL);
+	    to->file = strdup(node->doc->URL);
 	}
     }
     to->line = line;
     if (str1 != NULL)
-        to->str1 = (char *) xmlStrdup((const xmlChar *) str1);
+        to->str1 = strdup(str1);
     if (str2 != NULL)
-        to->str2 = (char *) xmlStrdup((const xmlChar *) str2);
+        to->str2 = strdup(str2);
     if (str3 != NULL)
-        to->str3 = (char *) xmlStrdup((const xmlChar *) str3);
+        to->str3 = strdup(str3);
     to->int1 = int1;
     to->int2 = col;
     to->node = node;
@@ -699,7 +698,7 @@ xmlParserError(void *ctx, const char *msg, ...)
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
     if (str != NULL)
-	xmlFree(str);
+	free(str);
 
     if (ctxt != NULL) {
 	xmlParserPrintFileContext(input);
@@ -742,7 +741,7 @@ xmlParserWarning(void *ctx, const char *msg, ...)
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
     if (str != NULL)
-	xmlFree(str);
+	free(str);
 
     if (ctxt != NULL) {
 	xmlParserPrintFileContext(input);
@@ -775,7 +774,7 @@ xmlParserValidityError(void *ctx, const char *msg, ...)
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
     xmlParserInputPtr input = NULL;
     char * str;
-    int len = xmlStrlen((const xmlChar *) msg);
+    int len = xmlStrlen((const char *) msg);
     static int had_info = 0;
 
     if ((len > 1) && (msg[len - 2] != ':')) {
@@ -797,7 +796,7 @@ xmlParserValidityError(void *ctx, const char *msg, ...)
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
     if (str != NULL)
-	xmlFree(str);
+	free(str);
 
     if ((ctxt != NULL) && (input != NULL)) {
 	xmlParserPrintFileContext(input);
@@ -819,7 +818,7 @@ xmlParserValidityWarning(void *ctx, const char *msg, ...)
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
     xmlParserInputPtr input = NULL;
     char * str;
-    int len = xmlStrlen((const xmlChar *) msg);
+    int len = xmlStrlen((const char *) msg);
 
     if ((ctxt != NULL) && (len != 0) && (msg[len - 1] != ':')) {
 	input = ctxt->input;
@@ -833,7 +832,7 @@ xmlParserValidityWarning(void *ctx, const char *msg, ...)
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
     if (str != NULL)
-	xmlFree(str);
+	free(str);
 
     if (ctxt != NULL) {
 	xmlParserPrintFileContext(input);
@@ -877,15 +876,15 @@ xmlResetError(xmlErrorPtr err)
     if (err->code == XML_ERR_OK)
         return;
     if (err->message != NULL)
-        xmlFree(err->message);
+        free(err->message);
     if (err->file != NULL)
-        xmlFree(err->file);
+        free(err->file);
     if (err->str1 != NULL)
-        xmlFree(err->str1);
+        free(err->str1);
     if (err->str2 != NULL)
-        xmlFree(err->str2);
+        free(err->str2);
     if (err->str3 != NULL)
-        xmlFree(err->str3);
+        free(err->str3);
     memset(err, 0, sizeof(xmlError));
     err->code = XML_ERR_OK;
 }
@@ -960,22 +959,22 @@ xmlCopyError(xmlErrorPtr from, xmlErrorPtr to) {
     if ((from == NULL) || (to == NULL))
         return(-1);
 
-    message = (char *) xmlStrdup((xmlChar *) from->message);
-    file = (char *) xmlStrdup ((xmlChar *) from->file);
-    str1 = (char *) xmlStrdup ((xmlChar *) from->str1);
-    str2 = (char *) xmlStrdup ((xmlChar *) from->str2);
-    str3 = (char *) xmlStrdup ((xmlChar *) from->str3);
+    message = strdup(from->message);
+    file = strdup (from->file);
+    str1 = strdup (from->str1);
+    str2 = strdup (from->str2);
+    str3 = strdup (from->str3);
 
     if (to->message != NULL)
-        xmlFree(to->message);
+        free(to->message);
     if (to->file != NULL)
-        xmlFree(to->file);
+        free(to->file);
     if (to->str1 != NULL)
-        xmlFree(to->str1);
+        free(to->str1);
     if (to->str2 != NULL)
-        xmlFree(to->str2);
+        free(to->str2);
     if (to->str3 != NULL)
-        xmlFree(to->str3);
+        free(to->str3);
     to->domain = from->domain;
     to->code = from->code;
     to->level = from->level;

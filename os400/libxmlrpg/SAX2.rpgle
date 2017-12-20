@@ -15,11 +15,11 @@
       /include "libxmlrpg/xlink"
 
      d xmlSAX2GetPublicId...
-     d                 pr              *   extproc('xmlSAX2getPublicId')        const xmlChar *
+     d                 pr              *   extproc('xmlSAX2getPublicId')        const char *
      d  ctx                            *   value                                void *
 
      d xmlSAX2GetSystemId...
-     d                 pr              *   extproc('xmlSAX2getSystemId')        const xmlChar *
+     d                 pr              *   extproc('xmlSAX2getSystemId')        const char *
      d  ctx                            *   value                                void *
 
      d xmlSAX2SetDocumentLocator...
@@ -55,76 +55,76 @@
      d xmlSAX2InternalSubset...
      d                 pr                  extproc('xmlSAX2InternalSubset')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
-     d  ExternalID                     *   value options(*string)               const xmlChar *
-     d  SystemID                       *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  ExternalID                     *   value options(*string)               const char *
+     d  SystemID                       *   value options(*string)               const char *
 
      d xmlSAX2ExternalSubset...
      d                 pr                  extproc('xmlSAX2ExternalSubset')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
-     d  ExternalID                     *   value options(*string)               const xmlChar *
-     d  SystemID                       *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  ExternalID                     *   value options(*string)               const char *
+     d  SystemID                       *   value options(*string)               const char *
 
      d xmlSAX2GetEntity...
      d                 pr                  extproc('xmlSAX2GetEntity')
      d                                     like(xmlEntityPtr)
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlSAX2GetParameterEntity...
      d                 pr                  extproc('xmlSAX2GetParameterEntity')
      d                                     like(xmlEntityPtr)
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlSAX2ResolveEntity...
      d                 pr                  extproc('xmlSAX2ResolveEntity')
      d                                     like(xmlParserInputPtr)
      d  ctx                            *   value                                void *
-     d  publicId                       *   value options(*string)               const xmlChar *
-     d  systemId                       *   value options(*string)               const xmlChar *
+     d  publicId                       *   value options(*string)               const char *
+     d  systemId                       *   value options(*string)               const char *
 
      d xmlSAX2EntityDecl...
      d                 pr                  extproc('xmlSAX2EntityDecl')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  type                               value like(xmlCint)
-     d  publicId                       *   value options(*string)               const xmlChar *
-     d  systemId                       *   value options(*string)               const xmlChar *
-     d  content                        *   value options(*string)               xmlChar *
+     d  publicId                       *   value options(*string)               const char *
+     d  systemId                       *   value options(*string)               const char *
+     d  content                        *   value options(*string)               char *
 
      d xmlSAX2AttributeDecl...
      d                 pr                  extproc('xmlSAX2AttributeDecl')
      d  ctx                            *   value                                void *
-     d  elem                           *   value options(*string)               const xmlChar *
-     d  fullname                       *   value options(*string)               const xmlChar *
+     d  elem                           *   value options(*string)               const char *
+     d  fullname                       *   value options(*string)               const char *
      d  type                               value like(xmlCint)
      d  def                                value like(xmlCint)
-     d  defaultValue                   *   value options(*string)               const xmlChar *
+     d  defaultValue                   *   value options(*string)               const char *
      d  tree                               value like(xmlEnumerationPtr)
 
      d xmlSAX2ElementDecl...
      d                 pr                  extproc('xmlSAX2ElementDecl')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  type                               value like(xmlCint)
      d  content                            value like(xmlElementContentPtr)
 
      d xmlSAX2NotationDecl...
      d                 pr                  extproc('xmlSAX2NotationDecl')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
-     d  publicId                       *   value options(*string)               const xmlChar *
-     d  systemId                       *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  publicId                       *   value options(*string)               const char *
+     d  systemId                       *   value options(*string)               const char *
 
      d xmlSAX2UnparsedEntityDecl...
      d                 pr                  extproc('xmlSAX2UnparsedEntityDecl')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
-     d  publicId                       *   value options(*string)               const xmlChar *
-     d  systemId                       *   value options(*string)               const xmlChar *
-     d  notationName                   *   value options(*string)               xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  publicId                       *   value options(*string)               const char *
+     d  systemId                       *   value options(*string)               const char *
+     d  notationName                   *   value options(*string)               char *
 
      d xmlSAX2StartDocument...
      d                 pr                  extproc('xmlSAX2StartDocument')
@@ -147,13 +147,13 @@
      d xmlSAX2StartElement...
      d                 pr                  extproc('xmlSAX2StartElement')
      d  ctx                            *   value                                void *
-     d  fullname                       *   value options(*string)               const xmlChar *
-     d  atts                           *                                        const xmlChar *(*)
+     d  fullname                       *   value options(*string)               const char *
+     d  atts                           *                                        const char *(*)
 
      d xmlSAX2EndElement...
      d                 pr                  extproc('xmlSAX2EndElement')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
       /undefine XML_TESTVAL
       /endif
@@ -161,55 +161,55 @@
      d xmlSAX2StartElementNs...
      d                 pr                  extproc('xmlSAX2StartElementNs')
      d  ctx                            *   value                                void *
-     d  localname                      *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
-     d  URI                            *   value options(*string)               const xmlChar *
+     d  localname                      *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
+     d  URI                            *   value options(*string)               const char *
      d  nb_namespaces                      value like(xmlCint)
-     d  namespaces                     *   value                                const xmlChar *(*)
+     d  namespaces                     *   value                                const char *(*)
      d  nb_attributes                      value like(xmlCint)
      d  nb_defaulted                       value like(xmlCint)
-     d  attributes                     *                                        const xmlChar *(*)
+     d  attributes                     *                                        const char *(*)
 
      d xmlSAX2EndElementNs...
      d                 pr                  extproc('xmlSAX2EndElementNs')
      d  ctx                            *   value                                void *
-     d  localname                      *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
-     d  URI                            *   value options(*string)               const xmlChar *
+     d  localname                      *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
+     d  URI                            *   value options(*string)               const char *
 
      d xmlSAX2Reference...
      d                 pr                  extproc('xmlSAX2Reference')
      d  ctx                            *   value                                void *
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlSAX2Characters...
      d                 pr                  extproc('xmlSAX2Characters')
      d  ctx                            *   value                                void *
-     d  ch                             *   value options(*string)               const xmlChar *
+     d  ch                             *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlSAX2IgnorableWhitespace...
      d                 pr                  extproc('xmlSAX2IgnorableWhitespace')
      d  ctx                            *   value                                void *
-     d  ch                             *   value options(*string)               const xmlChar *
+     d  ch                             *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
      d xmlSAX2ProcessingInstruction...
      d                 pr                  extproc(
      d                                      'xmlSAX2ProcessingInstruction')
      d  ctx                            *   value                                void *
-     d  target                         *   value options(*string)               const xmlChar *
-     d  data                           *   value options(*string)               const xmlChar *
+     d  target                         *   value options(*string)               const char *
+     d  data                           *   value options(*string)               const char *
 
      d xmlSAX2Comment...
      d                 pr                  extproc('xmlSAX2Comment')
      d  ctx                            *   value                                void *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
 
      d xmlSAX2CDataBlock...
      d                 pr                  extproc('xmlSAX2CDataBlock')
      d  ctx                            *   value                                void *
-     d  value                          *   value options(*string)               const xmlChar *
+     d  value                          *   value options(*string)               const char *
      d  len                                value like(xmlCint)
 
       /if defined(LIBXML_SAX1_ENABLED)

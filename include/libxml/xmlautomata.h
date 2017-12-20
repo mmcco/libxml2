@@ -56,28 +56,28 @@ XMLPUBFUN xmlAutomataStatePtr XMLCALL
 		    xmlAutomataNewTransition	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
-						 const xmlChar *token,
+						 const char *token,
 						 void *data);
 XMLPUBFUN xmlAutomataStatePtr XMLCALL
 		    xmlAutomataNewTransition2	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
-						 const xmlChar *token,
-						 const xmlChar *token2,
+						 const char *token,
+						 const char *token2,
 						 void *data);
 XMLPUBFUN xmlAutomataStatePtr XMLCALL
                     xmlAutomataNewNegTrans	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
-						 const xmlChar *token,
-						 const xmlChar *token2,
+						 const char *token,
+						 const char *token2,
 						 void *data);
 
 XMLPUBFUN xmlAutomataStatePtr XMLCALL
 		    xmlAutomataNewCountTrans	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
-						 const xmlChar *token,
+						 const char *token,
 						 int min,
 						 int max,
 						 void *data);
@@ -85,8 +85,8 @@ XMLPUBFUN xmlAutomataStatePtr XMLCALL
 		    xmlAutomataNewCountTrans2	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
-						 const xmlChar *token,
-						 const xmlChar *token2,
+						 const char *token,
+						 const char *token2,
 						 int min,
 						 int max,
 						 void *data);
@@ -94,7 +94,7 @@ XMLPUBFUN xmlAutomataStatePtr XMLCALL
 		    xmlAutomataNewOnceTrans	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
-						 const xmlChar *token,
+						 const char *token,
 						 int min,
 						 int max,
 						 void *data);
@@ -102,8 +102,8 @@ XMLPUBFUN xmlAutomataStatePtr XMLCALL
 		    xmlAutomataNewOnceTrans2	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
-						 const xmlChar *token,
-						 const xmlChar *token2,
+						 const char *token,
+						 const char *token2,
 						 int min,
 						 int max,
 						 void *data);

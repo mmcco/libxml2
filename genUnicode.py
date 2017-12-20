@@ -299,7 +299,7 @@ output.write('};\n\n')
 
 #
 # For any categories with more than minTableSize ranges we generate
-# a range table suitable for xmlCharInRange
+# a range table suitable for charInRange
 #
 for name in ckeys:
   if len(Categories[name]) > minTableSize:
@@ -420,7 +420,7 @@ for name in ckeys:
     output.write(" *\n * Returns 1 if true 0 otherwise\n */\n");
     output.write("int\nxmlUCSIsCat%s(int code) {\n" % name)
     if len(Categories[name]) > minTableSize:
-        output.write("    return(xmlCharInRange((unsigned int)code, &xml%sG)"
+        output.write("    return(charInRange((unsigned int)code, &xml%sG)"
             % name)
     else:
         start = 1

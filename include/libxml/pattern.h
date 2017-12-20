@@ -50,10 +50,10 @@ XMLPUBFUN void XMLCALL
 			xmlFreePatternList	(xmlPatternPtr comp);
 
 XMLPUBFUN xmlPatternPtr XMLCALL
-			xmlPatterncompile	(const xmlChar *pattern,
+			xmlPatterncompile	(const char *pattern,
 						 xmlDict *dict,
 						 int flags,
-						 const xmlChar **namespaces);
+						 const char **namespaces);
 XMLPUBFUN int XMLCALL
 			xmlPatternMatch		(xmlPatternPtr comp,
 						 xmlNodePtr node);
@@ -76,17 +76,17 @@ XMLPUBFUN void XMLCALL
 			xmlFreeStreamCtxt	(xmlStreamCtxtPtr stream);
 XMLPUBFUN int XMLCALL
 			xmlStreamPushNode	(xmlStreamCtxtPtr stream,
-						 const xmlChar *name,
-						 const xmlChar *ns,
+						 const char *name,
+						 const char *ns,
 						 int nodeType);
 XMLPUBFUN int XMLCALL
 			xmlStreamPush		(xmlStreamCtxtPtr stream,
-						 const xmlChar *name,
-						 const xmlChar *ns);
+						 const char *name,
+						 const char *ns);
 XMLPUBFUN int XMLCALL
 			xmlStreamPushAttr	(xmlStreamCtxtPtr stream,
-						 const xmlChar *name,
-						 const xmlChar *ns);
+						 const char *name,
+						 const char *ns);
 XMLPUBFUN int XMLCALL
 			xmlStreamPop		(xmlStreamCtxtPtr stream);
 XMLPUBFUN int XMLCALL

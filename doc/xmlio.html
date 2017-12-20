@@ -109,7 +109,7 @@ new output handler with the closing call deactivated:</p><ol>
   <li>First define a new I/O output allocator where the output don't close
     the file:
     <pre>xmlOutputBufferPtr
-xmlOutputBufferCreateOwn(FILE *file, xmlCharEncodingHandlerPtr encoder) {
+xmlOutputBufferCreateOwn(FILE *file, charEncodingHandlerPtr encoder) {
     xmlOutputBufferPtr ret;
     
     if (xmlOutputCallbackInitialized == 0)

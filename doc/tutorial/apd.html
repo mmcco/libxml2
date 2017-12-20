@@ -17,7 +17,7 @@ getdoc (char *docname) {
 }
 
 xmlXPathObjectPtr
-getnodeset (xmlDocPtr doc, xmlChar *xpath){
+getnodeset (xmlDocPtr doc, char *xpath){
 	
 	xmlXPathContextPtr context;
 	xmlXPathObjectPtr result;
@@ -45,11 +45,11 @@ main(int argc, char **argv) {
 
 	char *docname;
 	xmlDocPtr doc;
-	xmlChar *xpath = (xmlChar*) "//keyword";
+	char *xpath = (char*) "//keyword";
 	xmlNodeSetPtr nodeset;
 	xmlXPathObjectPtr result;
 	int i;
-	xmlChar *keyword;
+	char *keyword;
 		
 	if (argc &lt;= 1) {
 		printf("Usage: %s docname\n", argv[0]);

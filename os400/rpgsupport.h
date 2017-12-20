@@ -11,26 +11,9 @@
 
 #include <sys/types.h>
 
-#include <libxml/xmlmemory.h>
 #include <libxml/xpath.h>
 #include "libxml/HTMLparser.h"
 
-
-XMLPUBFUN xmlFreeFunc   __get_xmlFree(void);
-XMLPUBFUN void          __set_xmlFree(xmlFreeFunc freefunc);
-XMLPUBFUN void          __call_xmlFree(void * mem);
-XMLPUBFUN xmlMallocFunc __get_xmlMalloc(void);
-XMLPUBFUN void          __set_xmlMalloc(xmlMallocFunc allocfunc);
-XMLPUBFUN void *        __call_xmlMalloc(size_t size);
-XMLPUBFUN xmlMallocFunc __get_xmlMallocAtomic(void);
-XMLPUBFUN void          __set_xmlMallocAtomic(xmlMallocFunc allocfunc);
-XMLPUBFUN void *        __call_xmlMallocAtomic(size_t size);
-XMLPUBFUN xmlReallocFunc __get_xmlRealloc(void);
-XMLPUBFUN void          __set_xmlRealloc(xmlReallocFunc reallocfunc);
-XMLPUBFUN void *        __call_xmlRealloc(void * mem, size_t size);
-XMLPUBFUN xmlStrdupFunc __get_xmlMemStrdup(void);
-XMLPUBFUN void          __set_xmlMemStrdup(xmlStrdupFunc strdupfunc);
-XMLPUBFUN char *        __call_xmlMemStrdup(const char * str);
 
 #ifdef LIBXML_DOCB_ENABLED
 XMLPUBFUN xmlSAXHandlerV1 __get_docbDefaultSAXHandler(void);
@@ -123,7 +106,7 @@ XMLPUBFUN void          __set_xmlParserInputBufferCreateFilenameValue(
                                 xmlParserInputBufferCreateFilenameFunc val);
 XMLPUBFUN xmlParserInputBufferPtr
                 __call_xmlParserInputBufferCreateFilenameValue(const char *URI,
-                                                        xmlCharEncoding enc);
+                                                        charEncoding enc);
 
 XMLPUBFUN xmlOutputBufferCreateFilenameFunc
                         __get_xmlOutputBufferCreateFilenameValue(void);
@@ -131,7 +114,7 @@ XMLPUBFUN void          __set_xmlOutputBufferCreateFilenameValue(
                                 xmlOutputBufferCreateFilenameFunc val);
 XMLPUBFUN xmlOutputBufferPtr
                         __call_xmlOutputBufferCreateFilenameValue(const char *URI,
-                                xmlCharEncodingHandlerPtr encoder,
+                                charEncodingHandlerPtr encoder,
                                 int compression);
 
 

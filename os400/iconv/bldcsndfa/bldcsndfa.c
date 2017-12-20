@@ -406,7 +406,7 @@ loadXMLFile(const char * filename)
                 }
 
         databuf[i] = databuf[i + 1] = databuf[i + 2] = databuf[i + 3] = 0;
-        doc = xmlParseMemory((xmlChar *) databuf, i);
+        doc = xmlParseMemory((char *) databuf, i);
         free((char *) databuf);
         return doc;
 }
@@ -848,10 +848,10 @@ utf8_strtou(const utf8char * s)
 
 
 unsigned int
-getNumAttr(xmlNodePtr node, const xmlChar * name)
+getNumAttr(xmlNodePtr node, const char * name)
 
 {
-        const xmlChar * s;
+        const char * s;
         unsigned int val;
 
         s = xmlGetProp(node, name);
@@ -860,7 +860,7 @@ getNumAttr(xmlNodePtr node, const xmlChar * name)
                 return 0;
 
         val = utf8_strtou(s);
-        xmlFree((xmlChar *) s);
+        free((char *) s);
         return val;
 }
 
@@ -990,7 +990,7 @@ read_assocs(const char * filename)
 
 
 unsigned int
-columnPosition(xmlXPathContextPtr ctxt, const xmlChar * header)
+columnPosition(xmlXPathContextPtr ctxt, const char * header)
 
 {
         xmlXPathObjectPtr obj;

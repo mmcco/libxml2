@@ -26,10 +26,10 @@ static const char *seeds2[] = {
 #define NB_STRINGS_MAX 10000
 #define NB_STRINGS_MIN 10
 
-static xmlChar *strings1[NB_STRINGS_MAX];
-static xmlChar *strings2[NB_STRINGS_MAX];
-static const xmlChar *test1[NB_STRINGS_MAX];
-static const xmlChar *test2[NB_STRINGS_MAX];
+static char *strings1[NB_STRINGS_MAX];
+static char *strings2[NB_STRINGS_MAX];
+static const char *test1[NB_STRINGS_MAX];
+static const char *test2[NB_STRINGS_MAX];
 static int nbErrors = 0;
 
 static void fill_strings(void) {
@@ -41,7 +41,7 @@ static void fill_strings(void) {
      * ":xxx" and full QNames in the last NB_STRINGS_NS values
      */
     for (i = 0; seeds1[i] != NULL; i++) {
-        strings1[i] = xmlStrdup((const xmlChar *) seeds1[i]);
+        strings1[i] = strdup( seeds1[i]);
 	if (strings1[i] == NULL) {
 	    fprintf(stderr, "Out of memory while generating strings1\n");
 	    exit(1);
@@ -59,7 +59,7 @@ static void fill_strings(void) {
 	}
     }
     for (j = 0; (j < 50) && (i < NB_STRINGS_MAX); i++, j+=2) {
-        strings1[i] = xmlStrncatNew(strings1[j], (const xmlChar *) ":", -1);
+        strings1[i] = xmlStrncatNew(strings1[j], (const char *) ":", -1);
 	if (strings1[i] == NULL) {
 	    fprintf(stderr, "Out of memory while generating strings1\n");
 	    exit(1);
@@ -80,7 +80,7 @@ static void fill_strings(void) {
      * Now do the same with the second pool of strings
      */
     for (i = 0; seeds2[i] != NULL; i++) {
-        strings2[i] = xmlStrdup((const xmlChar *) seeds2[i]);
+        strings2[i] = strdup( seeds2[i]);
 	if (strings2[i] == NULL) {
 	    fprintf(stderr, "Out of memory while generating strings2\n");
 	    exit(1);
@@ -98,7 +98,7 @@ static void fill_strings(void) {
 	}
     }
     for (j = 0; (j < 50) && (i < NB_STRINGS_MAX); i++, j+=2) {
-        strings2[i] = xmlStrncatNew(strings2[j], (const xmlChar *) ":", -1);
+        strings2[i] = xmlStrncatNew(strings2[j], (const char *) ":", -1);
 	if (strings2[i] == NULL) {
 	    fprintf(stderr, "Out of memory while generating strings2\n");
 	    exit(1);
@@ -135,11 +135,11 @@ static void clean_strings(void) {
 
     for (i = 0; i < NB_STRINGS_MAX; i++) {
         if (strings1[i] != NULL) /* really should not happen */
-	    xmlFree(strings1[i]);
+	    free(strings1[i]);
     }
     for (i = 0; i < NB_STRINGS_MAX; i++) {
         if (strings2[i] != NULL) /* really should not happen */
-	    xmlFree(strings2[i]);
+	    free(strings2[i]);
     }
 }
 
@@ -150,9 +150,9 @@ static int run_test2(xmlDictPtr parent) {
     int i, j;
     xmlDictPtr dict;
     int ret = 0;
-    xmlChar prefix[40];
-    xmlChar *cur, *pref;
-    const xmlChar *tmp;
+    char prefix[40];
+    char *cur, *pref;
+    const char *tmp;
 
     dict = xmlDictCreateSub(parent);
     if (dict == NULL) {
@@ -313,9 +313,9 @@ static int run_test1(void) {
     int i, j;
     xmlDictPtr dict;
     int ret = 0;
-    xmlChar prefix[40];
-    xmlChar *cur, *pref;
-    const xmlChar *tmp;
+    char prefix[40];
+    char *cur, *pref;
+    const char *tmp;
 
     dict = xmlDictCreate();
     if (dict == NULL) {

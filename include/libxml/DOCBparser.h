@@ -48,12 +48,12 @@ XMLPUBFUN int XMLCALL
                                         int *inlen, int quoteChar);
 
 XMLPUBFUN docbDocPtr XMLCALL
-		     docbSAXParseDoc   (xmlChar *cur,
+		     docbSAXParseDoc   (char *cur,
                                         const char *encoding,
                                         docbSAXHandlerPtr sax,
                                         void *userData);
 XMLPUBFUN docbDocPtr XMLCALL
-		     docbParseDoc      (xmlChar *cur,
+		     docbParseDoc      (char *cur,
                                         const char *encoding);
 XMLPUBFUN docbDocPtr XMLCALL
 		     docbSAXParseFile  (const char *filename,
@@ -75,7 +75,7 @@ XMLPUBFUN docbParserCtxtPtr XMLCALL
                                               const char *chunk,
                                               int size,
                                               const char *filename,
-                                              xmlCharEncoding enc);
+                                              charEncoding enc);
 XMLPUBFUN int XMLCALL
 		     docbParseChunk          (docbParserCtxtPtr ctxt,
                                               const char *chunk,

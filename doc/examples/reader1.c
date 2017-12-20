@@ -24,11 +24,11 @@
  */
 static void
 processNode(xmlTextReaderPtr reader) {
-    const xmlChar *name, *value;
+    const char *name, *value;
 
     name = xmlTextReaderConstName(reader);
     if (name == NULL)
-	name = BAD_CAST "--";
+	name = "--";
 
     value = xmlTextReaderConstValue(reader);
 

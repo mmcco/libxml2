@@ -376,17 +376,17 @@ def type_convert(str, name, info, module, function, pos):
 	    return('xmlNodePtr_in');
     if res == 'const xmlBufferPtr':
         res = 'xmlBufferPtr'
-    if res == 'xmlChar_ptr' and name == 'name' and \
+    if res == 'char_ptr' and name == 'name' and \
        string.find(function, "EatName") != -1:
         return('eaten_name')
     if res == 'void_ptr*':
         res = 'void_ptr_ptr'
     if res == 'char_ptr*':
         res = 'char_ptr_ptr'
-    if res == 'xmlChar_ptr*':
-        res = 'xmlChar_ptr_ptr'
-    if res == 'const_xmlChar_ptr*':
-        res = 'const_xmlChar_ptr_ptr'
+    if res == 'char_ptr*':
+        res = 'char_ptr_ptr'
+    if res == 'const_char_ptr*':
+        res = 'const_char_ptr_ptr'
     if res == 'const_char_ptr*':
         res = 'const_char_ptr_ptr'
     if res == 'FILE_ptr' and module == 'debugXML':
@@ -791,7 +791,7 @@ test_%s(void) {
         if type == "int" and (nam == "size" or nam == "len" or nam == "start"):
             for j in range(i - 1, -1, -1) + range(i + 1, len(t_args)):
                 (bnam, btype) = t_args[j][:2]
-                if btype == "const_char_ptr" or btype == "const_xmlChar_ptr":
+                if btype == "const_char_ptr" or btype == "const_char_ptr":
                     test.write(
                         "        if ((%s != NULL) &&\n"
                         "            (%s > (int) strlen((const char *) %s) + 1))\n"

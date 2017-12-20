@@ -18,11 +18,11 @@
 extern "C" {
 #endif
 
-int xmlCharEncFirstLineInt(xmlCharEncodingHandler *handler, xmlBufferPtr out,
+int charEncFirstLineInt(charEncodingHandler *handler, xmlBufferPtr out,
                            xmlBufferPtr in, int len);
-int xmlCharEncFirstLineInput(xmlParserInputBufferPtr input, int len);
-int xmlCharEncInput(xmlParserInputBufferPtr input, int flush);
-int xmlCharEncOutput(xmlOutputBufferPtr output, int init);
+int charEncFirstLineInput(xmlParserInputBufferPtr input, int len);
+int charEncInput(xmlParserInputBufferPtr input, int flush);
+int charEncOutput(xmlOutputBufferPtr output, int init);
 
 #ifdef __cplusplus
 }

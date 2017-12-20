@@ -88,14 +88,14 @@
      d                 pr                  extproc('xmlHashAddEntry')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  userdata                       *   value options(*string)               void *
 
      d xmlHashUpdateEntry...
      d                 pr                  extproc('xmlHashUpdateEntry')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  userdata                       *   value options(*string)               void *
      d  f                                  value like(xmlHashDeallocator)
 
@@ -103,16 +103,16 @@
      d                 pr                  extproc('xmlHashAddEntry2')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
      d  userdata                       *   value options(*string)               void *
 
      d xmlHashUpdateEntry2...
      d                 pr                  extproc('xmlHashUpdateEntry2')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
      d  userdata                       *   value options(*string)               void *
      d  f                                  value like(xmlHashDeallocator)
 
@@ -120,18 +120,18 @@
      d                 pr                  extproc('xmlHashAddEntry3')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  name3                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  name3                          *   value options(*string)               const char *
      d  userdata                       *   value options(*string)               void *
 
      d xmlHashUpdateEntry3...
      d                 pr                  extproc('xmlHashUpdateEntry3')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  name3                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  name3                          *   value options(*string)               const char *
      d  userdata                       *   value options(*string)               void *
      d  f                                  value like(xmlHashDeallocator)
 
@@ -141,65 +141,65 @@
      d                 pr                  extproc('xmlHashRemoveEntry')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
      d  f                                  value like(xmlHashDeallocator)
 
      d xmlHashRemoveEntry2...
      d                 pr                  extproc('xmlHashRemoveEntry2')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
      d  f                                  value like(xmlHashDeallocator)
 
      d xmlHashRemoveEntry3...
      d                 pr                  extproc('xmlHashRemoveEntry3')
      d                                     like(xmlCint)
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  name3                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  name3                          *   value options(*string)               const char *
      d  f                                  value like(xmlHashDeallocator)
 
       * Retrieve the userdata.
 
      d xmlHashLookup   pr              *   extproc('xmlHashLookup')             void *
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
 
      d xmlHashLookup2  pr              *   extproc('xmlHashLookup2')            void *
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
 
      d xmlHashLookup3  pr              *   extproc('xmlHashLookup3')            void *
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  name3                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  name3                          *   value options(*string)               const char *
 
      d xmlHashQLookup  pr              *   extproc('xmlHashQLookup')            void *
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
 
      d xmlHashQLookup2...
      d                 pr              *   extproc('xmlHashQLookup2')           void *
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  prefix2                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  prefix2                        *   value options(*string)               const char *
 
      d xmlHashQLookup3...
      d                 pr              *   extproc('xmlHashQLookup3')           void *
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  prefix                         *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  prefix2                        *   value options(*string)               const xmlChar *
-     d  name3                          *   value options(*string)               const xmlChar *
-     d  prefix3                        *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  prefix                         *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  prefix2                        *   value options(*string)               const char *
+     d  name3                          *   value options(*string)               const char *
+     d  prefix3                        *   value options(*string)               const char *
 
       * Helpers.
 
@@ -219,9 +219,9 @@
 
      d xmlHashScan3    pr                  extproc('xmlHashScan3')
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  name3                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  name3                          *   value options(*string)               const char *
      d  f                                  value like(xmlHashScanner)
      d  data                           *   value options(*string)               void *
 
@@ -234,9 +234,9 @@
      d xmlHashScanFull3...
      d                 pr                  extproc('xmlHashScanFull3')
      d  table                              value like(xmlHashTablePtr)
-     d  name                           *   value options(*string)               const xmlChar *
-     d  name2                          *   value options(*string)               const xmlChar *
-     d  name3                          *   value options(*string)               const xmlChar *
+     d  name                           *   value options(*string)               const char *
+     d  name2                          *   value options(*string)               const char *
+     d  name3                          *   value options(*string)               const char *
      d  f                                  value like(xmlHashScannerFull)
      d  data                           *   value options(*string)               void *
 

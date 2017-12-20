@@ -32,7 +32,6 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/debugXML.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/xmlerror.h>
@@ -51,7 +50,7 @@ static xmlDocPtr document = NULL;
 /*
  * Default document
  */
-static xmlChar buffer[] =
+static char buffer[] =
 "<?xml version=\"1.0\"?>\n\
 <EXAMPLE prop1=\"gnome is great\" prop2=\"&amp; linux too\">\n\
   <head>\n\
@@ -83,18 +82,18 @@ testXPath(const char *str) {
 #if defined(LIBXML_XPTR_ENABLED)
     if (xptr) {
 	ctxt = xmlXPtrNewContext(document, NULL, NULL);
-	res = xmlXPtrEval(BAD_CAST str, ctxt);
+	res = xmlXPtrEval(str, ctxt);
     } else {
 #endif
 	ctxt = xmlXPathNewContext(document);
 	ctxt->node = xmlDocGetRootElement(document);
 	if (expr)
-	    res = xmlXPathEvalExpression(BAD_CAST str, ctxt);
+	    res = xmlXPathEvalExpression(str, ctxt);
 	else {
-	    /* res = xmlXPathEval(BAD_CAST str, ctxt); */
+	    /* res = xmlXPathEval(str, ctxt); */
 	    xmlXPathCompExprPtr comp;
 
-	    comp = xmlXPathCompile(BAD_CAST str);
+	    comp = xmlXPathCompile(str);
 	    if (comp != NULL) {
 		if (tree)
 		    xmlXPathDebugDumpCompExpr(stdout, comp, 0);

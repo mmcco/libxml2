@@ -561,7 +561,7 @@ LIBXML2_2.4.30 {
 
 # xmlmemory
   xmlInitMemory;
-  xmlMallocLoc;
+  mallocLoc;
   xmlMemDisplay;
   xmlMemFree;
   xmlMemGet;
@@ -573,7 +573,7 @@ LIBXML2_2.4.30 {
   xmlMemUsed;
   xmlMemoryDump;
   xmlMemoryStrdup;
-  xmlReallocLoc;
+  reallocLoc;
 
 # xmlIO
   xmlAllocOutputBuffer;
@@ -715,8 +715,8 @@ LIBXML2_2.4.30 {
   htmlTagLookup;
 
 # xmlstring
-  xmlCharStrdup;
-  xmlCharStrndup;
+  charStrdup;
+  charStrndup;
 
 # parser
   xmlCleanupParser;
@@ -830,12 +830,12 @@ LIBXML2_2.4.30 {
   xmlKeepBlanksDefaultValue; # variable
   xmlLineNumbersDefaultValue; # variable
   xmlLoadExtDtdDefaultValue; # variable
-  xmlMalloc; # variable
+  malloc; # variable
   xmlMemStrdup; # variable
   xmlParserDebugEntities; # variable
   xmlParserVersion; # variable
   xmlPedanticParserDefaultValue; # variable
-  xmlRealloc; # variable
+  realloc; # variable
   xmlSaveNoEmptyTags; # variable
   xmlSubstituteEntitiesDefaultValue; # variable
   xmlTreeIndentString; # variable
@@ -1220,10 +1220,10 @@ LIBXML2_2.4.30 {
   UTF8Toisolat1;
   isolat1ToUTF8;
   xmlAddEncodingAlias;
-  xmlCharEncCloseFunc;
-  xmlCharEncFirstLine;
-  xmlCharEncInFunc;
-  xmlCharEncOutFunc;
+  charEncCloseFunc;
+  charEncFirstLine;
+  charEncInFunc;
+  charEncOutFunc;
 
 # xmlstring
   xmlCheckUTF8;
@@ -1378,7 +1378,7 @@ LIBXML2_2.5.7 {
   xmlGcMemSetup;
 
 # globals
-  xmlMallocAtomic; # variable
+  malloc; # variable
 
 # xmlregexp
   xmlRegExecPushString2;
@@ -1462,7 +1462,7 @@ LIBXML2_2.5.9 {
     global:
 
 # xmlmemory
-  xmlMallocAtomicLoc;
+  mallocLoc;
 
 # relaxng
   xmlRelaxNGGetParserErrors;
@@ -1537,7 +1537,7 @@ LIBXML2_2.6.0 {
   xmlBufferCreateStatic;
 
 # chvalid
-  xmlCharInRange;
+  charInRange;
 
 # xmlIO
   xmlCheckHTTPInput;

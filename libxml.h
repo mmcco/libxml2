@@ -95,7 +95,7 @@ int __xmlInitializeDict(void);
 int __xmlRandom(void);
 #endif
 
-XMLPUBFUN xmlChar * XMLCALL xmlEscapeFormatString(xmlChar **msg);
+XMLPUBFUN char * XMLCALL xmlEscapeFormatString(char **msg);
 int xmlNop(void);
 
 #ifdef IN_LIBXML
