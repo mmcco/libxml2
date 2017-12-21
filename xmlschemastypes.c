@@ -226,7 +226,7 @@ static xmlSchemaValPtr
 xmlSchemaNewValue(xmlSchemaValType type) {
     xmlSchemaValPtr value;
 
-    value = (xmlSchemaValPtr) xmlMalloc(sizeof(xmlSchemaVal));
+    value = xmlMalloc(sizeof(xmlSchemaVal));
     if (value == NULL) {
 	return(NULL);
     }
@@ -266,7 +266,7 @@ xmlSchemaInitBasicType(const char *name, xmlSchemaValType type,
 		       xmlSchemaTypePtr baseType) {
     xmlSchemaTypePtr ret;
 
-    ret = (xmlSchemaTypePtr) xmlMalloc(sizeof(xmlSchemaType));
+    ret = xmlMalloc(sizeof(xmlSchemaType));
     if (ret == NULL) {
         xmlSchemaTypeErrMemory(NULL, "could not initialize basic types");
 	return(NULL);
@@ -373,8 +373,7 @@ xmlSchemaAddParticle(void)
 {
     xmlSchemaParticlePtr ret = NULL;
 
-    ret = (xmlSchemaParticlePtr)
-	xmlMalloc(sizeof(xmlSchemaParticle));
+    ret = xmlMalloc(sizeof(xmlSchemaParticle));
     if (ret == NULL) {
 	xmlSchemaTypeErrMemory(NULL, "allocating particle component");
 	return (NULL);
@@ -421,8 +420,7 @@ xmlSchemaInitTypes(void)
 	    return;
 	xmlSchemaTypeAnyTypeDef->subtypes = (xmlSchemaTypePtr) particle;
 	/* Sequence model group. */
-	sequence = (xmlSchemaModelGroupPtr)
-	    xmlMalloc(sizeof(xmlSchemaModelGroup));
+	sequence = xmlMalloc(sizeof(xmlSchemaModelGroup));
 	if (sequence == NULL) {
 	    xmlSchemaTypeErrMemory(NULL, "allocating model group component");
 	    return;
@@ -438,7 +436,7 @@ xmlSchemaInitTypes(void)
 	particle->maxOccurs = UNBOUNDED;
 	sequence->children = (xmlSchemaTreeItemPtr) particle;
 	/* The wildcard */
-	wild = (xmlSchemaWildcardPtr) xmlMalloc(sizeof(xmlSchemaWildcard));
+	wild = xmlMalloc(sizeof(xmlSchemaWildcard));
 	if (wild == NULL) {
 	    xmlSchemaTypeErrMemory(NULL, "allocating wildcard component");
 	    return;
@@ -451,7 +449,7 @@ xmlSchemaInitTypes(void)
 	/*
 	* Create the attribute wildcard.
 	*/
-	wild = (xmlSchemaWildcardPtr) xmlMalloc(sizeof(xmlSchemaWildcard));
+	wild = xmlMalloc(sizeof(xmlSchemaWildcard));
 	if (wild == NULL) {
 	    xmlSchemaTypeErrMemory(NULL, "could not create an attribute "
 		"wildcard on anyType");
@@ -948,7 +946,7 @@ xmlSchemaNewStringValue(xmlSchemaValType type,
 
     if (type != XML_SCHEMAS_STRING)
 	return(NULL);
-    val = (xmlSchemaValPtr) xmlMalloc(sizeof(xmlSchemaVal));
+    val = xmlMalloc(sizeof(xmlSchemaVal));
     if (val == NULL) {
 	return(NULL);
     }

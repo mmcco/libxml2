@@ -55,7 +55,7 @@ void *
 __call_xmlMallocAtomic(size_t size)
 
 {
-        return xmlMallocAtomic(size);
+        return xmlMalloc(size);
 }
 
 

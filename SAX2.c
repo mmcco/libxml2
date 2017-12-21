@@ -436,8 +436,7 @@ xmlSAX2ExternalSubset(void *ctx, const xmlChar *name,
 	oldencoding = ctxt->encoding;
 	ctxt->encoding = NULL;
 
-	ctxt->inputTab = (xmlParserInputPtr *)
-	                 xmlMalloc(5 * sizeof(xmlParserInputPtr));
+	ctxt->inputTab = xmlMalloc(5 * sizeof(xmlParserInputPtr));
 	if (ctxt->inputTab == NULL) {
 	    xmlSAX2ErrMemory(ctxt, "xmlSAX2ExternalSubset");
 	    ctxt->input = oldinput;
@@ -1839,7 +1838,7 @@ xmlSAX2TextNode(xmlParserCtxtPtr ctxt, const xmlChar *str, int len) {
 	ctxt->freeElems = ret->next;
 	ctxt->freeElemsNr--;
     } else {
-	ret = (xmlNodePtr) xmlMalloc(sizeof(xmlNode));
+	ret = xmlMalloc(sizeof(xmlNode));
     }
     if (ret == NULL) {
         xmlErrMemory(ctxt, "xmlSAX2Characters");
@@ -2583,7 +2582,7 @@ xmlSAX2Characters(void *ctx, const xmlChar *ch, int len)
 
 		size = ctxt->nodemem + len;
 		size *= 2;
-                newbuf = (xmlChar *) xmlRealloc(lastChild->content,size);
+                newbuf = xmlRealloc(lastChild->content, size);
 		if (newbuf == NULL) {
 		    xmlSAX2ErrMemory(ctxt, "xmlSAX2Characters");
 		    return;

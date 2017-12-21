@@ -1596,7 +1596,7 @@ libxml_buildMessage(const char *msg, va_list ap)
     int chars;
     char *str;
 
-    str = (char *) xmlMalloc(1000);
+    str = xmlMalloc(1000);
     if (str == NULL)
         return NULL;
 
@@ -2120,7 +2120,7 @@ libxml_xmlTextReaderSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
     /* set new error handler */
     if (pyobj_f != Py_None)
     {
-	pyCtxt = (xmlTextReaderPyCtxtPtr)xmlMalloc(sizeof(xmlTextReaderPyCtxt));
+	pyCtxt = xmlMalloc(sizeof(xmlTextReaderPyCtxt));
 	if (pyCtxt == NULL) {
 	    py_retval = libxml_intWrap(-1);
 	    return(py_retval);
@@ -2310,8 +2310,7 @@ libxml_xpathCallbacksInitialize(void)
 #ifdef DEBUG_XPATH
     printf("libxml_xpathCallbacksInitialized called\n");
 #endif
-    libxml_xpathCallbacks = (libxml_xpathCallbackArray*)xmlMalloc(
-    		libxml_xpathCallbacksAllocd*sizeof(libxml_xpathCallback));
+    libxml_xpathCallbacks = xmlMalloc(libxml_xpathCallbacksAllocd * sizeof(libxml_xpathCallback));
 
     for (i = 0; i < libxml_xpathCallbacksAllocd; i++) {
 			(*libxml_xpathCallbacks)[i].ctx = NULL;
@@ -2366,9 +2365,8 @@ libxml_xmlRegisterXPathFunction(ATTRIBUTE_UNUSED PyObject * self,
     }
     if (libxml_xpathCallbacksNb >= libxml_xpathCallbacksAllocd) {
 			libxml_xpathCallbacksAllocd+=10;
-	libxml_xpathCallbacks = (libxml_xpathCallbackArray*)xmlRealloc(
-		libxml_xpathCallbacks,
-		libxml_xpathCallbacksAllocd*sizeof(libxml_xpathCallback));
+	libxml_xpathCallbacks = xmlRealloc(libxml_xpathCallbacks,
+                                           libxml_xpathCallbacksAllocd * sizeof(libxml_xpathCallback));
     } 
     i = libxml_xpathCallbacksNb++;
     Py_XINCREF(pyobj_f);
@@ -3503,7 +3501,7 @@ PyxmlNodeSet_Convert(PyObject *py_nodeset, xmlNodeSetPtr *result)
         return -1;
     }
 
-    nodeSet = (xmlNodeSetPtr) xmlMalloc(sizeof(xmlNodeSet));
+    nodeSet = xmlMalloc(sizeof(xmlNodeSet));
     if (nodeSet == NULL) {
         PyErr_SetString(PyExc_MemoryError, "");
         return -1;
@@ -3514,8 +3512,7 @@ PyxmlNodeSet_Convert(PyObject *py_nodeset, xmlNodeSetPtr *result)
                         ? PyTuple_GET_SIZE(py_nodeset)
                         : PyList_GET_SIZE(py_nodeset));
     nodeSet->nodeTab
-        = (xmlNodePtr *) xmlMalloc (nodeSet->nodeMax
-                                    * sizeof(xmlNodePtr));
+        = xmlMalloc(nodeSet->nodeMax * sizeof(xmlNodePtr));
     if (nodeSet->nodeTab == NULL) {
         free(nodeSet);
         PyErr_SetString(PyExc_MemoryError, "");
@@ -3568,7 +3565,7 @@ PystringSet_Convert(PyObject *py_strings, xmlChar *** result)
              ? PyTuple_GET_SIZE(py_strings)
              : PyList_GET_SIZE(py_strings));
 
-    strings = (xmlChar **) xmlMalloc(sizeof(xmlChar *) * count);
+    strings = xmlMalloc(sizeof(xmlChar *) * count);
 
     if (strings == NULL) {
         PyErr_SetString(PyExc_MemoryError, "");

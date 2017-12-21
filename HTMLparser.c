@@ -171,10 +171,8 @@ htmlnamePush(htmlParserCtxtPtr ctxt, const xmlChar * value)
         ctxt->html = 10;
     if (ctxt->nameNr >= ctxt->nameMax) {
         ctxt->nameMax *= 2;
-        ctxt->nameTab = (const xmlChar * *)
-                         xmlRealloc((xmlChar * *)ctxt->nameTab,
-                                    ctxt->nameMax *
-                                    sizeof(ctxt->nameTab[0]));
+        ctxt->nameTab = xmlRealloc((xmlChar **)ctxt->nameTab,
+                                   ctxt->nameMax * sizeof(ctxt->nameTab[0]));
         if (ctxt->nameTab == NULL) {
             htmlErrMemory(ctxt, NULL);
             return (0);
@@ -227,10 +225,8 @@ htmlNodeInfoPush(htmlParserCtxtPtr ctxt, htmlParserNodeInfo *value)
         if (ctxt->nodeInfoMax == 0)
                 ctxt->nodeInfoMax = 5;
         ctxt->nodeInfoMax *= 2;
-        ctxt->nodeInfoTab = (htmlParserNodeInfo *)
-                         xmlRealloc((htmlParserNodeInfo *)ctxt->nodeInfoTab,
-                                    ctxt->nodeInfoMax *
-                                    sizeof(ctxt->nodeInfoTab[0]));
+        ctxt->nodeInfoTab = xmlRealloc((htmlParserNodeInfo *)ctxt->nodeInfoTab,
+                                       ctxt->nodeInfoMax * sizeof(ctxt->nodeInfoTab[0]));
         if (ctxt->nodeInfoTab == NULL) {
             htmlErrMemory(ctxt, NULL);
             return (0);
@@ -1909,7 +1905,7 @@ static const htmlEntityDesc  html40EntitiesTable[] = {
 #define growBuffer(buffer) {						\
     xmlChar *tmp;							\
     buffer##_size *= 2;							\
-    tmp = (xmlChar *) xmlRealloc(buffer, buffer##_size * sizeof(xmlChar)); \
+    tmp = xmlRealloc(buffer, buffer##_size * sizeof(xmlChar)); \
     if (tmp == NULL) {						\
 	htmlErrMemory(ctxt, "growing buffer\n");			\
 	free(buffer);						\
@@ -2185,7 +2181,7 @@ static htmlParserInputPtr
 htmlNewInputStream(htmlParserCtxtPtr ctxt) {
     htmlParserInputPtr input;
 
-    input = (xmlParserInputPtr) xmlMalloc(sizeof(htmlParserInput));
+    input = xmlMalloc(sizeof(htmlParserInput));
     if (input == NULL) {
         htmlErrMemory(ctxt, "couldn't allocate a new input stream\n");
 	return(NULL);
@@ -2311,7 +2307,7 @@ htmlNewDocNoDtD(const xmlChar *URI, const xmlChar *ExternalID) {
     /*
      * Allocate a new document and fill the fields.
      */
-    cur = (xmlDocPtr) xmlMalloc(sizeof(xmlDoc));
+    cur = xmlMalloc(sizeof(xmlDoc));
     if (cur == NULL) {
 	htmlErrMemory(NULL, "HTML document creation failed\n");
 	return(NULL);
@@ -2561,7 +2557,7 @@ htmlParseHTMLAttribute(htmlParserCtxtPtr ctxt, const xmlChar stop) {
      * allocate a translation buffer.
      */
     buffer_size = HTML_PARSER_BUFFER_SIZE;
-    buffer = (xmlChar *) xmlMallocAtomic(buffer_size * sizeof(xmlChar));
+    buffer = xmlMalloc(buffer_size * sizeof(xmlChar));
     if (buffer == NULL) {
 	htmlErrMemory(ctxt, "buffer allocation failed\n");
 	return(NULL);
@@ -3211,7 +3207,7 @@ htmlParsePI(htmlParserCtxtPtr ctxt) {
 		ctxt->instate = state;
 		return;
 	    }
-	    buf = (xmlChar *) xmlMallocAtomic(size * sizeof(xmlChar));
+	    buf = xmlMalloc(size * sizeof(xmlChar));
 	    if (buf == NULL) {
 		htmlErrMemory(ctxt, NULL);
 		ctxt->instate = state;
@@ -3229,7 +3225,7 @@ htmlParsePI(htmlParserCtxtPtr ctxt) {
 		    xmlChar *tmp;
 
 		    size *= 2;
-		    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
+		    tmp = xmlRealloc(buf, size * sizeof(xmlChar));
 		    if (tmp == NULL) {
 			htmlErrMemory(ctxt, NULL);
 			free(buf);
@@ -3304,7 +3300,7 @@ htmlParseComment(htmlParserCtxtPtr ctxt) {
     ctxt->instate = XML_PARSER_COMMENT;
     SHRINK;
     SKIP(4);
-    buf = (xmlChar *) xmlMallocAtomic(size * sizeof(xmlChar));
+    buf = xmlMalloc(size * sizeof(xmlChar));
     if (buf == NULL) {
         htmlErrMemory(ctxt, "buffer allocation failed\n");
 	ctxt->instate = state;
@@ -3328,7 +3324,7 @@ htmlParseComment(htmlParserCtxtPtr ctxt) {
 	    xmlChar *tmp;
 
 	    size *= 2;
-	    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
+	    tmp = xmlRealloc(buf, size * sizeof(xmlChar));
 	    if (tmp == NULL) {
 	        free(buf);
 	        htmlErrMemory(ctxt, "growing buffer failed\n");
@@ -3852,8 +3848,7 @@ htmlParseStartTag(htmlParserCtxtPtr ctxt) {
 	     */
 	    if (atts == NULL) {
 	        maxatts = 22; /* allow for 10 attrs by default */
-	        atts = (const xmlChar **)
-		       xmlMalloc(maxatts * sizeof(xmlChar *));
+	        atts = xmlMalloc(maxatts * sizeof(xmlChar *));
 		if (atts == NULL) {
 		    htmlErrMemory(ctxt, NULL);
 		    free(attvalue);
@@ -3865,8 +3860,8 @@ htmlParseStartTag(htmlParserCtxtPtr ctxt) {
 	        const xmlChar **n;
 
 	        maxatts *= 2;
-	        n = (const xmlChar **) xmlRealloc((void *) atts,
-					     maxatts * sizeof(const xmlChar *));
+	        n = xmlRealloc((void *)atts,
+                               maxatts * sizeof(const xmlChar *));
 		if (n == NULL) {
 		    htmlErrMemory(ctxt, NULL);
 		    free(attvalue);
@@ -4857,7 +4852,7 @@ htmlInitParserCtxt(htmlParserCtxtPtr ctxt)
         htmlErrMemory(NULL, "htmlInitParserCtxt: out of memory\n");
 	return(-1);
     }
-    sax = (htmlSAXHandler *) xmlMalloc(sizeof(htmlSAXHandler));
+    sax = xmlMalloc(sizeof(htmlSAXHandler));
     if (sax == NULL) {
         htmlErrMemory(NULL, "htmlInitParserCtxt: out of memory\n");
 	return(-1);
@@ -4866,8 +4861,7 @@ htmlInitParserCtxt(htmlParserCtxtPtr ctxt)
         memset(sax, 0, sizeof(htmlSAXHandler));
 
     /* Allocate the Input stack */
-    ctxt->inputTab = (htmlParserInputPtr *)
-                      xmlMalloc(5 * sizeof(htmlParserInputPtr));
+    ctxt->inputTab = xmlMalloc(5 * sizeof(htmlParserInputPtr));
     if (ctxt->inputTab == NULL) {
         htmlErrMemory(NULL, "htmlInitParserCtxt: out of memory\n");
 	ctxt->inputNr = 0;
@@ -4884,7 +4878,7 @@ htmlInitParserCtxt(htmlParserCtxtPtr ctxt)
     ctxt->instate = XML_PARSER_START;
 
     /* Allocate the Node stack */
-    ctxt->nodeTab = (htmlNodePtr *) xmlMalloc(10 * sizeof(htmlNodePtr));
+    ctxt->nodeTab = xmlMalloc(10 * sizeof(htmlNodePtr));
     if (ctxt->nodeTab == NULL) {
         htmlErrMemory(NULL, "htmlInitParserCtxt: out of memory\n");
 	ctxt->nodeNr = 0;
@@ -4900,7 +4894,7 @@ htmlInitParserCtxt(htmlParserCtxtPtr ctxt)
     ctxt->node = NULL;
 
     /* Allocate the Name stack */
-    ctxt->nameTab = (const xmlChar **) xmlMalloc(10 * sizeof(xmlChar *));
+    ctxt->nameTab = xmlMalloc(10 * sizeof(xmlChar *));
     if (ctxt->nameTab == NULL) {
         htmlErrMemory(NULL, "htmlInitParserCtxt: out of memory\n");
 	ctxt->nameNr = 0;
@@ -4974,7 +4968,7 @@ htmlNewParserCtxt(void)
 {
     xmlParserCtxtPtr ctxt;
 
-    ctxt = (xmlParserCtxtPtr) xmlMalloc(sizeof(xmlParserCtxt));
+    ctxt = xmlMalloc(sizeof(xmlParserCtxt));
     if (ctxt == NULL) {
         htmlErrMemory(NULL, "NewParserCtxt: out of memory\n");
 	return(NULL);
@@ -6197,7 +6191,7 @@ htmlCreatePushParserCtxt(htmlSAXHandlerPtr sax, void *user_data,
     if (sax != NULL) {
 	if (ctxt->sax != (xmlSAXHandlerPtr) &htmlDefaultSAXHandler)
 	    free(ctxt->sax);
-	ctxt->sax = (htmlSAXHandlerPtr) xmlMalloc(sizeof(htmlSAXHandler));
+	ctxt->sax = xmlMalloc(sizeof(htmlSAXHandler));
 	if (ctxt->sax == NULL) {
 	    free(buf);
 	    free(ctxt);
@@ -6361,7 +6355,7 @@ htmlCreateFileParserCtxt(const char *filename, const char *encoding)
         size_t l = strlen(encoding);
 
 	if (l < 1000) {
-	    content = xmlMallocAtomic (xmlStrlen(content_line) + l + 1);
+	    content = xmlMalloc(xmlStrlen(content_line) + l + 1);
 	    if (content) {
 		strcpy ((char *)content, (char *)content_line);
 		strcat ((char *)content, (char *)encoding);

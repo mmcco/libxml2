@@ -379,7 +379,7 @@ xmlNewSaveCtxt(const char *encoding, int options)
 {
     xmlSaveCtxtPtr ret;
 
-    ret = (xmlSaveCtxtPtr) xmlMalloc(sizeof(xmlSaveCtxt));
+    ret = xmlMalloc(sizeof(xmlSaveCtxt));
     if (ret == NULL) {
 	xmlSaveErrMemory("creating saving context");
 	return ( NULL );
@@ -2258,7 +2258,7 @@ xmlBufNodeDump(xmlBufPtr buf, xmlDocPtr doc, xmlNodePtr cur, int level,
 #endif
         return (-1);
     }
-    outbuf = (xmlOutputBufferPtr) xmlMalloc(sizeof(xmlOutputBuffer));
+    outbuf = xmlMalloc(sizeof(xmlOutputBuffer));
     if (outbuf == NULL) {
         xmlSaveErrMemory("creating buffer");
         return (-1);

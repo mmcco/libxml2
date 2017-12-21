@@ -384,7 +384,7 @@ static xmlNanoHTTPCtxtPtr
 xmlNanoHTTPNewCtxt(const char *URL) {
     xmlNanoHTTPCtxtPtr ret;
 
-    ret = (xmlNanoHTTPCtxtPtr) xmlMalloc(sizeof(xmlNanoHTTPCtxt));
+    ret = xmlMalloc(sizeof(xmlNanoHTTPCtxt));
     if (ret == NULL) {
         xmlHTTPErrMemory("allocating context");
         return(NULL);
@@ -1416,7 +1416,7 @@ retry:
 	else
 	    blen += 11;
     }
-    bp = (char*)xmlMallocAtomic(blen);
+    bp = xmlMalloc(blen);
     if ( bp == NULL ) {
         xmlNanoHTTPFreeCtxt( ctxt );
 	xmlHTTPErrMemory("allocating header buffer");

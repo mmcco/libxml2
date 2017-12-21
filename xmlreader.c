@@ -598,8 +598,7 @@ xmlTextReaderEntPush(xmlTextReaderPtr reader, xmlNodePtr value)
 {
     if (reader->entMax <= 0) {
 	reader->entMax = 10;
-	reader->entTab = (xmlNodePtr *) xmlMalloc(reader->entMax *
-		                                  sizeof(reader->entTab[0]));
+	reader->entTab = xmlMalloc(reader->entMax * sizeof(reader->entTab[0]));
         if (reader->entTab == NULL) {
             xmlGenericError(xmlGenericErrorContext, "xmlMalloc failed !\n");
             return (0);
@@ -608,9 +607,8 @@ xmlTextReaderEntPush(xmlTextReaderPtr reader, xmlNodePtr value)
     if (reader->entNr >= reader->entMax) {
         reader->entMax *= 2;
         reader->entTab =
-            (xmlNodePtr *) xmlRealloc(reader->entTab,
-                                      reader->entMax *
-                                      sizeof(reader->entTab[0]));
+            xmlRealloc(reader->entTab,
+                       reader->entMax * sizeof(reader->entTab[0]));
         if (reader->entTab == NULL) {
             xmlGenericError(xmlGenericErrorContext, "xmlRealloc failed !\n");
             return (0);
@@ -2091,7 +2089,7 @@ xmlNewTextReader(xmlParserInputBufferPtr input, const char *URI) {
     /* no operation on a reader should require a huge buffer */
     xmlBufSetAllocationScheme(ret->buffer,
 			      XML_BUFFER_ALLOC_BOUNDED);
-    ret->sax = (xmlSAXHandler *) xmlMalloc(sizeof(xmlSAXHandler));
+    ret->sax = xmlMalloc(sizeof(xmlSAXHandler));
     if (ret->sax == NULL) {
 	xmlBufFree(ret->buffer);
 	free(ret);
@@ -3988,8 +3986,7 @@ xmlTextReaderPreservePattern(xmlTextReaderPtr reader, const xmlChar *pattern,
 
     if (reader->patternMax <= 0) {
 	reader->patternMax = 4;
-	reader->patternTab = (xmlPatternPtr *) xmlMalloc(reader->patternMax *
-					      sizeof(reader->patternTab[0]));
+	reader->patternTab = xmlMalloc(reader->patternMax * sizeof(reader->patternTab[0]));
         if (reader->patternTab == NULL) {
             xmlGenericError(xmlGenericErrorContext, "xmlMalloc failed !\n");
             return (-1);
@@ -3998,9 +3995,8 @@ xmlTextReaderPreservePattern(xmlTextReaderPtr reader, const xmlChar *pattern,
     if (reader->patternNr >= reader->patternMax) {
         xmlPatternPtr *tmp;
         reader->patternMax *= 2;
-	tmp = (xmlPatternPtr *) xmlRealloc(reader->patternTab,
-                                      reader->patternMax *
-                                      sizeof(reader->patternTab[0]));
+	tmp = xmlRealloc(reader->patternTab,
+                         reader->patternMax * sizeof(reader->patternTab[0]));
         if (tmp == NULL) {
             xmlGenericError(xmlGenericErrorContext, "xmlRealloc failed !\n");
 	    reader->patternMax /= 2;
@@ -4729,7 +4725,7 @@ xmlTextReaderBuildMessage(const char *msg, va_list ap) {
 	size = chars + 1;
 	else
 		size = MAX_ERR_MSG_SIZE;
-        if ((larger = (char *) xmlRealloc(str, size)) == NULL) {
+        if ((larger = xmlRealloc(str, size)) == NULL) {
 	    xmlGenericError(xmlGenericErrorContext, "xmlRealloc failed !\n");
             free(str);
             return NULL;
@@ -5141,7 +5137,7 @@ xmlTextReaderSetup(xmlTextReaderPtr reader,
     xmlBufSetAllocationScheme(reader->buffer,
 			      XML_BUFFER_ALLOC_BOUNDED);
     if (reader->sax == NULL)
-	reader->sax = (xmlSAXHandler *) xmlMalloc(sizeof(xmlSAXHandler));
+	reader->sax = xmlMalloc(sizeof(xmlSAXHandler));
     if (reader->sax == NULL) {
         xmlGenericError(xmlGenericErrorContext,
                         "xmlTextReaderSetup : malloc failed\n");

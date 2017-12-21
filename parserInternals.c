@@ -1351,7 +1351,7 @@ xmlParserInputPtr
 xmlNewInputStream(xmlParserCtxtPtr ctxt) {
     xmlParserInputPtr input;
 
-    input = (xmlParserInputPtr) xmlMalloc(sizeof(xmlParserInput));
+    input = xmlMalloc(sizeof(xmlParserInput));
     if (input == NULL) {
         xmlErrMemory(ctxt,  "couldn't allocate a new input stream\n");
 	return(NULL);
@@ -1595,7 +1595,7 @@ xmlInitParserCtxt(xmlParserCtxtPtr ctxt)
     xmlDictSetLimit(ctxt->dict, XML_MAX_DICTIONARY_LIMIT);
 
     if (ctxt->sax == NULL)
-	ctxt->sax = (xmlSAXHandler *) xmlMalloc(sizeof(xmlSAXHandler));
+	ctxt->sax = xmlMalloc(sizeof(xmlSAXHandler));
     if (ctxt->sax == NULL) {
         xmlErrMemory(NULL, "cannot initialize parser context\n");
 	return(-1);
@@ -1607,8 +1607,7 @@ xmlInitParserCtxt(xmlParserCtxtPtr ctxt)
     ctxt->atts = NULL;
     /* Allocate the Input stack */
     if (ctxt->inputTab == NULL) {
-	ctxt->inputTab = (xmlParserInputPtr *)
-		    xmlMalloc(5 * sizeof(xmlParserInputPtr));
+	ctxt->inputTab = xmlMalloc(5 * sizeof(xmlParserInputPtr));
 	ctxt->inputMax = 5;
     }
     if (ctxt->inputTab == NULL) {
@@ -1637,7 +1636,7 @@ xmlInitParserCtxt(xmlParserCtxtPtr ctxt)
 
     /* Allocate the Node stack */
     if (ctxt->nodeTab == NULL) {
-	ctxt->nodeTab = (xmlNodePtr *) xmlMalloc(10 * sizeof(xmlNodePtr));
+	ctxt->nodeTab = xmlMalloc(10 * sizeof(xmlNodePtr));
 	ctxt->nodeMax = 10;
     }
     if (ctxt->nodeTab == NULL) {
@@ -1655,7 +1654,7 @@ xmlInitParserCtxt(xmlParserCtxtPtr ctxt)
 
     /* Allocate the Name stack */
     if (ctxt->nameTab == NULL) {
-	ctxt->nameTab = (const xmlChar **) xmlMalloc(10 * sizeof(xmlChar *));
+	ctxt->nameTab = xmlMalloc(10 * sizeof(xmlChar *));
 	ctxt->nameMax = 10;
     }
     if (ctxt->nameTab == NULL) {
@@ -1676,7 +1675,7 @@ xmlInitParserCtxt(xmlParserCtxtPtr ctxt)
 
     /* Allocate the space stack */
     if (ctxt->spaceTab == NULL) {
-	ctxt->spaceTab = (int *) xmlMalloc(10 * sizeof(int));
+	ctxt->spaceTab = xmlMalloc(10 * sizeof(int));
 	ctxt->spaceMax = 10;
     }
     if (ctxt->spaceTab == NULL) {
@@ -1844,7 +1843,7 @@ xmlNewParserCtxt(void)
 {
     xmlParserCtxtPtr ctxt;
 
-    ctxt = (xmlParserCtxtPtr) xmlMalloc(sizeof(xmlParserCtxt));
+    ctxt = xmlMalloc(sizeof(xmlParserCtxt));
     if (ctxt == NULL) {
 	xmlErrMemory(NULL, "cannot allocate parser context\n");
 	return(NULL);
@@ -2019,11 +2018,10 @@ xmlParserAddNodeInfo(xmlParserCtxtPtr ctxt,
 			(2 * ctxt->node_seq.maximum));
 
             if (ctxt->node_seq.buffer == NULL)
-                tmp_buffer = (xmlParserNodeInfo *) xmlMalloc(byte_size);
+                tmp_buffer = xmlMalloc(byte_size);
             else
                 tmp_buffer =
-                    (xmlParserNodeInfo *) xmlRealloc(ctxt->node_seq.buffer,
-                                                     byte_size);
+                    xmlRealloc(ctxt->node_seq.buffer, byte_size);
 
             if (tmp_buffer == NULL) {
 		xmlErrMemory(ctxt, "failed to allocate buffer\n");

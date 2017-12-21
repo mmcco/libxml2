@@ -282,7 +282,7 @@ static xmlC14NVisibleNsStackPtr
 xmlC14NVisibleNsStackCreate(void) {
     xmlC14NVisibleNsStackPtr ret;
 
-    ret = (xmlC14NVisibleNsStackPtr) xmlMalloc(sizeof(xmlC14NVisibleNsStack));
+    ret = xmlMalloc(sizeof(xmlC14NVisibleNsStack));
     if (ret == NULL) {
         xmlC14NErrMemory("creating namespaces stack");
 	return(NULL);
@@ -320,8 +320,8 @@ xmlC14NVisibleNsStackAdd(xmlC14NVisibleNsStackPtr cur, xmlNsPtr ns, xmlNodePtr n
     }
 
     if ((cur->nsTab == NULL) && (cur->nodeTab == NULL)) {
-        cur->nsTab = (xmlNsPtr*) xmlMalloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNsPtr));
-        cur->nodeTab = (xmlNodePtr*) xmlMalloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNodePtr));
+        cur->nsTab = xmlMalloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNsPtr));
+        cur->nodeTab = xmlMalloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNodePtr));
 	if ((cur->nsTab == NULL) || (cur->nodeTab == NULL)) {
 	    xmlC14NErrMemory("adding node to stack");
 	    return;
@@ -1797,7 +1797,7 @@ xmlC14NNewCtx(xmlDocPtr doc,
     /*
      * Allocate a new xmlC14NCtxPtr and fill the fields.
      */
-    ctx = (xmlC14NCtxPtr) xmlMalloc(sizeof(xmlC14NCtx));
+    ctx = xmlMalloc(sizeof(xmlC14NCtx));
     if (ctx == NULL) {
 	xmlC14NErrMemory("creating context");
         return (NULL);
@@ -2116,8 +2116,7 @@ xmlC14NDocSave(xmlDocPtr doc, xmlNodeSetPtr nodes,
  */
 #define growBufferReentrant() {						\
     buffer_size *= 2;							\
-    buffer = (xmlChar *)						\
-		xmlRealloc(buffer, buffer_size * sizeof(xmlChar));	\
+    buffer = xmlRealloc(buffer, buffer_size * sizeof(xmlChar));	\
     if (buffer == NULL) {						\
 	xmlC14NErrMemory("growing buffer");				\
 	return(NULL);							\
@@ -2152,7 +2151,7 @@ xmlC11NNormalizeString(const xmlChar * input,
      * allocate an translation buffer.
      */
     buffer_size = 1000;
-    buffer = (xmlChar *) xmlMallocAtomic(buffer_size * sizeof(xmlChar));
+    buffer = xmlMalloc(buffer_size * sizeof(xmlChar));
     if (buffer == NULL) {
 	xmlC14NErrMemory("allocating buffer");
         return (NULL);

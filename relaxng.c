@@ -759,7 +759,7 @@ xmlRelaxNGNewRelaxNG(xmlRelaxNGParserCtxtPtr ctxt)
 {
     xmlRelaxNGPtr ret;
 
-    ret = (xmlRelaxNGPtr) xmlMalloc(sizeof(xmlRelaxNG));
+    ret = xmlMalloc(sizeof(xmlRelaxNG));
     if (ret == NULL) {
         xmlRngPErrMemory(ctxt, NULL);
         return (NULL);
@@ -838,7 +838,7 @@ xmlRelaxNGNewGrammar(xmlRelaxNGParserCtxtPtr ctxt)
 {
     xmlRelaxNGGrammarPtr ret;
 
-    ret = (xmlRelaxNGGrammarPtr) xmlMalloc(sizeof(xmlRelaxNGGrammar));
+    ret = xmlMalloc(sizeof(xmlRelaxNGGrammar));
     if (ret == NULL) {
         xmlRngPErrMemory(ctxt, NULL);
         return (NULL);
@@ -893,8 +893,7 @@ xmlRelaxNGNewDefine(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
     if (ctxt->defMax == 0) {
         ctxt->defMax = 16;
         ctxt->defNr = 0;
-        ctxt->defTab = (xmlRelaxNGDefinePtr *)
-            xmlMalloc(ctxt->defMax * sizeof(xmlRelaxNGDefinePtr));
+        ctxt->defTab = xmlMalloc(ctxt->defMax * sizeof(xmlRelaxNGDefinePtr));
         if (ctxt->defTab == NULL) {
             xmlRngPErrMemory(ctxt, "allocating define\n");
             return (NULL);
@@ -903,17 +902,15 @@ xmlRelaxNGNewDefine(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
         xmlRelaxNGDefinePtr *tmp;
 
         ctxt->defMax *= 2;
-        tmp = (xmlRelaxNGDefinePtr *) xmlRealloc(ctxt->defTab,
-                                                 ctxt->defMax *
-                                                 sizeof
-                                                 (xmlRelaxNGDefinePtr));
+        tmp = xmlRealloc(ctxt->defTab,
+                         ctxt->defMax * sizeof(xmlRelaxNGDefinePtr));
         if (tmp == NULL) {
             xmlRngPErrMemory(ctxt, "allocating define\n");
             return (NULL);
         }
         ctxt->defTab = tmp;
     }
-    ret = (xmlRelaxNGDefinePtr) xmlMalloc(sizeof(xmlRelaxNGDefine));
+    ret = xmlMalloc(sizeof(xmlRelaxNGDefine));
     if (ret == NULL) {
         xmlRngPErrMemory(ctxt, "allocating define\n");
         return (NULL);
@@ -1011,19 +1008,14 @@ xmlRelaxNGNewStates(xmlRelaxNGValidCtxtPtr ctxt, int size)
     if (size < 16)
         size = 16;
 
-    ret = (xmlRelaxNGStatesPtr) xmlMalloc(sizeof(xmlRelaxNGStates) +
-                                          (size -
-                                           1) *
-                                          sizeof(xmlRelaxNGValidStatePtr));
+    ret = xmlMalloc(sizeof(xmlRelaxNGStates) + (size - 1) * sizeof(xmlRelaxNGValidStatePtr));
     if (ret == NULL) {
         xmlRngVErrMemory(ctxt, "allocating states\n");
         return (NULL);
     }
     ret->nbState = 0;
     ret->maxState = size;
-    ret->tabState = (xmlRelaxNGValidStatePtr *) xmlMalloc((size) *
-                                                          sizeof
-                                                          (xmlRelaxNGValidStatePtr));
+    ret->tabState = xmlMalloc((size) * sizeof(xmlRelaxNGValidStatePtr));
     if (ret->tabState == NULL) {
         xmlRngVErrMemory(ctxt, "allocating states\n");
         free(ret);
@@ -1056,10 +1048,8 @@ xmlRelaxNGAddStatesUniq(xmlRelaxNGValidCtxtPtr ctxt,
         int size;
 
         size = states->maxState * 2;
-        tmp = (xmlRelaxNGValidStatePtr *) xmlRealloc(states->tabState,
-                                                     (size) *
-                                                     sizeof
-                                                     (xmlRelaxNGValidStatePtr));
+        tmp = xmlRealloc(states->tabState,
+                         (size) * sizeof(xmlRelaxNGValidStatePtr));
         if (tmp == NULL) {
             xmlRngVErrMemory(ctxt, "adding states\n");
             return (-1);
@@ -1096,10 +1086,8 @@ xmlRelaxNGAddStates(xmlRelaxNGValidCtxtPtr ctxt,
         int size;
 
         size = states->maxState * 2;
-        tmp = (xmlRelaxNGValidStatePtr *) xmlRealloc(states->tabState,
-                                                     (size) *
-                                                     sizeof
-                                                     (xmlRelaxNGValidStatePtr));
+        tmp = xmlRealloc(states->tabState,
+                         (size) * sizeof(xmlRelaxNGValidStatePtr));
         if (tmp == NULL) {
             xmlRngVErrMemory(ctxt, "adding states\n");
             return (-1);
@@ -1133,8 +1121,7 @@ xmlRelaxNGFreeStates(xmlRelaxNGValidCtxtPtr ctxt,
     if ((ctxt != NULL) && (ctxt->freeStates == NULL)) {
         ctxt->freeStatesMax = 40;
         ctxt->freeStatesNr = 0;
-        ctxt->freeStates = (xmlRelaxNGStatesPtr *)
-            xmlMalloc(ctxt->freeStatesMax * sizeof(xmlRelaxNGStatesPtr));
+        ctxt->freeStates = xmlMalloc(ctxt->freeStatesMax * sizeof(xmlRelaxNGStatesPtr));
         if (ctxt->freeStates == NULL) {
             xmlRngVErrMemory(ctxt, "storing states\n");
         }
@@ -1142,10 +1129,8 @@ xmlRelaxNGFreeStates(xmlRelaxNGValidCtxtPtr ctxt,
                && (ctxt->freeStatesNr >= ctxt->freeStatesMax)) {
         xmlRelaxNGStatesPtr *tmp;
 
-        tmp = (xmlRelaxNGStatesPtr *) xmlRealloc(ctxt->freeStates,
-                                                 2 * ctxt->freeStatesMax *
-                                                 sizeof
-                                                 (xmlRelaxNGStatesPtr));
+        tmp = xmlRealloc(ctxt->freeStates,
+                         2 * ctxt->freeStatesMax * sizeof(xmlRelaxNGStatesPtr));
         if (tmp == NULL) {
             xmlRngVErrMemory(ctxt, "storing states\n");
             free(states->tabState);
@@ -1200,7 +1185,6 @@ xmlRelaxNGNewValidState(xmlRelaxNGValidCtxtPtr ctxt, xmlNodePtr node)
         ret = ctxt->freeState->tabState[ctxt->freeState->nbState];
     } else {
         ret =
-            (xmlRelaxNGValidStatePtr)
             xmlMalloc(sizeof(xmlRelaxNGValidState));
         if (ret == NULL) {
             xmlRngVErrMemory(ctxt, "allocating states\n");
@@ -1224,8 +1208,7 @@ xmlRelaxNGNewValidState(xmlRelaxNGValidCtxtPtr ctxt, xmlNodePtr node)
                 ret->maxAttrs = 4;
             else
                 ret->maxAttrs = nbAttrs;
-            ret->attrs = (xmlAttrPtr *) xmlMalloc(ret->maxAttrs *
-                                                  sizeof(xmlAttrPtr));
+            ret->attrs = xmlMalloc(ret->maxAttrs * sizeof(xmlAttrPtr));
             if (ret->attrs == NULL) {
                 xmlRngVErrMemory(ctxt, "allocating states\n");
                 return (ret);
@@ -1233,8 +1216,7 @@ xmlRelaxNGNewValidState(xmlRelaxNGValidCtxtPtr ctxt, xmlNodePtr node)
         } else if (ret->maxAttrs < nbAttrs) {
             xmlAttrPtr *tmp;
 
-            tmp = (xmlAttrPtr *) xmlRealloc(ret->attrs, nbAttrs *
-                                            sizeof(xmlAttrPtr));
+            tmp = xmlRealloc(ret->attrs, nbAttrs * sizeof(xmlAttrPtr));
             if (tmp == NULL) {
                 xmlRngVErrMemory(ctxt, "allocating states\n");
                 return (ret);
@@ -1282,7 +1264,6 @@ xmlRelaxNGCopyValidState(xmlRelaxNGValidCtxtPtr ctxt,
         ret = ctxt->freeState->tabState[ctxt->freeState->nbState];
     } else {
         ret =
-            (xmlRelaxNGValidStatePtr)
             xmlMalloc(sizeof(xmlRelaxNGValidState));
         if (ret == NULL) {
             xmlRngVErrMemory(ctxt, "allocating states\n");
@@ -1298,8 +1279,7 @@ xmlRelaxNGCopyValidState(xmlRelaxNGValidCtxtPtr ctxt,
     if (state->nbAttrs > 0) {
         if (ret->attrs == NULL) {
             ret->maxAttrs = state->maxAttrs;
-            ret->attrs = (xmlAttrPtr *) xmlMalloc(ret->maxAttrs *
-                                                  sizeof(xmlAttrPtr));
+            ret->attrs = xmlMalloc(ret->maxAttrs * sizeof(xmlAttrPtr));
             if (ret->attrs == NULL) {
                 xmlRngVErrMemory(ctxt, "allocating states\n");
                 ret->nbAttrs = 0;
@@ -1308,8 +1288,7 @@ xmlRelaxNGCopyValidState(xmlRelaxNGValidCtxtPtr ctxt,
         } else if (ret->maxAttrs < state->nbAttrs) {
             xmlAttrPtr *tmp;
 
-            tmp = (xmlAttrPtr *) xmlRealloc(ret->attrs, state->maxAttrs *
-                                            sizeof(xmlAttrPtr));
+            tmp = xmlRealloc(ret->attrs, state->maxAttrs * sizeof(xmlAttrPtr));
             if (tmp == NULL) {
                 xmlRngVErrMemory(ctxt, "allocating states\n");
                 ret->nbAttrs = 0;
@@ -1446,8 +1425,7 @@ xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr ctxt,
         ctxt->incMax = 4;
         ctxt->incNr = 0;
         ctxt->incTab =
-            (xmlRelaxNGIncludePtr *) xmlMalloc(ctxt->incMax *
-                                               sizeof(ctxt->incTab[0]));
+            xmlMalloc(ctxt->incMax * sizeof(ctxt->incTab[0]));
         if (ctxt->incTab == NULL) {
             xmlRngPErrMemory(ctxt, "allocating include\n");
             return (0);
@@ -1456,9 +1434,7 @@ xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr ctxt,
     if (ctxt->incNr >= ctxt->incMax) {
         ctxt->incMax *= 2;
         ctxt->incTab =
-            (xmlRelaxNGIncludePtr *) xmlRealloc(ctxt->incTab,
-                                                ctxt->incMax *
-                                                sizeof(ctxt->incTab[0]));
+            xmlRealloc(ctxt->incTab, ctxt->incMax * sizeof(ctxt->incTab[0]));
         if (ctxt->incTab == NULL) {
             xmlRngPErrMemory(ctxt, "allocating include\n");
             return (0);
@@ -1624,7 +1600,7 @@ xmlRelaxNGLoadInclude(xmlRelaxNGParserCtxtPtr ctxt, const xmlChar * URL,
     /*
      * Allocate the document structures and register it first.
      */
-    ret = (xmlRelaxNGIncludePtr) xmlMalloc(sizeof(xmlRelaxNGInclude));
+    ret = xmlMalloc(sizeof(xmlRelaxNGInclude));
     if (ret == NULL) {
         xmlRngPErrMemory(ctxt, "allocating include\n");
         xmlFreeDoc(doc);
@@ -1763,9 +1739,7 @@ xmlRelaxNGValidErrorPush(xmlRelaxNGValidCtxtPtr ctxt,
         ctxt->errMax = 8;
         ctxt->errNr = 0;
         ctxt->errTab =
-            (xmlRelaxNGValidErrorPtr) xmlMalloc(ctxt->errMax *
-                                                sizeof
-                                                (xmlRelaxNGValidError));
+            xmlMalloc(ctxt->errMax * sizeof(xmlRelaxNGValidError));
         if (ctxt->errTab == NULL) {
             xmlRngVErrMemory(ctxt, "pushing error\n");
             return (0);
@@ -1775,10 +1749,8 @@ xmlRelaxNGValidErrorPush(xmlRelaxNGValidCtxtPtr ctxt,
     if (ctxt->errNr >= ctxt->errMax) {
         ctxt->errMax *= 2;
         ctxt->errTab =
-            (xmlRelaxNGValidErrorPtr) xmlRealloc(ctxt->errTab,
-                                                 ctxt->errMax *
-                                                 sizeof
-                                                 (xmlRelaxNGValidError));
+            xmlRealloc(ctxt->errTab,
+                       ctxt->errMax * sizeof(xmlRelaxNGValidError));
         if (ctxt->errTab == NULL) {
             xmlRngVErrMemory(ctxt, "pushing error\n");
             return (0);
@@ -1857,8 +1829,7 @@ xmlRelaxNGDocumentPush(xmlRelaxNGParserCtxtPtr ctxt,
         ctxt->docMax = 4;
         ctxt->docNr = 0;
         ctxt->docTab =
-            (xmlRelaxNGDocumentPtr *) xmlMalloc(ctxt->docMax *
-                                                sizeof(ctxt->docTab[0]));
+            xmlMalloc(ctxt->docMax * sizeof(ctxt->docTab[0]));
         if (ctxt->docTab == NULL) {
             xmlRngPErrMemory(ctxt, "adding document\n");
             return (0);
@@ -1867,9 +1838,7 @@ xmlRelaxNGDocumentPush(xmlRelaxNGParserCtxtPtr ctxt,
     if (ctxt->docNr >= ctxt->docMax) {
         ctxt->docMax *= 2;
         ctxt->docTab =
-            (xmlRelaxNGDocumentPtr *) xmlRealloc(ctxt->docTab,
-                                                 ctxt->docMax *
-                                                 sizeof(ctxt->docTab[0]));
+            xmlRealloc(ctxt->docTab, ctxt->docMax * sizeof(ctxt->docTab[0]));
         if (ctxt->docTab == NULL) {
             xmlRngPErrMemory(ctxt, "adding document\n");
             return (0);
@@ -1951,7 +1920,7 @@ xmlRelaxNGLoadExternalRef(xmlRelaxNGParserCtxtPtr ctxt,
     /*
      * Allocate the document structures and register it first.
      */
-    ret = (xmlRelaxNGDocumentPtr) xmlMalloc(sizeof(xmlRelaxNGDocument));
+    ret = xmlMalloc(sizeof(xmlRelaxNGDocument));
     if (ret == NULL) {
         xmlRngPErr(ctxt, (xmlNodePtr) doc, XML_ERR_NO_MEMORY,
                    "xmlRelaxNG: allocate memory for doc %s\n", URL, NULL);
@@ -2753,7 +2722,6 @@ xmlRelaxNGRegisterTypeLibrary(const xmlChar * namespace, void *data,
         return (-1);
     }
     lib =
-        (xmlRelaxNGTypeLibraryPtr)
         xmlMalloc(sizeof(xmlRelaxNGTypeLibrary));
     if (lib == NULL) {
         xmlRngVErrMemory(NULL, "adding types library\n");
@@ -3989,8 +3957,7 @@ xmlRelaxNGGetElements(xmlRelaxNGParserCtxtPtr ctxt,
             ((eora == 1) && (cur->type == XML_RELAXNG_ATTRIBUTE))) {
             if (ret == NULL) {
                 max = 10;
-                ret = (xmlRelaxNGDefinePtr *)
-                    xmlMalloc((max + 1) * sizeof(xmlRelaxNGDefinePtr));
+                ret = xmlMalloc((max + 1) * sizeof(xmlRelaxNGDefinePtr));
                 if (ret == NULL) {
                     xmlRngPErrMemory(ctxt, "getting element list\n");
                     return (NULL);
@@ -4000,7 +3967,7 @@ xmlRelaxNGGetElements(xmlRelaxNGParserCtxtPtr ctxt,
 
                 max *= 2;
                 temp = xmlRealloc(ret,
-                               (max + 1) * sizeof(xmlRelaxNGDefinePtr));
+                                  (max + 1) * sizeof(xmlRelaxNGDefinePtr));
                 if (temp == NULL) {
                     xmlRngPErrMemory(ctxt, "getting element list\n");
 		    free(ret);
@@ -4096,9 +4063,7 @@ xmlRelaxNGCheckChoiceDeterminism(xmlRelaxNGParserCtxtPtr ctxt,
         cur = cur->next;
     }
 
-    list = (xmlRelaxNGDefinePtr **) xmlMalloc(nbchild *
-                                              sizeof(xmlRelaxNGDefinePtr
-                                                     *));
+    list = xmlMalloc(nbchild * sizeof(xmlRelaxNGDefinePtr *));
     if (list == NULL) {
         xmlRngPErrMemory(ctxt, "building choice\n");
         return;
@@ -4231,9 +4196,7 @@ xmlRelaxNGCheckGroupAttrs(xmlRelaxNGParserCtxtPtr ctxt,
         cur = cur->next;
     }
 
-    list = (xmlRelaxNGDefinePtr **) xmlMalloc(nbchild *
-                                              sizeof(xmlRelaxNGDefinePtr
-                                                     *));
+    list = xmlMalloc(nbchild * sizeof(xmlRelaxNGDefinePtr *));
     if (list == NULL) {
         xmlRngPErrMemory(ctxt, "building group\n");
         return;
@@ -4323,14 +4286,12 @@ xmlRelaxNGComputeInterleaves(xmlRelaxNGDefinePtr def,
 #ifdef DEBUG_INTERLEAVE
     xmlGenericError(xmlGenericErrorContext, "  %d child\n", nbchild);
 #endif
-    groups = (xmlRelaxNGInterleaveGroupPtr *)
-        xmlMalloc(nbchild * sizeof(xmlRelaxNGInterleaveGroupPtr));
+    groups = xmlMalloc(nbchild * sizeof(xmlRelaxNGInterleaveGroupPtr));
     if (groups == NULL)
         goto error;
     cur = def->content;
     while (cur != NULL) {
-        groups[nbgroups] = (xmlRelaxNGInterleaveGroupPtr)
-            xmlMalloc(sizeof(xmlRelaxNGInterleaveGroup));
+        groups[nbgroups] = xmlMalloc(sizeof(xmlRelaxNGInterleaveGroup));
         if (groups[nbgroups] == NULL)
             goto error;
         if (cur->type == XML_RELAXNG_TEXT)
@@ -4348,8 +4309,7 @@ xmlRelaxNGComputeInterleaves(xmlRelaxNGDefinePtr def,
     /*
      * Let's check that all rules makes a partitions according to 7.4
      */
-    partitions = (xmlRelaxNGPartitionPtr)
-        xmlMalloc(sizeof(xmlRelaxNGPartition));
+    partitions = xmlMalloc(sizeof(xmlRelaxNGPartition));
     if (partitions == NULL)
         goto error;
     memset(partitions, 0, sizeof(xmlRelaxNGPartition));
@@ -6714,7 +6674,7 @@ xmlRelaxNGNewParserCtxt(const char *URL)
         return (NULL);
 
     ret =
-        (xmlRelaxNGParserCtxtPtr) xmlMalloc(sizeof(xmlRelaxNGParserCtxt));
+        xmlMalloc(sizeof(xmlRelaxNGParserCtxt));
     if (ret == NULL) {
         xmlRngPErrMemory(NULL, "building parser\n");
         return (NULL);
@@ -6745,7 +6705,7 @@ xmlRelaxNGNewMemParserCtxt(const char *buffer, int size)
         return (NULL);
 
     ret =
-        (xmlRelaxNGParserCtxtPtr) xmlMalloc(sizeof(xmlRelaxNGParserCtxt));
+        xmlMalloc(sizeof(xmlRelaxNGParserCtxt));
     if (ret == NULL) {
         xmlRngPErrMemory(NULL, "building parser\n");
         return (NULL);
@@ -6781,7 +6741,7 @@ xmlRelaxNGNewDocParserCtxt(xmlDocPtr doc)
         return (NULL);
 
     ret =
-        (xmlRelaxNGParserCtxtPtr) xmlMalloc(sizeof(xmlRelaxNGParserCtxt));
+        xmlMalloc(sizeof(xmlRelaxNGParserCtxt));
     if (ret == NULL) {
         xmlRngPErrMemory(NULL, "building parser\n");
         return (NULL);
@@ -8034,9 +7994,7 @@ xmlRelaxNGElemPush(xmlRelaxNGValidCtxtPtr ctxt, xmlRegExecCtxtPtr exec)
 {
     if (ctxt->elemTab == NULL) {
         ctxt->elemMax = 10;
-        ctxt->elemTab = (xmlRegExecCtxtPtr *) xmlMalloc(ctxt->elemMax *
-                                                        sizeof
-                                                        (xmlRegExecCtxtPtr));
+        ctxt->elemTab = xmlMalloc(ctxt->elemMax * sizeof(xmlRegExecCtxtPtr));
         if (ctxt->elemTab == NULL) {
             xmlRngVErrMemory(ctxt, "validating\n");
             return (-1);
@@ -8044,10 +8002,8 @@ xmlRelaxNGElemPush(xmlRelaxNGValidCtxtPtr ctxt, xmlRegExecCtxtPtr exec)
     }
     if (ctxt->elemNr >= ctxt->elemMax) {
         ctxt->elemMax *= 2;
-        ctxt->elemTab = (xmlRegExecCtxtPtr *) xmlRealloc(ctxt->elemTab,
-                                                         ctxt->elemMax *
-                                                         sizeof
-                                                         (xmlRegExecCtxtPtr));
+        ctxt->elemTab = xmlRealloc(ctxt->elemTab,
+                                   ctxt->elemMax * sizeof(xmlRegExecCtxtPtr));
         if (ctxt->elemTab == NULL) {
             xmlRngVErrMemory(ctxt, "validating\n");
             return (-1);
@@ -8507,7 +8463,7 @@ xmlRelaxNGNormalize(xmlRelaxNGValidCtxtPtr ctxt, const xmlChar * str)
         tmp++;
     len = tmp - str;
 
-    ret = (xmlChar *) xmlMallocAtomic((len + 1) * sizeof(xmlChar));
+    ret = xmlMalloc((len + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlRngVErrMemory(ctxt, "validating\n");
         return (NULL);
@@ -9288,13 +9244,13 @@ xmlRelaxNGValidateInterleave(xmlRelaxNGValidCtxtPtr ctxt,
      * Build arrays to store the first and last node of the chain
      * pertaining to each group
      */
-    list = (xmlNodePtr *) xmlMalloc(nbgroups * sizeof(xmlNodePtr));
+    list = xmlMalloc(nbgroups * sizeof(xmlNodePtr));
     if (list == NULL) {
         xmlRngVErrMemory(ctxt, "validating\n");
         return (-1);
     }
     memset(list, 0, nbgroups * sizeof(xmlNodePtr));
-    lasts = (xmlNodePtr *) xmlMalloc(nbgroups * sizeof(xmlNodePtr));
+    lasts = xmlMalloc(nbgroups * sizeof(xmlNodePtr));
     if (lasts == NULL) {
         xmlRngVErrMemory(ctxt, "validating\n");
         return (-1);
@@ -10833,7 +10789,7 @@ xmlRelaxNGNewValidCtxt(xmlRelaxNGPtr schema)
 {
     xmlRelaxNGValidCtxtPtr ret;
 
-    ret = (xmlRelaxNGValidCtxtPtr) xmlMalloc(sizeof(xmlRelaxNGValidCtxt));
+    ret = xmlMalloc(sizeof(xmlRelaxNGValidCtxt));
     if (ret == NULL) {
         xmlRngVErrMemory(NULL, "building context\n");
         return (NULL);

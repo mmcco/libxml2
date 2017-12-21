@@ -226,7 +226,7 @@ xmlXIncludeNewRef(xmlXIncludeCtxtPtr ctxt, const xmlChar *URI,
 #ifdef DEBUG_XINCLUDE
     xmlGenericError(xmlGenericErrorContext, "New ref %s\n", URI);
 #endif
-    ret = (xmlXIncludeRefPtr) xmlMalloc(sizeof(xmlXIncludeRef));
+    ret = xmlMalloc(sizeof(xmlXIncludeRef));
     if (ret == NULL) {
         xmlXIncludeErrMemory(ctxt, ref, "growing XInclude context");
 	return(NULL);
@@ -244,8 +244,7 @@ xmlXIncludeNewRef(xmlXIncludeCtxtPtr ctxt, const xmlChar *URI,
     ret->inc = NULL;
     if (ctxt->incMax == 0) {
 	ctxt->incMax = 4;
-        ctxt->incTab = (xmlXIncludeRefPtr *) xmlMalloc(ctxt->incMax *
-					      sizeof(ctxt->incTab[0]));
+        ctxt->incTab = xmlMalloc(ctxt->incMax * sizeof(ctxt->incTab[0]));
         if (ctxt->incTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, ref, "growing XInclude context");
 	    xmlXIncludeFreeRef(ret);
@@ -254,8 +253,8 @@ xmlXIncludeNewRef(xmlXIncludeCtxtPtr ctxt, const xmlChar *URI,
     }
     if (ctxt->incNr >= ctxt->incMax) {
 	ctxt->incMax *= 2;
-        ctxt->incTab = (xmlXIncludeRefPtr *) xmlRealloc(ctxt->incTab,
-	             ctxt->incMax * sizeof(ctxt->incTab[0]));
+        ctxt->incTab = xmlRealloc(ctxt->incTab,
+                                  ctxt->incMax * sizeof(ctxt->incTab[0]));
         if (ctxt->incTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, ref, "growing XInclude context");
 	    xmlXIncludeFreeRef(ret);
@@ -283,7 +282,7 @@ xmlXIncludeNewContext(xmlDocPtr doc) {
 #endif
     if (doc == NULL)
 	return(NULL);
-    ret = (xmlXIncludeCtxtPtr) xmlMalloc(sizeof(xmlXIncludeCtxt));
+    ret = xmlMalloc(sizeof(xmlXIncludeCtxt));
     if (ret == NULL) {
 	xmlXIncludeErrMemory(NULL, (xmlNodePtr) doc,
 	                     "creating XInclude context");
@@ -320,8 +319,7 @@ xmlXIncludeURLPush(xmlXIncludeCtxtPtr ctxt,
     if (ctxt->urlTab == NULL) {
 	ctxt->urlMax = 4;
 	ctxt->urlNr = 0;
-	ctxt->urlTab = (xmlChar * *) xmlMalloc(
-		        ctxt->urlMax * sizeof(ctxt->urlTab[0]));
+	ctxt->urlTab = xmlMalloc(ctxt->urlMax * sizeof(ctxt->urlTab[0]));
         if (ctxt->urlTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, NULL, "adding URL");
             return (-1);
@@ -330,9 +328,7 @@ xmlXIncludeURLPush(xmlXIncludeCtxtPtr ctxt,
     if (ctxt->urlNr >= ctxt->urlMax) {
         ctxt->urlMax *= 2;
         ctxt->urlTab =
-            (xmlChar * *) xmlRealloc(ctxt->urlTab,
-                                      ctxt->urlMax *
-                                      sizeof(ctxt->urlTab[0]));
+            xmlRealloc(ctxt->urlTab, ctxt->urlMax * sizeof(ctxt->urlTab[0]));
         if (ctxt->urlTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, NULL, "adding URL");
             return (-1);
@@ -670,8 +666,7 @@ xmlXIncludeRecurseDoc(xmlXIncludeCtxtPtr ctxt, xmlDocPtr doc,
 	 */
 	newctxt->incMax = ctxt->incMax;
 	newctxt->incNr = ctxt->incNr;
-        newctxt->incTab = (xmlXIncludeRefPtr *) xmlMalloc(newctxt->incMax *
-		                          sizeof(newctxt->incTab[0]));
+        newctxt->incTab = xmlMalloc(newctxt->incMax * sizeof(newctxt->incTab[0]));
         if (newctxt->incTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, (xmlNodePtr) doc, "processing doc");
 	    free(newctxt);
@@ -739,14 +734,12 @@ xmlXIncludeAddTxt(xmlXIncludeCtxtPtr ctxt, xmlNodePtr txt, const xmlURL url) {
 #endif
     if (ctxt->txtMax == 0) {
 	ctxt->txtMax = 4;
-        ctxt->txtTab = (xmlNodePtr *) xmlMalloc(ctxt->txtMax *
-		                          sizeof(ctxt->txtTab[0]));
+        ctxt->txtTab = xmlMalloc(ctxt->txtMax * sizeof(ctxt->txtTab[0]));
         if (ctxt->txtTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, NULL, "processing text");
 	    return;
 	}
-        ctxt->txturlTab = (xmlURL *) xmlMalloc(ctxt->txtMax *
-		                          sizeof(ctxt->txturlTab[0]));
+        ctxt->txturlTab = xmlMalloc(ctxt->txtMax * sizeof(ctxt->txturlTab[0]));
         if (ctxt->txturlTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, NULL, "processing text");
 	    return;
@@ -754,14 +747,14 @@ xmlXIncludeAddTxt(xmlXIncludeCtxtPtr ctxt, xmlNodePtr txt, const xmlURL url) {
     }
     if (ctxt->txtNr >= ctxt->txtMax) {
 	ctxt->txtMax *= 2;
-        ctxt->txtTab = (xmlNodePtr *) xmlRealloc(ctxt->txtTab,
-	             ctxt->txtMax * sizeof(ctxt->txtTab[0]));
+        ctxt->txtTab = xmlRealloc(ctxt->txtTab,
+                                  ctxt->txtMax * sizeof(ctxt->txtTab[0]));
         if (ctxt->txtTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, NULL, "processing text");
 	    return;
 	}
-        ctxt->txturlTab = (xmlURL *) xmlRealloc(ctxt->txturlTab,
-	             ctxt->txtMax * sizeof(ctxt->txturlTab[0]));
+        ctxt->txturlTab = xmlRealloc(ctxt->txturlTab,
+                                     ctxt->txtMax * sizeof(ctxt->txturlTab[0]));
         if (ctxt->txturlTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, NULL, "processing text");
 	    return;

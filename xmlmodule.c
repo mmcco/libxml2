@@ -78,7 +78,7 @@ xmlModuleOpen(const char *name, int options ATTRIBUTE_UNUSED)
 {
     xmlModulePtr module;
 
-    module = (xmlModulePtr) xmlMalloc(sizeof(xmlModule));
+    module = xmlMalloc(sizeof(xmlModule));
     if (module == NULL) {
         xmlModuleErrMemory(NULL, "creating module");
         return (NULL);

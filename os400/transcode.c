@@ -150,7 +150,7 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
                 if (!(*dict = xmlDictCreate()))
                         return (const xmlChar *) NULL;
 
-        ts = (xmlChar *) xmlMalloc(6 * l + 1);
+        ts = xmlMalloc(6 * l + 1);
 
         if (!ts)
                 return (const xmlChar *) NULL;

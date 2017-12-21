@@ -187,7 +187,7 @@ xmlListPtr
 xmlListCreate(xmlListDeallocator deallocator, xmlListDataCompare compare)
 {
     xmlListPtr l;
-    if (NULL == (l = (xmlListPtr )xmlMalloc( sizeof(xmlList)))) {
+    if (NULL == (l = xmlMalloc(sizeof(xmlList)))) {
         xmlGenericError(xmlGenericErrorContext,
 		        "Cannot initialize memory for list");
         return (NULL);
@@ -196,7 +196,7 @@ xmlListCreate(xmlListDeallocator deallocator, xmlListDataCompare compare)
     memset(l, 0, sizeof(xmlList));
 
     /* Add the sentinel */
-    if (NULL ==(l->sentinel = (xmlLinkPtr )xmlMalloc(sizeof(xmlLink)))) {
+    if (NULL ==(l->sentinel = xmlMalloc(sizeof(xmlLink)))) {
         xmlGenericError(xmlGenericErrorContext,
 		        "Cannot initialize memory for sentinel");
 	free(l);
@@ -277,7 +277,7 @@ xmlListInsert(xmlListPtr l, void *data)
         return(1);
     lkPlace = xmlListLowerSearch(l, data);
     /* Add the new link */
-    lkNew = (xmlLinkPtr) xmlMalloc(sizeof(xmlLink));
+    lkNew = xmlMalloc(sizeof(xmlLink));
     if (lkNew == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		        "Cannot initialize memory for new link");
@@ -309,7 +309,7 @@ int xmlListAppend(xmlListPtr l, void *data)
         return(1);
     lkPlace = xmlListHigherSearch(l, data);
     /* Add the new link */
-    lkNew = (xmlLinkPtr) xmlMalloc(sizeof(xmlLink));
+    lkNew = xmlMalloc(sizeof(xmlLink));
     if (lkNew == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		        "Cannot initialize memory for new link");
@@ -546,7 +546,7 @@ xmlListPushFront(xmlListPtr l, void *data)
         return(0);
     lkPlace = l->sentinel;
     /* Add the new link */
-    lkNew = (xmlLinkPtr) xmlMalloc(sizeof(xmlLink));
+    lkNew = xmlMalloc(sizeof(xmlLink));
     if (lkNew == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		        "Cannot initialize memory for new link");
@@ -578,7 +578,7 @@ xmlListPushBack(xmlListPtr l, void *data)
         return(0);
     lkPlace = l->sentinel->prev;
     /* Add the new link */
-    if (NULL ==(lkNew = (xmlLinkPtr )xmlMalloc(sizeof(xmlLink)))) {
+    if (NULL ==(lkNew = xmlMalloc(sizeof(xmlLink)))) {
         xmlGenericError(xmlGenericErrorContext,
 		        "Cannot initialize memory for new link");
         return (0);

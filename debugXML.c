@@ -2822,7 +2822,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
         return;
     if (output == NULL)
         output = stdout;
-    ctxt = (xmlShellCtxtPtr) xmlMalloc(sizeof(xmlShellCtxt));
+    ctxt = xmlMalloc(sizeof(xmlShellCtxt));
     if (ctxt == NULL)
         return;
     ctxt->loaded = 0;

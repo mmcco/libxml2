@@ -276,7 +276,7 @@ xmlNewCatalogEntry(xmlCatalogEntryType type, const xmlChar *name,
     xmlCatalogEntryPtr ret;
     xmlChar *normid = NULL;
 
-    ret = (xmlCatalogEntryPtr) xmlMalloc(sizeof(xmlCatalogEntry));
+    ret = xmlMalloc(sizeof(xmlCatalogEntry));
     if (ret == NULL) {
         xmlCatalogErrMemory("allocating catalog entry");
 	return(NULL);
@@ -407,7 +407,7 @@ static xmlCatalogPtr
 xmlCreateNewCatalog(xmlCatalogType type, xmlCatalogPrefer prefer) {
     xmlCatalogPtr ret;
 
-    ret = (xmlCatalogPtr) xmlMalloc(sizeof(xmlCatalog));
+    ret = xmlMalloc(sizeof(xmlCatalog));
     if (ret == NULL) {
         xmlCatalogErrMemory("allocating catalog");
 	return(NULL);
@@ -986,7 +986,7 @@ xmlLoadFileContent(const char *filename)
         return (NULL);
     }
 #endif
-    content = (xmlChar*)xmlMallocAtomic(size + 10);
+    content = xmlMalloc(size + 10);
     if (content == NULL) {
         xmlCatalogErrMemory("allocating catalog data");
 #ifdef HAVE_STAT
@@ -2173,7 +2173,7 @@ xmlParseSGMLCatalogPubid(const xmlChar *cur, xmlChar **id) {
     } else {
 	stop = ' ';
     }
-    buf = (xmlChar *) xmlMallocAtomic(size * sizeof(xmlChar));
+    buf = xmlMalloc(size * sizeof(xmlChar));
     if (buf == NULL) {
         xmlCatalogErrMemory("allocating public ID");
 	return(NULL);
@@ -2185,7 +2185,7 @@ xmlParseSGMLCatalogPubid(const xmlChar *cur, xmlChar **id) {
 	    break;
 	if (len + 1 >= size) {
 	    size *= 2;
-	    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
+	    tmp = xmlRealloc(buf, size * sizeof(xmlChar));
 	    if (tmp == NULL) {
 		xmlCatalogErrMemory("allocating public ID");
 		free(buf);

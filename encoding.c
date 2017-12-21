@@ -105,7 +105,7 @@ static uconv_t*
 openIcuConverter(const char* name, int toUnicode)
 {
   UErrorCode status = U_ZERO_ERROR;
-  uconv_t *conv = (uconv_t *) xmlMalloc(sizeof(uconv_t));
+  uconv_t *conv = xmlMalloc(sizeof(uconv_t));
   if (conv == NULL)
     return NULL;
 
@@ -1064,15 +1064,13 @@ xmlAddEncodingAlias(const char *name, const char *alias) {
     if (xmlCharEncodingAliases == NULL) {
 	xmlCharEncodingAliasesNb = 0;
 	xmlCharEncodingAliasesMax = 20;
-	xmlCharEncodingAliases = (xmlCharEncodingAliasPtr)
-	      xmlMalloc(xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
+	xmlCharEncodingAliases = xmlMalloc(xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
 	if (xmlCharEncodingAliases == NULL)
 	    return(-1);
     } else if (xmlCharEncodingAliasesNb >= xmlCharEncodingAliasesMax) {
 	xmlCharEncodingAliasesMax *= 2;
-	xmlCharEncodingAliases = (xmlCharEncodingAliasPtr)
-	      xmlRealloc(xmlCharEncodingAliases,
-		         xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
+	xmlCharEncodingAliases = xmlRealloc(xmlCharEncodingAliases,
+                                            xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
     }
     /*
      * Walk down the list looking for a definition of the alias
@@ -1347,8 +1345,7 @@ xmlNewCharEncodingHandler(const char *name,
     /*
      * allocate and fill-up an handler block.
      */
-    handler = (xmlCharEncodingHandlerPtr)
-              xmlMalloc(sizeof(xmlCharEncodingHandler));
+    handler = xmlMalloc(sizeof(xmlCharEncodingHandler));
     if (handler == NULL) {
         free(up);
         xmlEncodingErrMemory("xmlNewCharEncodingHandler : out of memory !\n");
@@ -1394,8 +1391,7 @@ xmlInitCharEncodingHandlers(void) {
 
     if (handlers != NULL) return;
 
-    handlers = (xmlCharEncodingHandlerPtr *)
-        xmlMalloc(MAX_ENCODING_HANDLERS * sizeof(xmlCharEncodingHandlerPtr));
+    handlers = xmlMalloc(MAX_ENCODING_HANDLERS * sizeof(xmlCharEncodingHandlerPtr));
 
     if (*ptr == 0x12) xmlLittleEndian = 0;
     else if (*ptr == 0x34) xmlLittleEndian = 1;
@@ -1690,8 +1686,7 @@ xmlFindCharEncodingHandler(const char *name) {
 	icv_out = iconv_open(upper, "UTF-8");
     }
     if ((icv_in != (iconv_t) -1) && (icv_out != (iconv_t) -1)) {
-	    enc = (xmlCharEncodingHandlerPtr)
-	          xmlMalloc(sizeof(xmlCharEncodingHandler));
+	    enc = xmlMalloc(sizeof(xmlCharEncodingHandler));
 	    if (enc == NULL) {
 	        iconv_close(icv_in);
 	        iconv_close(icv_out);
@@ -1718,8 +1713,7 @@ xmlFindCharEncodingHandler(const char *name) {
     ucv_in = openIcuConverter(name, 1);
     ucv_out = openIcuConverter(name, 0);
     if (ucv_in != NULL && ucv_out != NULL) {
-	    encu = (xmlCharEncodingHandlerPtr)
-	           xmlMalloc(sizeof(xmlCharEncodingHandler));
+	    encu = xmlMalloc(sizeof(xmlCharEncodingHandler));
 	    if (encu == NULL) {
                 closeIcuConverter(ucv_in);
                 closeIcuConverter(ucv_out);

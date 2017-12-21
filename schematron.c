@@ -328,7 +328,7 @@ xmlSchematronAddTest(xmlSchematronParserCtxtPtr ctxt,
 	return(NULL);
     }
 
-    ret = (xmlSchematronTestPtr) xmlMalloc(sizeof(xmlSchematronTest));
+    ret = xmlMalloc(sizeof(xmlSchematronTest));
     if (ret == NULL) {
         xmlSchematronPErrMemory(ctxt, "allocating schema test", node);
         return (NULL);
@@ -409,7 +409,7 @@ xmlSchematronAddRule(xmlSchematronParserCtxtPtr ctxt, xmlSchematronPtr schema,
 	    context, NULL);
     }
 
-    ret = (xmlSchematronRulePtr) xmlMalloc(sizeof(xmlSchematronRule));
+    ret = xmlMalloc(sizeof(xmlSchematronRule));
     if (ret == NULL) {
         xmlSchematronPErrMemory(ctxt, "allocating schema rule", node);
         return (NULL);
@@ -485,7 +485,7 @@ xmlSchematronAddPattern(xmlSchematronParserCtxtPtr ctxt,
     if ((ctxt == NULL) || (schema == NULL) || (node == NULL) || (name == NULL))
         return(NULL);
 
-    ret = (xmlSchematronPatternPtr) xmlMalloc(sizeof(xmlSchematronPattern));
+    ret = xmlMalloc(sizeof(xmlSchematronPattern));
     if (ret == NULL) {
         xmlSchematronPErrMemory(ctxt, "allocating schema pattern", node);
         return (NULL);
@@ -536,7 +536,7 @@ xmlSchematronNewSchematron(xmlSchematronParserCtxtPtr ctxt)
 {
     xmlSchematronPtr ret;
 
-    ret = (xmlSchematronPtr) xmlMalloc(sizeof(xmlSchematron));
+    ret = xmlMalloc(sizeof(xmlSchematron));
     if (ret == NULL) {
         xmlSchematronPErrMemory(ctxt, "allocating schema", NULL);
         return (NULL);
@@ -589,7 +589,6 @@ xmlSchematronNewParserCtxt(const char *URL)
         return (NULL);
 
     ret =
-        (xmlSchematronParserCtxtPtr)
         xmlMalloc(sizeof(xmlSchematronParserCtxt));
     if (ret == NULL) {
         xmlSchematronPErrMemory(NULL, "allocating schema parser context",
@@ -631,7 +630,6 @@ xmlSchematronNewMemParserCtxt(const char *buffer, int size)
         return (NULL);
 
     ret =
-        (xmlSchematronParserCtxtPtr)
         xmlMalloc(sizeof(xmlSchematronParserCtxt));
     if (ret == NULL) {
         xmlSchematronPErrMemory(NULL, "allocating schema parser context",
@@ -670,7 +668,6 @@ xmlSchematronNewDocParserCtxt(xmlDocPtr doc)
         return (NULL);
 
     ret =
-        (xmlSchematronParserCtxtPtr)
         xmlMalloc(sizeof(xmlSchematronParserCtxt));
     if (ret == NULL) {
         xmlSchematronPErrMemory(NULL, "allocating schema parser context",
@@ -799,8 +796,7 @@ xmlSchematronAddNamespace(xmlSchematronParserCtxtPtr ctxt,
 {
     if (ctxt->namespaces == NULL) {
         ctxt->maxNamespaces = 10;
-        ctxt->namespaces = (const xmlChar **)
-	    xmlMalloc(ctxt->maxNamespaces * 2 * sizeof(const xmlChar *));
+        ctxt->namespaces = xmlMalloc(ctxt->maxNamespaces * 2 * sizeof(const xmlChar *));
 	if (ctxt->namespaces == NULL) {
 	    xmlSchematronPErrMemory(NULL, "allocating parser namespaces",
 				    NULL);
@@ -810,9 +806,8 @@ xmlSchematronAddNamespace(xmlSchematronParserCtxtPtr ctxt,
     } else if (ctxt->nbNamespaces + 2 >= ctxt->maxNamespaces) {
         const xmlChar **tmp;
 
-	tmp = (const xmlChar **)
-	    xmlRealloc((xmlChar **) ctxt->namespaces, ctxt->maxNamespaces * 4 *
-	               sizeof(const xmlChar *));
+	tmp = xmlRealloc((xmlChar **)ctxt->namespaces,
+                         ctxt->maxNamespaces * 4 * sizeof(const xmlChar *));
 	if (tmp == NULL) {
 	    xmlSchematronPErrMemory(NULL, "allocating parser namespaces",
 				    NULL);
@@ -1495,7 +1490,7 @@ xmlSchematronNewValidCtxt(xmlSchematronPtr schema, int options)
     int i;
     xmlSchematronValidCtxtPtr ret;
 
-    ret = (xmlSchematronValidCtxtPtr) xmlMalloc(sizeof(xmlSchematronValidCtxt));
+    ret = xmlMalloc(sizeof(xmlSchematronValidCtxt));
     if (ret == NULL) {
         xmlSchematronVErrMemory(NULL, "allocating validation context",
                                 NULL);
