@@ -2021,7 +2021,7 @@ xmlParserAddNodeInfo(xmlParserCtxtPtr ctxt,
                 tmp_buffer = malloc(byte_size);
             else
                 tmp_buffer =
-                    xmlRealloc(ctxt->node_seq.buffer, byte_size);
+                    realloc(ctxt->node_seq.buffer, byte_size);
 
             if (tmp_buffer == NULL) {
 		xmlErrMemory(ctxt, "failed to allocate buffer\n");

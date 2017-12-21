@@ -29,56 +29,6 @@
                 void __set_##name(type arg) { name = arg; }
 
 
-THREADED_VAR(free, xmlFreeFunc)
-
-void
-__call_xmlFree(void * mem)
-
-{
-        free(mem);
-}
-
-
-THREADED_VAR(xmlMalloc, xmlMallocFunc)
-
-void *
-__call_xmlMalloc(size_t size)
-
-{
-        return xmlMalloc(size);
-}
-
-
-THREADED_VAR(xmlMallocAtomic, xmlMallocFunc)
-
-void *
-__call_xmlMallocAtomic(size_t size)
-
-{
-        return xmlMalloc(size);
-}
-
-
-THREADED_VAR(xmlRealloc, xmlReallocFunc)
-
-void *
-__call_xmlRealloc(void * mem, size_t size)
-
-{
-        return xmlRealloc(mem, size);
-}
-
-
-THREADED_VAR(xmlMemStrdup, xmlStrdupFunc)
-
-char *
-__call_xmlMemStrdup(const char * str)
-
-{
-        return xmlMemStrdup(str);
-}
-
-
 #ifdef LIBXML_DOCB_ENABLED
 THREADED_VAR(docbDefaultSAXHandler, xmlSAXHandlerV1)
 #endif

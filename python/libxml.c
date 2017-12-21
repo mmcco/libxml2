@@ -83,22 +83,6 @@ static int libxml_xpathCallbacksNb = 0;
  *									*
  ************************************************************************/
 
-#if 0
-extern void xmlMemFree(void *ptr);
-extern void *xmlMemMalloc(size_t size);
-extern void *xmlMemRealloc(void *ptr, size_t size);
-extern char *xmlMemoryStrdup(const char *str);
-#endif
-
-static int libxmlMemoryDebugActivated = 0;
-static long libxmlMemoryAllocatedBase = 0;
-
-static int libxmlMemoryDebug = 0;
-static xmlFreeFunc freeFunc = NULL;
-static mallocFunc mallocFunc = NULL;
-static xmlReallocFunc reallocFunc = NULL;
-static xmlStrdupFunc strdupFunc = NULL;
-
 static void
 libxml_xmlErrorInitialize(void); /* forward declare */
 
@@ -111,71 +95,6 @@ libxml_xmlMemoryUsed(PyObject * self ATTRIBUTE_UNUSED,
 
     ret = xmlMemUsed();
 
-    py_retval = libxml_longWrap(ret);
-    return (py_retval);
-}
-
-PyObject *
-libxml_xmlDebugMemory(PyObject * self ATTRIBUTE_UNUSED, PyObject * args)
-{
-    int activate;
-    PyObject *py_retval;
-    long ret;
-
-    if (!PyArg_ParseTuple(args, (char *) "i:xmlDebugMemory", &activate))
-        return (NULL);
-
-#ifdef DEBUG_MEMORY
-    printf("libxml_xmlDebugMemory(%d) called\n", activate);
-#endif
-
-    if (activate != 0) {
-        if (libxmlMemoryDebug == 0) {
-            /*
-             * First initialize the library and grab the old memory handlers
-             * and switch the library to memory debugging
-             */
-            xmlMemGet((xmlFreeFunc *) & freeFunc,
-                      (mallocFunc *) & mallocFunc,
-                      (xmlReallocFunc *) & reallocFunc,
-                      (xmlStrdupFunc *) & strdupFunc);
-            if ((freeFunc == xmlMemFree) && (mallocFunc == xmlMemMalloc) &&
-                (reallocFunc == xmlMemRealloc) &&
-                (strdupFunc == xmlMemoryStrdup)) {
-                libxmlMemoryAllocatedBase = xmlMemUsed();
-            } else {
-                /* 
-                 * cleanup first, because some memory has been
-                 * allocated with the non-debug malloc in xmlInitParser
-                 * when the python module was imported
-                 */
-                xmlCleanupParser();
-                ret = (long) xmlMemSetup(xmlMemFree, xmlMemMalloc,
-                                         xmlMemRealloc, xmlMemoryStrdup);
-                if (ret < 0)
-                    goto error;
-                libxmlMemoryAllocatedBase = xmlMemUsed();
-                /* reinitialize */
-                xmlInitParser();
-                libxml_xmlErrorInitialize();
-            }
-            ret = 0;
-        } else if (libxmlMemoryDebugActivated == 0) {
-            libxmlMemoryAllocatedBase = xmlMemUsed();
-            ret = 0;
-        } else {
-            ret = xmlMemUsed() - libxmlMemoryAllocatedBase;
-        }
-        libxmlMemoryDebug = 1;
-        libxmlMemoryDebugActivated = 1;
-    } else {
-        if (libxmlMemoryDebugActivated == 1)
-            ret = xmlMemUsed() - libxmlMemoryAllocatedBase;
-        else
-            ret = 0;
-        libxmlMemoryDebugActivated = 0;
-    }
-  error:
     py_retval = libxml_longWrap(ret);
     return (py_retval);
 }
@@ -216,17 +135,6 @@ libxml_xmlPythonCleanupParser(PyObject *self ATTRIBUTE_UNUSED,
 
     Py_INCREF(Py_None);
     return(Py_None);
-}
-
-PyObject *
-libxml_xmlDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
-                     ATTRIBUTE_UNUSED PyObject * args)
-{
-
-    if (libxmlMemoryDebug != 0)
-        xmlMemoryDump();
-    Py_INCREF(Py_None);
-    return (Py_None);
 }
 
 /************************************************************************
@@ -2365,7 +2273,7 @@ libxml_xmlRegisterXPathFunction(ATTRIBUTE_UNUSED PyObject * self,
     }
     if (libxml_xpathCallbacksNb >= libxml_xpathCallbacksAllocd) {
 			libxml_xpathCallbacksAllocd+=10;
-	libxml_xpathCallbacks = xmlRealloc(libxml_xpathCallbacks,
+	libxml_xpathCallbacks = realloc(libxml_xpathCallbacks,
                                            libxml_xpathCallbacksAllocd * sizeof(libxml_xpathCallback));
     } 
     i = libxml_xpathCallbacksNb++;

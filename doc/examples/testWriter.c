@@ -1163,7 +1163,7 @@ ConvertInput(const char *in, const char *encoding)
 
     size = (int) strlen(in) + 1;
     out_size = size * 2 - 1;
-    out = xmlMalloc((size_t)out_size);
+    out = malloc(out_size);
 
     if (out != 0) {
         temp = size - 1;
