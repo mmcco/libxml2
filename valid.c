@@ -1116,12 +1116,12 @@ xmlFreeDocElementContent(xmlDocPtr doc, xmlElementContentPtr cur) {
 	if (cur->c1 != NULL) xmlFreeDocElementContent(doc, cur->c1);
 	if (dict) {
 	    if ((cur->name != NULL) && (!xmlDictOwns(dict, cur->name)))
-	        free(cur->name);
+	        free((void *)cur->name);
 	    if ((cur->prefix != NULL) && (!xmlDictOwns(dict, cur->prefix)))
-	        free(cur->prefix);
+	        free((void *)cur->prefix);
 	} else {
-	    free(cur->name);
-	    free(cur->prefix);
+	    free((void *)cur->name);
+	    free((void *)cur->prefix);
 	}
 	free(cur);
 	cur = next;
@@ -1353,8 +1353,8 @@ xmlFreeElement(xmlElementPtr elem) {
     if (elem == NULL) return;
     xmlUnlinkNode((xmlNodePtr) elem);
     xmlFreeDocElementContent(elem->doc, elem->content);
-    free(elem->name);
-    free(elem->prefix);
+    free((void *)elem->name);
+    free((void *)elem->prefix);
 #ifdef LIBXML_REGEXP_ENABLED
     if (elem->contModel != NULL)
 	xmlRegFreeRegexp(elem->contModel);
@@ -1764,7 +1764,7 @@ xmlFreeEnumeration(xmlEnumerationPtr cur) {
 
     if (cur->next != NULL) xmlFreeEnumeration(cur->next);
 
-    free(cur->name);
+    free((void *)cur->name);
     free(cur);
 }
 
@@ -1869,19 +1869,19 @@ xmlFreeAttribute(xmlAttributePtr attr) {
         xmlFreeEnumeration(attr->tree);
     if (dict) {
         if ((attr->elem != NULL) && (!xmlDictOwns(dict, attr->elem)))
-	    free(attr->elem);
+	    free((void *)attr->elem);
         if ((attr->name != NULL) && (!xmlDictOwns(dict, attr->name)))
-	    free(attr->name);
+	    free((void *)attr->name);
         if ((attr->prefix != NULL) && (!xmlDictOwns(dict, attr->prefix)))
-	    free(attr->prefix);
+	    free((void *)attr->prefix);
         if ((attr->defaultValue != NULL) &&
 	    (!xmlDictOwns(dict, attr->defaultValue)))
-	    free(attr->defaultValue);
+	    free((void *)attr->defaultValue);
     } else {
-	free(attr->elem);
-	free(attr->name);
-	free(attr->defaultValue);
-	free(attr->prefix);
+	free((void *)attr->elem);
+	free((void *)attr->name);
+	free((void *)attr->defaultValue);
+	free((void *)attr->prefix);
     }
     free(attr);
 }
@@ -2303,9 +2303,9 @@ xmlDumpAttributeTable(xmlBufferPtr buf, xmlAttributeTablePtr table) {
 static void
 xmlFreeNotation(xmlNotationPtr nota) {
     if (nota == NULL) return;
-    free(nota->name);
-    free(nota->PublicID);
-    free(nota->SystemID);
+    free((void *)nota->name);
+    free((void *)nota->PublicID);
+    free((void *)nota->SystemID);
     free(nota);
 }
 
@@ -2810,8 +2810,8 @@ static void
 xmlFreeRef(xmlLinkPtr lk) {
     xmlRefPtr ref = (xmlRefPtr)xmlLinkGetData(lk);
     if (ref == NULL) return;
-    free(ref->value);
-    free(ref->name);
+    free((void *)ref->value);
+    free((void *)ref->name);
     free(ref);
 }
 
@@ -2956,8 +2956,8 @@ xmlAddRef(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
     return(ret);
 failed:
     if (ret != NULL) {
-	free(ret->value);
-	free(ret->name);
+	free((void *)ret->value);
+	free((void *)ret->name);
         free(ret);
     }
     return(NULL);
@@ -6381,7 +6381,7 @@ xmlValidateElement(xmlValidCtxtPtr ctxt, xmlDocPtr doc, xmlNodePtr elem) {
 	while (attr != NULL) {
 	    value = xmlNodeListGetString(doc, attr->children, 0);
 	    ret &= xmlValidateOneAttribute(ctxt, doc, elem, attr, value);
-	    free(value);
+	    free((void *)value);
 	    attr= attr->next;
 	}
 	ns = elem->nsDef;

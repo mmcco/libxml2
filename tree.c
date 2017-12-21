@@ -830,8 +830,8 @@ xmlFreeNs(xmlNsPtr cur) {
 #endif
 	return;
     }
-    free(cur->href);
-    free(cur->prefix);
+    free((void *)cur->href);
+    free((void *)cur->prefix);
     free(cur);
 }
 
@@ -982,7 +982,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 	cur->ExternalID = xmlStrdup(ExternalID);
 	if (cur->ExternalID  == NULL) {
 	    xmlTreeErrMemory("building internal subset");
-	    free(cur->name);
+	    free((void *)cur->name);
 	    free(cur);
 	    return(NULL);
 	}
@@ -991,8 +991,8 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 	cur->SystemID = xmlStrdup(SystemID);
 	if (cur->SystemID == NULL) {
 	    xmlTreeErrMemory("building internal subset");
-	    free(cur->name);
-	    free(cur->ExternalID);
+	    free((void *)cur->name);
+	    free((void *)cur->ExternalID);
 	    free(cur);
 	    return(NULL);
 	}
@@ -1840,7 +1840,7 @@ xmlNewPropInternal(xmlNodePtr node, xmlNsPtr ns,
         if ((eatname == 1) &&
 	    ((node->doc == NULL) ||
 	     (!(xmlDictOwns(node->doc->dict, name)))))
-            free(name);
+            free((void *)name);
         return (NULL);
     }
 
@@ -1852,7 +1852,7 @@ xmlNewPropInternal(xmlNodePtr node, xmlNsPtr ns,
         if ((eatname == 1) &&
 	    ((node == NULL) || (node->doc == NULL) ||
 	     (!(xmlDictOwns(node->doc->dict, name)))))
-            free(name);
+            free((void *)name);
         xmlTreeErrMemory("building attribute");
         return (NULL);
     }
@@ -5174,7 +5174,7 @@ xmlNodeSetName(xmlNodePtr cur, const xmlChar *name) {
 	cur->name = xmlStrdup(name);
     }
 
-    free(freeme);
+    free((void *)freeme);
 }
 #endif
 
@@ -5221,7 +5221,7 @@ xmlNodeSetBase(xmlNodePtr cur, const xmlChar* uri) {
         case XML_HTML_DOCUMENT_NODE: {
 	    xmlDocPtr doc = (xmlDocPtr) cur;
 
-	    free(doc->URL);
+	    free((void *)doc->URL);
 	    if (uri == NULL)
 		doc->URL = NULL;
 	    else
@@ -8121,7 +8121,7 @@ xmlDOMWrapNSNormGatherInScopeNs(xmlNsMapPtr *map,
 	    str = xmlDictLookup(destDoc->dict, str, -1); \
 	    if ((sourceDoc == NULL) || (sourceDoc->dict == NULL) || \
 	        (!xmlDictOwns(sourceDoc->dict, old))) \
-		free(old); \
+		free((void *)(old)); \
 	} else if ((sourceDoc) && (sourceDoc->dict) && \
 	    xmlDictOwns(sourceDoc->dict, str)) { \
 	    str = BAD_CAST xmlStrdup(str); \

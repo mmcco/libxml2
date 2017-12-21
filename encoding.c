@@ -992,8 +992,8 @@ xmlCleanupEncodingAliases(void) {
 	return;
 
     for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
-	free(xmlCharEncodingAliases[i].name);
-	free(xmlCharEncodingAliases[i].alias);
+	free((void *)xmlCharEncodingAliases[i].name);
+	free((void *)xmlCharEncodingAliases[i].alias);
     }
     xmlCharEncodingAliasesNb = 0;
     xmlCharEncodingAliasesMax = 0;
@@ -1080,7 +1080,7 @@ xmlAddEncodingAlias(const char *name, const char *alias) {
 	    /*
 	     * Replace the definition.
 	     */
-	    free(xmlCharEncodingAliases[i].name);
+	    free((void *)xmlCharEncodingAliases[i].name);
 	    xmlCharEncodingAliases[i].name = strdup(name);
 	    return(0);
 	}
@@ -1116,8 +1116,8 @@ xmlDelEncodingAlias(const char *alias) {
      */
     for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
 	if (!strcmp(xmlCharEncodingAliases[i].alias, alias)) {
-	    free(xmlCharEncodingAliases[i].name);
-	    free(xmlCharEncodingAliases[i].alias);
+	    free((void *)xmlCharEncodingAliases[i].name);
+	    free((void *)xmlCharEncodingAliases[i].alias);
 	    xmlCharEncodingAliasesNb--;
 	    memmove(&xmlCharEncodingAliases[i], &xmlCharEncodingAliases[i + 1],
 		    sizeof(xmlCharEncodingAlias) * (xmlCharEncodingAliasesNb - i));

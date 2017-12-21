@@ -115,20 +115,20 @@ xmlFreeEntity(xmlEntityPtr entity)
         if (!xmlDictOwns(dict, entity->name))
             free((void *)entity->name);
         if (!xmlDictOwns(dict, entity->ExternalID))
-            free(entity->ExternalID);
+            free((void *)entity->ExternalID);
         if (!xmlDictOwns(dict, entity->SystemID))
-            free(entity->SystemID);
+            free((void *)entity->SystemID);
         if (!xmlDictOwns(dict, entity->URI))
-            free(entity->URI);
+            free((void *)entity->URI);
         if (!xmlDictOwns(dict, entity->content))
             free(entity->content);
         if (!xmlDictOwns(dict, entity->orig))
             free(entity->orig);
     } else {
-        free(entity->name);
-        free(entity->ExternalID);
-        free(entity->SystemID);
-        free(entity->URI);
+        free((void *)entity->name);
+        free((void *)entity->ExternalID);
+        free((void *)entity->SystemID);
+        free((void *)entity->URI);
         free(entity->content);
         free(entity->orig);
     }

@@ -1328,12 +1328,12 @@ void
 xmlFreeInputStream(xmlParserInputPtr input) {
     if (input == NULL) return;
 
-    free(input->filename);
-    free(input->directory);
-    free(input->encoding);
-    free(input->version);
+    free((void *)input->filename);
+    free((void *)input->directory);
+    free((void *)input->encoding);
+    free((void *)input->version);
     if (input->free != NULL)
-        input->free(input->base);
+        input->free((void *)input->base);
     if (input->buf != NULL)
         xmlFreeParserInputBuffer(input->buf);
     free(input);
@@ -1548,7 +1548,7 @@ xmlNewInputFromFile(xmlParserCtxtPtr ctxt, const char *filename) {
     else
 	URI = xmlStrdup((xmlChar *) inputStream->filename);
     directory = xmlParserGetDirectory((const char *) URI);
-    free(inputStream->filename);
+    free((void *)inputStream->filename);
     inputStream->filename = (char *) xmlCanonicPath((const xmlChar *) URI);
     free(URI);
     inputStream->directory = directory;
@@ -1774,8 +1774,8 @@ xmlFreeParserCtxt(xmlParserCtxtPtr ctxt)
     free(ctxt->nodeTab);
     free(ctxt->nodeInfoTab);
     free(ctxt->inputTab);
-    free(ctxt->version);
-    free(ctxt->encoding);
+    free((void *)ctxt->version);
+    free((void *)ctxt->encoding);
     free(ctxt->extSubURI);
     free(ctxt->extSubSystem);
 #ifdef LIBXML_SAX1_ENABLED

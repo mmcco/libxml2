@@ -5661,7 +5661,7 @@ xmlParseNotationType(xmlParserCtxtPtr ctxt) {
 	  "standalone: attribute notation value token %s duplicated\n",
 				 name, NULL);
 		if (!xmlDictOwns(ctxt->dict, name))
-		    free(name);
+		    free((void *)name);
 		break;
 	    }
 	    tmp = tmp->next;
@@ -8528,7 +8528,7 @@ failed:
     if (atts != NULL) {
         /* Free only the content strings */
         for (i = 1;i < nbatts;i+=2)
-	   free(atts[i]);
+	   free((void *)atts[i]);
     }
     return(name);
 }
@@ -8693,7 +8693,7 @@ xmlParseQName(xmlParserCtxtPtr ctxt, const xmlChar **prefix) {
 		tmp = xmlBuildQName(BAD_CAST "", p, NULL, 0);
 	    else {
 		tmp = xmlBuildQName(l, p, NULL, 0);
-		free(l);
+		free((void *)l);
 	    }
 	    p = xmlDictLookup(ctxt->dict, tmp, -1);
 	    free(tmp);
@@ -9562,7 +9562,7 @@ done:
     if (attval != 0) {
 	for (i = 3,j = 0; j < nratts;i += 5,j++)
 	    if ((ctxt->attallocs[j] != 0) && (atts[i] != NULL))
-	        free(atts[i]);
+	        free((void *)atts[i]);
     }
 
     return(localname);
@@ -10270,7 +10270,7 @@ xmlParseEncodingDecl(xmlParserCtxtPtr ctxt) {
 		xmlFatalErrMsg(ctxt, XML_ERR_INVALID_ENCODING,
 		  "Document labelled UTF-16 but has UTF-8 content\n");
 	    }
-	    free(ctxt->encoding);
+	    free((void *)ctxt->encoding);
 	    ctxt->encoding = encoding;
 	}
 	/*
@@ -10279,13 +10279,13 @@ xmlParseEncodingDecl(xmlParserCtxtPtr ctxt) {
         else if ((encoding != NULL) &&
 	    ((!xmlStrcasecmp(encoding, BAD_CAST "UTF-8")) ||
 	     (!xmlStrcasecmp(encoding, BAD_CAST "UTF8")))) {
-	    free(ctxt->encoding);
+	    free((void *)ctxt->encoding);
 	    ctxt->encoding = encoding;
 	}
 	else if (encoding != NULL) {
 	    xmlCharEncodingHandlerPtr handler;
 
-	    free(ctxt->input->encoding);
+	    free((void *)ctxt->input->encoding);
 	    ctxt->input->encoding = encoding;
 
             handler = xmlFindCharEncodingHandler((const char *) encoding);
@@ -10447,7 +10447,7 @@ xmlParseXMLDecl(xmlParserCtxtPtr ctxt) {
 		}
 	    }
 	}
-	free(ctxt->version);
+	free((void *)ctxt->version);
 	ctxt->version = version;
     }
 
@@ -13566,7 +13566,7 @@ xmlParseInNodeContext(xmlNodePtr node, const char *data, int datalen,
     if (doc->encoding != NULL) {
         xmlCharEncodingHandlerPtr hdlr;
 
-	free(ctxt->encoding);
+	free((void *)ctxt->encoding);
         ctxt->encoding = xmlStrdup((const xmlChar *) doc->encoding);
 
         hdlr = xmlFindCharEncodingHandler((const char *) doc->encoding);
@@ -14929,7 +14929,7 @@ xmlCtxtResetPush(xmlParserCtxtPtr ctxt, const char *chunk,
     if (encoding != NULL) {
         xmlCharEncodingHandlerPtr hdlr;
 
-	free(ctxt->encoding);
+	free((void *)ctxt->encoding);
         ctxt->encoding = xmlStrdup((const xmlChar *) encoding);
 
         hdlr = xmlFindCharEncodingHandler(encoding);
@@ -14964,7 +14964,7 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
     if (ctxt == NULL)
         return(-1);
     if (encoding != NULL) {
-	free(ctxt->encoding);
+	free((void *)ctxt->encoding);
         ctxt->encoding = xmlStrdup((const xmlChar *) encoding);
     }
     if (options & XML_PARSE_RECOVER) {
