@@ -443,7 +443,7 @@ xmlNanoFTPNewCtxt(const char *URL) {
     xmlNanoFTPCtxtPtr ret;
     char *unescaped;
 
-    ret = xmlMalloc(sizeof(xmlNanoFTPCtxt));
+    ret = malloc(sizeof(xmlNanoFTPCtxt));
     if (ret == NULL) {
         xmlFTPErrMemory("allocating FTP context");
         return(NULL);

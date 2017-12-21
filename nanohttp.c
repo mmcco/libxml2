@@ -384,7 +384,7 @@ static xmlNanoHTTPCtxtPtr
 xmlNanoHTTPNewCtxt(const char *URL) {
     xmlNanoHTTPCtxtPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlNanoHTTPCtxt));
+    ret = malloc(sizeof(xmlNanoHTTPCtxt));
     if (ret == NULL) {
         xmlHTTPErrMemory("allocating context");
         return(NULL);
@@ -530,7 +530,7 @@ xmlNanoHTTPRecv(xmlNanoHTTPCtxtPtr ctxt)
 
     while (ctxt->state & XML_NANO_HTTP_READ) {
         if (ctxt->in == NULL) {
-            ctxt->in = (char *) xmlMallocAtomic(65000 * sizeof(char));
+            ctxt->in = (char *) mallocAtomic(65000 * sizeof(char));
             if (ctxt->in == NULL) {
                 xmlHTTPErrMemory("allocating input");
                 ctxt->last = -1;
@@ -555,7 +555,7 @@ xmlNanoHTTPRecv(xmlNanoHTTPCtxtPtr ctxt)
             char *tmp_ptr = ctxt->in;
 
             ctxt->inlen *= 2;
-            ctxt->in = (char *) xmlRealloc(tmp_ptr, ctxt->inlen);
+            ctxt->in = (char *) realloc(tmp_ptr, ctxt->inlen);
             if (ctxt->in == NULL) {
                 xmlHTTPErrMemory("allocating input buffer");
                 free(tmp_ptr);
@@ -805,7 +805,7 @@ xmlNanoHTTPScanAnswer(xmlNanoHTTPCtxtPtr ctxt, const char *line) {
 	if ( !xmlStrncasecmp( BAD_CAST cur, BAD_CAST"gzip", 4) ) {
 	    ctxt->usesGzip = 1;
 
-	    ctxt->strm = xmlMalloc(sizeof(z_stream));
+	    ctxt->strm = malloc(sizeof(z_stream));
 
 	    if (ctxt->strm != NULL) {
 		ctxt->strm->zalloc = Z_NULL;
@@ -1416,7 +1416,7 @@ retry:
 	else
 	    blen += 11;
     }
-    bp = xmlMalloc(blen);
+    bp = malloc(blen);
     if ( bp == NULL ) {
         xmlNanoHTTPFreeCtxt( ctxt );
 	xmlHTTPErrMemory("allocating header buffer");

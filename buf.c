@@ -122,7 +122,7 @@ xmlBufPtr
 xmlBufCreate(void) {
     xmlBufPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlBuf));
+    ret = malloc(sizeof(xmlBuf));
     if (ret == NULL) {
 	xmlBufMemoryError(NULL, "creating buffer");
         return(NULL);
@@ -134,7 +134,7 @@ xmlBufCreate(void) {
     ret->size = xmlDefaultBufferSize;
     ret->compat_size = xmlDefaultBufferSize;
     ret->alloc = xmlBufferAllocScheme;
-    ret->content = xmlMalloc(ret->size * sizeof(xmlChar));
+    ret->content = malloc(ret->size * sizeof(xmlChar));
     if (ret->content == NULL) {
 	xmlBufMemoryError(ret, "creating buffer");
 	free(ret);
@@ -156,7 +156,7 @@ xmlBufPtr
 xmlBufCreateSize(size_t size) {
     xmlBufPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlBuf));
+    ret = malloc(sizeof(xmlBuf));
     if (ret == NULL) {
 	xmlBufMemoryError(NULL, "creating buffer");
         return(NULL);
@@ -169,7 +169,7 @@ xmlBufCreateSize(size_t size) {
     ret->size = (size ? size+2 : 0);         /* +1 for ending null */
     ret->compat_size = (int) ret->size;
     if (ret->size){
-        ret->content = xmlMalloc(ret->size * sizeof(xmlChar));
+        ret->content = malloc(ret->size * sizeof(xmlChar));
         if (ret->content == NULL) {
 	    xmlBufMemoryError(ret, "creating buffer");
             free(ret);
@@ -234,7 +234,7 @@ xmlBufCreateStatic(void *mem, size_t size) {
     if (mem == NULL)
         return(NULL);
 
-    ret = xmlMalloc(sizeof(xmlBuf));
+    ret = malloc(sizeof(xmlBuf));
     if (ret == NULL) {
 	xmlBufMemoryError(NULL, "creating buffer");
         return(NULL);
@@ -475,7 +475,7 @@ xmlBufGrowInternal(xmlBufPtr buf, size_t len) {
     if ((buf->alloc == XML_BUFFER_ALLOC_IO) && (buf->contentIO != NULL)) {
         size_t start_buf = buf->content - buf->contentIO;
 
-	newbuf = xmlRealloc(buf->contentIO, start_buf + size);
+	newbuf = realloc(buf->contentIO, start_buf + size);
 	if (newbuf == NULL) {
 	    xmlBufMemoryError(buf, "growing buffer");
 	    return(0);
@@ -483,7 +483,7 @@ xmlBufGrowInternal(xmlBufPtr buf, size_t len) {
 	buf->contentIO = newbuf;
 	buf->content = newbuf + start_buf;
     } else {
-	newbuf = xmlRealloc(buf->content, size);
+	newbuf = realloc(buf->content, size);
 	if (newbuf == NULL) {
 	    xmlBufMemoryError(buf, "growing buffer");
 	    return(0);
@@ -814,7 +814,7 @@ xmlBufResize(xmlBufPtr buf, size_t size)
 	    buf->content[buf->use] = 0;
 	    buf->size += start_buf;
 	} else {
-	    rebuf = xmlRealloc(buf->contentIO, start_buf + newSize);
+	    rebuf = realloc(buf->contentIO, start_buf + newSize);
 	    if (rebuf == NULL) {
 		xmlBufMemoryError(buf, "growing buffer");
 		return 0;
@@ -824,16 +824,16 @@ xmlBufResize(xmlBufPtr buf, size_t size)
 	}
     } else {
 	if (buf->content == NULL) {
-	    rebuf = xmlMalloc(newSize);
+	    rebuf = malloc(newSize);
 	} else if (buf->size - buf->use < 100) {
-	    rebuf = xmlRealloc(buf->content, newSize);
+	    rebuf = realloc(buf->content, newSize);
         } else {
 	    /*
 	     * if we are reallocating a buffer far from being full, it's
 	     * better to make a new allocation and copy only the used range
 	     * and free the old one.
 	     */
-	    rebuf = xmlMalloc(newSize);
+	    rebuf = malloc(newSize);
 	    if (rebuf != NULL) {
 		memcpy(rebuf, buf->content, buf->use);
 		free(buf->content);
@@ -1170,7 +1170,7 @@ xmlBufFromBuffer(xmlBufferPtr buffer) {
     if (buffer == NULL)
         return(NULL);
 
-    ret = xmlMalloc(sizeof(xmlBuf));
+    ret = malloc(sizeof(xmlBuf));
     if (ret == NULL) {
 	xmlBufMemoryError(NULL, "creating buffer");
         return(NULL);

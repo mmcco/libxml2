@@ -202,7 +202,7 @@ static xmlPatternPtr
 xmlNewPattern(void) {
     xmlPatternPtr cur;
 
-    cur = xmlMalloc(sizeof(xmlPattern));
+    cur = malloc(sizeof(xmlPattern));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewPattern : malloc failed\n");
@@ -210,7 +210,7 @@ xmlNewPattern(void) {
     }
     memset(cur, 0, sizeof(xmlPattern));
     cur->maxStep = 10;
-    cur->steps = xmlMalloc(cur->maxStep * sizeof(xmlStepOp));
+    cur->steps = malloc(cur->maxStep * sizeof(xmlStepOp));
     if (cur->steps == NULL) {
         free(cur);
 	ERROR(NULL, NULL, NULL,
@@ -292,7 +292,7 @@ xmlNewPatParserContext(const xmlChar *pattern, xmlDictPtr dict,
     if (pattern == NULL)
         return(NULL);
 
-    cur = xmlMalloc(sizeof(xmlPatParserContext));
+    cur = malloc(sizeof(xmlPatParserContext));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewPatParserContext : malloc failed\n");
@@ -346,7 +346,7 @@ xmlPatternAdd(xmlPatParserContextPtr ctxt ATTRIBUTE_UNUSED,
 {
     if (comp->nbStep >= comp->maxStep) {
         xmlStepOpPtr temp;
-	temp = xmlRealloc(comp->steps, comp->maxStep * 2 * sizeof(xmlStepOp));
+	temp = realloc(comp->steps, comp->maxStep * 2 * sizeof(xmlStepOp));
         if (temp == NULL) {
 	    ERROR(ctxt, NULL, NULL,
 			     "xmlPatternAdd: realloc failed\n");
@@ -416,7 +416,7 @@ xmlReversePattern(xmlPatternPtr comp) {
     }
     if (comp->nbStep >= comp->maxStep) {
         xmlStepOpPtr temp;
-	temp = xmlRealloc(comp->steps, comp->maxStep * 2 * sizeof(xmlStepOp));
+	temp = realloc(comp->steps, comp->maxStep * 2 * sizeof(xmlStepOp));
         if (temp == NULL) {
 	    ERROR(ctxt, NULL, NULL,
 			     "xmlReversePattern: realloc failed\n");
@@ -459,12 +459,12 @@ xmlPatPushState(xmlStepStates *states, int step, xmlNodePtr node) {
     if ((states->states == NULL) || (states->maxstates <= 0)) {
         states->maxstates = 4;
 	states->nbstates = 0;
-	states->states = xmlMalloc(4 * sizeof(xmlStepState));
+	states->states = malloc(4 * sizeof(xmlStepState));
     }
     else if (states->maxstates <= states->nbstates) {
         xmlStepState *tmp;
 
-	tmp = xmlRealloc(states->states,
+	tmp = realloc(states->states,
                          2 * states->maxstates * sizeof(xmlStepState));
 	if (tmp == NULL)
 	    return(-1);
@@ -1487,14 +1487,14 @@ xmlNewStreamComp(int size) {
     if (size < 4)
         size  = 4;
 
-    cur = xmlMalloc(sizeof(xmlStreamComp));
+    cur = malloc(sizeof(xmlStreamComp));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewStreamComp: malloc failed\n");
 	return(NULL);
     }
     memset(cur, 0, sizeof(xmlStreamComp));
-    cur->steps = xmlMalloc(size * sizeof(xmlStreamStep));
+    cur->steps = malloc(size * sizeof(xmlStreamStep));
     if (cur->steps == NULL) {
 	free(cur);
 	ERROR(NULL, NULL, NULL,
@@ -1539,7 +1539,7 @@ xmlStreamCompAddStep(xmlStreamCompPtr comp, const xmlChar *name,
     xmlStreamStepPtr cur;
 
     if (comp->nbStep >= comp->maxStep) {
-	cur = xmlRealloc(comp->steps,
+	cur = realloc(comp->steps,
                          comp->maxStep * 2 * sizeof(xmlStreamStep));
 	if (cur == NULL) {
 	    ERROR(NULL, NULL, NULL,
@@ -1751,14 +1751,14 @@ static xmlStreamCtxtPtr
 xmlNewStreamCtxt(xmlStreamCompPtr stream) {
     xmlStreamCtxtPtr cur;
 
-    cur = xmlMalloc(sizeof(xmlStreamCtxt));
+    cur = malloc(sizeof(xmlStreamCtxt));
     if (cur == NULL) {
 	ERROR(NULL, NULL, NULL,
 		"xmlNewStreamCtxt: malloc failed\n");
 	return(NULL);
     }
     memset(cur, 0, sizeof(xmlStreamCtxt));
-    cur->states = xmlMalloc(4 * 2 * sizeof(int));
+    cur->states = malloc(4 * 2 * sizeof(int));
     if (cur->states == NULL) {
 	free(cur);
 	ERROR(NULL, NULL, NULL,
@@ -1813,7 +1813,7 @@ xmlStreamCtxtAddState(xmlStreamCtxtPtr comp, int idx, int level) {
     if (comp->nbState >= comp->maxState) {
         int *cur;
 
-	cur = xmlRealloc(comp->states, comp->maxState * 4 * sizeof(int));
+	cur = realloc(comp->states, comp->maxState * 4 * sizeof(int));
 	if (cur == NULL) {
 	    ERROR(NULL, NULL, NULL,
 		  "xmlNewStreamCtxt: malloc failed\n");

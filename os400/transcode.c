@@ -38,7 +38,7 @@ xmlZapDict(xmlDictPtr * dict)
 ***     -       Keep it in a dictionary.
 ***     -       Free original string if a release procedure is provided.
 ***     Can also be called without dictionary to convert a string from/to UTF-8
-***             into xmlMalloc'ed dynamic storage.
+***             into malloc'ed dynamic storage.
 **/
 
 const char *
@@ -74,7 +74,7 @@ xmlTranscodeResult(const xmlChar * s, const char * encoding,
                         err = !(*dict = xmlDictCreate());
 
                 if (!err)
-                        err = !(ts = xmlMalloc(4 * l + 4));
+                        err = !(ts = malloc(4 * l + 4));
 
                 dstp = ts;
                 dstc = 4 * l;
@@ -101,7 +101,7 @@ xmlTranscodeResult(const xmlChar * s, const char * encoding,
 
                         if (!dict) {
                                 if (dstc)
-                                        ts = xmlRealloc(ts, (dstp - ts) + 4);
+                                        ts = realloc(ts, (dstp - ts) + 4);
 
                                 ret = (const char *) ts;
                                 ts = (char *) NULL;
@@ -127,7 +127,7 @@ xmlTranscodeResult(const xmlChar * s, const char * encoding,
 ***     -       Convert string to UTF-8.
 ***     -       Keep it in a dictionary.
 ***     Can also be called without dictionary to convert a string to UTF-8 into
-***             xmlMalloc'ed dynamic storage.
+***             malloc'ed dynamic storage.
 **/
 
 static const xmlChar *
@@ -150,7 +150,7 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
                 if (!(*dict = xmlDictCreate()))
                         return (const xmlChar *) NULL;
 
-        ts = xmlMalloc(6 * l + 1);
+        ts = malloc(6 * l + 1);
 
         if (!ts)
                 return (const xmlChar *) NULL;
@@ -184,7 +184,7 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
 
         if (!dict) {
                 if (dstc)
-                        ts = xmlRealloc(ts, (dstp - ts) + 1);
+                        ts = realloc(ts, (dstp - ts) + 1);
 
                 return ts;
                 }

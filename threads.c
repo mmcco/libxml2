@@ -74,8 +74,8 @@ static int libxml_is_threaded = -1;
 #endif /* HAVE_PTHREAD_H */
 
 /*
- * TODO: this module still uses malloc/free and not xmlMalloc/xmlFree
- *       to avoid some crazyness since xmlMalloc/xmlFree may actually
+ * TODO: this module still uses malloc/free and not malloc/xmlFree
+ *       to avoid some crazyness since malloc/xmlFree may actually
  *       be hosted on allocated blocks needing them for the allocation ...
  */
 

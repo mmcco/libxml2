@@ -598,19 +598,19 @@ xmlTextReaderEntPush(xmlTextReaderPtr reader, xmlNodePtr value)
 {
     if (reader->entMax <= 0) {
 	reader->entMax = 10;
-	reader->entTab = xmlMalloc(reader->entMax * sizeof(reader->entTab[0]));
+	reader->entTab = malloc(reader->entMax * sizeof(reader->entTab[0]));
         if (reader->entTab == NULL) {
-            xmlGenericError(xmlGenericErrorContext, "xmlMalloc failed !\n");
+            xmlGenericError(xmlGenericErrorContext, "malloc failed !\n");
             return (0);
         }
     }
     if (reader->entNr >= reader->entMax) {
         reader->entMax *= 2;
         reader->entTab =
-            xmlRealloc(reader->entTab,
+            realloc(reader->entTab,
                        reader->entMax * sizeof(reader->entTab[0]));
         if (reader->entTab == NULL) {
-            xmlGenericError(xmlGenericErrorContext, "xmlRealloc failed !\n");
+            xmlGenericError(xmlGenericErrorContext, "realloc failed !\n");
             return (0);
         }
     }
@@ -2067,7 +2067,7 @@ xmlNewTextReader(xmlParserInputBufferPtr input, const char *URI) {
 
     if (input == NULL)
 	return(NULL);
-    ret = xmlMalloc(sizeof(xmlTextReader));
+    ret = malloc(sizeof(xmlTextReader));
     if (ret == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		"xmlNewTextReader : malloc failed\n");
@@ -2089,7 +2089,7 @@ xmlNewTextReader(xmlParserInputBufferPtr input, const char *URI) {
     /* no operation on a reader should require a huge buffer */
     xmlBufSetAllocationScheme(ret->buffer,
 			      XML_BUFFER_ALLOC_BOUNDED);
-    ret->sax = xmlMalloc(sizeof(xmlSAXHandler));
+    ret->sax = malloc(sizeof(xmlSAXHandler));
     if (ret->sax == NULL) {
 	xmlBufFree(ret->buffer);
 	free(ret);
@@ -3986,19 +3986,19 @@ xmlTextReaderPreservePattern(xmlTextReaderPtr reader, const xmlChar *pattern,
 
     if (reader->patternMax <= 0) {
 	reader->patternMax = 4;
-	reader->patternTab = xmlMalloc(reader->patternMax * sizeof(reader->patternTab[0]));
+	reader->patternTab = malloc(reader->patternMax * sizeof(reader->patternTab[0]));
         if (reader->patternTab == NULL) {
-            xmlGenericError(xmlGenericErrorContext, "xmlMalloc failed !\n");
+            xmlGenericError(xmlGenericErrorContext, "malloc failed !\n");
             return (-1);
         }
     }
     if (reader->patternNr >= reader->patternMax) {
         xmlPatternPtr *tmp;
         reader->patternMax *= 2;
-	tmp = xmlRealloc(reader->patternTab,
+	tmp = realloc(reader->patternTab,
                          reader->patternMax * sizeof(reader->patternTab[0]));
         if (tmp == NULL) {
-            xmlGenericError(xmlGenericErrorContext, "xmlRealloc failed !\n");
+            xmlGenericError(xmlGenericErrorContext, "realloc failed !\n");
 	    reader->patternMax /= 2;
             return (-1);
         }
@@ -4701,7 +4701,7 @@ xmlTextReaderStandalone(xmlTextReaderPtr reader) {
  *									*
  ************************************************************************/
 
-/* helper to build a xmlMalloc'ed string from a format and va_list */
+/* helper to build a malloc'ed string from a format and va_list */
 static char *
 xmlTextReaderBuildMessage(const char *msg, va_list ap) {
     int size = 0;
@@ -4725,8 +4725,8 @@ xmlTextReaderBuildMessage(const char *msg, va_list ap) {
 	size = chars + 1;
 	else
 		size = MAX_ERR_MSG_SIZE;
-        if ((larger = xmlRealloc(str, size)) == NULL) {
-	    xmlGenericError(xmlGenericErrorContext, "xmlRealloc failed !\n");
+        if ((larger = realloc(str, size)) == NULL) {
+	    xmlGenericError(xmlGenericErrorContext, "realloc failed !\n");
             free(str);
             return NULL;
         }
@@ -5137,7 +5137,7 @@ xmlTextReaderSetup(xmlTextReaderPtr reader,
     xmlBufSetAllocationScheme(reader->buffer,
 			      XML_BUFFER_ALLOC_BOUNDED);
     if (reader->sax == NULL)
-	reader->sax = xmlMalloc(sizeof(xmlSAXHandler));
+	reader->sax = malloc(sizeof(xmlSAXHandler));
     if (reader->sax == NULL) {
         xmlGenericError(xmlGenericErrorContext,
                         "xmlTextReaderSetup : malloc failed\n");
@@ -5326,7 +5326,7 @@ xmlReaderWalker(xmlDocPtr doc)
     if (doc == NULL)
         return(NULL);
 
-    ret = xmlMalloc(sizeof(xmlTextReader));
+    ret = malloc(sizeof(xmlTextReader));
     if (ret == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		"xmlNewTextReader : malloc failed\n");

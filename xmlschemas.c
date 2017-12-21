@@ -3266,7 +3266,7 @@ xmlSchemaNewSchema(xmlSchemaParserCtxtPtr ctxt)
 {
     xmlSchemaPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchema));
+    ret = malloc(sizeof(xmlSchema));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "allocating schema", NULL);
         return (NULL);
@@ -3290,7 +3290,7 @@ xmlSchemaNewFacet(void)
 {
     xmlSchemaFacetPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaFacet));
+    ret = malloc(sizeof(xmlSchemaFacet));
     if (ret == NULL) {
         return (NULL);
     }
@@ -3313,7 +3313,7 @@ xmlSchemaNewAnnot(xmlSchemaParserCtxtPtr ctxt, xmlNodePtr node)
 {
     xmlSchemaAnnotPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaAnnot));
+    ret = malloc(sizeof(xmlSchemaAnnot));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "allocating annotation", node);
         return (NULL);
@@ -3328,7 +3328,7 @@ xmlSchemaItemListCreate(void)
 {
     xmlSchemaItemListPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaItemList));
+    ret = malloc(sizeof(xmlSchemaItemList));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(NULL,
 	    "allocating an item list structure", NULL);
@@ -3352,7 +3352,7 @@ static int
 xmlSchemaItemListAdd(xmlSchemaItemListPtr list, void *item)
 {
     if (list->items == NULL) {
-	list->items = xmlMalloc(20 * sizeof(void *));
+	list->items = malloc(20 * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "allocating new item list", NULL);
 	    return(-1);
@@ -3360,7 +3360,7 @@ xmlSchemaItemListAdd(xmlSchemaItemListPtr list, void *item)
 	list->sizeItems = 20;
     } else if (list->sizeItems <= list->nbItems) {
 	list->sizeItems *= 2;
-	list->items = xmlRealloc(list->items,
+	list->items = realloc(list->items,
                                  list->sizeItems * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "growing item list", NULL);
@@ -3380,7 +3380,7 @@ xmlSchemaItemListAddSize(xmlSchemaItemListPtr list,
     if (list->items == NULL) {
 	if (initialSize <= 0)
 	    initialSize = 1;
-	list->items = xmlMalloc(initialSize * sizeof(void *));
+	list->items = malloc(initialSize * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "allocating new item list", NULL);
 	    return(-1);
@@ -3388,7 +3388,7 @@ xmlSchemaItemListAddSize(xmlSchemaItemListPtr list,
 	list->sizeItems = initialSize;
     } else if (list->sizeItems <= list->nbItems) {
 	list->sizeItems *= 2;
-	list->items = xmlRealloc(list->items,
+	list->items = realloc(list->items,
                                  list->sizeItems * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "growing item list", NULL);
@@ -3404,7 +3404,7 @@ static int
 xmlSchemaItemListInsert(xmlSchemaItemListPtr list, void *item, int idx)
 {
     if (list->items == NULL) {
-	list->items = xmlMalloc(20 * sizeof(void *));
+	list->items = malloc(20 * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "allocating new item list", NULL);
 	    return(-1);
@@ -3412,7 +3412,7 @@ xmlSchemaItemListInsert(xmlSchemaItemListPtr list, void *item, int idx)
 	list->sizeItems = 20;
     } else if (list->sizeItems <= list->nbItems) {
 	list->sizeItems *= 2;
-	list->items = xmlRealloc(list->items,
+	list->items = realloc(list->items,
                                  list->sizeItems * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "growing item list", NULL);
@@ -3445,7 +3445,7 @@ xmlSchemaItemListInsertSize(xmlSchemaItemListPtr list,
     if (list->items == NULL) {
 	if (initialSize <= 0)
 	    initialSize = 1;
-	list->items = (void **) xmlMalloc(
+	list->items = (void **) malloc(
 	    initialSize * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "allocating new item list", NULL);
@@ -3454,7 +3454,7 @@ xmlSchemaItemListInsertSize(xmlSchemaItemListPtr list,
 	list->sizeItems = initialSize;
     } else if (list->sizeItems <= list->nbItems) {
 	list->sizeItems *= 2;
-	list->items = (void **) xmlRealloc(list->items,
+	list->items = (void **) realloc(list->items,
 	    list->sizeItems * sizeof(void *));
 	if (list->items == NULL) {
 	    xmlSchemaPErrMemory(NULL, "growing item list", NULL);
@@ -3569,7 +3569,7 @@ xmlSchemaBucketCreate(xmlSchemaParserCtxtPtr pctxt,
 	size = sizeof(xmlSchemaInclude);
     else
 	size = sizeof(xmlSchemaImport);
-    ret = xmlMalloc(size);
+    ret = malloc(size);
     if (ret == NULL) {
 	xmlSchemaPErrMemory(NULL, "allocating schema bucket", NULL);
 	return(NULL);
@@ -5138,7 +5138,7 @@ xmlSchemaAddNotation(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
     if ((ctxt == NULL) || (schema == NULL) || (name == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaNotation));
+    ret = malloc(sizeof(xmlSchemaNotation));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "add annotation", NULL);
         return (NULL);
@@ -5175,7 +5175,7 @@ xmlSchemaAddAttribute(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
     if ((ctxt == NULL) || (schema == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaAttribute));
+    ret = malloc(sizeof(xmlSchemaAttribute));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "allocating attribute", NULL);
         return (NULL);
@@ -5215,7 +5215,7 @@ xmlSchemaAddAttributeUse(xmlSchemaParserCtxtPtr pctxt,
     if (pctxt == NULL)
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaAttributeUse));
+    ret = malloc(sizeof(xmlSchemaAttributeUse));
     if (ret == NULL) {
         xmlSchemaPErrMemory(pctxt, "allocating attribute", NULL);
         return (NULL);
@@ -5243,7 +5243,7 @@ xmlSchemaAddRedef(xmlSchemaParserCtxtPtr pctxt,
 {
     xmlSchemaRedefPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaRedef));
+    ret = malloc(sizeof(xmlSchemaRedef));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(pctxt,
 	    "allocating redefinition info", NULL);
@@ -5287,7 +5287,7 @@ xmlSchemaAddAttributeGroupDefinition(xmlSchemaParserCtxtPtr pctxt,
     if ((pctxt == NULL) || (name == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaAttributeGroup));
+    ret = malloc(sizeof(xmlSchemaAttributeGroup));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(pctxt, "allocating attribute group", NULL);
 	return (NULL);
@@ -5336,7 +5336,7 @@ xmlSchemaAddElement(xmlSchemaParserCtxtPtr ctxt,
     if ((ctxt == NULL) || (name == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaElement));
+    ret = malloc(sizeof(xmlSchemaElement));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "allocating element", NULL);
         return (NULL);
@@ -5378,7 +5378,7 @@ xmlSchemaAddType(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
     if ((ctxt == NULL) || (schema == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaType));
+    ret = malloc(sizeof(xmlSchemaType));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "allocating type", NULL);
         return (NULL);
@@ -5413,7 +5413,7 @@ xmlSchemaNewQNameRef(xmlSchemaParserCtxtPtr pctxt,
 {
     xmlSchemaQNameRefPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaQNameRef));
+    ret = malloc(sizeof(xmlSchemaQNameRef));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(pctxt,
 	    "allocating QName reference item", NULL);
@@ -5437,7 +5437,7 @@ xmlSchemaAddAttributeUseProhib(xmlSchemaParserCtxtPtr pctxt)
 {
     xmlSchemaAttributeUseProhibPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaAttributeUseProhib));
+    ret = malloc(sizeof(xmlSchemaAttributeUseProhib));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(pctxt,
 	    "allocating attribute use prohibition", NULL);
@@ -5473,7 +5473,7 @@ xmlSchemaAddModelGroup(xmlSchemaParserCtxtPtr ctxt,
     if ((ctxt == NULL) || (schema == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaModelGroup));
+    ret = malloc(sizeof(xmlSchemaModelGroup));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(ctxt, "allocating model group component",
 	    NULL);
@@ -5514,7 +5514,7 @@ xmlSchemaAddParticle(xmlSchemaParserCtxtPtr ctxt,
 #ifdef DEBUG
     fprintf(stderr, "Adding particle component\n");
 #endif
-    ret = xmlMalloc(sizeof(xmlSchemaParticle));
+    ret = malloc(sizeof(xmlSchemaParticle));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(ctxt, "allocating particle component",
 	    NULL);
@@ -5560,7 +5560,7 @@ xmlSchemaAddModelGroupDefinition(xmlSchemaParserCtxtPtr ctxt,
     if ((ctxt == NULL) || (schema == NULL) || (name == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaModelGroupDef));
+    ret = malloc(sizeof(xmlSchemaModelGroupDef));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "adding group", NULL);
         return (NULL);
@@ -5598,7 +5598,7 @@ xmlSchemaNewWildcardNsConstraint(xmlSchemaParserCtxtPtr ctxt)
 {
     xmlSchemaWildcardNsPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaWildcardNs));
+    ret = malloc(sizeof(xmlSchemaWildcardNs));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(ctxt, "creating wildcard namespace constraint", NULL);
 	return (NULL);
@@ -5618,7 +5618,7 @@ xmlSchemaAddIDC(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
     if ((ctxt == NULL) || (schema == NULL) || (name == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaIDC));
+    ret = malloc(sizeof(xmlSchemaIDC));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt,
 	    "allocating an identity-constraint definition", NULL);
@@ -5659,7 +5659,7 @@ xmlSchemaAddWildcard(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
     if ((ctxt == NULL) || (schema == NULL))
         return (NULL);
 
-    ret = xmlMalloc(sizeof(xmlSchemaWildcard));
+    ret = malloc(sizeof(xmlSchemaWildcard));
     if (ret == NULL) {
         xmlSchemaPErrMemory(ctxt, "adding wildcard", NULL);
         return (NULL);
@@ -5694,7 +5694,7 @@ xmlSchemaSubstGroupAdd(xmlSchemaParserCtxtPtr pctxt,
 	    return(NULL);
     }
     /* Create a new substitution group. */
-    ret = xmlMalloc(sizeof(xmlSchemaSubstGroup));
+    ret = malloc(sizeof(xmlSchemaSubstGroup));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(NULL,
 	    "allocating a substitution group container", NULL);
@@ -8040,7 +8040,7 @@ xmlSchemaCheckCSelectorXPath(xmlSchemaParserCtxtPtr ctxt,
 	    for (i = 0; nsList[i] != NULL; i++)
 		count++;
 
-	    nsArray = xmlMalloc((count * 2 + 1) * sizeof(const xmlChar *));
+	    nsArray = malloc((count * 2 + 1) * sizeof(const xmlChar *));
 	    if (nsArray == NULL) {
 		xmlSchemaPErrMemory(ctxt, "allocating a namespace array",
 		    NULL);
@@ -8227,7 +8227,7 @@ xmlSchemaParseIDCSelectorAndField(xmlSchemaParserCtxtPtr ctxt,
     /*
     * Create the item.
     */
-    item = xmlMalloc(sizeof(xmlSchemaIDCSelect));
+    item = malloc(sizeof(xmlSchemaIDCSelect));
     if (item == NULL) {
         xmlSchemaPErrMemory(ctxt,
 	    "allocating a 'selector' of an identity-constraint definition",
@@ -8910,7 +8910,7 @@ xmlSchemaParseUnion(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
 		/*
 		* Create the member type link.
 		*/
-		link = xmlMalloc(sizeof(xmlSchemaTypeLink));
+		link = malloc(sizeof(xmlSchemaTypeLink));
 		if (link == NULL) {
 		    xmlSchemaPErrMemory(ctxt, "xmlSchemaParseUnion, "
 			"allocating a type link", NULL);
@@ -9843,7 +9843,7 @@ xmlSchemaSchemaRelationCreate(void)
 {
     xmlSchemaSchemaRelationPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaSchemaRelation));
+    ret = malloc(sizeof(xmlSchemaSchemaRelation));
     if (ret == NULL) {
 	xmlSchemaPErrMemory(NULL, "allocating schema relation", NULL);
 	return(NULL);
@@ -9900,7 +9900,7 @@ xmlSchemaConstructionCtxtCreate(xmlDictPtr dict)
 {
     xmlSchemaConstructionCtxtPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaConstructionCtxt));
+    ret = malloc(sizeof(xmlSchemaConstructionCtxt));
     if (ret == NULL) {
         xmlSchemaPErrMemory(NULL,
 	    "allocating schema construction context", NULL);
@@ -9932,7 +9932,7 @@ xmlSchemaParserCtxtCreate(void)
 {
     xmlSchemaParserCtxtPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaParserCtxt));
+    ret = malloc(sizeof(xmlSchemaParserCtxt));
     if (ret == NULL) {
         xmlSchemaPErrMemory(NULL, "allocating schema parser context",
                             NULL);
@@ -11693,7 +11693,7 @@ xmlSchemaParseRestriction(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
 	    facet = type->facets;
 	    do {
 		facetLink = (xmlSchemaFacetLinkPtr)
-		    xmlMalloc(sizeof(xmlSchemaFacetLink));
+		    malloc(sizeof(xmlSchemaFacetLink));
 		if (facetLink == NULL) {
 		    xmlSchemaPErrMemory(ctxt, "allocating a facet link", NULL);
 		    free(facetLink);
@@ -13321,7 +13321,7 @@ xmlSchemaResolveUnionMemberTypes(xmlSchemaParserCtxtPtr ctxt,
     */
     memberType = type->subtypes;
     while (memberType != NULL) {
-	link = xmlMalloc(sizeof(xmlSchemaTypeLink));
+	link = malloc(sizeof(xmlSchemaTypeLink));
 	if (link == NULL) {
 	    xmlSchemaPErrMemory(ctxt, "allocating a type link", NULL);
 	    return (-1);
@@ -17716,7 +17716,7 @@ xmlSchemaDeriveAndValidateFacets(xmlSchemaParserCtxtPtr pctxt,
 	*/
 	if (link == NULL) {
 	    link = (xmlSchemaFacetLinkPtr)
-		xmlMalloc(sizeof(xmlSchemaFacetLink));
+		malloc(sizeof(xmlSchemaFacetLink));
 	    if (link == NULL) {
 		xmlSchemaPErrMemory(pctxt,
 		    "deriving facets, creating a facet link", NULL);
@@ -17769,7 +17769,7 @@ xmlSchemaFinishMemberTypeDefinitionsProperty(xmlSchemaParserCtxtPtr pctxt,
 		    subLink = subLink->next;
 		    prevLink = link;
 		    while (subLink != NULL) {
-			newLink = xmlMalloc(sizeof(xmlSchemaTypeLink));
+			newLink = malloc(sizeof(xmlSchemaTypeLink));
 			if (newLink == NULL) {
 			    xmlSchemaPErrMemory(pctxt, "allocating a type link",
 				NULL);
@@ -21969,7 +21969,7 @@ xmlSchemaAugmentIDC(xmlSchemaIDCPtr idcDef,
 {
     xmlSchemaIDCAugPtr aidc;
 
-    aidc = xmlMalloc(sizeof(xmlSchemaIDCAug));
+    aidc = malloc(sizeof(xmlSchemaIDCAug));
     if (aidc == NULL) {
 	xmlSchemaVErrMemory(vctxt,
 	    "xmlSchemaAugmentIDC: allocating an augmented IDC definition",
@@ -22020,7 +22020,7 @@ xmlSchemaIDCNewBinding(xmlSchemaIDCPtr idcDef)
 {
     xmlSchemaPSVIIDCBindingPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaPSVIIDCBinding));
+    ret = malloc(sizeof(xmlSchemaPSVIIDCBinding));
     if (ret == NULL) {
 	xmlSchemaVErrMemory(NULL,
 	    "allocating a PSVI IDC binding item", NULL);
@@ -22050,7 +22050,7 @@ xmlSchemaIDCStoreNodeTableItem(xmlSchemaValidCtxtPtr vctxt,
     * Add to gobal list.
     */
     if (vctxt->idcNodes == NULL) {
-	vctxt->idcNodes = xmlMalloc(20 * sizeof(xmlSchemaPSVIIDCNodePtr));
+	vctxt->idcNodes = malloc(20 * sizeof(xmlSchemaPSVIIDCNodePtr));
 	if (vctxt->idcNodes == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
 		"allocating the IDC node table item list", NULL);
@@ -22059,7 +22059,7 @@ xmlSchemaIDCStoreNodeTableItem(xmlSchemaValidCtxtPtr vctxt,
 	vctxt->sizeIdcNodes = 20;
     } else if (vctxt->sizeIdcNodes <= vctxt->nbIdcNodes) {
 	vctxt->sizeIdcNodes *= 2;
-	vctxt->idcNodes = xmlRealloc(vctxt->idcNodes,
+	vctxt->idcNodes = realloc(vctxt->idcNodes,
                                      vctxt->sizeIdcNodes * sizeof(xmlSchemaPSVIIDCNodePtr));
 	if (vctxt->idcNodes == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
@@ -22089,7 +22089,7 @@ xmlSchemaIDCStoreKey(xmlSchemaValidCtxtPtr vctxt,
     * Add to gobal list.
     */
     if (vctxt->idcKeys == NULL) {
-	vctxt->idcKeys = xmlMalloc(40 * sizeof(xmlSchemaPSVIIDCKeyPtr));
+	vctxt->idcKeys = malloc(40 * sizeof(xmlSchemaPSVIIDCKeyPtr));
 	if (vctxt->idcKeys == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
 		"allocating the IDC key storage list", NULL);
@@ -22098,7 +22098,7 @@ xmlSchemaIDCStoreKey(xmlSchemaValidCtxtPtr vctxt,
 	vctxt->sizeIdcKeys = 40;
     } else if (vctxt->sizeIdcKeys <= vctxt->nbIdcKeys) {
 	vctxt->sizeIdcKeys *= 2;
-	vctxt->idcKeys = xmlRealloc(vctxt->idcKeys,
+	vctxt->idcKeys = realloc(vctxt->idcKeys,
                                     vctxt->sizeIdcKeys * sizeof(xmlSchemaPSVIIDCKeyPtr));
 	if (vctxt->idcKeys == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
@@ -22126,7 +22126,7 @@ xmlSchemaIDCAppendNodeTableItem(xmlSchemaPSVIIDCBindingPtr bind,
 {
     if (bind->nodeTable == NULL) {
 	bind->sizeNodes = 10;
-	bind->nodeTable = xmlMalloc(10 * sizeof(xmlSchemaPSVIIDCNodePtr));
+	bind->nodeTable = malloc(10 * sizeof(xmlSchemaPSVIIDCNodePtr));
 	if (bind->nodeTable == NULL) {
 	    xmlSchemaVErrMemory(NULL,
 		"allocating an array of IDC node-table items", NULL);
@@ -22134,7 +22134,7 @@ xmlSchemaIDCAppendNodeTableItem(xmlSchemaPSVIIDCBindingPtr bind,
 	}
     } else if (bind->sizeNodes <= bind->nbNodes) {
 	bind->sizeNodes *= 2;
-	bind->nodeTable = xmlRealloc(bind->nodeTable,
+	bind->nodeTable = realloc(bind->nodeTable,
                                      bind->sizeNodes * sizeof(xmlSchemaPSVIIDCNodePtr));
 	if (bind->nodeTable == NULL) {
 	    xmlSchemaVErrMemory(NULL,
@@ -22376,7 +22376,7 @@ xmlSchemaIDCAddStateObject(xmlSchemaValidCtxtPtr vctxt,
 	/*
 	* Create a new state object.
 	*/
-	sto = xmlMalloc(sizeof(xmlSchemaIDCStateObj));
+	sto = malloc(sizeof(xmlSchemaIDCStateObj));
 	if (sto == NULL) {
 	    xmlSchemaVErrMemory(NULL,
 		"allocating an IDC state object", NULL);
@@ -22491,7 +22491,7 @@ xmlSchemaXPathEvaluate(xmlSchemaValidCtxtPtr vctxt,
 	* Register a match in the state object history.
 	*/
 	if (sto->history == NULL) {
-	    sto->history = (int *) xmlMalloc(5 * sizeof(int));
+	    sto->history = (int *) malloc(5 * sizeof(int));
 	    if (sto->history == NULL) {
 		xmlSchemaVErrMemory(NULL,
 		    "allocating the state object history", NULL);
@@ -22500,7 +22500,7 @@ xmlSchemaXPathEvaluate(xmlSchemaValidCtxtPtr vctxt,
 	    sto->sizeHistory = 5;
 	} else if (sto->sizeHistory <= sto->nbHistory) {
 	    sto->sizeHistory *= 2;
-	    sto->history = (int *) xmlRealloc(sto->history,
+	    sto->history = (int *) realloc(sto->history,
 		sto->sizeHistory * sizeof(int));
 	    if (sto->history == NULL) {
 		xmlSchemaVErrMemory(NULL,
@@ -22772,7 +22772,7 @@ xmlSchemaXPathProcessHistory(xmlSchemaValidCtxtPtr vctxt,
 		    else
 			matcher->sizeKeySeqs = 10;
 		    matcher->keySeqs = (xmlSchemaPSVIIDCKeyPtr **)
-			xmlMalloc(matcher->sizeKeySeqs *
+			malloc(matcher->sizeKeySeqs *
 			sizeof(xmlSchemaPSVIIDCKeyPtr *));
 		    if (matcher->keySeqs == NULL) {
 			xmlSchemaVErrMemory(NULL,
@@ -22788,7 +22788,7 @@ xmlSchemaXPathProcessHistory(xmlSchemaValidCtxtPtr vctxt,
 
 		    matcher->sizeKeySeqs *= 2;
 		    matcher->keySeqs = (xmlSchemaPSVIIDCKeyPtr **)
-			xmlRealloc(matcher->keySeqs,
+			realloc(matcher->keySeqs,
 			matcher->sizeKeySeqs *
 			sizeof(xmlSchemaPSVIIDCKeyPtr *));
 		    if (matcher->keySeqs == NULL) {
@@ -22840,7 +22840,7 @@ create_sequence:
 		/*
 		* Create a key-sequence.
 		*/
-		keySeq = (xmlSchemaPSVIIDCKeyPtr *) xmlMalloc(
+		keySeq = (xmlSchemaPSVIIDCKeyPtr *) malloc(
 		    matcher->aidc->def->nbFields *
 		    sizeof(xmlSchemaPSVIIDCKeyPtr));
 		if (keySeq == NULL) {
@@ -22856,7 +22856,7 @@ create_key:
 		* Create a key once per node only.
 		*/
 		if (key == NULL) {
-		    key = (xmlSchemaPSVIIDCKeyPtr) xmlMalloc(
+		    key = (xmlSchemaPSVIIDCKeyPtr) malloc(
 			sizeof(xmlSchemaPSVIIDCKey));
 		    if (key == NULL) {
 			xmlSchemaVErrMemory(NULL,
@@ -23010,7 +23010,7 @@ create_key:
 	    /*
 	    * Add a node-table item to the IDC binding.
 	    */
-	    ntItem = (xmlSchemaPSVIIDCNodePtr) xmlMalloc(
+	    ntItem = (xmlSchemaPSVIIDCNodePtr) malloc(
 		sizeof(xmlSchemaPSVIIDCNode));
 	    if (ntItem == NULL) {
 		xmlSchemaVErrMemory(NULL,
@@ -23227,7 +23227,7 @@ xmlSchemaIDCRegisterMatchers(xmlSchemaValidCtxtPtr vctxt,
 	    matcher->nextCached = NULL;
 	} else {
 	    matcher = (xmlSchemaIDCMatcherPtr)
-		xmlMalloc(sizeof(xmlSchemaIDCMatcher));
+		malloc(sizeof(xmlSchemaIDCMatcher));
 	    if (matcher == NULL) {
 		xmlSchemaVErrMemory(vctxt,
 		    "allocating an IDC matcher", NULL);
@@ -23636,7 +23636,7 @@ xmlSchemaBubbleIDCNodeTables(xmlSchemaValidCtxtPtr vctxt)
 			* the child node to the node table of the parent node.
 			*/
 			if (parBind->nodeTable == NULL) {
-			    parBind->nodeTable = xmlMalloc(10 * sizeof(xmlSchemaPSVIIDCNodePtr));
+			    parBind->nodeTable = malloc(10 * sizeof(xmlSchemaPSVIIDCNodePtr));
 			    if (parBind->nodeTable == NULL) {
 				xmlSchemaVErrMemory(NULL,
 				    "allocating IDC list of node-table items", NULL);
@@ -23645,7 +23645,7 @@ xmlSchemaBubbleIDCNodeTables(xmlSchemaValidCtxtPtr vctxt)
 			    parBind->sizeNodes = 1;
 			} else if (parBind->nbNodes >= parBind->sizeNodes) {
 			    parBind->sizeNodes *= 2;
-			    parBind->nodeTable = xmlRealloc(parBind->nodeTable,
+			    parBind->nodeTable = realloc(parBind->nodeTable,
                                                             parBind->sizeNodes * sizeof(xmlSchemaPSVIIDCNodePtr));
 			    if (parBind->nodeTable == NULL) {
 				xmlSchemaVErrMemory(NULL,
@@ -23698,7 +23698,7 @@ xmlSchemaBubbleIDCNodeTables(xmlSchemaValidCtxtPtr vctxt)
 		    /*
 		    * Copy the entries.
 		    */
-		    parBind->nodeTable = xmlMalloc(bind->nbNodes * sizeof(xmlSchemaPSVIIDCNodePtr));
+		    parBind->nodeTable = malloc(bind->nbNodes * sizeof(xmlSchemaPSVIIDCNodePtr));
 		    if (parBind->nodeTable == NULL) {
 			xmlSchemaVErrMemory(NULL,
 			    "allocating an array of IDC node-table "
@@ -23877,7 +23877,7 @@ xmlSchemaGetFreshAttrInfo(xmlSchemaValidCtxtPtr vctxt)
     * Grow/create list of attribute infos.
     */
     if (vctxt->attrInfos == NULL) {
-	vctxt->attrInfos = xmlMalloc(sizeof(xmlSchemaAttrInfoPtr));
+	vctxt->attrInfos = malloc(sizeof(xmlSchemaAttrInfoPtr));
 	vctxt->sizeAttrInfos = 1;
 	if (vctxt->attrInfos == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
@@ -23886,7 +23886,7 @@ xmlSchemaGetFreshAttrInfo(xmlSchemaValidCtxtPtr vctxt)
 	}
     } else if (vctxt->sizeAttrInfos <= vctxt->nbAttrInfos) {
 	vctxt->sizeAttrInfos++;
-	vctxt->attrInfos = xmlRealloc(vctxt->attrInfos,
+	vctxt->attrInfos = realloc(vctxt->attrInfos,
                                       vctxt->sizeAttrInfos * sizeof(xmlSchemaAttrInfoPtr));
 	if (vctxt->attrInfos == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
@@ -23906,7 +23906,7 @@ xmlSchemaGetFreshAttrInfo(xmlSchemaValidCtxtPtr vctxt)
     /*
     * Create an attribute info.
     */
-    iattr = xmlMalloc(sizeof(xmlSchemaAttrInfo));
+    iattr = malloc(sizeof(xmlSchemaAttrInfo));
     if (iattr == NULL) {
 	xmlSchemaVErrMemory(vctxt, "creating new attribute info", NULL);
 	return (NULL);
@@ -24056,7 +24056,7 @@ xmlSchemaGetFreshElemInfo(xmlSchemaValidCtxtPtr vctxt)
 	return (NULL);
     }
     if (vctxt->elemInfos == NULL) {
-	vctxt->elemInfos = xmlMalloc(10 * sizeof(xmlSchemaNodeInfoPtr));
+	vctxt->elemInfos = malloc(10 * sizeof(xmlSchemaNodeInfoPtr));
 	if (vctxt->elemInfos == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
 		"allocating the element info array", NULL);
@@ -24068,7 +24068,7 @@ xmlSchemaGetFreshElemInfo(xmlSchemaValidCtxtPtr vctxt)
 	int i = vctxt->sizeElemInfos;
 
 	vctxt->sizeElemInfos *= 2;
-	vctxt->elemInfos = xmlRealloc(vctxt->elemInfos,
+	vctxt->elemInfos = realloc(vctxt->elemInfos,
                                       vctxt->sizeElemInfos * sizeof(xmlSchemaNodeInfoPtr));
 	if (vctxt->elemInfos == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
@@ -24085,7 +24085,7 @@ xmlSchemaGetFreshElemInfo(xmlSchemaValidCtxtPtr vctxt)
 	info = vctxt->elemInfos[vctxt->depth];
 
     if (info == NULL) {
-	info = xmlMalloc(sizeof(xmlSchemaNodeInfo));
+	info = malloc(sizeof(xmlSchemaNodeInfo));
 	if (info == NULL) {
 	    xmlSchemaVErrMemory(vctxt,
 		"allocating an element info", NULL);
@@ -27289,7 +27289,7 @@ xmlSchemaSAXHandleStartElementNs(void *ctx,
 	    */
 	    if (ielem->nsBindings == NULL) {
 		ielem->nsBindings =
-		    xmlMalloc(10 * sizeof(const xmlChar *));
+		    malloc(10 * sizeof(const xmlChar *));
 		if (ielem->nsBindings == NULL) {
 		    xmlSchemaVErrMemory(vctxt,
 			"allocating namespace bindings for SAX validation",
@@ -27301,7 +27301,7 @@ xmlSchemaSAXHandleStartElementNs(void *ctx,
 	    } else if (ielem->sizeNsBindings <= ielem->nbNsBindings) {
 		ielem->sizeNsBindings *= 2;
 		ielem->nsBindings =
-		    xmlRealloc((void *)ielem->nsBindings,
+		    realloc((void *)ielem->nsBindings,
                                ielem->sizeNsBindings * 2 * sizeof(const xmlChar *));
 		if (ielem->nsBindings == NULL) {
 		    xmlSchemaVErrMemory(vctxt,
@@ -27342,7 +27342,7 @@ xmlSchemaSAXHandleStartElementNs(void *ctx,
 	    * we are forced to work around it.
 	    */
 	    valueLen = attributes[j+4] - attributes[j+3];
-	    value = xmlMalloc(valueLen + 1);
+	    value = malloc(valueLen + 1);
 	    if (value == NULL) {
 		xmlSchemaVErrMemory(vctxt,
 		    "allocating string for decoded attribute",
@@ -27461,7 +27461,7 @@ xmlSchemaNewValidCtxt(xmlSchemaPtr schema)
 {
     xmlSchemaValidCtxtPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaValidCtxt));
+    ret = malloc(sizeof(xmlSchemaValidCtxt));
     if (ret == NULL) {
         xmlSchemaVErrMemory(NULL, "allocating validation context", NULL);
         return (NULL);
@@ -28539,7 +28539,7 @@ xmlSchemaSAXPlug(xmlSchemaValidCtxtPtr ctxt,
     /*
      * everything seems right allocate the local data needed for that layer
      */
-    ret = xmlMalloc(sizeof(xmlSchemaSAXPlugStruct));
+    ret = malloc(sizeof(xmlSchemaSAXPlugStruct));
     if (ret == NULL) {
         return(NULL);
     }

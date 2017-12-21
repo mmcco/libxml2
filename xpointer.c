@@ -257,7 +257,7 @@ xmlXPtrNewPoint(xmlNodePtr node, int indx) {
     if (indx < 0)
 	return(NULL);
 
-    ret = xmlMalloc(sizeof(xmlXPathObject));
+    ret = malloc(sizeof(xmlXPathObject));
     if (ret == NULL) {
         xmlXPtrErrMemory("allocating point");
 	return(NULL);
@@ -352,7 +352,7 @@ xmlXPtrNewRangeInternal(xmlNodePtr start, int startindex,
     if ((end != NULL) && (end->type == XML_NAMESPACE_DECL))
 	return(NULL);
 
-    ret = xmlMalloc(sizeof(xmlXPathObject));
+    ret = malloc(sizeof(xmlXPathObject));
     if (ret == NULL) {
         xmlXPtrErrMemory("allocating range");
 	return(NULL);
@@ -579,14 +579,14 @@ xmlLocationSetPtr
 xmlXPtrLocationSetCreate(xmlXPathObjectPtr val) {
     xmlLocationSetPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlLocationSet));
+    ret = malloc(sizeof(xmlLocationSet));
     if (ret == NULL) {
         xmlXPtrErrMemory("allocating locationset");
 	return(NULL);
     }
     memset(ret, 0 , (size_t) sizeof(xmlLocationSet));
     if (val != NULL) {
-        ret->locTab = xmlMalloc(XML_RANGESET_DEFAULT * sizeof(xmlXPathObjectPtr));
+        ret->locTab = malloc(XML_RANGESET_DEFAULT * sizeof(xmlXPathObjectPtr));
 	if (ret->locTab == NULL) {
 	    xmlXPtrErrMemory("allocating locationset");
 	    free(ret);
@@ -628,7 +628,7 @@ xmlXPtrLocationSetAdd(xmlLocationSetPtr cur, xmlXPathObjectPtr val) {
      * grow the locTab if needed
      */
     if (cur->locMax == 0) {
-        cur->locTab = xmlMalloc(XML_RANGESET_DEFAULT * sizeof(xmlXPathObjectPtr));
+        cur->locTab = malloc(XML_RANGESET_DEFAULT * sizeof(xmlXPathObjectPtr));
 	if (cur->locTab == NULL) {
 	    xmlXPtrErrMemory("adding location to set");
 	    return;
@@ -640,7 +640,7 @@ xmlXPtrLocationSetAdd(xmlLocationSetPtr cur, xmlXPathObjectPtr val) {
         xmlXPathObjectPtr *temp;
 
         cur->locMax *= 2;
-	temp = xmlRealloc(cur->locTab,
+	temp = realloc(cur->locTab,
                           cur->locMax * sizeof(xmlXPathObjectPtr));
 	if (temp == NULL) {
 	    xmlXPtrErrMemory("adding location to set");
@@ -762,7 +762,7 @@ xmlXPathObjectPtr
 xmlXPtrNewLocationSetNodes(xmlNodePtr start, xmlNodePtr end) {
     xmlXPathObjectPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlXPathObject));
+    ret = malloc(sizeof(xmlXPathObject));
     if (ret == NULL) {
         xmlXPtrErrMemory("allocating locationset");
 	return(NULL);
@@ -789,7 +789,7 @@ xmlXPathObjectPtr
 xmlXPtrNewLocationSetNodeSet(xmlNodeSetPtr set) {
     xmlXPathObjectPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlXPathObject));
+    ret = malloc(sizeof(xmlXPathObject));
     if (ret == NULL) {
         xmlXPtrErrMemory("allocating locationset");
 	return(NULL);
@@ -825,7 +825,7 @@ xmlXPathObjectPtr
 xmlXPtrWrapLocationSet(xmlLocationSetPtr val) {
     xmlXPathObjectPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlXPathObject));
+    ret = malloc(sizeof(xmlXPathObject));
     if (ret == NULL) {
         xmlXPtrErrMemory("allocating locationset");
 	return(NULL);
@@ -964,7 +964,7 @@ xmlXPtrEvalXPtrPart(xmlXPathParserContextPtr ctxt, xmlChar *name) {
 
     len = xmlStrlen(ctxt->cur);
     len++;
-    buffer = xmlMalloc(len * sizeof(xmlChar));
+    buffer = malloc(len * sizeof(xmlChar));
     if (buffer == NULL) {
         xmlXPtrErrMemory("allocating buffer");
         free(name);
@@ -1227,7 +1227,7 @@ static void
 xmlXPtrEvalXPointer(xmlXPathParserContextPtr ctxt) {
     if (ctxt->valueTab == NULL) {
 	/* Allocate the value stack */
-	ctxt->valueTab = xmlMalloc(10 * sizeof(xmlXPathObjectPtr));
+	ctxt->valueTab = malloc(10 * sizeof(xmlXPathObjectPtr));
 	if (ctxt->valueTab == NULL) {
 	    xmlXPtrErrMemory("allocating evaluation context");
 	    return;

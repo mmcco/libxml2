@@ -206,7 +206,7 @@ __xmlIOWin32UTF8ToWChar(const char *u8String)
             MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, u8String,
                                 -1, NULL, 0);
         if (wLen) {
-            wString = xmlMalloc(wLen * sizeof(wchar_t));
+            wString = malloc(wLen * sizeof(wchar_t));
             if (wString) {
                 if (MultiByteToWideChar
                     (CP_UTF8, 0, u8String, -1, wString, wLen) == 0) {
@@ -1488,7 +1488,7 @@ xmlCreateZMemBuff( int compression ) {
 
     /*  Create the control and data areas  */
 
-    buff = xmlMalloc(sizeof(xmlZMemBuff));
+    buff = malloc(sizeof(xmlZMemBuff));
     if ( buff == NULL ) {
 	xmlIOErrMemory("creating buffer context");
 	return ( NULL );
@@ -1496,7 +1496,7 @@ xmlCreateZMemBuff( int compression ) {
 
     (void)memset( buff, 0, sizeof( xmlZMemBuff ) );
     buff->size = INIT_HTTP_BUFF_SIZE;
-    buff->zbuff = xmlMalloc(buff->size);
+    buff->zbuff = malloc(buff->size);
     if ( buff->zbuff == NULL ) {
 	xmlFreeZMemBuff( buff );
 	xmlIOErrMemory("creating buffer");
@@ -1567,7 +1567,7 @@ xmlZMemBuffExtend( xmlZMemBuffPtr buff, size_t ext_amt ) {
 			(cur_used - new_size ) );
 #endif
 
-    tmp_ptr = xmlRealloc(buff->zbuff, new_size);
+    tmp_ptr = realloc(buff->zbuff, new_size);
     if ( tmp_ptr != NULL ) {
 	rc = 0;
 	buff->size  = new_size;
@@ -1789,7 +1789,7 @@ xmlIOHTTPOpenW(const char *post_uri, int compression ATTRIBUTE_UNUSED)
     if (post_uri == NULL)
         return (NULL);
 
-    ctxt = xmlMalloc(sizeof(xmlIOHTTPWriteCtxt));
+    ctxt = malloc(sizeof(xmlIOHTTPWriteCtxt));
     if (ctxt == NULL) {
 	xmlIOErrMemory("creating HTTP output context");
         return (NULL);
@@ -2320,7 +2320,7 @@ xmlParserInputBufferPtr
 xmlAllocParserInputBuffer(xmlCharEncoding enc) {
     xmlParserInputBufferPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlParserInputBuffer));
+    ret = malloc(sizeof(xmlParserInputBuffer));
     if (ret == NULL) {
 	xmlIOErrMemory("creating input buffer");
 	return(NULL);
@@ -2359,7 +2359,7 @@ xmlOutputBufferPtr
 xmlAllocOutputBuffer(xmlCharEncodingHandlerPtr encoder) {
     xmlOutputBufferPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlOutputBuffer));
+    ret = malloc(sizeof(xmlOutputBuffer));
     if (ret == NULL) {
 	xmlIOErrMemory("creating output buffer");
 	return(NULL);
@@ -2409,7 +2409,7 @@ xmlOutputBufferPtr
 xmlAllocOutputBufferInternal(xmlCharEncodingHandlerPtr encoder) {
     xmlOutputBufferPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlOutputBuffer));
+    ret = malloc(sizeof(xmlOutputBuffer));
     if (ret == NULL) {
 	xmlIOErrMemory("creating output buffer");
 	return(NULL);
@@ -2963,7 +2963,7 @@ xmlParserInputBufferCreateStatic(const char *mem, int size,
     if (size < 0) return(NULL);
     if (mem == NULL) return(NULL);
 
-    ret = xmlMalloc(sizeof(xmlParserInputBuffer));
+    ret = malloc(sizeof(xmlParserInputBuffer));
     if (ret == NULL) {
 	xmlIOErrMemory("creating input buffer");
 	return(NULL);

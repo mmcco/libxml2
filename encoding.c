@@ -105,7 +105,7 @@ static uconv_t*
 openIcuConverter(const char* name, int toUnicode)
 {
   UErrorCode status = U_ZERO_ERROR;
-  uconv_t *conv = xmlMalloc(sizeof(uconv_t));
+  uconv_t *conv = malloc(sizeof(uconv_t));
   if (conv == NULL)
     return NULL;
 
@@ -1064,12 +1064,12 @@ xmlAddEncodingAlias(const char *name, const char *alias) {
     if (xmlCharEncodingAliases == NULL) {
 	xmlCharEncodingAliasesNb = 0;
 	xmlCharEncodingAliasesMax = 20;
-	xmlCharEncodingAliases = xmlMalloc(xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
+	xmlCharEncodingAliases = malloc(xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
 	if (xmlCharEncodingAliases == NULL)
 	    return(-1);
     } else if (xmlCharEncodingAliasesNb >= xmlCharEncodingAliasesMax) {
 	xmlCharEncodingAliasesMax *= 2;
-	xmlCharEncodingAliases = xmlRealloc(xmlCharEncodingAliases,
+	xmlCharEncodingAliases = realloc(xmlCharEncodingAliases,
                                             xmlCharEncodingAliasesMax * sizeof(xmlCharEncodingAlias));
     }
     /*
@@ -1345,7 +1345,7 @@ xmlNewCharEncodingHandler(const char *name,
     /*
      * allocate and fill-up an handler block.
      */
-    handler = xmlMalloc(sizeof(xmlCharEncodingHandler));
+    handler = malloc(sizeof(xmlCharEncodingHandler));
     if (handler == NULL) {
         free(up);
         xmlEncodingErrMemory("xmlNewCharEncodingHandler : out of memory !\n");
@@ -1391,7 +1391,7 @@ xmlInitCharEncodingHandlers(void) {
 
     if (handlers != NULL) return;
 
-    handlers = xmlMalloc(MAX_ENCODING_HANDLERS * sizeof(xmlCharEncodingHandlerPtr));
+    handlers = malloc(MAX_ENCODING_HANDLERS * sizeof(xmlCharEncodingHandlerPtr));
 
     if (*ptr == 0x12) xmlLittleEndian = 0;
     else if (*ptr == 0x34) xmlLittleEndian = 1;
@@ -1686,7 +1686,7 @@ xmlFindCharEncodingHandler(const char *name) {
 	icv_out = iconv_open(upper, "UTF-8");
     }
     if ((icv_in != (iconv_t) -1) && (icv_out != (iconv_t) -1)) {
-	    enc = xmlMalloc(sizeof(xmlCharEncodingHandler));
+	    enc = malloc(sizeof(xmlCharEncodingHandler));
 	    if (enc == NULL) {
 	        iconv_close(icv_in);
 	        iconv_close(icv_out);
@@ -1713,7 +1713,7 @@ xmlFindCharEncodingHandler(const char *name) {
     ucv_in = openIcuConverter(name, 1);
     ucv_out = openIcuConverter(name, 0);
     if (ucv_in != NULL && ucv_out != NULL) {
-	    encu = xmlMalloc(sizeof(xmlCharEncodingHandler));
+	    encu = malloc(sizeof(xmlCharEncodingHandler));
 	    if (encu == NULL) {
                 closeIcuConverter(ucv_in);
                 closeIcuConverter(ucv_out);

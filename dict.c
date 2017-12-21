@@ -266,7 +266,7 @@ xmlDictAddString(xmlDictPtr dict, const xmlChar *name, unsigned int namelen) {
 	else size *= 4; /* exponential growth */
         if (size < 4 * namelen)
 	    size = 4 * namelen; /* just in case ! */
-	pool = xmlMalloc(sizeof(xmlDictStrings) + size);
+	pool = malloc(sizeof(xmlDictStrings) + size);
 	if (pool == NULL)
 	    return(NULL);
 	pool->size = size;
@@ -334,7 +334,7 @@ xmlDictAddQString(xmlDictPtr dict, const xmlChar *prefix, unsigned int plen,
 	else size *= 4; /* exponential growth */
         if (size < 4 * (namelen + plen + 1))
 	    size = 4 * (namelen + plen + 1); /* just in case ! */
-	pool = xmlMalloc(sizeof(xmlDictStrings) + size);
+	pool = malloc(sizeof(xmlDictStrings) + size);
 	if (pool == NULL)
 	    return(NULL);
 	pool->size = size;
@@ -575,14 +575,14 @@ xmlDictCreate(void) {
     fprintf(stderr, "C");
 #endif
 
-    dict = xmlMalloc(sizeof(xmlDict));
+    dict = malloc(sizeof(xmlDict));
     if (dict) {
         dict->ref_counter = 1;
         dict->limit = 0;
 
         dict->size = MIN_DICT_SIZE;
 	dict->nbElems = 0;
-        dict->dict = xmlMalloc(MIN_DICT_SIZE * sizeof(xmlDictEntry));
+        dict->dict = malloc(MIN_DICT_SIZE * sizeof(xmlDictEntry));
 	dict->strings = NULL;
 	dict->subdict = NULL;
         if (dict->dict) {
@@ -685,7 +685,7 @@ xmlDictGrow(xmlDictPtr dict, size_t size) {
     if (oldsize == MIN_DICT_SIZE)
         keep_keys = 0;
 
-    dict->dict = xmlMalloc(size * sizeof(xmlDictEntry));
+    dict->dict = malloc(size * sizeof(xmlDictEntry));
     if (dict->dict == NULL) {
 	dict->dict = olddict;
 	return(-1);
@@ -716,7 +716,7 @@ xmlDictGrow(xmlDictPtr dict, size_t size) {
 	} else {
 	    xmlDictEntryPtr entry;
 
-	    entry = xmlMalloc(sizeof(xmlDictEntry));
+	    entry = malloc(sizeof(xmlDictEntry));
 	    if (entry != NULL) {
 		entry->name = olddict[i].name;
 		entry->len = olddict[i].len;
@@ -957,7 +957,7 @@ xmlDictLookup(xmlDictPtr dict, const xmlChar *name, int len) {
     if (insert == NULL) {
 	entry = &(dict->dict[key]);
     } else {
-	entry = xmlMalloc(sizeof(xmlDictEntry));
+	entry = malloc(sizeof(xmlDictEntry));
 	if (entry == NULL)
 	     return(NULL);
     }
@@ -1173,7 +1173,7 @@ xmlDictQLookup(xmlDictPtr dict, const xmlChar *prefix, const xmlChar *name) {
     if (insert == NULL) {
 	entry = &(dict->dict[key]);
     } else {
-	entry = xmlMalloc(sizeof(xmlDictEntry));
+	entry = malloc(sizeof(xmlDictEntry));
 	if (entry == NULL)
 	     return(NULL);
     }

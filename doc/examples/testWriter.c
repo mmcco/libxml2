@@ -1180,7 +1180,7 @@ ConvertInput(const char *in, const char *encoding)
             free(out);
             out = 0;
         } else {
-            out = xmlRealloc(out, out_size + 1);
+            out = realloc(out, out_size + 1);
             out[out_size] = 0;  /*null terminating out */
         }
     } else {

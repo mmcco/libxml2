@@ -226,7 +226,7 @@ static xmlSchemaValPtr
 xmlSchemaNewValue(xmlSchemaValType type) {
     xmlSchemaValPtr value;
 
-    value = xmlMalloc(sizeof(xmlSchemaVal));
+    value = malloc(sizeof(xmlSchemaVal));
     if (value == NULL) {
 	return(NULL);
     }
@@ -266,7 +266,7 @@ xmlSchemaInitBasicType(const char *name, xmlSchemaValType type,
 		       xmlSchemaTypePtr baseType) {
     xmlSchemaTypePtr ret;
 
-    ret = xmlMalloc(sizeof(xmlSchemaType));
+    ret = malloc(sizeof(xmlSchemaType));
     if (ret == NULL) {
         xmlSchemaTypeErrMemory(NULL, "could not initialize basic types");
 	return(NULL);
@@ -373,7 +373,7 @@ xmlSchemaAddParticle(void)
 {
     xmlSchemaParticlePtr ret = NULL;
 
-    ret = xmlMalloc(sizeof(xmlSchemaParticle));
+    ret = malloc(sizeof(xmlSchemaParticle));
     if (ret == NULL) {
 	xmlSchemaTypeErrMemory(NULL, "allocating particle component");
 	return (NULL);
@@ -420,7 +420,7 @@ xmlSchemaInitTypes(void)
 	    return;
 	xmlSchemaTypeAnyTypeDef->subtypes = (xmlSchemaTypePtr) particle;
 	/* Sequence model group. */
-	sequence = xmlMalloc(sizeof(xmlSchemaModelGroup));
+	sequence = malloc(sizeof(xmlSchemaModelGroup));
 	if (sequence == NULL) {
 	    xmlSchemaTypeErrMemory(NULL, "allocating model group component");
 	    return;
@@ -436,7 +436,7 @@ xmlSchemaInitTypes(void)
 	particle->maxOccurs = UNBOUNDED;
 	sequence->children = (xmlSchemaTreeItemPtr) particle;
 	/* The wildcard */
-	wild = xmlMalloc(sizeof(xmlSchemaWildcard));
+	wild = malloc(sizeof(xmlSchemaWildcard));
 	if (wild == NULL) {
 	    xmlSchemaTypeErrMemory(NULL, "allocating wildcard component");
 	    return;
@@ -449,7 +449,7 @@ xmlSchemaInitTypes(void)
 	/*
 	* Create the attribute wildcard.
 	*/
-	wild = xmlMalloc(sizeof(xmlSchemaWildcard));
+	wild = malloc(sizeof(xmlSchemaWildcard));
 	if (wild == NULL) {
 	    xmlSchemaTypeErrMemory(NULL, "could not create an attribute "
 		"wildcard on anyType");
@@ -946,7 +946,7 @@ xmlSchemaNewStringValue(xmlSchemaValType type,
 
     if (type != XML_SCHEMAS_STRING)
 	return(NULL);
-    val = xmlMalloc(sizeof(xmlSchemaVal));
+    val = malloc(sizeof(xmlSchemaVal));
     if (val == NULL) {
 	return(NULL);
     }
@@ -3097,7 +3097,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                     if (v == NULL)
                         goto error;
                     base =
-                        (xmlChar *) xmlMallocAtomic((i + pad + 1) *
+                        (xmlChar *) mallocAtomic((i + pad + 1) *
                                                     sizeof(xmlChar));
                     if (base == NULL) {
 		        xmlSchemaTypeErrMemory(node, "allocating base64 data");
@@ -5738,7 +5738,7 @@ xmlSchemaGetCanonValue(xmlSchemaValPtr val, const xmlChar **retValue)
 		/* Add room for leading/trailing zero. */
 		if ((dec.frac == 0) || (dec.frac == dec.total))
 		    bufsize++;
-		buf = xmlMalloc(bufsize);
+		buf = malloc(bufsize);
 		if (buf == NULL)
 		    return(-1);
 		offs = buf;
@@ -5813,7 +5813,7 @@ xmlSchemaGetCanonValue(xmlSchemaValPtr val, const xmlChar **retValue)
 		/* Add room for the decimal point as well. */
 		if (dec.sign)
 		    bufsize++;
-		*retValue = xmlMalloc(bufsize);
+		*retValue = malloc(bufsize);
 		if (*retValue == NULL)
 		    return(-1);
 		if (dec.hi != 0) {
@@ -5891,7 +5891,7 @@ xmlSchemaGetCanonValue(xmlSchemaValPtr val, const xmlChar **retValue)
 	case XML_SCHEMAS_GMONTH: {
 		/* TODO: Unclear in XML Schema 1.0 */
 		/* TODO: What to do with the timezone? */
-		*retValue = xmlMalloc(6);
+		*retValue = malloc(6);
 		if (*retValue == NULL)
 		    return(-1);
 		snprintf((char *) *retValue, 6, "--%02u",
@@ -5901,7 +5901,7 @@ xmlSchemaGetCanonValue(xmlSchemaValPtr val, const xmlChar **retValue)
         case XML_SCHEMAS_GDAY: {
 		/* TODO: Unclear in XML Schema 1.0 */
 		/* TODO: What to do with the timezone? */
-		*retValue = xmlMalloc(6);
+		*retValue = malloc(6);
 		if (*retValue == NULL)
 		    return(-1);
 		snprintf((char *) *retValue, 6, "---%02u",
@@ -5911,7 +5911,7 @@ xmlSchemaGetCanonValue(xmlSchemaValPtr val, const xmlChar **retValue)
         case XML_SCHEMAS_GMONTHDAY: {
 		/* TODO: Unclear in XML Schema 1.0 */
 		/* TODO: What to do with the timezone? */
-		*retValue = xmlMalloc(8);
+		*retValue = malloc(8);
 		if (*retValue == NULL)
 		    return(-1);
 		snprintf((char *) *retValue, 8, "--%02u-%02u",

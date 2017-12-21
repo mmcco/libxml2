@@ -3721,7 +3721,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
  */
 #define xxx_growBufferReentrant() {						\
     buffer_size *= 2;							\
-    buffer = xmlRealloc(buffer, buffer_size * sizeof(xmlChar *));	\
+    buffer = realloc(buffer, buffer_size * sizeof(xmlChar *));	\
     if (buffer == NULL) {						\
 	perror("realloc failed");					\
 	return(NULL);							\
@@ -3748,7 +3748,7 @@ parse_list(xmlChar *str) {
      * allocate an translation buffer.
      */
     buffer_size = 1000;
-    buffer = xmlMalloc(buffer_size * sizeof(xmlChar *));
+    buffer = malloc(buffer_size * sizeof(xmlChar *));
     if (buffer == NULL) {
 	perror("malloc failed");
 	return(NULL);

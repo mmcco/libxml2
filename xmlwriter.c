@@ -181,7 +181,7 @@ xmlNewTextWriter(xmlOutputBufferPtr out)
 {
     xmlTextWriterPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlTextWriter));
+    ret = malloc(sizeof(xmlTextWriter));
     if (ret == NULL) {
         xmlWriterErrMsg(NULL, XML_ERR_NO_MEMORY,
                         "xmlNewTextWriter : out of memory!\n");
@@ -773,7 +773,7 @@ xmlTextWriterStartComment(xmlTextWriterPtr writer)
         }
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartElement : out of memory!\n");
@@ -1004,7 +1004,7 @@ xmlTextWriterStartElement(xmlTextWriterPtr writer, const xmlChar * name)
         }
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartElement : out of memory!\n");
@@ -1078,7 +1078,7 @@ xmlTextWriterStartElementNS(xmlTextWriterPtr writer,
     sum += count;
 
     if (namespaceURI != 0) {
-        xmlTextWriterNsStackEntry *p = xmlMalloc(sizeof(xmlTextWriterNsStackEntry));
+        xmlTextWriterNsStackEntry *p = malloc(sizeof(xmlTextWriterNsStackEntry));
         if (p == 0) {
             xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                             "xmlTextWriterStartElementNS : out of memory!\n");
@@ -1867,7 +1867,7 @@ xmlTextWriterStartAttributeNS(xmlTextWriterPtr writer,
 
         /* Do not add namespace decl to list - it is already there */
         if (buf != NULL) {
-            p = xmlMalloc(sizeof(xmlTextWriterNsStackEntry));
+            p = malloc(sizeof(xmlTextWriterNsStackEntry));
             if (p == 0) {
                 xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
 								        "xmlTextWriterStartAttributeNS : out of memory!\n");
@@ -2426,7 +2426,7 @@ xmlTextWriterStartPI(xmlTextWriterPtr writer, const xmlChar * target)
         }
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartPI : out of memory!\n");
@@ -2660,7 +2660,7 @@ xmlTextWriterStartCDATA(xmlTextWriterPtr writer)
         }
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartCDATA : out of memory!\n");
@@ -2844,7 +2844,7 @@ xmlTextWriterStartDTD(xmlTextWriterPtr writer,
         return -1;
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTD : out of memory!\n");
@@ -3185,7 +3185,7 @@ xmlTextWriterStartDTDElement(xmlTextWriterPtr writer, const xmlChar * name)
         }
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTDElement : out of memory!\n");
@@ -3421,7 +3421,7 @@ xmlTextWriterStartDTDAttlist(xmlTextWriterPtr writer, const xmlChar * name)
         }
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTDAttlist : out of memory!\n");
@@ -3659,7 +3659,7 @@ xmlTextWriterStartDTDEntity(xmlTextWriterPtr writer,
         }
     }
 
-    p = xmlMalloc(sizeof(xmlTextWriterStackEntry));
+    p = malloc(sizeof(xmlTextWriterStackEntry));
     if (p == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTDElement : out of memory!\n");
@@ -4464,7 +4464,7 @@ xmlTextWriterVSprintf(const char *format, va_list argptr)
     va_list locarg;
 
     size = BUFSIZ;
-    buf = xmlMalloc(size);
+    buf = malloc(size);
     if (buf == NULL) {
         xmlWriterErrMsg(NULL, XML_ERR_NO_MEMORY,
                         "xmlTextWriterVSprintf : out of memory!\n");
@@ -4477,7 +4477,7 @@ xmlTextWriterVSprintf(const char *format, va_list argptr)
 	va_end(locarg);
         free(buf);
         size += BUFSIZ;
-        buf = xmlMalloc(size);
+        buf = malloc(size);
         if (buf == NULL) {
             xmlWriterErrMsg(NULL, XML_ERR_NO_MEMORY,
                             "xmlTextWriterVSprintf : out of memory!\n");

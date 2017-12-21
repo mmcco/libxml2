@@ -1008,7 +1008,7 @@ xmlURIPtr
 xmlCreateURI(void) {
     xmlURIPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlURI));
+    ret = malloc(sizeof(xmlURI));
     if (ret == NULL) {
         xmlURIErrMemory("creating URI structure\n");
 	return(NULL);
@@ -1033,7 +1033,7 @@ xmlSaveUriRealloc(xmlChar *ret, int *max) {
         return(NULL);
     }
     tmp = *max * 2;
-    temp = xmlRealloc(ret, (tmp + 1));
+    temp = realloc(ret, (tmp + 1));
     if (temp == NULL) {
         xmlURIErrMemory("saving URI\n");
         return(NULL);
@@ -1062,7 +1062,7 @@ xmlSaveUri(xmlURIPtr uri) {
 
 
     max = 80;
-    ret = (xmlChar *) xmlMallocAtomic((max + 1) * sizeof(xmlChar));
+    ret = (xmlChar *) mallocAtomic((max + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlURIErrMemory("saving URI\n");
 	return(NULL);
@@ -1615,7 +1615,7 @@ xmlURIUnescapeString(const char *str, int len, char *target) {
     if (len < 0) return(NULL);
 
     if (target == NULL) {
-	ret = xmlMalloc(len + 1);
+	ret = malloc(len + 1);
 	if (ret == NULL) {
             xmlURIErrMemory("unescaping URI value\n");
 	    return(NULL);
@@ -1677,7 +1677,7 @@ xmlURIEscapeStr(const xmlChar *str, const xmlChar *list) {
     if (!(len > 0)) return(NULL);
 
     len += 20;
-    ret = xmlMalloc(len);
+    ret = malloc(len);
     if (ret == NULL) {
         xmlURIErrMemory("escaping URI value\n");
 	return(NULL);
@@ -2051,7 +2051,7 @@ xmlBuildURI(const xmlChar *URI, const xmlChar *base) {
 	len += strlen(ref->path);
     if (bas->path != NULL)
 	len += strlen(bas->path);
-    res->path = xmlMalloc(len);
+    res->path = malloc(len);
     if (res->path == NULL) {
         xmlURIErrMemory("resolving URI against base\n");
 	goto done;
@@ -2314,7 +2314,7 @@ xmlBuildRelativeURI (const xmlChar * URI, const xmlChar * base)
      * length of the remainder of the URI, plus enough space
      * for the "../" groups, plus one for the terminator
      */
-    val = xmlMalloc(len + 3 * nbslash);
+    val = malloc(len + 3 * nbslash);
     if (val == NULL) {
         xmlURIErrMemory("building relative URI\n");
 	goto done;
@@ -2473,7 +2473,7 @@ path_processing:
         /* make the scheme 'file' */
 	uri->scheme = (char *) xmlStrdup(BAD_CAST "file");
 	/* allocate space for leading '/' + path + string terminator */
-	uri->path = xmlMalloc(len + 2);
+	uri->path = malloc(len + 2);
 	if (uri->path == NULL) {
 	    xmlFreeURI(uri);	/* Guard agains 'out of memory' */
 	    return(NULL);

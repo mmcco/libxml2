@@ -231,7 +231,7 @@ xmlBuildQName(const xmlChar *ncname, const xmlChar *prefix,
     lenp = strlen((char *) prefix);
 
     if ((memory == NULL) || (len < lenn + lenp + 2)) {
-	ret = xmlMalloc(lenn + lenp + 2);
+	ret = malloc(lenn + lenp + 2);
 	if (ret == NULL) {
 	    xmlTreeErrMemory("building QName");
 	    return(NULL);
@@ -752,7 +752,7 @@ xmlNewNs(xmlNodePtr node, const xmlChar *href, const xmlChar *prefix) {
     /*
      * Allocate a new Namespace and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNs));
+    cur = malloc(sizeof(xmlNs));
     if (cur == NULL) {
 	xmlTreeErrMemory("building namespace");
 	return(NULL);
@@ -888,7 +888,7 @@ xmlNewDtd(xmlDocPtr doc, const xmlChar *name,
     /*
      * Allocate a new DTD and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlDtd));
+    cur = malloc(sizeof(xmlDtd));
     if (cur == NULL) {
 	xmlTreeErrMemory("building DTD");
 	return(NULL);
@@ -962,7 +962,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
     /*
      * Allocate a new DTD and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlDtd));
+    cur = malloc(sizeof(xmlDtd));
     if (cur == NULL) {
 	xmlTreeErrMemory("building internal subset");
 	return(NULL);
@@ -1163,7 +1163,7 @@ xmlNewDoc(const xmlChar *version) {
     /*
      * Allocate a new document and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlDoc));
+    cur = malloc(sizeof(xmlDoc));
     if (cur == NULL) {
 	xmlTreeErrMemory("building doc");
 	return(NULL);
@@ -1847,7 +1847,7 @@ xmlNewPropInternal(xmlNodePtr node, xmlNsPtr ns,
     /*
      * Allocate a new property and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlAttr));
+    cur = malloc(sizeof(xmlAttr));
     if (cur == NULL) {
         if ((eatname == 1) &&
 	    ((node == NULL) || (node->doc == NULL) ||
@@ -2019,7 +2019,7 @@ xmlNewDocProp(xmlDocPtr doc, const xmlChar *name, const xmlChar *value) {
     /*
      * Allocate a new property and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlAttr));
+    cur = malloc(sizeof(xmlAttr));
     if (cur == NULL) {
 	xmlTreeErrMemory("building attribute");
 	return(NULL);
@@ -2169,7 +2169,7 @@ xmlNewDocPI(xmlDocPtr doc, const xmlChar *name, const xmlChar *content) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building PI");
 	return(NULL);
@@ -2231,7 +2231,7 @@ xmlNewNode(xmlNsPtr ns, const xmlChar *name) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building node");
 	return(NULL);
@@ -2273,7 +2273,7 @@ xmlNewNodeEatName(xmlNsPtr ns, xmlChar *name) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building node");
 	/* we can't check here that name comes from the doc dictionary */
@@ -2407,7 +2407,7 @@ xmlNewDocFragment(xmlDocPtr doc) {
     /*
      * Allocate a new DocumentFragment node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building fragment");
 	return(NULL);
@@ -2437,7 +2437,7 @@ xmlNewText(const xmlChar *content) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building text");
 	return(NULL);
@@ -2555,7 +2555,7 @@ xmlNewCharRef(xmlDocPtr doc, const xmlChar *name) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building character reference");
 	return(NULL);
@@ -2599,7 +2599,7 @@ xmlNewReference(const xmlDoc *doc, const xmlChar *name) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building reference");
 	return(NULL);
@@ -2668,7 +2668,7 @@ xmlNewTextLen(const xmlChar *content, int len) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building text");
 	return(NULL);
@@ -2719,7 +2719,7 @@ xmlNewComment(const xmlChar *content) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building comment");
 	return(NULL);
@@ -2753,7 +2753,7 @@ xmlNewCDataBlock(xmlDocPtr doc, const xmlChar *content, int len) {
     /*
      * Allocate a new node and fill the fields.
      */
-    cur = xmlMalloc(sizeof(xmlNode));
+    cur = malloc(sizeof(xmlNode));
     if (cur == NULL) {
 	xmlTreeErrMemory("building CDATA");
 	return(NULL);
@@ -4203,7 +4203,7 @@ xmlStaticCopyNode(xmlNodePtr node, xmlDocPtr doc, xmlNodePtr parent,
     /*
      * Allocate a new node and fill the fields.
      */
-    ret = xmlMalloc(sizeof(xmlNode));
+    ret = malloc(sizeof(xmlNode));
     if (ret == NULL) {
 	xmlTreeErrMemory("copying node");
 	return(NULL);
@@ -4667,12 +4667,12 @@ xmlGetNodePath(const xmlNode *node)
         return (NULL);
 
     buf_len = 500;
-    buffer = xmlMalloc(buf_len * sizeof(xmlChar));
+    buffer = malloc(buf_len * sizeof(xmlChar));
     if (buffer == NULL) {
 	xmlTreeErrMemory("getting node path");
         return (NULL);
     }
-    buf = xmlMalloc(buf_len * sizeof(xmlChar));
+    buf = malloc(buf_len * sizeof(xmlChar));
     if (buf == NULL) {
 	xmlTreeErrMemory("getting node path");
         free(buffer);
@@ -4857,7 +4857,7 @@ xmlGetNodePath(const xmlNode *node)
         if (xmlStrlen(buffer) + sizeof(nametemp) + 20 > buf_len) {
             buf_len =
                 2 * buf_len + xmlStrlen(buffer) + sizeof(nametemp) + 20;
-            temp = xmlRealloc(buffer, buf_len);
+            temp = realloc(buffer, buf_len);
             if (temp == NULL) {
 		xmlTreeErrMemory("getting node path");
                 free(buf);
@@ -4865,7 +4865,7 @@ xmlGetNodePath(const xmlNode *node)
                 return (NULL);
             }
             buffer = temp;
-            temp = xmlRealloc(buf, buf_len);
+            temp = realloc(buf, buf_len);
             if (temp == NULL) {
 		xmlTreeErrMemory("getting node path");
                 free(buf);
@@ -5912,7 +5912,7 @@ xmlGetNsList(const xmlDoc *doc ATTRIBUTE_UNUSED, const xmlNode *node)
             while (cur != NULL) {
                 if (ret == NULL) {
                     ret =
-                        xmlMalloc((maxns + 1) * sizeof(xmlNsPtr));
+                        malloc((maxns + 1) * sizeof(xmlNsPtr));
                     if (ret == NULL) {
 			xmlTreeErrMemory("getting namespace list");
                         return (NULL);
@@ -5927,7 +5927,7 @@ xmlGetNsList(const xmlDoc *doc ATTRIBUTE_UNUSED, const xmlNode *node)
                 if (i >= nbns) {
                     if (nbns >= maxns) {
                         maxns *= 2;
-                        ret = xmlRealloc(ret, (maxns + 1) * sizeof(xmlNsPtr));
+                        ret = realloc(ret, (maxns + 1) * sizeof(xmlNsPtr));
                         if (ret == NULL) {
 			    xmlTreeErrMemory("getting namespace list");
                             return (NULL);
@@ -5963,7 +5963,7 @@ xmlTreeEnsureXMLDecl(xmlDocPtr doc)
 	return (doc->oldNs);
     {
 	xmlNsPtr ns;
-	ns = xmlMalloc(sizeof(xmlNs));
+	ns = malloc(sizeof(xmlNs));
 	if (ns == NULL) {
 	    xmlTreeErrMemory(
 		"allocating the XML namespace");
@@ -6009,7 +6009,7 @@ xmlSearchNs(xmlDocPtr doc, xmlNodePtr node, const xmlChar *nameSpace) {
 	     * element. In this case exceptionally create it on the
 	     * node element.
 	     */
-	    cur = xmlMalloc(sizeof(xmlNs));
+	    cur = malloc(sizeof(xmlNs));
 	    if (cur == NULL) {
 		xmlTreeErrMemory("searching namespace");
 		return(NULL);
@@ -6142,7 +6142,7 @@ xmlSearchNsByHref(xmlDocPtr doc, xmlNodePtr node, const xmlChar * href)
              * element. In this case exceptionally create it on the
              * node element.
              */
-            cur = xmlMalloc(sizeof(xmlNs));
+            cur = malloc(sizeof(xmlNs));
             if (cur == NULL) {
 		xmlTreeErrMemory("searching namespace");
                 return (NULL);
@@ -6309,12 +6309,12 @@ xmlReconciliateNs(xmlDocPtr doc, xmlNodePtr tree) {
 	     */
 	    if (sizeCache == 0) {
 		sizeCache = 10;
-		oldNs = xmlMalloc(sizeCache * sizeof(xmlNsPtr));
+		oldNs = malloc(sizeCache * sizeof(xmlNsPtr));
 		if (oldNs == NULL) {
 		    xmlTreeErrMemory("fixing namespaces");
 		    return(-1);
 		}
-		newNs = xmlMalloc(sizeCache * sizeof(xmlNsPtr));
+		newNs = malloc(sizeCache * sizeof(xmlNsPtr));
 		if (newNs == NULL) {
 		    xmlTreeErrMemory("fixing namespaces");
 		    free(oldNs);
@@ -6338,14 +6338,14 @@ xmlReconciliateNs(xmlDocPtr doc, xmlNodePtr tree) {
 		     */
 		    if (sizeCache <= nbCache) {
 		        sizeCache *= 2;
-			oldNs = xmlRealloc(oldNs,
+			oldNs = realloc(oldNs,
                                            sizeCache * sizeof(xmlNsPtr));
 		        if (oldNs == NULL) {
 			    xmlTreeErrMemory("fixing namespaces");
 			    free(newNs);
 			    return(-1);
 			}
-			newNs = xmlRealloc(newNs,
+			newNs = realloc(newNs,
                                            sizeCache * sizeof(xmlNsPtr));
 		        if (newNs == NULL) {
 			    xmlTreeErrMemory("fixing namespaces");
@@ -6371,12 +6371,12 @@ xmlReconciliateNs(xmlDocPtr doc, xmlNodePtr tree) {
 		     */
 		    if (sizeCache == 0) {
 			sizeCache = 10;
-			oldNs = xmlMalloc(sizeCache * sizeof(xmlNsPtr));
+			oldNs = malloc(sizeCache * sizeof(xmlNsPtr));
 			if (oldNs == NULL) {
 			    xmlTreeErrMemory("fixing namespaces");
 			    return(-1);
 			}
-			newNs = xmlMalloc(sizeCache * sizeof(xmlNsPtr));
+			newNs = malloc(sizeCache * sizeof(xmlNsPtr));
 			if (newNs == NULL) {
 			    xmlTreeErrMemory("fixing namespaces");
 			    free(oldNs);
@@ -6400,14 +6400,14 @@ xmlReconciliateNs(xmlDocPtr doc, xmlNodePtr tree) {
 			     */
 			    if (sizeCache <= nbCache) {
 				sizeCache *= 2;
-				oldNs = xmlRealloc(oldNs,
+				oldNs = realloc(oldNs,
                                                    sizeCache * sizeof(xmlNsPtr));
 				if (oldNs == NULL) {
 				    xmlTreeErrMemory("fixing namespaces");
 				    free(newNs);
 				    return(-1);
 				}
-				newNs = xmlRealloc(newNs,
+				newNs = realloc(newNs,
                                                    sizeCache * sizeof(xmlNsPtr));
 				if (newNs == NULL) {
 				    xmlTreeErrMemory("fixing namespaces");
@@ -6999,7 +6999,7 @@ xmlBufferPtr
 xmlBufferCreate(void) {
     xmlBufferPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlBuffer));
+    ret = malloc(sizeof(xmlBuffer));
     if (ret == NULL) {
 	xmlTreeErrMemory("creating buffer");
         return(NULL);
@@ -7007,7 +7007,7 @@ xmlBufferCreate(void) {
     ret->use = 0;
     ret->size = xmlDefaultBufferSize;
     ret->alloc = xmlBufferAllocScheme;
-    ret->content = xmlMalloc(ret->size * sizeof(xmlChar));
+    ret->content = malloc(ret->size * sizeof(xmlChar));
     if (ret->content == NULL) {
 	xmlTreeErrMemory("creating buffer");
 	free(ret);
@@ -7029,7 +7029,7 @@ xmlBufferPtr
 xmlBufferCreateSize(size_t size) {
     xmlBufferPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlBuffer));
+    ret = malloc(sizeof(xmlBuffer));
     if (ret == NULL) {
 	xmlTreeErrMemory("creating buffer");
         return(NULL);
@@ -7038,7 +7038,7 @@ xmlBufferCreateSize(size_t size) {
     ret->alloc = xmlBufferAllocScheme;
     ret->size = (size ? size+2 : 0);         /* +1 for ending null */
     if (ret->size){
-        ret->content = xmlMalloc(ret->size * sizeof(xmlChar));
+        ret->content = malloc(ret->size * sizeof(xmlChar));
         if (ret->content == NULL) {
 	    xmlTreeErrMemory("creating buffer");
             free(ret);
@@ -7097,7 +7097,7 @@ xmlBufferCreateStatic(void *mem, size_t size) {
     if ((mem == NULL) || (size == 0))
         return(NULL);
 
-    ret = xmlMalloc(sizeof(xmlBuffer));
+    ret = malloc(sizeof(xmlBuffer));
     if (ret == NULL) {
 	xmlTreeErrMemory("creating buffer");
         return(NULL);
@@ -7269,7 +7269,7 @@ xmlBufferGrow(xmlBufferPtr buf, unsigned int len) {
     if ((buf->alloc == XML_BUFFER_ALLOC_IO) && (buf->contentIO != NULL)) {
         size_t start_buf = buf->content - buf->contentIO;
 
-	newbuf = xmlRealloc(buf->contentIO, start_buf + size);
+	newbuf = realloc(buf->contentIO, start_buf + size);
 	if (newbuf == NULL) {
 	    xmlTreeErrMemory("growing buffer");
 	    return(-1);
@@ -7277,7 +7277,7 @@ xmlBufferGrow(xmlBufferPtr buf, unsigned int len) {
 	buf->contentIO = newbuf;
 	buf->content = newbuf + start_buf;
     } else {
-	newbuf = xmlRealloc(buf->content, size);
+	newbuf = realloc(buf->content, size);
 	if (newbuf == NULL) {
 	    xmlTreeErrMemory("growing buffer");
 	    return(-1);
@@ -7428,7 +7428,7 @@ xmlBufferResize(xmlBufferPtr buf, unsigned int size)
 	    buf->content[buf->use] = 0;
 	    buf->size += start_buf;
 	} else {
-	    rebuf = xmlRealloc(buf->contentIO, start_buf + newSize);
+	    rebuf = realloc(buf->contentIO, start_buf + newSize);
 	    if (rebuf == NULL) {
 		xmlTreeErrMemory("growing buffer");
 		return 0;
@@ -7438,16 +7438,16 @@ xmlBufferResize(xmlBufferPtr buf, unsigned int size)
 	}
     } else {
 	if (buf->content == NULL) {
-	    rebuf = xmlMalloc(newSize);
+	    rebuf = malloc(newSize);
 	} else if (buf->size - buf->use < 100) {
-	    rebuf = xmlRealloc(buf->content, newSize);
+	    rebuf = realloc(buf->content, newSize);
         } else {
 	    /*
 	     * if we are reallocating a buffer far from being full, it's
 	     * better to make a new allocation and copy only the used range
 	     * and free the old one.
 	     */
-	    rebuf = xmlMalloc(newSize);
+	    rebuf = malloc(newSize);
 	    if (rebuf != NULL) {
 		memcpy(rebuf, buf->content, buf->use);
 		free(buf->content);
@@ -7875,7 +7875,7 @@ xmlDOMWrapNsMapAddItem(xmlNsMapPtr *nsmap, int position,
 	/*
 	* Create the ns-map.
 	*/
-	map = xmlMalloc(sizeof(struct xmlNsMap));
+	map = malloc(sizeof(struct xmlNsMap));
 	if (map == NULL) {
 	    xmlTreeErrMemory("allocating namespace map");
 	    return (NULL);
@@ -7895,7 +7895,7 @@ xmlDOMWrapNsMapAddItem(xmlNsMapPtr *nsmap, int position,
 	/*
 	* Create a new item.
 	*/
-	ret = xmlMalloc(sizeof(struct xmlNsMapItem));
+	ret = malloc(sizeof(struct xmlNsMapItem));
 	if (ret == NULL) {
 	    xmlTreeErrMemory("allocating namespace map item");
 	    return (NULL);
@@ -7990,7 +7990,7 @@ xmlDOMWrapNewCtxt(void)
 {
     xmlDOMWrapCtxtPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlDOMWrapCtxt));
+    ret = malloc(sizeof(xmlDOMWrapCtxt));
     if (ret == NULL) {
 	xmlTreeErrMemory("allocating DOM-wrapper context");
 	return (NULL);
@@ -8155,7 +8155,7 @@ xmlDOMWrapNSNormAddNsMapItem2(xmlNsPtr **list, int *size, int *number,
 			xmlNsPtr oldNs, xmlNsPtr newNs)
 {
     if (*list == NULL) {
-	*list = xmlMalloc(6 * sizeof(xmlNsPtr));
+	*list = malloc(6 * sizeof(xmlNsPtr));
 	if (*list == NULL) {
 	    xmlTreeErrMemory("alloc ns map item");
 	    return(-1);
@@ -8164,7 +8164,7 @@ xmlDOMWrapNSNormAddNsMapItem2(xmlNsPtr **list, int *size, int *number,
 	*number = 0;
     } else if ((*number) >= (*size)) {
 	*size *= 2;
-	*list = xmlRealloc(*list, (*size) * 2 * sizeof(xmlNsPtr));
+	*list = realloc(*list, (*size) * 2 * sizeof(xmlNsPtr));
 	if (*list == NULL) {
 	    xmlTreeErrMemory("realloc ns map item");
 	    return(-1);
@@ -9438,7 +9438,7 @@ xmlDOMWrapCloneNode(xmlDOMWrapCtxtPtr ctxt,
 		/*
 		* Nodes of xmlNode structure.
 		*/
-		clone = xmlMalloc(sizeof(xmlNode));
+		clone = malloc(sizeof(xmlNode));
 		if (clone == NULL) {
 		    xmlTreeErrMemory("xmlDOMWrapCloneNode(): allocating a node");
 		    goto internal_error;
@@ -9462,7 +9462,7 @@ xmlDOMWrapCloneNode(xmlDOMWrapCtxtPtr ctxt,
 		/*
 		* Attributes (xmlAttr).
 		*/
-		clone = xmlMalloc(sizeof(xmlAttr));
+		clone = malloc(sizeof(xmlAttr));
 		if (clone == NULL) {
 		    xmlTreeErrMemory("xmlDOMWrapCloneNode(): allocating an attr-node");
 		    goto internal_error;
@@ -9543,7 +9543,7 @@ xmlDOMWrapCloneNode(xmlDOMWrapCtxtPtr ctxt,
 			/*
 			* Create a new xmlNs.
 			*/
-			cloneNs = xmlMalloc(sizeof(xmlNs));
+			cloneNs = malloc(sizeof(xmlNs));
 			if (cloneNs == NULL) {
 			    xmlTreeErrMemory("xmlDOMWrapCloneNode(): "
 				"allocating namespace");

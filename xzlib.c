@@ -107,7 +107,7 @@ xz_error(xz_statep state, int err, const char *msg)
 
     /* construct error message with path */
     if ((state->msg =
-         xmlMalloc(strlen(state->path) + strlen(msg) + 3)) == NULL) {
+         malloc(strlen(state->path) + strlen(msg) + 3)) == NULL) {
         state->err = LZMA_MEM_ERROR;
         state->msg = (char *) "out of memory";
         return;
@@ -140,7 +140,7 @@ xz_open(const char *path, int fd, const char *mode ATTRIBUTE_UNUSED)
     xz_statep state;
 
     /* allocate xzFile structure to return */
-    state = xmlMalloc(sizeof(xz_state));
+    state = malloc(sizeof(xz_state));
     if (state == NULL)
         return NULL;
     state->size = 0;            /* no buffers allocated yet */
@@ -149,7 +149,7 @@ xz_open(const char *path, int fd, const char *mode ATTRIBUTE_UNUSED)
     state->init = 0;            /* initialization of zlib data */
 
     /* save the path name for error messages */
-    state->path = xmlMalloc(strlen(path) + 1);
+    state->path = malloc(strlen(path) + 1);
     if (state->path == NULL) {
         free(state);
         return NULL;
@@ -220,7 +220,7 @@ __libxml2_xzdopen(int fd, const char *mode)
     char *path;                 /* identifier for error messages */
     xzFile xz;
 
-    if (fd == -1 || (path = xmlMalloc(7 + 3 * sizeof(int))) == NULL)
+    if (fd == -1 || (path = malloc(7 + 3 * sizeof(int))) == NULL)
         return NULL;
     sprintf(path, "<fd:%d>", fd);       /* for debugging */
     xz = xz_open(path, fd, mode);
@@ -391,8 +391,8 @@ xz_head(xz_statep state)
     /* allocate read buffers and inflate memory */
     if (state->size == 0) {
         /* allocate buffers */
-        state->in = xmlMalloc(state->want);
-        state->out = xmlMalloc(state->want << 1);
+        state->in = malloc(state->want);
+        state->out = malloc(state->want << 1);
         if (state->in == NULL || state->out == NULL) {
             free(state->out);
             free(state->in);

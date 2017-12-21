@@ -416,7 +416,7 @@ htmlBufNodeDumpFormat(xmlBufPtr buf, xmlDocPtr doc, xmlNodePtr cur,
     if (buf == NULL) {
 	return (-1);
     }
-    outbuf = xmlMalloc(sizeof(xmlOutputBuffer));
+    outbuf = malloc(sizeof(xmlOutputBuffer));
     if (outbuf == NULL) {
         htmlSaveErrMemory("allocating HTML output buffer");
 	return (-1);

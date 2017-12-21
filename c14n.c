@@ -282,7 +282,7 @@ static xmlC14NVisibleNsStackPtr
 xmlC14NVisibleNsStackCreate(void) {
     xmlC14NVisibleNsStackPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlC14NVisibleNsStack));
+    ret = malloc(sizeof(xmlC14NVisibleNsStack));
     if (ret == NULL) {
         xmlC14NErrMemory("creating namespaces stack");
 	return(NULL);
@@ -320,8 +320,8 @@ xmlC14NVisibleNsStackAdd(xmlC14NVisibleNsStackPtr cur, xmlNsPtr ns, xmlNodePtr n
     }
 
     if ((cur->nsTab == NULL) && (cur->nodeTab == NULL)) {
-        cur->nsTab = xmlMalloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNsPtr));
-        cur->nodeTab = xmlMalloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNodePtr));
+        cur->nsTab = malloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNsPtr));
+        cur->nodeTab = malloc(XML_NAMESPACES_DEFAULT * sizeof(xmlNodePtr));
 	if ((cur->nsTab == NULL) || (cur->nodeTab == NULL)) {
 	    xmlC14NErrMemory("adding node to stack");
 	    return;
@@ -334,14 +334,14 @@ xmlC14NVisibleNsStackAdd(xmlC14NVisibleNsStackPtr cur, xmlNsPtr ns, xmlNodePtr n
 	int tmpSize;
 
 	tmpSize = 2 * cur->nsMax;
-	tmp = xmlRealloc(cur->nsTab, tmpSize * sizeof(xmlNsPtr));
+	tmp = realloc(cur->nsTab, tmpSize * sizeof(xmlNsPtr));
 	if (tmp == NULL) {
 	    xmlC14NErrMemory("adding node to stack");
 	    return;
 	}
 	cur->nsTab = (xmlNsPtr*)tmp;
 
-	tmp = xmlRealloc(cur->nodeTab, tmpSize * sizeof(xmlNodePtr));
+	tmp = realloc(cur->nodeTab, tmpSize * sizeof(xmlNodePtr));
 	if (tmp == NULL) {
 	    xmlC14NErrMemory("adding node to stack");
 	    return;
@@ -1797,7 +1797,7 @@ xmlC14NNewCtx(xmlDocPtr doc,
     /*
      * Allocate a new xmlC14NCtxPtr and fill the fields.
      */
-    ctx = xmlMalloc(sizeof(xmlC14NCtx));
+    ctx = malloc(sizeof(xmlC14NCtx));
     if (ctx == NULL) {
 	xmlC14NErrMemory("creating context");
         return (NULL);
@@ -2116,7 +2116,7 @@ xmlC14NDocSave(xmlDocPtr doc, xmlNodeSetPtr nodes,
  */
 #define growBufferReentrant() {						\
     buffer_size *= 2;							\
-    buffer = xmlRealloc(buffer, buffer_size * sizeof(xmlChar));	\
+    buffer = realloc(buffer, buffer_size * sizeof(xmlChar));	\
     if (buffer == NULL) {						\
 	xmlC14NErrMemory("growing buffer");				\
 	return(NULL);							\
@@ -2151,7 +2151,7 @@ xmlC11NNormalizeString(const xmlChar * input,
      * allocate an translation buffer.
      */
     buffer_size = 1000;
-    buffer = xmlMalloc(buffer_size * sizeof(xmlChar));
+    buffer = malloc(buffer_size * sizeof(xmlChar));
     if (buffer == NULL) {
 	xmlC14NErrMemory("allocating buffer");
         return (NULL);

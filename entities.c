@@ -146,7 +146,7 @@ xmlCreateEntity(xmlDictPtr dict, const xmlChar *name, int type,
 	        const xmlChar *content) {
     xmlEntityPtr ret;
 
-    ret = xmlMalloc(sizeof(xmlEntity));
+    ret = malloc(sizeof(xmlEntity));
     if (ret == NULL) {
         xmlEntitiesErrMemory("xmlCreateEntity: malloc failed");
 	return(NULL);
@@ -528,7 +528,7 @@ xmlGetDocEntity(const xmlDoc *doc, const xmlChar *name) {
     xmlChar *tmp;                                                       \
     size_t new_size = buffer_size * 2;                                  \
     if (new_size < buffer_size) goto mem_error;                         \
-    tmp = (xmlChar *) xmlRealloc(buffer, new_size);	                \
+    tmp = (xmlChar *) realloc(buffer, new_size);	                \
     if (tmp == NULL) goto mem_error;                                    \
     buffer = tmp;							\
     buffer_size = new_size;						\
@@ -563,7 +563,7 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
      * allocate an translation buffer.
      */
     buffer_size = 1000;
-    buffer = xmlMalloc(buffer_size * sizeof(xmlChar));
+    buffer = malloc(buffer_size * sizeof(xmlChar));
     if (buffer == NULL) {
         xmlEntitiesErrMemory("xmlEncodeEntities: malloc failed");
 	return(NULL);
@@ -789,7 +789,7 @@ xmlEncodeSpecialChars(const xmlDoc *doc ATTRIBUTE_UNUSED, const xmlChar *input) 
      * allocate an translation buffer.
      */
     buffer_size = 1000;
-    buffer = xmlMalloc(buffer_size * sizeof(xmlChar));
+    buffer = malloc(buffer_size * sizeof(xmlChar));
     if (buffer == NULL) {
         xmlEntitiesErrMemory("xmlEncodeSpecialChars: malloc failed");
 	return(NULL);
@@ -905,7 +905,7 @@ static xmlEntityPtr
 xmlCopyEntity(xmlEntityPtr ent) {
     xmlEntityPtr cur;
 
-    cur = xmlMalloc(sizeof(xmlEntity));
+    cur = malloc(sizeof(xmlEntity));
     if (cur == NULL) {
         xmlEntitiesErrMemory("xmlCopyEntity:: malloc failed");
 	return(NULL);

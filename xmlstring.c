@@ -41,7 +41,7 @@ xmlStrndup(const xmlChar *cur, int len) {
     xmlChar *ret;
 
     if ((cur == NULL) || (len < 0)) return(NULL);
-    ret = xmlMalloc((len + 1) * sizeof(xmlChar));
+    ret = malloc((len + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlErrMemory(NULL, NULL);
         return(NULL);
@@ -86,7 +86,7 @@ xmlCharStrndup(const char *cur, int len) {
     xmlChar *ret;
 
     if ((cur == NULL) || (len < 0)) return(NULL);
-    ret = xmlMalloc((len + 1) * sizeof(xmlChar));
+    ret = malloc((len + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlErrMemory(NULL, NULL);
         return(NULL);
@@ -458,7 +458,7 @@ xmlStrncat(xmlChar *cur, const xmlChar *add, int len) {
     size = xmlStrlen(cur);
     if (size < 0)
         return(NULL);
-    ret = xmlRealloc(cur, (size + len + 1) * sizeof(xmlChar));
+    ret = realloc(cur, (size + len + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlErrMemory(NULL, NULL);
         return(cur);
@@ -498,7 +498,7 @@ xmlStrncatNew(const xmlChar *str1, const xmlChar *str2, int len) {
     size = xmlStrlen(str1);
     if (size < 0)
         return(NULL);
-    ret = xmlMalloc((size + len + 1) * sizeof(xmlChar));
+    ret = malloc((size + len + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlErrMemory(NULL, NULL);
         return(xmlStrndup(str1, size));
@@ -868,7 +868,7 @@ xmlUTF8Strndup(const xmlChar *utf, int len) {
 
     if ((utf == NULL) || (len < 0)) return(NULL);
     i = xmlUTF8Strsize(utf, len);
-    ret = xmlMalloc((i + 1) * sizeof(xmlChar));
+    ret = malloc((i + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlGenericError(xmlGenericErrorContext,
                 "malloc of %ld byte failed\n",
@@ -1019,7 +1019,7 @@ xmlEscapeFormatString(xmlChar **msg)
         return(*msg);
 
     resultLen = msgLen + count + 1;
-    result = xmlMalloc(resultLen * sizeof(xmlChar));
+    result = malloc(resultLen * sizeof(xmlChar));
     if (result == NULL) {
         /* Clear *msg to prevent format string vulnerabilities in
            out-of-memory situations. */
