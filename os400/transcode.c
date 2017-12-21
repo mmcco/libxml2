@@ -112,8 +112,7 @@ xmlTranscodeResult(const xmlChar * s, const char * encoding,
                         }
                 }
 
-        if (ts)
-                xmlFree(ts);
+        free(ts);
 
         if (freeproc)
                 (*freeproc)(s);
@@ -166,7 +165,7 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
                 cd = iconv_open("UTF-8", encoding);
 
                 if (cd == (iconv_t) -1) {
-                        xmlFree((char *) ts);
+                        free(ts);
                         return (const xmlChar *) NULL;
                         }
 
@@ -176,7 +175,7 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
                 iconv_close(cd);
 
                 if (srcc == (size_t) -1) {
-                        xmlFree((char *) ts);
+                        free(ts);
                         return (const xmlChar *) NULL;
                         }
                 }
@@ -191,7 +190,7 @@ inTranscode(const char * s, size_t l, const char * encoding, xmlDictPtr * dict)
                 }
 
         ret = xmlDictLookup(*dict, ts, dstp - ts + 1);
-        xmlFree((char *) ts);
+        free(ts);
         return ret;
 }
 

@@ -2061,7 +2061,7 @@ xmlShellBase(xmlShellCtxtPtr ctxt,
         fprintf(ctxt->output, " No base found !!!\n");
     } else {
         fprintf(ctxt->output, "%s\n", base);
-        xmlFree(base);
+        free(base);
     }
     return (0);
 }
@@ -2124,7 +2124,7 @@ xmlShellRegisterNamespace(xmlShellCtxtPtr ctxt, char *arg,
 	next = (xmlChar*)xmlStrchr(next, '=');
 	if(next == NULL) {
 	    fprintf(ctxt->output, "setns: prefix=[nsuri] required\n");
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);
 	}
 	*(next++) = '\0';
@@ -2139,12 +2139,12 @@ xmlShellRegisterNamespace(xmlShellCtxtPtr ctxt, char *arg,
 	/* do register namespace */
 	if(xmlXPathRegisterNs(ctxt->pctxt, prefix, href) != 0) {
 	    fprintf(ctxt->output,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", prefix, href);
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);
 	}
     }
 
-    xmlFree(nsListDup);
+    free(nsListDup);
     return(0);
 }
 /**
@@ -2481,7 +2481,7 @@ xmlShellLoad(xmlShellCtxtPtr ctxt, char *filename,
 #ifdef LIBXML_XPATH_ENABLED
         xmlXPathFreeContext(ctxt->pctxt);
 #endif /* LIBXML_XPATH_ENABLED */
-        xmlFree(ctxt->filename);
+        free(ctxt->filename);
         ctxt->doc = doc;
         ctxt->node = (xmlNodePtr) doc;
 #ifdef LIBXML_XPATH_ENABLED
@@ -2786,7 +2786,7 @@ xmlShellPwd(xmlShellCtxtPtr ctxt ATTRIBUTE_UNUSED, char *buffer,
      */
     snprintf(buffer, 499, "%s", path);
     buffer[499] = '0';
-    xmlFree(path);
+    free(path);
 
     return (0);
 }
@@ -2835,7 +2835,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
 #ifdef LIBXML_XPATH_ENABLED
     ctxt->pctxt = xmlXPathNewContext(ctxt->doc);
     if (ctxt->pctxt == NULL) {
-        xmlFree(ctxt);
+        free(ctxt);
         return;
     }
 #endif /* LIBXML_XPATH_ENABLED */
@@ -3414,11 +3414,9 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
     if (ctxt->loaded) {
         xmlFreeDoc(ctxt->doc);
     }
-    if (ctxt->filename != NULL)
-        xmlFree(ctxt->filename);
-    xmlFree(ctxt);
-    if (cmdline != NULL)
-        free(cmdline);          /* not xmlFree here ! */
+    free(ctxt->filename);
+    free(ctxt);
+    free(cmdline);
 }
 
 #endif /* LIBXML_XPATH_ENABLED */

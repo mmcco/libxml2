@@ -202,13 +202,11 @@ xmlXIncludeFreeRef(xmlXIncludeRefPtr ref) {
 #endif
 	xmlFreeDoc(ref->doc);
     }
-    if (ref->URI != NULL)
-	xmlFree(ref->URI);
-    if (ref->fragment != NULL)
-	xmlFree(ref->fragment);
+    free(ref->URI);
+    free(ref->fragment);
     if (ref->xptr != NULL)
 	xmlXPathFreeObject(ref->xptr);
-    xmlFree(ref);
+    free(ref);
 }
 
 /**
@@ -364,8 +362,7 @@ xmlXIncludeURLPop(xmlXIncludeCtxtPtr ctxt)
         ctxt->url = NULL;
     ret = ctxt->urlTab[ctxt->urlNr];
     ctxt->urlTab[ctxt->urlNr] = NULL;
-    if (ret != NULL)
-	xmlFree(ret);
+    free(ret);
 }
 
 /**
@@ -385,28 +382,21 @@ xmlXIncludeFreeContext(xmlXIncludeCtxtPtr ctxt) {
 	return;
     while (ctxt->urlNr > 0)
 	xmlXIncludeURLPop(ctxt);
-    if (ctxt->urlTab != NULL)
-	xmlFree(ctxt->urlTab);
+    free(ctxt->urlTab);
     for (i = 0;i < ctxt->incNr;i++) {
 	if (ctxt->incTab[i] != NULL)
 	    xmlXIncludeFreeRef(ctxt->incTab[i]);
     }
     if (ctxt->txturlTab != NULL) {
 	for (i = 0;i < ctxt->txtNr;i++) {
-	    if (ctxt->txturlTab[i] != NULL)
-		xmlFree(ctxt->txturlTab[i]);
+	    free(ctxt->txturlTab[i]);
 	}
     }
-    if (ctxt->incTab != NULL)
-	xmlFree(ctxt->incTab);
-    if (ctxt->txtTab != NULL)
-	xmlFree(ctxt->txtTab);
-    if (ctxt->txturlTab != NULL)
-	xmlFree(ctxt->txturlTab);
-    if (ctxt->base != NULL) {
-        xmlFree(ctxt->base);
-    }
-    xmlFree(ctxt);
+    free(ctxt->incTab);
+    free(ctxt->txtTab);
+    free(ctxt->txturlTab);
+    free(ctxt->base);
+    free(ctxt);
 }
 
 /**
@@ -526,10 +516,8 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
 	else {
 	    xmlXIncludeErr(ctxt, cur, XML_XINCLUDE_PARSE_VALUE,
 	                   "invalid value %s for 'parse'\n", parse);
-	    if (href != NULL)
-		xmlFree(href);
-	    if (parse != NULL)
-		xmlFree(parse);
+	    free(href);
+	    free(parse);
 	    return(-1);
 	}
     }
@@ -552,17 +540,12 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
 	escbase = xmlURIEscape(base);
 	eschref = xmlURIEscape(href);
 	URI = xmlBuildURI(eschref, escbase);
-	if (escbase != NULL)
-	    xmlFree(escbase);
-	if (eschref != NULL)
-	    xmlFree(eschref);
+	free(escbase);
+	free(eschref);
     }
-    if (parse != NULL)
-	xmlFree(parse);
-    if (href != NULL)
-	xmlFree(href);
-    if (base != NULL)
-	xmlFree(base);
+    free(parse);
+    free(href);
+    free(base);
     if (URI == NULL) {
 	xmlXIncludeErr(ctxt, cur, XML_XINCLUDE_HREF_URI,
 	               "failed build URL\n", NULL);
@@ -577,9 +560,8 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
     if (uri == NULL) {
 	xmlXIncludeErr(ctxt, cur, XML_XINCLUDE_HREF_URI,
 	               "invalid value URI %s\n", URI);
-	if (fragment != NULL)
-	    xmlFree(fragment);
-	xmlFree(URI);
+	free(fragment);
+	free(URI);
 	return(-1);
     }
 
@@ -588,28 +570,26 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
 	    if (fragment == NULL) {
 		fragment = (xmlChar *) uri->fragment;
 	    } else {
-		xmlFree(uri->fragment);
+		free(uri->fragment);
 	    }
 	} else {
 	    xmlXIncludeErr(ctxt, cur, XML_XINCLUDE_FRAGMENT_ID,
        "Invalid fragment identifier in URI %s use the xpointer attribute\n",
                            URI);
-	    if (fragment != NULL)
-	        xmlFree(fragment);
+	        free(fragment);
 	    xmlFreeURI(uri);
-	    xmlFree(URI);
+	    free(URI);
 	    return(-1);
 	}
 	uri->fragment = NULL;
     }
     URL = xmlSaveUri(uri);
     xmlFreeURI(uri);
-    xmlFree(URI);
+    free(URI);
     if (URL == NULL) {
 	xmlXIncludeErr(ctxt, cur, XML_XINCLUDE_HREF_URI,
 	               "invalid value URI %s\n", URI);
-	if (fragment != NULL)
-	    xmlFree(fragment);
+	free(fragment);
 	return(-1);
     }
 
@@ -621,8 +601,7 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
 	xmlXIncludeErr(ctxt, cur, XML_XINCLUDE_RECURSION,
 	               "detected a local recursion with no xpointer in %s\n",
 		       URL);
-	if (fragment != NULL)
-	    xmlFree(fragment);
+	free(fragment);
 	return(-1);
     }
 
@@ -647,7 +626,7 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
     ref->doc = NULL;
     ref->xml = xml;
     ref->count = 1;
-    xmlFree(URL);
+    free(URL);
     return(0);
 }
 
@@ -695,7 +674,7 @@ xmlXIncludeRecurseDoc(xmlXIncludeCtxtPtr ctxt, xmlDocPtr doc,
 		                          sizeof(newctxt->incTab[0]));
         if (newctxt->incTab == NULL) {
 	    xmlXIncludeErrMemory(ctxt, (xmlNodePtr) doc, "processing doc");
-	    xmlFree(newctxt);
+	    free(newctxt);
 	    return;
 	}
 	/*
@@ -1427,7 +1406,7 @@ xmlXIncludeLoadDoc(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
     }
     if ((ctxt->incTab != NULL) && (ctxt->incTab[nr] != NULL) &&
         (ctxt->incTab[nr]->fragment != NULL)) {
-	if (fragment != NULL) xmlFree(fragment);
+	free(fragment);
 	fragment = xmlStrdup(ctxt->incTab[nr]->fragment);
     }
     URL = xmlSaveUri(uri);
@@ -1441,8 +1420,7 @@ xmlXIncludeLoadDoc(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
 	    xmlXIncludeErr(ctxt, NULL,
 			   XML_XINCLUDE_HREF_URI,
 			   "invalid value URI %s\n", url);
-	if (fragment != NULL)
-	    xmlFree(fragment);
+	free(fragment);
 	return(-1);
     }
 
@@ -1493,9 +1471,8 @@ xmlXIncludeLoadDoc(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
     ctxt->parseFlags = saveFlags;
 #endif
     if (doc == NULL) {
-	xmlFree(URL);
-	if (fragment != NULL)
-	    xmlFree(fragment);
+	free(URL);
+	free(fragment);
 	return(-1);
     }
     ctxt->incTab[nr]->doc = doc;
@@ -1506,7 +1483,7 @@ xmlXIncludeLoadDoc(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
      * and change it if they disagree (bug 146988).
      */
    if (!xmlStrEqual(URL, doc->URL)) {
-       xmlFree(URL);
+       free(URL);
        URL = xmlStrdup(doc->URL);
    }
     for (i = nr + 1; i < ctxt->incNr; i++) {
@@ -1574,8 +1551,8 @@ loaded:
 	    xmlXIncludeErr(ctxt, ctxt->incTab[nr]->ref,
 	                   XML_XINCLUDE_XPTR_FAILED,
 			   "could not create XPointer context\n", NULL);
-	    xmlFree(URL);
-	    xmlFree(fragment);
+	    free(URL);
+	    free(fragment);
 	    return(-1);
 	}
 	xptr = xmlXPtrEval(fragment, xptrctxt);
@@ -1585,8 +1562,8 @@ loaded:
 			   "XPointer evaluation failed: #%s\n",
 			   fragment);
 	    xmlXPathFreeContext(xptrctxt);
-	    xmlFree(URL);
-	    xmlFree(fragment);
+	    free(URL);
+	    free(fragment);
 	    return(-1);
 	}
 	switch (xptr->type) {
@@ -1602,15 +1579,15 @@ loaded:
 			       "XPointer is not a range: #%s\n",
 			       fragment);
 		xmlXPathFreeContext(xptrctxt);
-		xmlFree(URL);
-		xmlFree(fragment);
+		free(URL);
+		free(fragment);
 		return(-1);
 	    case XPATH_NODESET:
 	        if ((xptr->nodesetval == NULL) ||
 		    (xptr->nodesetval->nodeNr <= 0)) {
 		    xmlXPathFreeContext(xptrctxt);
-		    xmlFree(URL);
-		    xmlFree(fragment);
+		    free(URL);
+		    free(fragment);
 		    return(-1);
 		}
 
@@ -1680,7 +1657,7 @@ loaded:
 	    xmlXPathFreeObject(xptr);
 	}
 	xmlXPathFreeContext(xptrctxt);
-	xmlFree(fragment);
+	free(fragment);
     }
 #endif
 
@@ -1713,7 +1690,7 @@ loaded:
 	    } else {
 		/* If the URI doesn't contain a slash, it's not relative */
 	        if (!xmlStrchr(curBase, (xmlChar) '/'))
-		    xmlFree(curBase);
+		    free(curBase);
 		else
 		    base = curBase;
 	    }
@@ -1755,17 +1732,17 @@ loaded:
 						xmlBase);
 				} else {
 				    xmlNodeSetBase(node, relBase);
-				    xmlFree(relBase);
+				    free(relBase);
 				}
-				xmlFree(xmlBase);
+				free(xmlBase);
 			    }
 			}
-			xmlFree(curBase);
+			free(curBase);
 		    }
 		}
 	        node = node->next;
 	    }
-	    xmlFree(base);
+	    free(base);
 	}
     }
     if ((nr < ctxt->incNr) && (ctxt->incTab[nr]->doc != NULL) &&
@@ -1776,7 +1753,7 @@ loaded:
 	xmlFreeDoc(ctxt->incTab[nr]->doc);
 	ctxt->incTab[nr]->doc = NULL;
     }
-    xmlFree(URL);
+    free(URL);
     return(0);
 }
 
@@ -1835,7 +1812,7 @@ xmlXIncludeLoadTxt(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
 	xmlXIncludeErr(ctxt, ctxt->incTab[nr]->ref,
 	               XML_XINCLUDE_TEXT_DOCUMENT,
 		       "text serialization of document not available\n", NULL);
-	xmlFree(URL);
+	free(URL);
 	return(-1);
     }
 
@@ -1866,11 +1843,11 @@ xmlXIncludeLoadTxt(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
 	    xmlXIncludeErr(ctxt, ctxt->incTab[nr]->ref,
 	                   XML_XINCLUDE_UNKNOWN_ENCODING,
 			   "encoding %s not supported\n", encoding);
-	    xmlFree(encoding);
-	    xmlFree(URL);
+	    free(encoding);
+	    free(URL);
 	    return(-1);
 	}
-	xmlFree(encoding);
+	free(encoding);
     }
 
     /*
@@ -1880,14 +1857,14 @@ xmlXIncludeLoadTxt(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
     inputStream = xmlLoadExternalEntity((const char*)URL, NULL, pctxt);
     if(inputStream == NULL) {
 	xmlFreeParserCtxt(pctxt);
-	xmlFree(URL);
+	free(URL);
 	return(-1);
     }
     buf = inputStream->buf;
     if (buf == NULL) {
 	xmlFreeInputStream (inputStream);
 	xmlFreeParserCtxt(pctxt);
-	xmlFree(URL);
+	free(URL);
 	return(-1);
     }
     if (buf->encoder)
@@ -1921,7 +1898,7 @@ xinclude_multibyte_fallback:
 				   XML_XINCLUDE_INVALID_CHAR,
 				   "%s contains invalid char\n", URL);
 		    xmlFreeParserInputBuffer(buf);
-		    xmlFree(URL);
+		    free(URL);
 		    return(-1);
 		}
 	    } else {
@@ -1941,7 +1918,7 @@ loaded:
      * Add the element as the replacement copy.
      */
     ctxt->incTab[nr]->inc = node;
-    xmlFree(URL);
+    free(URL);
     return(0);
 }
 
@@ -2060,10 +2037,8 @@ xmlXIncludeLoadNode(xmlXIncludeCtxtPtr ctxt, int nr) {
 	    xmlXIncludeErr(ctxt, ctxt->incTab[nr]->ref,
 	                   XML_XINCLUDE_PARSE_VALUE,
 			   "invalid value %s for 'parse'\n", parse);
-	    if (href != NULL)
-		xmlFree(href);
-	    if (parse != NULL)
-		xmlFree(parse);
+	    free(href);
+	    free(parse);
 	    return(-1);
 	}
     }
@@ -2086,20 +2061,15 @@ xmlXIncludeLoadNode(xmlXIncludeCtxtPtr ctxt, int nr) {
 	escbase = xmlURIEscape(base);
 	eschref = xmlURIEscape(href);
 	URI = xmlBuildURI(eschref, escbase);
-	if (escbase != NULL)
-	    xmlFree(escbase);
-	if (eschref != NULL)
-	    xmlFree(eschref);
+	free(escbase);
+	free(eschref);
     }
     if (URI == NULL) {
 	xmlXIncludeErr(ctxt, ctxt->incTab[nr]->ref,
 	               XML_XINCLUDE_HREF_URI, "failed build URL\n", NULL);
-	if (parse != NULL)
-	    xmlFree(parse);
-	if (href != NULL)
-	    xmlFree(href);
-	if (base != NULL)
-	    xmlFree(base);
+	free(parse);
+	free(href);
+	free(base);
 	return(-1);
     }
 #ifdef DEBUG_XINCLUDE
@@ -2159,14 +2129,10 @@ xmlXIncludeLoadNode(xmlXIncludeCtxtPtr ctxt, int nr) {
     /*
      * Cleanup
      */
-    if (URI != NULL)
-	xmlFree(URI);
-    if (parse != NULL)
-	xmlFree(parse);
-    if (href != NULL)
-	xmlFree(href);
-    if (base != NULL)
-	xmlFree(base);
+    free(URI);
+    free(parse);
+    free(href);
+    free(base);
     return(0);
 }
 

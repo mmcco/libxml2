@@ -1936,12 +1936,11 @@ pushParseTest(const char *filename, const char *result,
     xmlFreeDoc(doc);
     res = compareFileMem(result, base, size);
     if ((base == NULL) || (res != 0)) {
-	if (base != NULL)
-	    xmlFree((char *)base);
+	free(base);
         fprintf(stderr, "Result for %s failed in %s\n", filename, result);
 	return(-1);
     }
-    xmlFree((char *)base);
+    free(base);
     if (err != NULL) {
 	res = compareFileMem(err, testErrors, testErrorsSize);
 	if (res != 0) {
@@ -1991,12 +1990,11 @@ memParseTest(const char *filename, const char *result,
     xmlFreeDoc(doc);
     res = compareFileMem(result, base, size);
     if ((base == NULL) || (res != 0)) {
-	if (base != NULL)
-	    xmlFree((char *)base);
+	free(base);
         fprintf(stderr, "Result for %s failed in %s\n", filename, result);
 	return(-1);
     }
-    xmlFree((char *)base);
+    free(base);
     return(0);
 }
 
@@ -2110,8 +2108,7 @@ errParseTest(const char *filename, const char *result, const char *err,
 	}
     }
     if (doc != NULL) {
-	if (base != NULL)
-	    xmlFree((char *)base);
+	free(base);
 	xmlFreeDoc(doc);
     }
     if (err != NULL) {
@@ -2667,8 +2664,7 @@ handleURI(const char *str, const char *base, FILE *o) {
 	else
 	    fprintf(o, "::ERROR::\n");
     }
-    if (res != NULL)
-	xmlFree(res);
+    free(res);
     xmlFreeURI(uri);
 }
 
@@ -3471,8 +3467,7 @@ static void patternNode(FILE *out, xmlTextReaderPtr reader,
 	    }
 	}
     }
-    if (path != NULL)
-	xmlFree(path);
+    free(path);
 }
 
 /**
@@ -3681,7 +3676,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     ctx = xmlXPathNewContext(parent_doc);
     if(ctx == NULL) {
         fprintf(stderr,"Error: unable to create new context\n");
-        xmlFree(expr);
+        free(expr);
         xmlFreeDoc(doc);
         return(NULL);
     }
@@ -3693,7 +3688,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     while(ns != NULL) {
 	if(xmlXPathRegisterNs(ctx, ns->prefix, ns->href) != 0) {
 	    fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", ns->prefix, ns->href);
-    xmlFree(expr);
+	    free(expr);
 	    xmlXPathFreeContext(ctx);
 	    xmlFreeDoc(doc);
 	    return(NULL);
@@ -3707,7 +3702,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     xpath = xmlXPathEvalExpression(expr, ctx);
     if(xpath == NULL) {
         fprintf(stderr,"Error: unable to evaluate xpath expression\n");
-xmlFree(expr);
+	free(expr);
         xmlXPathFreeContext(ctx);
         xmlFreeDoc(doc);
         return(NULL);
@@ -3715,7 +3710,7 @@ xmlFree(expr);
 
     /* print_xpath_nodes(xpath->nodesetval); */
 
-    xmlFree(expr);
+    free(expr);
     xmlXPathFreeContext(ctx);
     xmlFreeDoc(doc);
     return(xpath);
@@ -3857,10 +3852,10 @@ c14nRunTest(const char* xml_filename, int with_comments, int mode,
     /*
      * Cleanup
      */
-    if (result != NULL) xmlFree(result);
+    free(result);
     if(xpath != NULL) xmlXPathFreeObject(xpath);
-    if (inclusive_namespaces != NULL) xmlFree(inclusive_namespaces);
-    if (nslist != NULL) free((char *) nslist);
+    free(inclusive_namespaces);
+    free(nslist);
     xmlFreeDoc(doc);
 
     return(ret);

@@ -170,7 +170,7 @@ register_namespaces(xmlXPathContextPtr xpathCtx, const xmlChar* nsList) {
 	next = (xmlChar*)xmlStrchr(next, '=');
 	if(next == NULL) {
 	    fprintf(stderr,"Error: invalid namespaces list format\n");
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);	
 	}
 	*(next++) = '\0';	
@@ -185,12 +185,12 @@ register_namespaces(xmlXPathContextPtr xpathCtx, const xmlChar* nsList) {
 	/* do register namespace */
 	if(xmlXPathRegisterNs(xpathCtx, prefix, href) != 0) {
 	    fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", prefix, href);
-	    xmlFree(nsListDup);
+	    free(nsListDup);
 	    return(-1);	
 	}
     }
     
-    xmlFree(nsListDup);
+    free(nsListDup);
     return(0);
 }
 

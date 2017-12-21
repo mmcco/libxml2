@@ -416,24 +416,15 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
     nb_tests++;
 
 error:
-    if (type != NULL)
-        xmlFree(type);
-    if (entities != NULL)
-        xmlFree(entities);
-    if (edition != NULL)
-        xmlFree(edition);
-    if (version != NULL)
-        xmlFree(version);
-    if (filename != NULL)
-        xmlFree(filename);
-    if (uri != NULL)
-        xmlFree(uri);
-    if (base != NULL)
-        xmlFree(base);
-    if (id != NULL)
-        xmlFree(id);
-    if (rec != NULL)
-        xmlFree(rec);
+    free(type);
+    free(entities);
+    free(edition);
+    free(version);
+    free(filename);
+    free(uri);
+    free(base);
+    free(id);
+    free(rec);
     return(ret);
 }
 
@@ -450,7 +441,7 @@ xmlconfTestCases(xmlDocPtr doc, xmlNodePtr cur, int level) {
 	    output = 1;
 	    level++;
 	    printf("Test cases: %s\n", (char *) profile);
-	    xmlFree(profile);
+	    free(profile);
 	}
     }
     cur = cur->children;
@@ -484,7 +475,7 @@ xmlconfTestSuite(xmlDocPtr doc, xmlNodePtr cur) {
     profile = xmlGetProp(cur, BAD_CAST "PROFILE");
     if (profile != NULL) {
         printf("Test suite: %s\n", (char *) profile);
-	xmlFree(profile);
+	free(profile);
     } else
         printf("Test suite\n");
     cur = cur->children;

@@ -11885,7 +11885,7 @@ libxml_xmlURISetAuthority(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->authority != NULL) xmlFree(URI->authority);
+    free(URI->authority);
     URI->authority = (char *)xmlStrdup((const xmlChar *)authority);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -11901,7 +11901,7 @@ libxml_xmlURISetFragment(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->fragment != NULL) xmlFree(URI->fragment);
+    free(URI->fragment);
     URI->fragment = (char *)xmlStrdup((const xmlChar *)fragment);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -11917,7 +11917,7 @@ libxml_xmlURISetOpaque(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->opaque != NULL) xmlFree(URI->opaque);
+    free(URI->opaque);
     URI->opaque = (char *)xmlStrdup((const xmlChar *)opaque);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -11933,7 +11933,7 @@ libxml_xmlURISetPath(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->path != NULL) xmlFree(URI->path);
+    free(URI->path);
     URI->path = (char *)xmlStrdup((const xmlChar *)path);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -11964,7 +11964,7 @@ libxml_xmlURISetQuery(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->query != NULL) xmlFree(URI->query);
+    free(URI->query);
     URI->query = (char *)xmlStrdup((const xmlChar *)query);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -11980,7 +11980,7 @@ libxml_xmlURISetQueryRaw(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->query_raw != NULL) xmlFree(URI->query_raw);
+    free(URI->query_raw);
     URI->query_raw = (char *)xmlStrdup((const xmlChar *)query_raw);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -11996,7 +11996,7 @@ libxml_xmlURISetScheme(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->scheme != NULL) xmlFree(URI->scheme);
+    free(URI->scheme);
     URI->scheme = (char *)xmlStrdup((const xmlChar *)scheme);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -12012,7 +12012,7 @@ libxml_xmlURISetServer(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->server != NULL) xmlFree(URI->server);
+    free(URI->server);
     URI->server = (char *)xmlStrdup((const xmlChar *)server);
     Py_INCREF(Py_None);
     return(Py_None);
@@ -12028,7 +12028,7 @@ libxml_xmlURISetUser(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
         return(NULL);
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
-    if (URI->user != NULL) xmlFree(URI->user);
+    free(URI->user);
     URI->user = (char *)xmlStrdup((const xmlChar *)user);
     Py_INCREF(Py_None);
     return(Py_None);

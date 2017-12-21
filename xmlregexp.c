@@ -474,7 +474,7 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	stateRemap = xmlMalloc(ret->nbStates * sizeof(int));
 	if (stateRemap == NULL) {
 	    xmlRegexpErrMemory(ctxt, "compiling regexp");
-	    xmlFree(ret);
+	    free(ret);
 	    return(NULL);
 	}
 	for (i = 0;i < ret->nbStates;i++) {
@@ -491,16 +491,16 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	stringMap = xmlMalloc(ret->nbAtoms * sizeof(char *));
 	if (stringMap == NULL) {
 	    xmlRegexpErrMemory(ctxt, "compiling regexp");
-	    xmlFree(stateRemap);
-	    xmlFree(ret);
+	    free(stateRemap);
+	    free(ret);
 	    return(NULL);
 	}
 	stringRemap = xmlMalloc(ret->nbAtoms * sizeof(int));
 	if (stringRemap == NULL) {
 	    xmlRegexpErrMemory(ctxt, "compiling regexp");
-	    xmlFree(stringMap);
-	    xmlFree(stateRemap);
-	    xmlFree(ret);
+	    free(stringMap);
+	    free(stateRemap);
+	    free(ret);
 	    return(NULL);
 	}
 	for (i = 0;i < ret->nbAtoms;i++) {
@@ -518,22 +518,22 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 		    stringMap[nbatoms] = xmlStrdup(value);
 		    if (stringMap[nbatoms] == NULL) {
 			for (i = 0;i < nbatoms;i++)
-			    xmlFree(stringMap[i]);
-			xmlFree(stringRemap);
-			xmlFree(stringMap);
-			xmlFree(stateRemap);
-			xmlFree(ret);
+			    free(stringMap[i]);
+			free(stringRemap);
+			free(stringMap);
+			free(stateRemap);
+			free(ret);
 			return(NULL);
 		    }
 		    nbatoms++;
 		}
 	    } else {
-		xmlFree(stateRemap);
-		xmlFree(stringRemap);
+		free(stateRemap);
+		free(stringRemap);
 		for (i = 0;i < nbatoms;i++)
-		    xmlFree(stringMap[i]);
-		xmlFree(stringMap);
-		xmlFree(ret);
+		    free(stringMap[i]);
+		free(stringMap);
+		free(ret);
 		return(NULL);
 	    }
 	}
@@ -543,10 +543,10 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	transitions = (int *) xmlMalloc((nbstates + 1) *
 	                                (nbatoms + 1) * sizeof(int));
 	if (transitions == NULL) {
-	    xmlFree(stateRemap);
-	    xmlFree(stringRemap);
-	    xmlFree(stringMap);
-	    xmlFree(ret);
+	    free(stateRemap);
+	    free(stringRemap);
+	    free(stringMap);
+	    free(ret);
 	    return(NULL);
 	}
 	memset(transitions, 0, (nbstates + 1) * (nbatoms + 1) * sizeof(int));
@@ -600,14 +600,13 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 			       i, j, trans->atom->no, trans->to, atomno, targetno);
 			printf("       previous to is %d\n", prev);
 #endif
-			if (transdata != NULL)
-			    xmlFree(transdata);
-			xmlFree(transitions);
-			xmlFree(stateRemap);
-			xmlFree(stringRemap);
+			free(transdata);
+			free(transitions);
+			free(stateRemap);
+			free(stringRemap);
 			for (i = 0;i < nbatoms;i++)
-			    xmlFree(stringMap[i]);
-			xmlFree(stringMap);
+			    free(stringMap[i]);
+			free(stringMap);
 			goto not_determ;
 		    }
 		} else {
@@ -642,14 +641,14 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	if (ret->states != NULL) {
 	    for (i = 0;i < ret->nbStates;i++)
 		xmlRegFreeState(ret->states[i]);
-	    xmlFree(ret->states);
+	    free(ret->states);
 	}
 	ret->states = NULL;
 	ret->nbStates = 0;
 	if (ret->atoms != NULL) {
 	    for (i = 0;i < ret->nbAtoms;i++)
 		xmlRegFreeAtom(ret->atoms[i]);
-	    xmlFree(ret->atoms);
+	    free(ret->atoms);
 	}
 	ret->atoms = NULL;
 	ret->nbAtoms = 0;
@@ -659,8 +658,8 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 	ret->stringMap = stringMap;
 	ret->nbstrings = nbatoms;
 	ret->nbstates = nbstates;
-	xmlFree(stateRemap);
-	xmlFree(stringRemap);
+	free(stateRemap);
+	free(stringRemap);
     }
 not_determ:
     ctxt->string = NULL;
@@ -739,9 +738,8 @@ xmlRegFreeRange(xmlRegRangePtr range) {
     if (range == NULL)
 	return;
 
-    if (range->blockName != NULL)
-	xmlFree(range->blockName);
-    xmlFree(range);
+    free(range->blockName);
+    free(range);
 }
 
 /**
@@ -815,15 +813,14 @@ xmlRegFreeAtom(xmlRegAtomPtr atom) {
 
     for (i = 0;i < atom->nbRanges;i++)
 	xmlRegFreeRange(atom->ranges[i]);
-    if (atom->ranges != NULL)
-	xmlFree(atom->ranges);
+    free(atom->ranges);
     if ((atom->type == XML_REGEXP_STRING) && (atom->valuep != NULL))
-	xmlFree(atom->valuep);
+	free(atom->valuep);
     if ((atom->type == XML_REGEXP_STRING) && (atom->valuep2 != NULL))
-	xmlFree(atom->valuep2);
+	free(atom->valuep2);
     if ((atom->type == XML_REGEXP_BLOCK_NAME) && (atom->valuep != NULL))
-	xmlFree(atom->valuep);
-    xmlFree(atom);
+	free(atom->valuep);
+    free(atom);
 }
 
 /**
@@ -898,11 +895,9 @@ xmlRegFreeState(xmlRegStatePtr state) {
     if (state == NULL)
 	return;
 
-    if (state->trans != NULL)
-	xmlFree(state->trans);
-    if (state->transTo != NULL)
-	xmlFree(state->transTo);
-    xmlFree(state);
+    free(state->trans);
+    free(state->transTo);
+    free(state);
 }
 
 /**
@@ -917,21 +912,19 @@ xmlRegFreeParserCtxt(xmlRegParserCtxtPtr ctxt) {
     if (ctxt == NULL)
 	return;
 
-    if (ctxt->string != NULL)
-	xmlFree(ctxt->string);
+    free(ctxt->string);
     if (ctxt->states != NULL) {
 	for (i = 0;i < ctxt->nbStates;i++)
 	    xmlRegFreeState(ctxt->states[i]);
-	xmlFree(ctxt->states);
+	free(ctxt->states);
     }
     if (ctxt->atoms != NULL) {
 	for (i = 0;i < ctxt->nbAtoms;i++)
 	    xmlRegFreeAtom(ctxt->atoms[i]);
-	xmlFree(ctxt->atoms);
+	free(ctxt->atoms);
     }
-    if (ctxt->counters != NULL)
-	xmlFree(ctxt->counters);
-    xmlFree(ctxt);
+    free(ctxt->counters);
+    free(ctxt);
 }
 
 /************************************************************************
@@ -3468,15 +3461,13 @@ error:
 	    int i;
 
 	    for (i = 0;i < exec->maxRollbacks;i++)
-		if (exec->rollbacks[i].counts != NULL)
-		    xmlFree(exec->rollbacks[i].counts);
+		free(exec->rollbacks[i].counts);
 	}
-	xmlFree(exec->rollbacks);
+	free(exec->rollbacks);
     }
     if (exec->state == NULL)
         return(-1);
-    if (exec->counts != NULL)
-	xmlFree(exec->counts);
+    free(exec->counts);
     if (exec->status == 0)
 	return(1);
     if (exec->status == -1) {
@@ -3544,7 +3535,7 @@ xmlRegNewExecCtxt(xmlRegexpPtr comp, xmlRegExecCallbacks callback, void *data) {
 	                                 * 2);
 	if (exec->counts == NULL) {
 	    xmlRegexpErrMemory(NULL, "creating execution context");
-	    xmlFree(exec);
+	    free(exec);
 	    return(NULL);
 	}
         memset(exec->counts, 0, comp->nbCounters * sizeof(int) * 2);
@@ -3578,25 +3569,21 @@ xmlRegFreeExecCtxt(xmlRegExecCtxtPtr exec) {
 	    int i;
 
 	    for (i = 0;i < exec->maxRollbacks;i++)
-		if (exec->rollbacks[i].counts != NULL)
-		    xmlFree(exec->rollbacks[i].counts);
+		free(exec->rollbacks[i].counts);
 	}
-	xmlFree(exec->rollbacks);
+	free(exec->rollbacks);
     }
-    if (exec->counts != NULL)
-	xmlFree(exec->counts);
+    free(exec->counts);
     if (exec->inputStack != NULL) {
 	int i;
 
 	for (i = 0;i < exec->inputStackNr;i++) {
-	    if (exec->inputStack[i].value != NULL)
-		xmlFree(exec->inputStack[i].value);
+	    free(exec->inputStack[i].value);
 	}
-	xmlFree(exec->inputStack);
+	free(exec->inputStack);
     }
-    if (exec->errString != NULL)
-        xmlFree(exec->errString);
-    xmlFree(exec);
+    free(exec->errString);
+    free(exec);
 }
 
 static void
@@ -3756,8 +3743,7 @@ xmlRegCompactPushString(xmlRegExecCtxtPtr exec,
     printf("failed to find a transition for %s on state %d\n", value, state);
 #endif
 error:
-    if (exec->errString != NULL)
-        xmlFree(exec->errString);
+    free(exec->errString);
     exec->errString = xmlStrdup(value);
     exec->errStateNo = state;
     exec->status = -1;
@@ -4042,8 +4028,7 @@ xmlRegExecPushStringInternal(xmlRegExecCtxtPtr exec, const xmlChar *value,
 		     * entering a sink state, save the current state as error
 		     * state.
 		     */
-		    if (exec->errString != NULL)
-			xmlFree(exec->errString);
+		    free(exec->errString);
 		    exec->errString = xmlStrdup(value);
 		    exec->errState = exec->state;
 		    memcpy(exec->errCounts, exec->counts,
@@ -4090,8 +4075,7 @@ rollback:
 	    if ((progress) && (exec->state != NULL) &&
 	        (exec->state->type != XML_REGEXP_SINK_STATE)) {
 	        progress = 0;
-		if (exec->errString != NULL)
-		    xmlFree(exec->errString);
+		free(exec->errString);
 		exec->errString = xmlStrdup(value);
 		exec->errState = exec->state;
                 if (exec->comp->nbCounters)
@@ -4196,8 +4180,7 @@ xmlRegExecPushString2(xmlRegExecCtxtPtr exec, const xmlChar *value,
     else
         ret = xmlRegExecPushStringInternal(exec, str, data, 1);
 
-    if (str != buf)
-        xmlFree(str);
+    free(str);
     return(ret);
 }
 
@@ -5542,7 +5525,7 @@ xmlRegexpIsDeterminist(xmlRegexpPtr comp) {
 
 	for (i = 0;i < am->nbStates;i++)
 	    xmlRegFreeState(am->states[i]);
-	xmlFree(am->states);
+	free(am->states);
     }
     am->nbAtoms = comp->nbAtoms;
     am->atoms = comp->atoms;
@@ -5570,31 +5553,27 @@ xmlRegFreeRegexp(xmlRegexpPtr regexp) {
     if (regexp == NULL)
 	return;
 
-    if (regexp->string != NULL)
-	xmlFree(regexp->string);
+    free(regexp->string);
     if (regexp->states != NULL) {
 	for (i = 0;i < regexp->nbStates;i++)
 	    xmlRegFreeState(regexp->states[i]);
-	xmlFree(regexp->states);
+	free(regexp->states);
     }
     if (regexp->atoms != NULL) {
 	for (i = 0;i < regexp->nbAtoms;i++)
 	    xmlRegFreeAtom(regexp->atoms[i]);
-	xmlFree(regexp->atoms);
+	free(regexp->atoms);
     }
-    if (regexp->counters != NULL)
-	xmlFree(regexp->counters);
-    if (regexp->compact != NULL)
-	xmlFree(regexp->compact);
-    if (regexp->transdata != NULL)
-	xmlFree(regexp->transdata);
+    free(regexp->counters);
+    free(regexp->compact);
+    free(regexp->transdata);
     if (regexp->stringMap != NULL) {
 	for (i = 0; i < regexp->nbstrings;i++)
-	    xmlFree(regexp->stringMap[i]);
-	xmlFree(regexp->stringMap);
+	    free(regexp->stringMap[i]);
+	free(regexp->stringMap);
     }
 
-    xmlFree(regexp);
+    free(regexp);
 }
 
 #ifdef LIBXML_AUTOMATA_ENABLED
@@ -6381,15 +6360,15 @@ xmlExpNewCtxt(int maxNodes, xmlDictPtr dict) {
     ret->maxNodes = maxNodes;
     ret->table = xmlMalloc(size * sizeof(xmlExpNodePtr));
     if (ret->table == NULL) {
-        xmlFree(ret);
+        free(ret);
 	return(NULL);
     }
     memset(ret->table, 0, size * sizeof(xmlExpNodePtr));
     if (dict == NULL) {
         ret->dict = xmlDictCreate();
 	if (ret->dict == NULL) {
-	    xmlFree(ret->table);
-	    xmlFree(ret);
+	    free(ret->table);
+	    free(ret);
 	    return(NULL);
 	}
     } else {
@@ -6410,9 +6389,8 @@ xmlExpFreeCtxt(xmlExpCtxtPtr ctxt) {
     if (ctxt == NULL)
         return;
     xmlDictFree(ctxt->dict);
-    if (ctxt->table != NULL)
-	xmlFree(ctxt->table);
-    xmlFree(ctxt);
+    free(ctxt->table);
+    free(ctxt);
 }
 
 /************************************************************************
@@ -6830,7 +6808,7 @@ xmlExpFree(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp) {
 	} else if (exp->type == XML_EXP_COUNT) {
 	    xmlExpFree(ctxt, exp->exp_left);
 	}
-        xmlFree(exp);
+        free(exp);
 	ctxt->nb_nodes--;
     }
 }
@@ -7717,7 +7695,7 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
 	temp = (const xmlChar **) xmlRealloc((xmlChar **) tab, ctxt->tabSize * 2 *
 	                                     sizeof(const xmlChar *));
 	if (temp == NULL) {
-	    xmlFree((xmlChar **) tab);
+	    free(tab);
 	    return(NULL);
 	}
 	tab = temp;
@@ -7728,14 +7706,14 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
         tmp = xmlExpStringDeriveInt(ctxt, exp, tab[i]);
 	if ((tmp == NULL) || (tmp == forbiddenExp)) {
 	    xmlExpFree(ctxt, ret);
-	    xmlFree((xmlChar **) tab);
+	    free(tab);
 	    return(tmp);
 	}
 	tmp2 = xmlExpStringDeriveInt(ctxt, sub, tab[i]);
 	if ((tmp2 == NULL) || (tmp2 == forbiddenExp)) {
 	    xmlExpFree(ctxt, tmp);
 	    xmlExpFree(ctxt, ret);
-	    xmlFree((xmlChar **) tab);
+	    free(tab);
 	    return(tmp);
 	}
 	tmp3 = xmlExpExpDeriveInt(ctxt, tmp, tmp2);
@@ -7744,7 +7722,7 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
 
 	if ((tmp3 == NULL) || (tmp3 == forbiddenExp)) {
 	    xmlExpFree(ctxt, ret);
-	    xmlFree((xmlChar **) tab);
+	    free(tab);
 	    return(tmp3);
 	}
 
@@ -7753,12 +7731,12 @@ xmlExpExpDeriveInt(xmlExpCtxtPtr ctxt, xmlExpNodePtr exp, xmlExpNodePtr sub) {
 	else {
 	    ret = xmlExpHashGetEntry(ctxt, XML_EXP_OR, ret, tmp3, NULL, 0, 0);
 	    if (ret == NULL) {
-		xmlFree((xmlChar **) tab);
+		free(tab);
 	        return(NULL);
 	    }
 	}
     }
-    xmlFree((xmlChar **) tab);
+    free(tab);
     return(ret);
 }
 

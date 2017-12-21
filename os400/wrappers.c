@@ -55,13 +55,13 @@ _lx_inet_ntop(int af, const void * src, char * dst, socklen_t size)
         i = strlen(cp2);
 
         if (i >= size) {
-                xmlFree((char *) cp2);
+                free(cp2);
                 errno = ENOSPC;
                 return (const char *) NULL;
                 }
 
         memcpy(dst, cp2, i + 1);
-        xmlFree((char *) cp2);
+        free((cp2);
         return dst;
 }
 
@@ -101,8 +101,7 @@ _lx_dlerror(void)
         if (!cp1)
                 return cp1;
 
-        if (lxdles)
-                xmlFree((char *) lxdles);
+        free(lxdles);
 
         lxdles = (const char *) xmlTranscodeString(cp1, NULL, NULL);
         return (char *) lxdles;

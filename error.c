@@ -697,8 +697,7 @@ xmlParserError(void *ctx, const char *msg, ...)
     xmlGenericError(xmlGenericErrorContext, "error: ");
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
-    if (str != NULL)
-	xmlFree(str);
+    free(str);
 
     if (ctxt != NULL) {
 	xmlParserPrintFileContext(input);
@@ -740,8 +739,7 @@ xmlParserWarning(void *ctx, const char *msg, ...)
     xmlGenericError(xmlGenericErrorContext, "warning: ");
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
-    if (str != NULL)
-	xmlFree(str);
+    free(str);
 
     if (ctxt != NULL) {
 	xmlParserPrintFileContext(input);
@@ -795,8 +793,7 @@ xmlParserValidityError(void *ctx, const char *msg, ...)
 
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
-    if (str != NULL)
-	xmlFree(str);
+    free(str);
 
     if ((ctxt != NULL) && (input != NULL)) {
 	xmlParserPrintFileContext(input);
@@ -831,8 +828,7 @@ xmlParserValidityWarning(void *ctx, const char *msg, ...)
     xmlGenericError(xmlGenericErrorContext, "validity warning: ");
     XML_GET_VAR_STR(msg, str);
     xmlGenericError(xmlGenericErrorContext, "%s", str);
-    if (str != NULL)
-	xmlFree(str);
+    free(str);
 
     if (ctxt != NULL) {
 	xmlParserPrintFileContext(input);
@@ -875,16 +871,11 @@ xmlResetError(xmlErrorPtr err)
         return;
     if (err->code == XML_ERR_OK)
         return;
-    if (err->message != NULL)
-        xmlFree(err->message);
-    if (err->file != NULL)
-        xmlFree(err->file);
-    if (err->str1 != NULL)
-        xmlFree(err->str1);
-    if (err->str2 != NULL)
-        xmlFree(err->str2);
-    if (err->str3 != NULL)
-        xmlFree(err->str3);
+    free(err->message);
+    free(err->file);
+    free(err->str1);
+    free(err->str2);
+    free(err->str3);
     memset(err, 0, sizeof(xmlError));
     err->code = XML_ERR_OK;
 }
@@ -965,16 +956,11 @@ xmlCopyError(xmlErrorPtr from, xmlErrorPtr to) {
     str2 = (char *) xmlStrdup ((xmlChar *) from->str2);
     str3 = (char *) xmlStrdup ((xmlChar *) from->str3);
 
-    if (to->message != NULL)
-        xmlFree(to->message);
-    if (to->file != NULL)
-        xmlFree(to->file);
-    if (to->str1 != NULL)
-        xmlFree(to->str1);
-    if (to->str2 != NULL)
-        xmlFree(to->str2);
-    if (to->str3 != NULL)
-        xmlFree(to->str3);
+    free(to->message);
+    free(to->file);
+    free(to->str1);
+    free(to->str2);
+    free(to->str3);
     to->domain = from->domain;
     to->code = from->code;
     to->level = from->level;

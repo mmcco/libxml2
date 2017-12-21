@@ -1023,7 +1023,7 @@ xmlEscapeFormatString(xmlChar **msg)
     if (result == NULL) {
         /* Clear *msg to prevent format string vulnerabilities in
            out-of-memory situations. */
-        xmlFree(*msg);
+        free(*msg);
         *msg = NULL;
         xmlErrMemory(NULL, NULL);
         return(NULL);
@@ -1036,7 +1036,7 @@ xmlEscapeFormatString(xmlChar **msg)
     }
     result[resultLen - 1] = '\0';
 
-    xmlFree(*msg);
+    free(*msg);
     *msg = result;
 
     return *msg;

@@ -517,8 +517,7 @@ htmlCurrentChar(xmlParserCtxtPtr ctxt, int *len) {
         if (guess == NULL) {
             xmlSwitchEncoding(ctxt, XML_CHAR_ENCODING_8859_1);
         } else {
-            if (ctxt->input->encoding != NULL)
-                xmlFree((xmlChar *) ctxt->input->encoding);
+            free((xmlChar *) ctxt->input->encoding);
             ctxt->input->encoding = guess;
             handler = xmlFindCharEncodingHandler((const char *) guess);
             if (handler != NULL) {
@@ -1913,7 +1912,7 @@ static const htmlEntityDesc  html40EntitiesTable[] = {
     tmp = (xmlChar *) xmlRealloc(buffer, buffer##_size * sizeof(xmlChar)); \
     if (tmp == NULL) {						\
 	htmlErrMemory(ctxt, "growing buffer\n");			\
-	xmlFree(buffer);						\
+	free(buffer);						\
 	return(NULL);							\
     }									\
     buffer = tmp;							\
@@ -3233,7 +3232,7 @@ htmlParsePI(htmlParserCtxtPtr ctxt) {
 		    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
 		    if (tmp == NULL) {
 			htmlErrMemory(ctxt, NULL);
-			xmlFree(buf);
+			free(buf);
 			ctxt->instate = state;
 			return;
 		    }
@@ -3268,7 +3267,7 @@ htmlParsePI(htmlParserCtxtPtr ctxt) {
 		    ctxt->sax->processingInstruction(ctxt->userData,
 		                                     target, buf);
 	    }
-	    xmlFree(buf);
+	    free(buf);
 	} else {
 	    htmlParseErr(ctxt, XML_ERR_PI_NOT_STARTED,
                          "PI is not started correctly", NULL, NULL);
@@ -3331,7 +3330,7 @@ htmlParseComment(htmlParserCtxtPtr ctxt) {
 	    size *= 2;
 	    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
 	    if (tmp == NULL) {
-	        xmlFree(buf);
+	        free(buf);
 	        htmlErrMemory(ctxt, "growing buffer failed\n");
 		ctxt->instate = state;
 		return;
@@ -3357,7 +3356,7 @@ htmlParseComment(htmlParserCtxtPtr ctxt) {
 	if ((ctxt->sax != NULL) && (ctxt->sax->comment != NULL) &&
 	    (!ctxt->disableSAX))
 	    ctxt->sax->comment(ctxt->userData, buf);
-	xmlFree(buf);
+	free(buf);
 	ctxt->instate = state;
 	return;
     }
@@ -3365,7 +3364,7 @@ htmlParseComment(htmlParserCtxtPtr ctxt) {
 unfinished:
     htmlParseErr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
 		 "Comment not terminated \n<!--%.50s\n", buf, NULL);
-    xmlFree(buf);
+    free(buf);
 }
 
 /**
@@ -3506,8 +3505,8 @@ htmlParseDocTypeDecl(htmlParserCtxtPtr ctxt) {
     /*
      * Cleanup, since we don't use all those identifiers
      */
-    if (URI != NULL) xmlFree(URI);
-    if (ExternalID != NULL) xmlFree(ExternalID);
+    free(URI);
+    free(ExternalID);
 }
 
 /**
@@ -3585,8 +3584,7 @@ htmlCheckEncodingDirect(htmlParserCtxtPtr ctxt, const xmlChar *encoding) {
 
 	while ((*encoding == ' ') || (*encoding == '\t')) encoding++;
 
-	if (ctxt->input->encoding != NULL)
-	    xmlFree((xmlChar *) ctxt->input->encoding);
+	free(ctxt->input->encoding);
 	ctxt->input->encoding = xmlStrdup(encoding);
 
 	enc = xmlParseCharEncoding((const char *) encoding);
@@ -3844,8 +3842,7 @@ htmlParseStartTag(htmlParserCtxtPtr ctxt) {
 	        if (xmlStrEqual(atts[i], attname)) {
 		    htmlParseErr(ctxt, XML_ERR_ATTRIBUTE_REDEFINED,
 		                 "Attribute %s redefined\n", attname, NULL);
-		    if (attvalue != NULL)
-			xmlFree(attvalue);
+		    free(attvalue);
 		    goto failed;
 		}
 	    }
@@ -3859,8 +3856,7 @@ htmlParseStartTag(htmlParserCtxtPtr ctxt) {
 		       xmlMalloc(maxatts * sizeof(xmlChar *));
 		if (atts == NULL) {
 		    htmlErrMemory(ctxt, NULL);
-		    if (attvalue != NULL)
-			xmlFree(attvalue);
+		    free(attvalue);
 		    goto failed;
 		}
 		ctxt->atts = atts;
@@ -3873,8 +3869,7 @@ htmlParseStartTag(htmlParserCtxtPtr ctxt) {
 					     maxatts * sizeof(const xmlChar *));
 		if (n == NULL) {
 		    htmlErrMemory(ctxt, NULL);
-		    if (attvalue != NULL)
-			xmlFree(attvalue);
+		    free(attvalue);
 		    goto failed;
 		}
 		atts = n;
@@ -3887,8 +3882,7 @@ htmlParseStartTag(htmlParserCtxtPtr ctxt) {
 	    atts[nbatts + 1] = NULL;
 	}
 	else {
-	    if (attvalue != NULL)
-	        xmlFree(attvalue);
+	    free(attvalue);
 	    /* Dump the bogus attribute string up to the next blank or
 	     * the end of the tag. */
 	    while ((IS_CHAR_CH(CUR)) &&
@@ -3928,8 +3922,7 @@ failed:
 
     if (atts != NULL) {
         for (i = 1;i < nbatts;i += 2) {
-	    if (atts[i] != NULL)
-		xmlFree((xmlChar *) atts[i]);
+	    free(atts[i]);
 	}
     }
 
@@ -4158,8 +4151,7 @@ htmlParseContent(htmlParserCtxtPtr ctxt) {
         if ((CUR == '<') && (NXT(1) == '/')) {
 	    if (htmlParseEndTag(ctxt) &&
 		((currentNode != NULL) || (ctxt->nameNr == 0))) {
-		if (currentNode != NULL)
-		    xmlFree(currentNode);
+		free(currentNode);
 		return;
 	    }
 	    continue; /* while */
@@ -4177,8 +4169,7 @@ htmlParseContent(htmlParserCtxtPtr ctxt) {
         while ((IS_CHAR_CH(CUR)) && (CUR != '>'))
 	            NEXT;
 
-	        if (currentNode != NULL)
-	            xmlFree(currentNode);
+	        free(currentNode);
 	        return;
 	    }
 
@@ -4197,7 +4188,7 @@ htmlParseContent(htmlParserCtxtPtr ctxt) {
         if ((ctxt->nameNr > 0) && (depth >= ctxt->nameNr) &&
 	    (!xmlStrEqual(currentNode, ctxt->name)))
 	     {
-	    if (currentNode != NULL) xmlFree(currentNode);
+	    free(currentNode);
 	    return;
 	}
 
@@ -4278,7 +4269,7 @@ htmlParseContent(htmlParserCtxtPtr ctxt) {
 	}
         GROW;
     }
-    if (currentNode != NULL) xmlFree(currentNode);
+    free(currentNode);
 }
 
 /**
@@ -4410,8 +4401,7 @@ htmlParseElement(htmlParserCtxtPtr ctxt) {
 	htmlAutoCloseOnEnd(ctxt);
     }
 
-    if (currentNode != NULL)
-	xmlFree(currentNode);
+    free(currentNode);
 }
 
 static void
@@ -4558,8 +4548,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
         if ((CUR == '<') && (NXT(1) == '/')) {
 	    if (htmlParseEndTag(ctxt) &&
 		((currentNode != NULL) || (ctxt->nameNr == 0))) {
-		if (currentNode != NULL)
-		    xmlFree(currentNode);
+		free(currentNode);
 
 	        currentNode = xmlStrdup(ctxt->name);
 	        depth = ctxt->nameNr;
@@ -4580,8 +4569,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 	            NEXT;
 
 	        htmlParserFinishElementParsing(ctxt);
-	        if (currentNode != NULL)
-	            xmlFree(currentNode);
+	        free(currentNode);
 
 	        currentNode = xmlStrdup(ctxt->name);
 	        depth = ctxt->nameNr;
@@ -4604,7 +4592,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 	    (!xmlStrEqual(currentNode, ctxt->name)))
 	     {
 	    htmlParserFinishElementParsing(ctxt);
-	    if (currentNode != NULL) xmlFree(currentNode);
+	    free(currentNode);
 
 	    currentNode = xmlStrdup(ctxt->name);
 	    depth = ctxt->nameNr;
@@ -4652,7 +4640,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 	     */
 	    else if (CUR == '<') {
 		htmlParseElementInternal(ctxt);
-		if (currentNode != NULL) xmlFree(currentNode);
+		free(currentNode);
 
 		currentNode = xmlStrdup(ctxt->name);
 		depth = ctxt->nameNr;
@@ -4692,7 +4680,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 	}
         GROW;
     }
-    if (currentNode != NULL) xmlFree(currentNode);
+    free(currentNode);
 }
 
 /**
@@ -5067,8 +5055,7 @@ htmlCreateDocParserCtxt(const xmlChar *cur, const char *encoding) {
 	xmlCharEncoding enc;
 	xmlCharEncodingHandlerPtr handler;
 
-	if (ctxt->input->encoding != NULL)
-	    xmlFree((xmlChar *) ctxt->input->encoding);
+	free(ctxt->input->encoding);
 	ctxt->input->encoding = xmlStrdup((const xmlChar *) encoding);
 
 	enc = xmlParseCharEncoding(encoding);
@@ -6209,11 +6196,11 @@ htmlCreatePushParserCtxt(htmlSAXHandlerPtr sax, void *user_data,
 	ctxt->charset=XML_CHAR_ENCODING_UTF8;
     if (sax != NULL) {
 	if (ctxt->sax != (xmlSAXHandlerPtr) &htmlDefaultSAXHandler)
-	    xmlFree(ctxt->sax);
+	    free(ctxt->sax);
 	ctxt->sax = (htmlSAXHandlerPtr) xmlMalloc(sizeof(htmlSAXHandler));
 	if (ctxt->sax == NULL) {
-	    xmlFree(buf);
-	    xmlFree(ctxt);
+	    free(buf);
+	    free(ctxt);
 	    return(NULL);
 	}
 	memcpy(ctxt->sax, sax, sizeof(htmlSAXHandler));
@@ -6229,7 +6216,7 @@ htmlCreatePushParserCtxt(htmlSAXHandlerPtr sax, void *user_data,
     inputStream = htmlNewInputStream(ctxt);
     if (inputStream == NULL) {
 	xmlFreeParserCtxt(ctxt);
-	xmlFree(buf);
+	free(buf);
 	return(NULL);
     }
 
@@ -6290,7 +6277,7 @@ htmlSAXParseDoc(const xmlChar *cur, const char *encoding,
     ctxt = htmlCreateDocParserCtxt(cur, encoding);
     if (ctxt == NULL) return(NULL);
     if (sax != NULL) {
-        if (ctxt->sax != NULL) xmlFree (ctxt->sax);
+        free(ctxt->sax);
         ctxt->sax = sax;
         ctxt->userData = userData;
     }
@@ -6361,7 +6348,7 @@ htmlCreateFileParserCtxt(const char *filename, const char *encoding)
     }
 
     inputStream = xmlLoadExternalEntity(canonicFilename, NULL, ctxt);
-    xmlFree(canonicFilename);
+    free(canonicFilename);
     if (inputStream == NULL) {
 	xmlFreeParserCtxt(ctxt);
 	return(NULL);
@@ -6379,7 +6366,7 @@ htmlCreateFileParserCtxt(const char *filename, const char *encoding)
 		strcpy ((char *)content, (char *)content_line);
 		strcat ((char *)content, (char *)encoding);
 		htmlCheckEncoding (ctxt, content);
-		xmlFree (content);
+		free(content);
 	    }
 	}
     }
@@ -6592,7 +6579,7 @@ htmlNodeStatus(const htmlNodePtr node, int legacy) {
 #define DICT_FREE(str)						\
 	if ((str) && ((!dict) ||				\
 	    (xmlDictOwns(dict, (const xmlChar *)(str)) == 0)))	\
-	    xmlFree((char *)(str));
+	    free((str));
 
 /**
  * htmlCtxtReset:
@@ -6673,7 +6660,7 @@ htmlCtxtReset(htmlParserCtxtPtr ctxt)
     xmlInitNodeInfoSeq(&ctxt->node_seq);
 
     if (ctxt->attsDefault != NULL) {
-        xmlHashFree(ctxt->attsDefault, (xmlHashDeallocator) xmlFree);
+        xmlHashFree(ctxt->attsDefault, (xmlHashDeallocator) free);
         ctxt->attsDefault = NULL;
     }
     if (ctxt->attsSpecial != NULL) {
@@ -6779,8 +6766,7 @@ htmlDoRead(htmlParserCtxtPtr ctxt, const char *URL, const char *encoding,
 	hdlr = xmlFindCharEncodingHandler(encoding);
 	if (hdlr != NULL) {
 	    xmlSwitchToEncoding(ctxt, hdlr);
-	    if (ctxt->input->encoding != NULL)
-	      xmlFree((xmlChar *) ctxt->input->encoding);
+	    free(ctxt->input->encoding);
             ctxt->input->encoding = xmlStrdup((xmlChar *)encoding);
         }
     }

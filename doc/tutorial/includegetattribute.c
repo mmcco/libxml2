@@ -13,7 +13,7 @@ getReference (xmlDocPtr doc, xmlNodePtr cur) {
 	    if ((!xmlStrcmp(cur->name, (const xmlChar *)"reference"))) {
 		    uri = xmlGetProp(cur, "uri");
 		    printf("uri: %s\n", uri);
-		    xmlFree(uri);
+		    free(uri);
 	    }
 	    cur = cur->next;
 	}

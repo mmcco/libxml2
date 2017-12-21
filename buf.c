@@ -137,7 +137,7 @@ xmlBufCreate(void) {
     ret->content = (xmlChar *) xmlMallocAtomic(ret->size * sizeof(xmlChar));
     if (ret->content == NULL) {
 	xmlBufMemoryError(ret, "creating buffer");
-	xmlFree(ret);
+	free(ret);
         return(NULL);
     }
     ret->content[0] = 0;
@@ -172,7 +172,7 @@ xmlBufCreateSize(size_t size) {
         ret->content = (xmlChar *) xmlMallocAtomic(ret->size * sizeof(xmlChar));
         if (ret->content == NULL) {
 	    xmlBufMemoryError(ret, "creating buffer");
-            xmlFree(ret);
+            free(ret);
             return(NULL);
         }
         ret->content[0] = 0;
@@ -337,12 +337,12 @@ xmlBufFree(xmlBufPtr buf) {
 
     if ((buf->alloc == XML_BUFFER_ALLOC_IO) &&
         (buf->contentIO != NULL)) {
-        xmlFree(buf->contentIO);
+        free(buf->contentIO);
     } else if ((buf->content != NULL) &&
         (buf->alloc != XML_BUFFER_ALLOC_IMMUTABLE)) {
-        xmlFree(buf->content);
+        free(buf->content);
     }
-    xmlFree(buf);
+    free(buf);
 }
 
 /**
@@ -836,7 +836,7 @@ xmlBufResize(xmlBufPtr buf, size_t size)
 	    rebuf = (xmlChar *) xmlMallocAtomic(newSize);
 	    if (rebuf != NULL) {
 		memcpy(rebuf, buf->content, buf->use);
-		xmlFree(buf->content);
+		free(buf->content);
 		rebuf[buf->use] = 0;
 	    }
 	}
@@ -1240,7 +1240,7 @@ xmlBufBackToBuffer(xmlBufPtr buf) {
     ret->alloc = buf->alloc;
     ret->content = buf->content;
     ret->contentIO = buf->contentIO;
-    xmlFree(buf);
+    free(buf);
     return(ret);
 }
 

@@ -706,7 +706,7 @@ xmlValidBuildAContentModel(xmlElementContentPtr content,
 		    break;
 	    }
 	    if ((fullname != fn) && (fullname != content->name))
-		xmlFree(fullname);
+		free(fullname);
 	    break;
 	}
 	case XML_ELEMENT_CONTENT_SEQ: {
@@ -897,11 +897,9 @@ xmlValidCtxtPtr xmlNewValidCtxt(void) {
  */
 void
 xmlFreeValidCtxt(xmlValidCtxtPtr cur) {
-    if (cur->vstateTab != NULL)
-        xmlFree(cur->vstateTab);
-    if (cur->nodeTab != NULL)
-        xmlFree(cur->nodeTab);
-    xmlFree(cur);
+    free(cur->vstateTab);
+    free(cur->nodeTab);
+    free(cur);
 }
 
 #endif /* LIBXML_VALID_ENABLED */
@@ -1121,14 +1119,14 @@ xmlFreeDocElementContent(xmlDocPtr doc, xmlElementContentPtr cur) {
 	if (cur->c1 != NULL) xmlFreeDocElementContent(doc, cur->c1);
 	if (dict) {
 	    if ((cur->name != NULL) && (!xmlDictOwns(dict, cur->name)))
-	        xmlFree((xmlChar *) cur->name);
+	        free(cur->name);
 	    if ((cur->prefix != NULL) && (!xmlDictOwns(dict, cur->prefix)))
-	        xmlFree((xmlChar *) cur->prefix);
+	        free(cur->prefix);
 	} else {
-	    if (cur->name != NULL) xmlFree((xmlChar *) cur->name);
-	    if (cur->prefix != NULL) xmlFree((xmlChar *) cur->prefix);
+	    free(cur->name);
+	    free(cur->prefix);
 	}
-	xmlFree(cur);
+	free(cur);
 	cur = next;
     }
 }
@@ -1358,15 +1356,13 @@ xmlFreeElement(xmlElementPtr elem) {
     if (elem == NULL) return;
     xmlUnlinkNode((xmlNodePtr) elem);
     xmlFreeDocElementContent(elem->doc, elem->content);
-    if (elem->name != NULL)
-	xmlFree((xmlChar *) elem->name);
-    if (elem->prefix != NULL)
-	xmlFree((xmlChar *) elem->prefix);
+    free(elem->name);
+    free(elem->prefix);
 #ifdef LIBXML_REGEXP_ENABLED
     if (elem->contModel != NULL)
 	xmlRegFreeRegexp(elem->contModel);
 #endif
-    xmlFree(elem);
+    free(elem);
 }
 
 
@@ -1461,10 +1457,8 @@ xmlAddElementDecl(xmlValidCtxtPtr ctxt,
     if (table == NULL) {
 	xmlVErrMemory(ctxt,
             "xmlAddElementDecl: Table creation failed!\n");
-	if (uqname != NULL)
-	    xmlFree(uqname);
-	if (ns != NULL)
-	    xmlFree(ns);
+	free(uqname);
+	free(ns);
         return(NULL);
     }
 
@@ -1497,24 +1491,18 @@ xmlAddElementDecl(xmlValidCtxtPtr ctxt,
 	                    "Redefinition of element %s\n",
 			    name, NULL, NULL);
 #endif /* LIBXML_VALID_ENABLED */
-	    if (uqname != NULL)
-		xmlFree(uqname);
-            if (ns != NULL)
-	        xmlFree(ns);
+	    free(uqname);
+	    free(ns);
 	    return(NULL);
 	}
-	if (ns != NULL) {
-	    xmlFree(ns);
-	    ns = NULL;
-	}
+	free(ns);
+	ns = NULL;
     } else {
 	ret = (xmlElementPtr) xmlMalloc(sizeof(xmlElement));
 	if (ret == NULL) {
 	    xmlVErrMemory(ctxt, "malloc failed");
-	    if (uqname != NULL)
-		xmlFree(uqname);
-            if (ns != NULL)
-	        xmlFree(ns);
+	    free(uqname);
+	    free(ns);
 	    return(NULL);
 	}
 	memset(ret, 0, sizeof(xmlElement));
@@ -1526,11 +1514,9 @@ xmlAddElementDecl(xmlValidCtxtPtr ctxt,
 	ret->name = xmlStrdup(name);
 	if (ret->name == NULL) {
 	    xmlVErrMemory(ctxt, "malloc failed");
-	    if (uqname != NULL)
-		xmlFree(uqname);
-            if (ns != NULL)
-	        xmlFree(ns);
-	    xmlFree(ret);
+	    free(uqname);
+	    free(ns);
+	    free(ret);
 	    return(NULL);
 	}
 	ret->prefix = ns;
@@ -1549,8 +1535,7 @@ xmlAddElementDecl(xmlValidCtxtPtr ctxt,
 			    name, NULL, NULL);
 #endif /* LIBXML_VALID_ENABLED */
 	    xmlFreeElement(ret);
-	    if (uqname != NULL)
-		xmlFree(uqname);
+	    free(uqname);
 	    return(NULL);
 	}
 	/*
@@ -1591,8 +1576,7 @@ xmlAddElementDecl(xmlValidCtxtPtr ctxt,
 	ret->prev = dtd->last;
 	dtd->last = (xmlNodePtr) ret;
     }
-    if (uqname != NULL)
-	xmlFree(uqname);
+    free(uqname);
     return(ret);
 }
 
@@ -1783,8 +1767,8 @@ xmlFreeEnumeration(xmlEnumerationPtr cur) {
 
     if (cur->next != NULL) xmlFreeEnumeration(cur->next);
 
-    if (cur->name != NULL) xmlFree((xmlChar *) cur->name);
-    xmlFree(cur);
+    free(cur->name);
+    free(cur);
 }
 
 #ifdef LIBXML_TREE_ENABLED
@@ -1888,25 +1872,21 @@ xmlFreeAttribute(xmlAttributePtr attr) {
         xmlFreeEnumeration(attr->tree);
     if (dict) {
         if ((attr->elem != NULL) && (!xmlDictOwns(dict, attr->elem)))
-	    xmlFree((xmlChar *) attr->elem);
+	    free(attr->elem);
         if ((attr->name != NULL) && (!xmlDictOwns(dict, attr->name)))
-	    xmlFree((xmlChar *) attr->name);
+	    free(attr->name);
         if ((attr->prefix != NULL) && (!xmlDictOwns(dict, attr->prefix)))
-	    xmlFree((xmlChar *) attr->prefix);
+	    free(attr->prefix);
         if ((attr->defaultValue != NULL) &&
 	    (!xmlDictOwns(dict, attr->defaultValue)))
-	    xmlFree((xmlChar *) attr->defaultValue);
+	    free(attr->defaultValue);
     } else {
-	if (attr->elem != NULL)
-	    xmlFree((xmlChar *) attr->elem);
-	if (attr->name != NULL)
-	    xmlFree((xmlChar *) attr->name);
-	if (attr->defaultValue != NULL)
-	    xmlFree((xmlChar *) attr->defaultValue);
-	if (attr->prefix != NULL)
-	    xmlFree((xmlChar *) attr->prefix);
+	free(attr->elem);
+	free(attr->name);
+	free(attr->defaultValue);
+	free(attr->prefix);
     }
-    xmlFree(attr);
+    free(attr);
 }
 
 
@@ -2326,13 +2306,10 @@ xmlDumpAttributeTable(xmlBufferPtr buf, xmlAttributeTablePtr table) {
 static void
 xmlFreeNotation(xmlNotationPtr nota) {
     if (nota == NULL) return;
-    if (nota->name != NULL)
-	xmlFree((xmlChar *) nota->name);
-    if (nota->PublicID != NULL)
-	xmlFree((xmlChar *) nota->PublicID);
-    if (nota->SystemID != NULL)
-	xmlFree((xmlChar *) nota->SystemID);
-    xmlFree(nota);
+    free(nota->name);
+    free(nota->PublicID);
+    free(nota->SystemID);
+    free(nota);
 }
 
 
@@ -2543,7 +2520,7 @@ xmlDumpNotationTable(xmlBufferPtr buf, xmlNotationTablePtr table) {
 #define DICT_FREE(str)						\
 	if ((str) && ((!dict) ||				\
 	    (xmlDictOwns(dict, (const xmlChar *)(str)) == 0)))	\
-	    xmlFree((char *)(str));
+	    free((str));
 
 /**
  * xmlFreeID:
@@ -2564,7 +2541,7 @@ xmlFreeID(xmlIDPtr id) {
 	DICT_FREE(id->value)
     if (id->name != NULL)
 	DICT_FREE(id->name)
-    xmlFree(id);
+    free(id);
 }
 
 
@@ -2718,9 +2695,9 @@ xmlIsID(xmlDocPtr doc, xmlNodePtr elem, xmlAttrPtr attr) {
 	}
 
 	if ((fullattrname != fattr) && (fullattrname != attr->name))
-	    xmlFree(fullattrname);
+	    free(fullattrname);
 	if ((fullelemname != felem) && (fullelemname != elem->name))
-	    xmlFree(fullelemname);
+	    free(fullelemname);
 
         if ((attrDecl != NULL) && (attrDecl->atype == XML_ATTRIBUTE_ID))
 	    return(1);
@@ -2756,12 +2733,12 @@ xmlRemoveID(xmlDocPtr doc, xmlAttrPtr attr) {
 
     id = xmlHashLookup(table, ID);
     if (id == NULL || id->attr != attr) {
-        xmlFree(ID);
+        free(ID);
         return(-1);
     }
 
     xmlHashRemoveEntry(table, ID, (xmlHashDeallocator) xmlFreeID);
-    xmlFree(ID);
+    free(ID);
     attr->atype = 0;
     return(0);
 }
@@ -2836,11 +2813,9 @@ static void
 xmlFreeRef(xmlLinkPtr lk) {
     xmlRefPtr ref = (xmlRefPtr)xmlLinkGetData(lk);
     if (ref == NULL) return;
-    if (ref->value != NULL)
-        xmlFree((xmlChar *)ref->value);
-    if (ref->name != NULL)
-        xmlFree((xmlChar *)ref->name);
-    xmlFree(ref);
+    free(ref->value);
+    free(ref->name);
+    free(ref);
 }
 
 /**
@@ -2984,11 +2959,9 @@ xmlAddRef(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
     return(ret);
 failed:
     if (ret != NULL) {
-        if (ret->value != NULL)
-	    xmlFree((char *)ret->value);
-        if (ret->name != NULL)
-	    xmlFree((char *)ret->name);
-        xmlFree(ret);
+	free(ret->value);
+	free(ret->name);
+        free(ret);
     }
     return(NULL);
 }
@@ -3076,7 +3049,7 @@ xmlRemoveRef(xmlDocPtr doc, xmlAttrPtr attr) {
 
     ref_list = xmlHashLookup(table, ID);
     if(ref_list == NULL) {
-        xmlFree(ID);
+        free(ID);
         return (-1);
     }
 
@@ -3100,7 +3073,7 @@ xmlRemoveRef(xmlDocPtr doc, xmlAttrPtr attr) {
     if (xmlListEmpty(ref_list))
         xmlHashUpdateEntry(table, ID, NULL, (xmlHashDeallocator)
         xmlFreeRefList);
-    xmlFree(ID);
+    free(ID);
     return(0);
 }
 
@@ -3163,8 +3136,8 @@ xmlGetDtdElementDesc(xmlDtdPtr dtd, const xmlChar *name) {
     if (uqname != NULL)
         name = uqname;
     cur = xmlHashLookup2(table, name, prefix);
-    if (prefix != NULL) xmlFree(prefix);
-    if (uqname != NULL) xmlFree(uqname);
+    free(prefix);
+    free(uqname);
     return(cur);
 }
 /**
@@ -3230,8 +3203,8 @@ xmlGetDtdElementDesc2(xmlDtdPtr dtd, const xmlChar *name, int create) {
 
 	xmlHashAddEntry2(table, name, prefix, cur);
     }
-    if (prefix != NULL) xmlFree(prefix);
-    if (uqname != NULL) xmlFree(uqname);
+    free(prefix);
+    free(uqname);
     return(cur);
 }
 
@@ -3287,8 +3260,8 @@ xmlGetDtdAttrDesc(xmlDtdPtr dtd, const xmlChar *elem, const xmlChar *name) {
 
     if (uqname != NULL) {
 	cur = xmlHashLookup3(table, uqname, prefix, elem);
-	if (prefix != NULL) xmlFree(prefix);
-	if (uqname != NULL) xmlFree(uqname);
+	free(prefix);
+	free(uqname);
     } else
 	cur = xmlHashLookup3(table, name, NULL, elem);
     return(cur);
@@ -3911,7 +3884,7 @@ xmlValidateAttributeValue2(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
 		*cur = save;
 		while (IS_BLANK_CH(*cur)) cur++;
 	    }
-	    xmlFree(dup);
+	    free(dup);
 	    break;
 	}
 	case XML_ATTRIBUTE_NOTATION: {
@@ -3985,7 +3958,7 @@ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
 		extsubset = 1;
 	}
 	if ((fullname != fn) && (fullname != elem->name))
-	    xmlFree(fullname);
+	    free(fullname);
     }
     if ((attrDecl == NULL) && (doc->intSubset != NULL))
 	attrDecl = xmlGetDtdAttrDesc(doc->intSubset, elem->name, name);
@@ -4064,7 +4037,7 @@ xmlValidNormalizeAttributeValue(xmlDocPtr doc, xmlNodePtr elem,
 	if (fullname == NULL)
 	    return(NULL);
 	if ((fullname != fn) && (fullname != elem->name))
-	    xmlFree(fullname);
+	    free(fullname);
     }
     attrDecl = xmlGetDtdAttrDesc(doc->intSubset, elem->name, name);
     if ((attrDecl == NULL) && (doc->extSubset != NULL))
@@ -4383,7 +4356,7 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
 					     fullname, attr->name);
 	}
 	if ((fullname != fn) && (fullname != elem->name))
-	    xmlFree(fullname);
+	    free(fullname);
     }
     if (attrDecl == NULL) {
 	if (attr->ns != NULL) {
@@ -4563,7 +4536,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
 			                 BAD_CAST "xmlns");
 	}
 	if ((fullname != fn) && (fullname != elem->name))
-	    xmlFree(fullname);
+	    free(fullname);
     }
     if (attrDecl == NULL) {
 	if (ns->prefix != NULL) {
@@ -5309,7 +5282,7 @@ xmlValidateElementContent(xmlValidCtxtPtr ctxt, xmlNodePtr child,
 			    }
                             ret = xmlRegExecPushString(exec, fullname, NULL);
 			    if ((fullname != fn) && (fullname != cur->name))
-				xmlFree(fullname);
+				free(fullname);
 			} else {
 			    ret = xmlRegExecPushString(exec, cur->name, NULL);
 			}
@@ -5496,19 +5469,19 @@ done:
      */
     while (repl != NULL) {
 	tmp = repl->next;
-	xmlFree(repl);
+	free(repl);
 	repl = tmp;
     }
     ctxt->vstateMax = 0;
     if (ctxt->vstateTab != NULL) {
-	xmlFree(ctxt->vstateTab);
+	free(ctxt->vstateTab);
 	ctxt->vstateTab = NULL;
     }
 #endif
     ctxt->nodeMax = 0;
     ctxt->nodeNr = 0;
     if (ctxt->nodeTab != NULL) {
-	xmlFree(ctxt->nodeTab);
+	free(ctxt->nodeTab);
 	ctxt->nodeTab = NULL;
     }
     return(ret);
@@ -5575,10 +5548,9 @@ xmlValidateOneCdataElement(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
 done:
     ctxt->nodeMax = 0;
     ctxt->nodeNr = 0;
-    if (ctxt->nodeTab != NULL) {
-	xmlFree(ctxt->nodeTab);
-	ctxt->nodeTab = NULL;
-    }
+    free(ctxt->nodeTab);
+    ctxt->nodeTab = NULL;
+
     return(ret);
 }
 
@@ -6101,7 +6073,7 @@ xmlValidateOneElement(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
 			    cont = cont->c2;
 			}
 			if ((fullname != fn) && (fullname != child->name))
-			    xmlFree(fullname);
+			    free(fullname);
 			if (cont != NULL)
 			    goto child_ok;
 		    }
@@ -6350,7 +6322,7 @@ xmlValidateRoot(xmlValidCtxtPtr ctxt, xmlDocPtr doc) {
 		}
 		ret = xmlStrEqual(doc->intSubset->name, fullname);
 		if ((fullname != fn) && (fullname != root->name))
-		    xmlFree(fullname);
+		    free(fullname);
 		if (ret == 1)
 		    goto name_ok;
 	    }
@@ -6413,8 +6385,7 @@ xmlValidateElement(xmlValidCtxtPtr ctxt, xmlDocPtr doc, xmlNodePtr elem) {
 	while (attr != NULL) {
 	    value = xmlNodeListGetString(doc, attr->children, 0);
 	    ret &= xmlValidateOneAttribute(ctxt, doc, elem, attr, value);
-	    if (value != NULL)
-		xmlFree((char *)value);
+	    free(value);
 	    attr= attr->next;
 	}
 	ns = elem->nsDef;
@@ -6481,7 +6452,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
 	    *cur = save;
 	    while (IS_BLANK_CH(*cur)) cur++;
 	}
-	xmlFree(dup);
+	free(dup);
     } else if (attr->atype == XML_ATTRIBUTE_IDREF) {
 	id = xmlGetID(ctxt->doc, name);
 	if (id == NULL) {
@@ -6517,7 +6488,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
 	    *cur = save;
 	    while (IS_BLANK_CH(*cur)) cur++;
 	}
-	xmlFree(dup);
+	free(dup);
     }
 }
 
@@ -6839,8 +6810,7 @@ xmlValidateDocument(xmlValidCtxtPtr ctxt, xmlDocPtr doc) {
 	    sysID = NULL;
         doc->extSubset = xmlParseDTD(doc->intSubset->ExternalID,
 			(const xmlChar *)sysID);
-	if (sysID != NULL)
-	    xmlFree(sysID);
+	free(sysID);
         if (doc->extSubset == NULL) {
 	    if (doc->intSubset->SystemID != NULL) {
 		xmlErrValid(ctxt, XML_DTD_LOAD_ERROR,

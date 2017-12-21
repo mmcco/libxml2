@@ -303,10 +303,10 @@ xmllintExternalEntityLoader(const char *URL, const char *ID,
 			 newURL,
 			 ID ? ID : "(null)");
 		}
-		xmlFree(newURL);
+		free(newURL);
 		return(ret);
 	    }
-	    xmlFree(newURL);
+	    free(newURL);
 	}
     }
     if (err != NULL)
@@ -377,7 +377,7 @@ myStrdupFunc(const char *str)
     if (ret != NULL) {
         if (xmlMemUsed() > maxmem) {
             OOM();
-            xmlFree(ret);
+            free(ret);
             return (NULL);
         }
     }
@@ -530,7 +530,7 @@ xmlHTMLEncodeSend(void) {
     result = (char *) xmlEncodeEntitiesReentrant(NULL, BAD_CAST buffer);
     if (result) {
 	xmlGenericError(xmlGenericErrorContext, "%s", result);
-	xmlFree(result);
+	free(result);
     }
     buffer[0] = 0;
 }
@@ -1800,8 +1800,7 @@ static void processNode(xmlTextReaderPtr reader) {
 		}
 	    }
 	}
-	if (path != NULL)
-	    xmlFree(path);
+	free(path);
     }
 #endif
 }
@@ -2565,7 +2564,7 @@ static void parseAndPrintFile(char *filename, xmlParserCtxtPtr rectxt) {
 		    if (write(1, result, size) == -1) {
 		        fprintf(stderr, "Can't write data\n");
 		    }
-		    xmlFree(result);
+		    free(result);
 		} else {
 		    fprintf(stderr, "Failed to canonicalize\n");
 		    progresult = XMLLINT_ERR_OUT;
@@ -2579,7 +2578,7 @@ static void parseAndPrintFile(char *filename, xmlParserCtxtPtr rectxt) {
 		    if (write(1, result, size) == -1) {
 		        fprintf(stderr, "Can't write data\n");
 		    }
-		    xmlFree(result);
+		    free(result);
 		} else {
 		    fprintf(stderr, "Failed to canonicalize\n");
 		    progresult = XMLLINT_ERR_OUT;
@@ -2594,7 +2593,7 @@ static void parseAndPrintFile(char *filename, xmlParserCtxtPtr rectxt) {
 		    if (write(1, result, size) == -1) {
 		        fprintf(stderr, "Can't write data\n");
 		    }
-		    xmlFree(result);
+		    free(result);
 		} else {
 		    fprintf(stderr, "Failed to canonicalize\n");
 		    progresult = XMLLINT_ERR_OUT;
@@ -2625,7 +2624,7 @@ static void parseAndPrintFile(char *filename, xmlParserCtxtPtr rectxt) {
 		    if (write(1, result, len) == -1) {
 		        fprintf(stderr, "Can't write data\n");
 		    }
-		    xmlFree(result);
+		    free(result);
 		}
 
 	    } else

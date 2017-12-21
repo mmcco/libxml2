@@ -682,13 +682,12 @@ xmlRelaxNGFreeDocument(xmlRelaxNGDocumentPtr docu)
     if (docu == NULL)
         return;
 
-    if (docu->href != NULL)
-        xmlFree(docu->href);
+    free(docu->href);
     if (docu->doc != NULL)
         xmlFreeDoc(docu->doc);
     if (docu->schema != NULL)
         xmlRelaxNGFreeInnerSchema(docu->schema);
-    xmlFree(docu);
+    free(docu);
 }
 
 /**
@@ -721,13 +720,12 @@ xmlRelaxNGFreeInclude(xmlRelaxNGIncludePtr incl)
     if (incl == NULL)
         return;
 
-    if (incl->href != NULL)
-        xmlFree(incl->href);
+    free(incl->href);
     if (incl->doc != NULL)
         xmlFreeDoc(incl->doc);
     if (incl->schema != NULL)
         xmlRelaxNGFree(incl->schema);
-    xmlFree(incl);
+    free(incl);
 }
 
 /**
@@ -790,10 +788,10 @@ xmlRelaxNGFreeInnerSchema(xmlRelaxNGPtr schema)
 
         for (i = 0; i < schema->defNr; i++)
             xmlRelaxNGFreeDefine(schema->defTab[i]);
-        xmlFree(schema->defTab);
+        free(schema->defTab);
     }
 
-    xmlFree(schema);
+    free(schema);
 }
 
 /**
@@ -821,10 +819,10 @@ xmlRelaxNGFree(xmlRelaxNGPtr schema)
 
         for (i = 0; i < schema->defNr; i++)
             xmlRelaxNGFreeDefine(schema->defTab[i]);
-        xmlFree(schema->defTab);
+        free(schema->defTab);
     }
 
-    xmlFree(schema);
+    free(schema);
 }
 
 /**
@@ -875,7 +873,7 @@ xmlRelaxNGFreeGrammar(xmlRelaxNGGrammarPtr grammar)
         xmlHashFree(grammar->defs, NULL);
     }
 
-    xmlFree(grammar);
+    free(grammar);
 }
 
 /**
@@ -944,19 +942,17 @@ xmlRelaxNGFreePartition(xmlRelaxNGPartitionPtr partitions)
             for (j = 0; j < partitions->nbgroups; j++) {
                 group = partitions->groups[j];
                 if (group != NULL) {
-                    if (group->defs != NULL)
-                        xmlFree(group->defs);
-                    if (group->attrs != NULL)
-                        xmlFree(group->attrs);
-                    xmlFree(group);
+                    free(group->defs);
+                    free(group->attrs);
+                    free(group);
                 }
             }
-            xmlFree(partitions->groups);
+            free(partitions->groups);
         }
         if (partitions->triage != NULL) {
             xmlHashFree(partitions->triage, NULL);
         }
-        xmlFree(partitions);
+        free(partitions);
     }
 }
 
@@ -983,15 +979,12 @@ xmlRelaxNGFreeDefine(xmlRelaxNGDefinePtr define)
         xmlRelaxNGFreePartition((xmlRelaxNGPartitionPtr) define->data);
     if ((define->data != NULL) && (define->type == XML_RELAXNG_CHOICE))
         xmlHashFree((xmlHashTablePtr) define->data, NULL);
-    if (define->name != NULL)
-        xmlFree(define->name);
-    if (define->ns != NULL)
-        xmlFree(define->ns);
-    if (define->value != NULL)
-        xmlFree(define->value);
+    free(define->name);
+    free(define->ns);
+    free(define->value);
     if (define->contModel != NULL)
         xmlRegFreeRegexp(define->contModel);
-    xmlFree(define);
+    free(define);
 }
 
 /**
@@ -1033,7 +1026,7 @@ xmlRelaxNGNewStates(xmlRelaxNGValidCtxtPtr ctxt, int size)
                                                           (xmlRelaxNGValidStatePtr));
     if (ret->tabState == NULL) {
         xmlRngVErrMemory(ctxt, "allocating states\n");
-        xmlFree(ret);
+        free(ret);
         return (NULL);
     }
     return (ret);
@@ -1155,16 +1148,16 @@ xmlRelaxNGFreeStates(xmlRelaxNGValidCtxtPtr ctxt,
                                                  (xmlRelaxNGStatesPtr));
         if (tmp == NULL) {
             xmlRngVErrMemory(ctxt, "storing states\n");
-            xmlFree(states->tabState);
-            xmlFree(states);
+            free(states->tabState);
+            free(states);
             return;
         }
         ctxt->freeStates = tmp;
         ctxt->freeStatesMax *= 2;
     }
     if ((ctxt == NULL) || (ctxt->freeStates == NULL)) {
-        xmlFree(states->tabState);
-        xmlFree(states);
+        free(states->tabState);
+        free(states);
     } else {
         ctxt->freeStates[ctxt->freeStatesNr++] = states;
     }
@@ -1389,9 +1382,8 @@ xmlRelaxNGFreeValidState(xmlRelaxNGValidCtxtPtr ctxt,
         ctxt->freeState = xmlRelaxNGNewStates(ctxt, 40);
     }
     if ((ctxt == NULL) || (ctxt->freeState == NULL)) {
-        if (state->attrs != NULL)
-            xmlFree(state->attrs);
-        xmlFree(state);
+        free(state->attrs);
+        free(state);
     } else {
         xmlRelaxNGAddStatesUniq(ctxt, ctxt->freeState, state);
     }
@@ -1547,7 +1539,7 @@ xmlRelaxNGRemoveRedefine(xmlRelaxNGParserCtxtPtr ctxt,
                     xmlUnlinkNode(tmp);
                     xmlFreeNode(tmp);
                 }
-                xmlFree(name2);
+                free(name2);
             }
         } else if (IS_RELAXNG(tmp, "include")) {
             xmlChar *href = NULL;
@@ -1567,8 +1559,7 @@ xmlRelaxNGRemoveRedefine(xmlRelaxNGParserCtxtPtr ctxt,
                         found = 1;
                     }
 #ifdef DEBUG_INCLUDE
-                    if (href != NULL)
-                        xmlFree(href);
+                    free(href);
 #endif
                 }
             }
@@ -1735,7 +1726,7 @@ xmlRelaxNGLoadInclude(xmlRelaxNGParserCtxtPtr ctxt, const xmlChar * URL,
                                "xmlRelaxNG: include %s has a define %s but not the included grammar\n",
                                URL, name);
                 }
-                xmlFree(name);
+                free(name);
             }
         }
         cur = cur->next;
@@ -1841,11 +1832,9 @@ xmlRelaxNGValidErrorPop(xmlRelaxNGValidCtxtPtr ctxt)
         ctxt->err = NULL;
     cur = &ctxt->errTab[ctxt->errNr];
     if (cur->flags & ERROR_IS_DUP) {
-        if (cur->arg1 != NULL)
-            xmlFree((xmlChar *) cur->arg1);
+        free(cur->arg1);
         cur->arg1 = NULL;
-        if (cur->arg2 != NULL)
-            xmlFree((xmlChar *) cur->arg2);
+        free(cur->arg2);
         cur->arg2 = NULL;
         cur->flags = 0;
     }
@@ -2253,7 +2242,7 @@ xmlRelaxNGShowValidError(xmlRelaxNGValidCtxtPtr ctxt,
         ctxt->errNo = err;
     xmlRngVErr(ctxt, (child == NULL ? node : child), err,
                (const char *) msg, arg1, arg2);
-    xmlFree(msg);
+    free(msg);
 }
 
 /**
@@ -2276,11 +2265,9 @@ xmlRelaxNGPopErrors(xmlRelaxNGValidCtxtPtr ctxt, int level)
     for (i = level; i < ctxt->errNr; i++) {
         err = &ctxt->errTab[i];
         if (err->flags & ERROR_IS_DUP) {
-            if (err->arg1 != NULL)
-                xmlFree((xmlChar *) err->arg1);
+            free(err->arg1);
             err->arg1 = NULL;
-            if (err->arg2 != NULL)
-                xmlFree((xmlChar *) err->arg2);
+            free(err->arg2);
             err->arg2 = NULL;
             err->flags = 0;
         }
@@ -2323,11 +2310,9 @@ xmlRelaxNGDumpValidError(xmlRelaxNGValidCtxtPtr ctxt)
         }
       skip:
         if (err->flags & ERROR_IS_DUP) {
-            if (err->arg1 != NULL)
-                xmlFree((xmlChar *) err->arg1);
+            free(err->arg1);
             err->arg1 = NULL;
-            if (err->arg2 != NULL)
-                xmlFree((xmlChar *) err->arg2);
+            free(err->arg2);
             err->arg2 = NULL;
             err->flags = 0;
         }
@@ -2707,10 +2692,8 @@ xmlRelaxNGDefaultTypeCompare(void *data ATTRIBUTE_UNUSED,
                 ret = 1;
             else
                 ret = 0;
-            if (nval != NULL)
-                xmlFree(nval);
-            if (nvalue != NULL)
-                xmlFree(nvalue);
+            free(nval);
+            free(nvalue);
         } else
             ret = 1;
     }
@@ -2733,9 +2716,8 @@ xmlRelaxNGFreeTypeLibrary(xmlRelaxNGTypeLibraryPtr lib,
 {
     if (lib == NULL)
         return;
-    if (lib->namespace != NULL)
-        xmlFree((xmlChar *) lib->namespace);
-    xmlFree(lib);
+    free(lib->namespace);
+    free(lib);
 }
 
 /**
@@ -3478,14 +3460,14 @@ xmlRelaxNGGetDataTypeLibrary(xmlRelaxNGParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
         ret = xmlGetProp(node, BAD_CAST "datatypeLibrary");
         if (ret != NULL) {
             if (ret[0] == 0) {
-                xmlFree(ret);
+                free(ret);
                 return (NULL);
             }
             escape = xmlURIEscapeStr(ret, BAD_CAST ":/#?");
             if (escape == NULL) {
                 return (ret);
             }
-            xmlFree(ret);
+            free(ret);
             return (escape);
         }
     }
@@ -3494,14 +3476,14 @@ xmlRelaxNGGetDataTypeLibrary(xmlRelaxNGParserCtxtPtr ctxt ATTRIBUTE_UNUSED,
         ret = xmlGetProp(node, BAD_CAST "datatypeLibrary");
         if (ret != NULL) {
             if (ret[0] == 0) {
-                xmlFree(ret);
+                free(ret);
                 return (NULL);
             }
             escape = xmlURIEscapeStr(ret, BAD_CAST ":/#?");
             if (escape == NULL) {
                 return (ret);
             }
-            xmlFree(ret);
+            free(ret);
             return (escape);
         }
         node = node->parent;
@@ -3639,7 +3621,7 @@ xmlRelaxNGParseData(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
 
     def = xmlRelaxNGNewDefine(ctxt, node);
     if (def == NULL) {
-        xmlFree(type);
+        free(type);
         return (NULL);
     }
     def->type = XML_RELAXNG_DATATYPE;
@@ -4021,7 +4003,7 @@ xmlRelaxNGGetElements(xmlRelaxNGParserCtxtPtr ctxt,
                                (max + 1) * sizeof(xmlRelaxNGDefinePtr));
                 if (temp == NULL) {
                     xmlRngPErrMemory(ctxt, "getting element list\n");
-		    xmlFree(ret);
+		    free(ret);
                     return (NULL);
                 }
 		ret = temp;
@@ -4192,12 +4174,10 @@ xmlRelaxNGCheckChoiceDeterminism(xmlRelaxNGParserCtxtPtr ctxt,
             }
         }
     }
-    for (i = 0; i < nbchild; i++) {
-        if (list[i] != NULL)
-            xmlFree(list[i]);
-    }
+    for (i = 0; i < nbchild; i++)
+        free(list[i]);
 
-    xmlFree(list);
+    free(list);
     if (is_indeterminist) {
         def->dflags |= IS_INDETERMINIST;
     }
@@ -4285,12 +4265,10 @@ xmlRelaxNGCheckGroupAttrs(xmlRelaxNGParserCtxtPtr ctxt,
             }
         }
     }
-    for (i = 0; i < nbchild; i++) {
-        if (list[i] != NULL)
-            xmlFree(list[i]);
-    }
+    for (i = 0; i < nbchild; i++)
+        free(list[i]);
 
-    xmlFree(list);
+    free(list);
     def->dflags |= IS_PROCESSED;
 }
 
@@ -4460,11 +4438,10 @@ xmlRelaxNGComputeInterleaves(xmlRelaxNGDefinePtr def,
     if (groups != NULL) {
         for (i = 0; i < nbgroups; i++)
             if (groups[i] != NULL) {
-                if (groups[i]->defs != NULL)
-                    xmlFree(groups[i]->defs);
-                xmlFree(groups[i]);
+                free(groups[i]->defs);
+                free(groups[i]);
             }
-        xmlFree(groups);
+        free(groups);
     }
     xmlRelaxNGFreePartition(partitions);
 }
@@ -4610,7 +4587,7 @@ xmlRelaxNGParseDefine(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
         }
         def = xmlRelaxNGNewDefine(ctxt, node);
         if (def == NULL) {
-            xmlFree(name);
+            free(name);
             return (-1);
         }
         def->type = XML_RELAXNG_DEF;
@@ -4771,10 +4748,10 @@ xmlRelaxNGProcessExternalRef(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
                 if (ns != NULL) {
                     xmlSetProp(root, BAD_CAST "ns", ns);
                     newNs = 1;
-                    xmlFree(ns);
+                    free(ns);
                 }
             } else {
-                xmlFree(ns);
+                free(ns);
             }
 
             /*
@@ -5760,7 +5737,7 @@ xmlRelaxNGCheckCombine(xmlRelaxNGDefinePtr define,
                            "Defines for %s use unknown combine value '%s''\n",
                            name, combine);
             }
-            xmlFree(combine);
+            free(combine);
         } else {
             if (missing == 0)
                 missing = 1;
@@ -5890,7 +5867,7 @@ xmlRelaxNGCombineStart(xmlRelaxNGParserCtxtPtr ctxt,
                            "<start> uses unknown combine value '%s''\n",
                            combine, NULL);
             }
-            xmlFree(combine);
+            free(combine);
         } else {
             if (missing == 0)
                 missing = 1;
@@ -6827,8 +6804,7 @@ xmlRelaxNGFreeParserCtxt(xmlRelaxNGParserCtxtPtr ctxt)
 {
     if (ctxt == NULL)
         return;
-    if (ctxt->URL != NULL)
-        xmlFree(ctxt->URL);
+    free(ctxt->URL);
     if (ctxt->doc != NULL)
         xmlRelaxNGFreeDocument(ctxt->doc);
     if (ctxt->interleaves != NULL)
@@ -6837,20 +6813,18 @@ xmlRelaxNGFreeParserCtxt(xmlRelaxNGParserCtxtPtr ctxt)
         xmlRelaxNGFreeDocumentList(ctxt->documents);
     if (ctxt->includes != NULL)
         xmlRelaxNGFreeIncludeList(ctxt->includes);
-    if (ctxt->docTab != NULL)
-        xmlFree(ctxt->docTab);
-    if (ctxt->incTab != NULL)
-        xmlFree(ctxt->incTab);
+    free(ctxt->docTab);
+    free(ctxt->incTab);
     if (ctxt->defTab != NULL) {
         int i;
 
         for (i = 0; i < ctxt->defNr; i++)
             xmlRelaxNGFreeDefine(ctxt->defTab[i]);
-        xmlFree(ctxt->defTab);
+        free(ctxt->defTab);
     }
     if ((ctxt->document != NULL) && (ctxt->freedoc))
         xmlFreeDoc(ctxt->document);
-    xmlFree(ctxt);
+    free(ctxt);
 }
 
 /**
@@ -6980,7 +6954,7 @@ xmlRelaxNGCleanupAttributes(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
                             xmlFreeURI(uri);
                         }
                     }
-                    xmlFree(val);
+                    free(val);
                 }
             } else if (!xmlStrEqual(cur->name, BAD_CAST "ns")) {
                 xmlRngPErr(ctxt, node, XML_RNGP_UNKNOWN_ATTRIBUTE,
@@ -7054,8 +7028,7 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                         xmlRngPErr(ctxt, cur, XML_RNGP_MISSING_HREF,
                                    "xmlRelaxNGParse: externalRef has no href attribute\n",
                                    NULL, NULL);
-                        if (ns != NULL)
-                            xmlFree(ns);
+                        free(ns);
                         delete = cur;
                         goto skip_children;
                     }
@@ -7064,10 +7037,8 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                         xmlRngPErr(ctxt, cur, XML_RNGP_HREF_ERROR,
                                    "Incorrect URI for externalRef %s\n",
                                    href, NULL);
-                        if (ns != NULL)
-                            xmlFree(ns);
-                        if (href != NULL)
-                            xmlFree(href);
+                        free(ns);
+                        free(href);
                         delete = cur;
                         goto skip_children;
 		    }
@@ -7075,11 +7046,9 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                         xmlRngPErr(ctxt, cur, XML_RNGP_HREF_ERROR,
 			       "Fragment forbidden in URI for externalRef %s\n",
                                    href, NULL);
-                        if (ns != NULL)
-                            xmlFree(ns);
+                        free(ns);
 		        xmlFreeURI(uri);
-                        if (href != NULL)
-                            xmlFree(href);
+                        free(href);
                         delete = cur;
                         goto skip_children;
 		    }
@@ -7090,33 +7059,26 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                         xmlRngPErr(ctxt, cur, XML_RNGP_HREF_ERROR,
                                    "Failed to compute URL for externalRef %s\n",
                                    href, NULL);
-                        if (ns != NULL)
-                            xmlFree(ns);
-                        if (href != NULL)
-                            xmlFree(href);
-                        if (base != NULL)
-                            xmlFree(base);
+                        free(ns);
+                        free(href);
+                        free(base);
                         delete = cur;
                         goto skip_children;
                     }
-                    if (href != NULL)
-                        xmlFree(href);
-                    if (base != NULL)
-                        xmlFree(base);
+                    free(href);
+                    free(base);
                     docu = xmlRelaxNGLoadExternalRef(ctxt, URL, ns);
                     if (docu == NULL) {
                         xmlRngPErr(ctxt, cur, XML_RNGP_EXTERNAL_REF_FAILURE,
                                    "Failed to load externalRef %s\n", URL,
                                    NULL);
-                        if (ns != NULL)
-                            xmlFree(ns);
-                        xmlFree(URL);
+                        free(ns);
+                        free(URL);
                         delete = cur;
                         goto skip_children;
                     }
-                    if (ns != NULL)
-                        xmlFree(ns);
-                    xmlFree(URL);
+                    free(ns);
+                    free(URL);
                     cur->psvi = docu;
                 } else if (xmlStrEqual(cur->name, BAD_CAST "include")) {
                     xmlChar *href, *ns, *base, *URL;
@@ -7137,17 +7099,13 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                         xmlRngPErr(ctxt, cur, XML_RNGP_HREF_ERROR,
                                    "Failed to compute URL for include %s\n",
                                    href, NULL);
-                        if (href != NULL)
-                            xmlFree(href);
-                        if (base != NULL)
-                            xmlFree(base);
+                        free(href);
+                        free(base);
                         delete = cur;
                         goto skip_children;
                     }
-                    if (href != NULL)
-                        xmlFree(href);
-                    if (base != NULL)
-                        xmlFree(base);
+                    free(href);
+                    free(base);
                     ns = xmlGetProp(cur, BAD_CAST "ns");
                     if (ns == NULL) {
                         tmp = cur->parent;
@@ -7160,17 +7118,16 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                         }
                     }
                     incl = xmlRelaxNGLoadInclude(ctxt, URL, cur, ns);
-                    if (ns != NULL)
-                        xmlFree(ns);
+                    free(ns);
                     if (incl == NULL) {
                         xmlRngPErr(ctxt, cur, XML_RNGP_INCLUDE_FAILURE,
                                    "Failed to load include %s\n", URL,
                                    NULL);
-                        xmlFree(URL);
+                        free(URL);
                         delete = cur;
                         goto skip_children;
                     }
-                    xmlFree(URL);
+                    free(URL);
                     cur->psvi = incl;
                 } else if ((xmlStrEqual(cur->name, BAD_CAST "element")) ||
                            (xmlStrEqual(cur->name, BAD_CAST "attribute")))
@@ -7206,14 +7163,14 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                                        name, NULL);
                         }
                         xmlUnsetProp(cur, BAD_CAST "name");
-                        xmlFree(name);
+                        free(name);
                         ns = xmlGetProp(cur, BAD_CAST "ns");
                         if (ns != NULL) {
                             if (text != NULL) {
                                 xmlSetProp(text, BAD_CAST "ns", ns);
                                 /* xmlUnsetProp(cur, BAD_CAST "ns"); */
                             }
-                            xmlFree(ns);
+                            free(ns);
                         } else if (xmlStrEqual(cur->name,
                                                BAD_CAST "attribute")) {
                             xmlSetProp(text, BAD_CAST "ns", BAD_CAST "");
@@ -7243,7 +7200,7 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                             xmlSetProp(cur, BAD_CAST "ns", BAD_CAST "");
                         } else {
                             xmlSetProp(cur, BAD_CAST "ns", ns);
-                            xmlFree(ns);
+                            free(ns);
                         }
                     }
                     if (xmlStrEqual(cur->name, BAD_CAST "name")) {
@@ -7269,10 +7226,10 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                                                ns->href);
                                     xmlNodeSetContent(cur, local);
                                 }
-                                xmlFree(local);
-                                xmlFree(prefix);
+                                free(local);
+                                free(prefix);
                             }
-                            xmlFree(name);
+                            free(name);
                         }
                     }
                     /*
@@ -7351,8 +7308,7 @@ xmlRelaxNGCleanupTree(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr root)
                         ins = xmlAddNextSibling(ins, child);
                         child = tmp;
                     }
-                    if (ns != NULL)
-                        xmlFree(ns);
+                    free(ns);
 		    /*
 		     * Since we are about to delete cur, if its nsDef is non-NULL we
 		     * need to preserve it (it contains the ns definitions for the
@@ -8767,10 +8723,8 @@ xmlRelaxNGValidateValue(xmlRelaxNGValidCtxtPtr ctxt,
                         if ((nval == NULL) || (nvalue == NULL) ||
                             (!xmlStrEqual(nval, nvalue)))
                             ret = -1;
-                        if (nval != NULL)
-                            xmlFree(nval);
-                        if (nvalue != NULL)
-                            xmlFree(nvalue);
+                        free(nval);
+                        free(nvalue);
                     }
                 }
                 if (ret == 0)
@@ -8880,7 +8834,7 @@ xmlRelaxNGValidateValue(xmlRelaxNGValidCtxtPtr ctxt,
                                ctxt->state->value);
                     ret = -1;
                 }
-                xmlFree(val);
+                free(val);
                 ctxt->state->value = oldvalue;
                 ctxt->state->endvalue = oldend;
                 break;
@@ -9120,8 +9074,7 @@ xmlRelaxNGValidateAttribute(xmlRelaxNGValidCtxtPtr ctxt,
             ret = xmlRelaxNGValidateValueContent(ctxt, define->content);
             if (ctxt->state->value != NULL)
                 value = ctxt->state->value;
-            if (value != NULL)
-                xmlFree(value);
+            free(value);
             ctxt->state->value = oldvalue;
             ctxt->state->seq = oldseq;
             if (ret == 0) {
@@ -9157,8 +9110,7 @@ xmlRelaxNGValidateAttribute(xmlRelaxNGValidCtxtPtr ctxt,
             ret = xmlRelaxNGValidateValueContent(ctxt, define->content);
             if (ctxt->state->value != NULL)
                 value = ctxt->state->value;
-            if (value != NULL)
-                xmlFree(value);
+            free(value);
             ctxt->state->value = oldvalue;
             ctxt->state->seq = oldseq;
             if (ret == 0) {
@@ -9560,8 +9512,8 @@ xmlRelaxNGValidateInterleave(xmlRelaxNGValidCtxtPtr ctxt,
             xmlRelaxNGPopErrors(ctxt, errNr);
     }
 
-    xmlFree(list);
-    xmlFree(lasts);
+    free(list);
+    free(lasts);
     return (ret);
 }
 
@@ -10447,8 +10399,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                     child = child->next;
                 }
                 if (ret == -1) {
-                    if (content != NULL)
-                        xmlFree(content);
+                    free(content);
                     break;
                 }
                 if (content == NULL) {
@@ -10466,8 +10417,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                 } else if (ret == 0) {
                     ctxt->state->seq = NULL;
                 }
-                if (content != NULL)
-                    xmlFree(content);
+                free(content);
                 break;
             }
         case XML_RELAXNG_VALUE:{
@@ -10490,8 +10440,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                     child = child->next;
                 }
                 if (ret == -1) {
-                    if (content != NULL)
-                        xmlFree(content);
+                    free(content);
                     break;
                 }
                 if (content == NULL) {
@@ -10511,8 +10460,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                 } else if (ret == 0) {
                     ctxt->state->seq = NULL;
                 }
-                if (content != NULL)
-                    xmlFree(content);
+                free(content);
                 break;
             }
         case XML_RELAXNG_LIST:{
@@ -10541,8 +10489,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                     child = child->next;
                 }
                 if (ret == -1) {
-                    if (content != NULL)
-                        xmlFree(content);
+                    free(content);
                     break;
                 }
                 if (content == NULL) {
@@ -10566,8 +10513,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                 } else if ((ret == 0) && (node != NULL)) {
                     ctxt->state->seq = node->next;
                 }
-                if (content != NULL)
-                    xmlFree(content);
+                free(content);
                 break;
             }
         case XML_RELAXNG_EXCEPT:
@@ -10934,10 +10880,9 @@ xmlRelaxNGFreeValidCtxt(xmlRelaxNGValidCtxtPtr ctxt)
         for (k = 0; k < ctxt->freeStatesNr; k++) {
             xmlRelaxNGFreeStates(NULL, ctxt->freeStates[k]);
         }
-        xmlFree(ctxt->freeStates);
+        free(ctxt->freeStates);
     }
-    if (ctxt->errTab != NULL)
-        xmlFree(ctxt->errTab);
+    free(ctxt->errTab);
     if (ctxt->elemTab != NULL) {
         xmlRegExecCtxtPtr exec;
 
@@ -10946,9 +10891,9 @@ xmlRelaxNGFreeValidCtxt(xmlRelaxNGValidCtxtPtr ctxt)
             xmlRegFreeExecCtxt(exec);
             exec = xmlRelaxNGElemPop(ctxt);
         }
-        xmlFree(ctxt->elemTab);
+        free(ctxt->elemTab);
     }
-    xmlFree(ctxt);
+    free(ctxt);
 }
 
 /**

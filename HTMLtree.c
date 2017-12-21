@@ -431,7 +431,7 @@ htmlBufNodeDumpFormat(xmlBufPtr buf, xmlDocPtr doc, xmlNodePtr cur,
 
     use = xmlBufUse(buf);
     htmlNodeDumpFormatOutput(outbuf, doc, cur, NULL, format);
-    xmlFree(outbuf);
+    free(outbuf);
     ret = xmlBufUse(buf) - use;
     return (ret);
 }
@@ -739,7 +739,7 @@ htmlAttrDumpOutput(xmlOutputBufferPtr buf, xmlDocPtr doc, xmlAttrPtr cur,
 		    escaped = xmlURIEscapeStr(tmp, BAD_CAST"@/:=?;#%&,+");
 		    if (escaped != NULL) {
 		        xmlBufCat(buf->buffer, escaped);
-		        xmlFree(escaped);
+		        free(escaped);
 		    } else {
 		        xmlBufCat(buf->buffer, tmp);
 		    }
@@ -762,7 +762,7 @@ htmlAttrDumpOutput(xmlOutputBufferPtr buf, xmlDocPtr doc, xmlAttrPtr cur,
 	    } else {
 		xmlBufWriteQuotedString(buf->buffer, value);
 	    }
-	    xmlFree(value);
+	    free(value);
 	} else  {
 	    xmlOutputBufferWriteString(buf, "=\"\"");
 	}
@@ -859,7 +859,7 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
 		buffer = xmlEncodeEntitiesReentrant(doc, cur->content);
 		if (buffer != NULL) {
 		    xmlOutputBufferWriteString(buf, (const char *)buffer);
-		    xmlFree(buffer);
+		    free(buffer);
 		}
 	    } else {
 		xmlOutputBufferWriteString(buf, (const char *)cur->content);

@@ -110,11 +110,11 @@ test_c14n(const char* xml_filename, int with_comments, int mode,
 	    if (write(STDOUT_FILENO, result, ret) == -1) {
 		fprintf(stderr, "Can't write data\n");
 	    }
-	    xmlFree(result);
+	    free(result);
 	}
     } else {
 	fprintf(stderr,"Error: failed to canonicalize XML file \"%s\" (ret=%d)\n", xml_filename, ret);
-	if(result != NULL) xmlFree(result);
+	free(result);
 	xmlFreeDoc(doc);
 	return(-1);
     }
@@ -157,14 +157,14 @@ int main(int argc, char **argv) {
 	/* load exclusive namespace from command line */
 	list = (argc > 4) ? parse_list((xmlChar *)argv[4]) : NULL;
 	ret = test_c14n(argv[2], 1, XML_C14N_EXCLUSIVE_1_0, (argc > 3) ? argv[3] : NULL, list);
-	if(list != NULL) xmlFree(list);
+	free(list);
     } else if(strcmp(argv[1], "--exc-without-comments") == 0) {
 	xmlChar **list;
 
 	/* load exclusive namespace from command line */
 	list = (argc > 4) ? parse_list((xmlChar *)argv[4]) : NULL;
 	ret = test_c14n(argv[2], 0, XML_C14N_EXCLUSIVE_1_0, (argc > 3) ? argv[3] : NULL, list);
-	if(list != NULL) xmlFree(list);
+	free(list);
     } else {
 	fprintf(stderr, "Error: bad option.\n");
 	usage(argv[0]);
@@ -285,7 +285,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     ctx = xmlXPathNewContext(parent_doc);
     if(ctx == NULL) {
         fprintf(stderr,"Error: unable to create new context\n");
-        xmlFree(expr);
+        free(expr);
         xmlFreeDoc(doc);
         return(NULL);
     }
@@ -297,7 +297,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     while(ns != NULL) {
 	if(xmlXPathRegisterNs(ctx, ns->prefix, ns->href) != 0) {
 	    fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", ns->prefix, ns->href);
-	    xmlFree(expr);
+	    free(expr);
 	    xmlXPathFreeContext(ctx);
 	    xmlFreeDoc(doc);
 	    return(NULL);
@@ -311,7 +311,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
     xpath = xmlXPathEvalExpression(expr, ctx);
     if(xpath == NULL) {
         fprintf(stderr,"Error: unable to evaluate xpath expression\n");
-	xmlFree(expr);
+	free(expr);
         xmlXPathFreeContext(ctx);
         xmlFreeDoc(doc);
         return(NULL);
@@ -319,7 +319,7 @@ load_xpath_expr (xmlDocPtr parent_doc, const char* filename) {
 
     /* print_xpath_nodes(xpath->nodesetval); */
 
-    xmlFree(expr);
+    free(expr);
     xmlXPathFreeContext(ctx);
     xmlFreeDoc(doc);
     return(xpath);

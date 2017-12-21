@@ -83,7 +83,7 @@
 	r = (xmlChar *) xmlDictLookup((c)->comp->dict, BAD_CAST nsname, -1); \
     else r = xmlStrdup(BAD_CAST nsname);
 
-#define XML_PAT_FREE_STRING(c, r) if ((c)->comp->dict == NULL) xmlFree(r);
+#define XML_PAT_FREE_STRING(c, r) if ((c)->comp->dict == NULL) free(r);
 
 typedef struct _xmlStreamStep xmlStreamStep;
 typedef xmlStreamStep *xmlStreamStepPtr;
@@ -212,7 +212,7 @@ xmlNewPattern(void) {
     cur->maxStep = 10;
     cur->steps = (xmlStepOpPtr) xmlMalloc(cur->maxStep * sizeof(xmlStepOp));
     if (cur->steps == NULL) {
-        xmlFree(cur);
+        free(cur);
 	ERROR(NULL, NULL, NULL,
 		"xmlNewPattern : malloc failed\n");
 	return(NULL);
@@ -237,25 +237,22 @@ xmlFreePattern(xmlPatternPtr comp) {
         xmlFreePattern(comp->next);
     if (comp->stream != NULL)
         xmlFreeStreamComp(comp->stream);
-    if (comp->pattern != NULL)
-	xmlFree((xmlChar *)comp->pattern);
+    free((xmlChar *)comp->pattern);
     if (comp->steps != NULL) {
         if (comp->dict == NULL) {
 	    for (i = 0;i < comp->nbStep;i++) {
 		op = &comp->steps[i];
-		if (op->value != NULL)
-		    xmlFree((xmlChar *) op->value);
-		if (op->value2 != NULL)
-		    xmlFree((xmlChar *) op->value2);
+		free(op->value);
+		free(op->value2);
 	    }
 	}
-	xmlFree(comp->steps);
+	free(comp->steps);
     }
     if (comp->dict != NULL)
         xmlDictFree(comp->dict);
 
     memset(comp, -1, sizeof(xmlPattern));
-    xmlFree(comp);
+    free(comp);
 }
 
 /**
@@ -328,7 +325,7 @@ xmlFreePatParserContext(xmlPatParserContextPtr ctxt) {
     if (ctxt == NULL)
 	return;
     memset(ctxt, -1, sizeof(xmlPatParserContext));
-    xmlFree(ctxt);
+    free(ctxt);
 }
 
 /**
@@ -680,9 +677,7 @@ restart:
 	}
     }
 found:
-    if (states.states != NULL) {
-        /* Free the rollback states */
-	xmlFree(states.states);
+    free(states.states);
     }
     return(1);
 rollback:
@@ -690,7 +685,7 @@ rollback:
     if (states.states == NULL)
 	return(0);
     if (states.nbstates <= 0) {
-	xmlFree(states.states);
+	free(states.states);
 	return(0);
     }
     states.nbstates--;
@@ -1503,7 +1498,7 @@ xmlNewStreamComp(int size) {
     memset(cur, 0, sizeof(xmlStreamComp));
     cur->steps = (xmlStreamStepPtr) xmlMalloc(size * sizeof(xmlStreamStep));
     if (cur->steps == NULL) {
-	xmlFree(cur);
+	free(cur);
 	ERROR(NULL, NULL, NULL,
 	      "xmlNewStreamComp: malloc failed\n");
 	return(NULL);
@@ -1522,11 +1517,10 @@ xmlNewStreamComp(int size) {
 static void
 xmlFreeStreamComp(xmlStreamCompPtr comp) {
     if (comp != NULL) {
-        if (comp->steps != NULL)
-	    xmlFree(comp->steps);
+	free(comp->steps);
 	if (comp->dict != NULL)
 	    xmlDictFree(comp->dict);
-        xmlFree(comp);
+        free(comp);
     }
 }
 
@@ -1768,7 +1762,7 @@ xmlNewStreamCtxt(xmlStreamCompPtr stream) {
     memset(cur, 0, sizeof(xmlStreamCtxt));
     cur->states = (int *) xmlMalloc(4 * 2 * sizeof(int));
     if (cur->states == NULL) {
-	xmlFree(cur);
+	free(cur);
 	ERROR(NULL, NULL, NULL,
 	      "xmlNewStreamCtxt: malloc failed\n");
 	return(NULL);
@@ -1793,9 +1787,8 @@ xmlFreeStreamCtxt(xmlStreamCtxtPtr stream) {
 
     while (stream != NULL) {
         next = stream->next;
-        if (stream->states != NULL)
-	    xmlFree(stream->states);
-        xmlFree(stream);
+	free(stream->states);
+        free(stream);
 	stream = next;
     }
 }
@@ -2425,10 +2418,9 @@ xmlPatterncompile(const xmlChar *pattern, xmlDict *dict, int flags,
 	    xmlStreamCompile(cur);
 	if (xmlReversePattern(cur) < 0)
 	    goto error;
-	if (tmp != NULL) {
-	    xmlFree(tmp);
-	    tmp = NULL;
-	}
+	free(tmp);
+	tmp = NULL;
+
 	start = or;
     }
     if (streamable == 0) {
@@ -2446,7 +2438,7 @@ xmlPatterncompile(const xmlChar *pattern, xmlDict *dict, int flags,
 error:
     if (ctxt != NULL) xmlFreePatParserContext(ctxt);
     if (ret != NULL) xmlFreePattern(ret);
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
     return(NULL);
 }
 

@@ -39,7 +39,7 @@ main(void)
     /*
      * Free associated memory.
      */
-    xmlFree(xmlbuff);
+    free(xmlbuff);
     xmlFreeDoc(doc);
 
     return (0);

@@ -860,7 +860,7 @@ getNumAttr(xmlNodePtr node, const xmlChar * name)
                 return 0;
 
         val = utf8_strtou(s);
-        xmlFree((xmlChar *) s);
+        free(s);
         return val;
 }
 

@@ -89,7 +89,7 @@ xmlModuleOpen(const char *name, int options ATTRIBUTE_UNUSED)
     module->handle = xmlModulePlatformOpen(name);
 
     if (module->handle == NULL) {
-        xmlFree(module);
+        free(module);
         __xmlRaiseError(NULL, NULL, NULL, NULL, NULL, XML_FROM_MODULE,
                         XML_MODULE_OPEN, XML_ERR_FATAL, NULL, 0, 0,
                         name, NULL, 0, 0, "failed to open %s\n", name);
@@ -196,8 +196,8 @@ xmlModuleFree(xmlModulePtr module)
         return -1;
     }
 
-    xmlFree(module->name);
-    xmlFree(module);
+    free(module->name);
+    free(module);
 
     return (0);
 }

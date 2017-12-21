@@ -299,14 +299,14 @@ xmlC14NVisibleNsStackDestroy(xmlC14NVisibleNsStackPtr cur) {
     }
     if(cur->nsTab != NULL) {
 	memset(cur->nsTab, 0, cur->nsMax * sizeof(xmlNsPtr));
-	xmlFree(cur->nsTab);
+	free(cur->nsTab);
     }
     if(cur->nodeTab != NULL) {
 	memset(cur->nodeTab, 0, cur->nsMax * sizeof(xmlNodePtr));
-	xmlFree(cur->nodeTab);
+	free(cur->nodeTab);
     }
     memset(cur, 0, sizeof(xmlC14NVisibleNsStack));
-    xmlFree(cur);
+    free(cur);
 
 }
 
@@ -954,10 +954,10 @@ xmlC14NPrintAttrs(const xmlAttrPtr attr, xmlC14NCtxPtr ctx)
     /* todo: should we log an error if value==NULL ? */
     if (value != NULL) {
         buffer = xmlC11NNormalizeAttr(value);
-        xmlFree(value);
+        free(value);
         if (buffer != NULL) {
             xmlOutputBufferWriteString(ctx->buf, (const char *) buffer);
-            xmlFree(buffer);
+            free(buffer);
         } else {
             xmlC14NErrInternal("normalizing attributes axis");
             return (0);
@@ -1027,7 +1027,7 @@ xmlC14NFixupBaseAttr(xmlC14NCtxPtr ctx, xmlAttrPtr xml_base_attr)
             /* get attr value */
             tmp_str = xmlNodeListGetString(ctx->doc, attr->children, 1);
             if(tmp_str == NULL) {
-                xmlFree(res);
+                free(res);
 
                 xmlC14NErrInternal("processing xml:base attribute - can't get attr value");
                 return (NULL);
@@ -1039,8 +1039,8 @@ xmlC14NFixupBaseAttr(xmlC14NCtxPtr ctx, xmlAttrPtr xml_base_attr)
             if(tmp_str_len > 1 && tmp_str[tmp_str_len - 2] == '.') {
                 tmp_str2 = xmlStrcat(tmp_str, BAD_CAST "/");
                 if(tmp_str2 == NULL) {
-                    xmlFree(tmp_str);
-                    xmlFree(res);
+                    free(tmp_str);
+                    free(res);
 
                     xmlC14NErrInternal("processing xml:base attribute - can't modify uri");
                     return (NULL);
@@ -1052,16 +1052,16 @@ xmlC14NFixupBaseAttr(xmlC14NCtxPtr ctx, xmlAttrPtr xml_base_attr)
             /* build uri */
             tmp_str2 = xmlBuildURI(res, tmp_str);
             if(tmp_str2 == NULL) {
-                xmlFree(tmp_str);
-                xmlFree(res);
+                free(tmp_str);
+                ree(res);
 
                 xmlC14NErrInternal("processing xml:base attribute - can't construct uri");
                 return (NULL);
             }
 
             /* cleanup and set the new res */
-            xmlFree(tmp_str);
-            xmlFree(res);
+            free(tmp_str);
+            free(res);
             res = tmp_str2;
         }
 
@@ -1071,21 +1071,21 @@ xmlC14NFixupBaseAttr(xmlC14NCtxPtr ctx, xmlAttrPtr xml_base_attr)
 
     /* check if result uri is empty or not */
     if((res == NULL) || xmlStrEqual(res, BAD_CAST "")) {
-        xmlFree(res);
+        free(res);
         return (NULL);
     }
 
     /* create and return the new attribute node */
     attr = xmlNewNsProp(NULL, xml_base_attr->ns, BAD_CAST "base", res);
     if(attr == NULL) {
-        xmlFree(res);
+        free(res);
 
         xmlC14NErrInternal("processing xml:base attribute - can't construct attribute");
         return (NULL);
     }
 
     /* done */
-    xmlFree(res);
+    free(res);
     return (attr);
 }
 
@@ -1547,7 +1547,7 @@ xmlC14NProcessNode(xmlC14NCtxPtr ctx, xmlNodePtr cur)
                 if (buffer != NULL) {
                     xmlOutputBufferWriteString(ctx->buf,
                                                (const char *) buffer);
-                    xmlFree(buffer);
+                    free(buffer);
                 } else {
                     xmlC14NErrInternal("normalizing text node");
                     return (-1);
@@ -1586,7 +1586,7 @@ xmlC14NProcessNode(xmlC14NCtxPtr ctx, xmlNodePtr cur)
                     if (buffer != NULL) {
                         xmlOutputBufferWriteString(ctx->buf,
                                                    (const char *) buffer);
-                        xmlFree(buffer);
+                        free(buffer);
                     } else {
                         xmlC14NErrInternal("normalizing pi node");
                         return (-1);
@@ -1631,7 +1631,7 @@ xmlC14NProcessNode(xmlC14NCtxPtr ctx, xmlNodePtr cur)
                     if (buffer != NULL) {
                         xmlOutputBufferWriteString(ctx->buf,
                                                    (const char *) buffer);
-                        xmlFree(buffer);
+                        free(buffer);
                     } else {
                         xmlC14NErrInternal("normalizing comment node");
                         return (-1);
@@ -1739,7 +1739,7 @@ xmlC14NFreeCtx(xmlC14NCtxPtr ctx)
     if (ctx->ns_rendered != NULL) {
         xmlC14NVisibleNsStackDestroy(ctx->ns_rendered);
     }
-    xmlFree(ctx);
+    free(ctx);
 }
 
 /**
@@ -1985,8 +1985,8 @@ xmlC14NDocSaveTo(xmlDocPtr doc, xmlNodeSetPtr nodes,
  *			canonicalization, ignored otherwise)
  * @with_comments:	include comments in the result (!=0) or not (==0)
  * @doc_txt_ptr:	the memory pointer for allocated canonical XML text;
- *			the caller of this functions is responsible for calling
- *			xmlFree() to free allocated memory
+ *			the caller of this functions is responsible for
+ *			freeing the allocated memory
  *
  * Dumps the canonized image of given XML document into memory.
  * For details see "Canonical XML" (http://www.w3.org/TR/xml-c14n) or
@@ -2133,7 +2133,7 @@ xmlC14NDocSave(xmlDocPtr doc, xmlNodeSetPtr nodes,
  * from xmlEncodeEntitiesReentrant(). Added normalization of \x09, \x0a, \x0A
  * and the @mode parameter
  *
- * Returns a normalized string (caller is responsible for calling xmlFree())
+ * Returns a normalized string (caller is responsible for calling free())
  * or NULL if an error occurs
  */
 static xmlChar *

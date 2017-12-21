@@ -110,7 +110,7 @@ testXmlwriterFilename(const char *uri)
             ("testXmlwriterFilename: Error at xmlTextWriterWriteComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "ORDER" as child of EXAMPLE. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "ORDER");
@@ -148,7 +148,7 @@ testXmlwriterFilename(const char *uri)
             ("testXmlwriterFilename: Error at xmlTextWriterWriteFormatComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "HEADER" as child of ORDER. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "HEADER");
@@ -184,7 +184,7 @@ testXmlwriterFilename(const char *uri)
             ("testXmlwriterFilename: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Write an element named "NAME_2" as child of HEADER. */
     tmp = ConvertInput("J\xF6rg", MY_ENCODING);
@@ -194,7 +194,7 @@ testXmlwriterFilename(const char *uri)
             ("testXmlwriterFilename: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Close the element named HEADER. */
     rc = xmlTextWriterEndElement(writer);
@@ -389,7 +389,7 @@ testXmlwriterMemory(const char *file)
             ("testXmlwriterMemory: Error at xmlTextWriterWriteComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "ORDER" as child of EXAMPLE. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "ORDER");
@@ -427,7 +427,7 @@ testXmlwriterMemory(const char *file)
             ("testXmlwriterMemory: Error at xmlTextWriterWriteFormatComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "HEADER" as child of ORDER. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "HEADER");
@@ -463,7 +463,7 @@ testXmlwriterMemory(const char *file)
             ("testXmlwriterMemory: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Write an element named "NAME_2" as child of HEADER. */
     tmp = ConvertInput("J\xF6rg", MY_ENCODING);
@@ -474,7 +474,7 @@ testXmlwriterMemory(const char *file)
             ("testXmlwriterMemory: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Close the element named HEADER. */
     rc = xmlTextWriterEndElement(writer);
@@ -663,7 +663,7 @@ testXmlwriterDoc(const char *file)
         printf("testXmlwriterDoc: Error at xmlTextWriterWriteComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "ORDER" as child of EXAMPLE. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "ORDER");
@@ -698,7 +698,7 @@ testXmlwriterDoc(const char *file)
             ("testXmlwriterDoc: Error at xmlTextWriterWriteFormatComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "HEADER" as child of ORDER. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "HEADER");
@@ -732,7 +732,7 @@ testXmlwriterDoc(const char *file)
         printf("testXmlwriterDoc: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Write an element named "NAME_2" as child of HEADER. */
     tmp = ConvertInput("J\xF6rg", MY_ENCODING);
@@ -741,7 +741,7 @@ testXmlwriterDoc(const char *file)
         printf("testXmlwriterDoc: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Close the element named HEADER. */
     rc = xmlTextWriterEndElement(writer);
@@ -927,7 +927,7 @@ testXmlwriterTree(const char *file)
         printf("testXmlwriterTree: Error at xmlTextWriterWriteComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "ORDER" as child of EXAMPLE. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "ORDER");
@@ -964,7 +964,7 @@ testXmlwriterTree(const char *file)
             ("testXmlwriterTree: Error at xmlTextWriterWriteFormatComment\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Start an element named "HEADER" as child of ORDER. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "HEADER");
@@ -998,7 +998,7 @@ testXmlwriterTree(const char *file)
         printf("testXmlwriterTree: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Write an element named "NAME_2" as child of HEADER. */
     tmp = ConvertInput("J\xF6rg", MY_ENCODING);
@@ -1007,7 +1007,7 @@ testXmlwriterTree(const char *file)
         printf("testXmlwriterTree: Error at xmlTextWriterWriteElement\n");
         return;
     }
-    if (tmp != NULL) xmlFree(tmp);
+    free(tmp);
 
     /* Close the element named HEADER. */
     rc = xmlTextWriterEndElement(writer);
@@ -1177,7 +1177,7 @@ ConvertInput(const char *in, const char *encoding)
                      temp);
             }
 
-            xmlFree(out);
+            free(out);
             out = 0;
         } else {
             out = (unsigned char *) xmlRealloc(out, out_size + 1);

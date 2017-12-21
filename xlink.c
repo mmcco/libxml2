@@ -173,8 +173,8 @@ xlinkIsLink	(xmlDocPtr doc, xmlNodePtr node) {
 	}
     }
 
-    if (type != NULL) xmlFree(type);
-    if (role != NULL) xmlFree(role);
+    free(type);
+    free(role);
     return(ret);
 }
 #endif /* LIBXML_XPTR_ENABLED */

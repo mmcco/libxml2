@@ -61,7 +61,7 @@ xmlLinkDeallocator(xmlListPtr l, xmlLinkPtr lk)
     (lk->next)->prev = lk->prev;
     if(l->linkDeallocator)
         l->linkDeallocator(lk);
-    xmlFree(lk);
+    free(lk);
 }
 
 /**
@@ -199,7 +199,7 @@ xmlListCreate(xmlListDeallocator deallocator, xmlListDataCompare compare)
     if (NULL ==(l->sentinel = (xmlLinkPtr )xmlMalloc(sizeof(xmlLink)))) {
         xmlGenericError(xmlGenericErrorContext,
 		        "Cannot initialize memory for sentinel");
-	xmlFree(l);
+	free(l);
         return (NULL);
     }
     l->sentinel->next = l->sentinel;
@@ -335,8 +335,8 @@ void xmlListDelete(xmlListPtr l)
         return;
 
     xmlListClear(l);
-    xmlFree(l->sentinel);
-    xmlFree(l);
+    free(l->sentinel);
+    free(l);
 }
 
 /**

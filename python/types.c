@@ -135,7 +135,7 @@ libxml_charPtrWrap(char *str)
         return (Py_None);
     }
     ret = PY_IMPORT_STRING(str);
-    xmlFree(str);
+    free(str);
     return (ret);
 }
 
@@ -168,7 +168,7 @@ libxml_xmlCharPtrWrap(xmlChar * str)
         return (Py_None);
     }
     ret = PY_IMPORT_STRING((char *) str);
-    xmlFree(str);
+    free(str);
     return (ret);
 }
 

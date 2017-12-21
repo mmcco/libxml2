@@ -294,8 +294,7 @@ xmlNewCatalogEntry(xmlCatalogEntryType type, const xmlChar *name,
 	ret->name = xmlStrdup(name);
     else
 	ret->name = NULL;
-    if (normid != NULL)
-        xmlFree(normid);
+    free(normid);
     if (value != NULL)
 	ret->value = xmlStrdup(value);
     else
@@ -345,13 +344,10 @@ xmlFreeCatalogEntry(xmlCatalogEntryPtr ret) {
 		    "Free catalog entry\n");
     }
 
-    if (ret->name != NULL)
-	xmlFree(ret->name);
-    if (ret->value != NULL)
-	xmlFree(ret->value);
-    if (ret->URL != NULL)
-	xmlFree(ret->URL);
-    xmlFree(ret);
+    free(ret->name);
+    free(ret->value);
+    free(ret->URL);
+    free(ret);
 }
 
 /**
@@ -441,7 +437,7 @@ xmlFreeCatalog(xmlCatalogPtr catal) {
     if (catal->sgml != NULL)
 	xmlHashFree(catal->sgml,
 		(xmlHashDeallocator) xmlFreeCatalogEntry);
-    xmlFree(catal);
+    free(catal);
 }
 
 /************************************************************************
@@ -1008,7 +1004,7 @@ xmlLoadFileContent(const char *filename)
     fclose(fd);
 #endif
     if (len < 0) {
-        xmlFree(content);
+        free(content);
         return (NULL);
     }
     content[len] = 0;
@@ -1165,10 +1161,8 @@ xmlParseXMLCatalogOneNode(xmlNodePtr cur, xmlCatalogEntryType type,
 	ok = 0;
     }
     if (!ok) {
-	if (nameValue != NULL)
-	    xmlFree(nameValue);
-	if (uriValue != NULL)
-	    xmlFree(uriValue);
+	free(nameValue);
+	free(uriValue);
 	return(NULL);
     }
 
@@ -1188,14 +1182,10 @@ xmlParseXMLCatalogOneNode(xmlNodePtr cur, xmlCatalogEntryType type,
 	xmlCatalogErr(ret, cur, XML_CATALOG_ENTRY_BROKEN,
 		"%s entry '%s' broken ?: %s\n", name, uriAttrName, uriValue);
     }
-    if (nameValue != NULL)
-	xmlFree(nameValue);
-    if (uriValue != NULL)
-	xmlFree(uriValue);
-    if (base != NULL)
-	xmlFree(base);
-    if (URL != NULL)
-	xmlFree(URL);
+    free(nameValue);
+    free(uriValue);
+    free(base);
+    free(URL);
     return(ret);
 }
 
@@ -1234,13 +1224,13 @@ xmlParseXMLCatalogNode(xmlNodePtr cur, xmlCatalogPrefer prefer,
                               "Invalid value for prefer: '%s'\n",
 			      prop, NULL, NULL);
             }
-            xmlFree(prop);
+            free(prop);
 	    pref = prefer;
         }
 	prop = xmlGetProp(cur, BAD_CAST "id");
 	base = xmlGetNsProp(cur, BAD_CAST "base", XML_XML_NAMESPACE);
 	entry = xmlNewCatalogEntry(XML_CATA_GROUP, prop, base, NULL, pref, cgroup);
-	xmlFree(prop);
+	free(prop);
     } else if (xmlStrEqual(cur->name, BAD_CAST "public")) {
 	entry = xmlParseXMLCatalogOneNode(cur, XML_CATA_PUBLIC,
 		BAD_CAST "public", BAD_CAST "publicId", BAD_CAST "uri", prefer, cgroup);
@@ -1298,8 +1288,7 @@ xmlParseXMLCatalogNode(xmlNodePtr cur, xmlCatalogPrefer prefer,
             xmlParseXMLCatalogNodeList(cur->children, prefer, parent, entry);
 	}
     }
-    if (base != NULL)
-	xmlFree(base);
+    free(base);
 }
 
 /**
@@ -1381,7 +1370,7 @@ xmlParseXMLCatalogFile(xmlCatalogPrefer prefer, const xmlChar *filename) {
 			      "Invalid value for prefer: '%s'\n",
 			      prop, NULL, NULL);
 	    }
-	    xmlFree(prop);
+	    free(prop);
 	}
 	cur = cur->children;
 	xmlParseXMLCatalogNodeList(cur, prefer, parent, NULL);
@@ -1389,7 +1378,7 @@ xmlParseXMLCatalogFile(xmlCatalogPrefer prefer, const xmlChar *filename) {
 	xmlCatalogErr(NULL, (xmlNodePtr) doc, XML_CATALOG_NOT_CATALOG,
 		      "File %s is not an XML Catalog\n",
 		      filename, NULL, NULL);
-	xmlFreeDoc(doc);
+	freeDoc(doc);
 	return(NULL);
     }
     xmlFreeDoc(doc);
@@ -1529,10 +1518,8 @@ xmlAddXMLCatalog(xmlCatalogEntryPtr catal, const xmlChar *type,
 		if (xmlDebugCatalogs)
 		    xmlGenericError(xmlGenericErrorContext,
 			    "Updating element %s to catalog\n", type);
-		if (cur->value != NULL)
-		    xmlFree(cur->value);
-		if (cur->URL != NULL)
-		    xmlFree(cur->URL);
+		free(cur->value);
+		free(cur->URL);
 		cur->value = xmlStrdup(replace);
 		cur->URL = xmlStrdup(replace);
 		return(0);
@@ -2025,10 +2012,8 @@ xmlCatalogListXMLResolve(xmlCatalogEntryPtr catal, const xmlChar *pubID,
 			"Public URN ID expanded to %s\n", urnID);
 	}
 	ret = xmlCatalogListXMLResolve(catal, urnID, sysID);
-	if (urnID != NULL)
-	    xmlFree(urnID);
-	if (normid != NULL)
-	    xmlFree(normid);
+	free(urnID);
+	free(normid);
 	return(ret);
     }
     if (!xmlStrncmp(sysID, BAD_CAST XML_URN_PUBID, sizeof(XML_URN_PUBID) - 1)) {
@@ -2048,10 +2033,8 @@ xmlCatalogListXMLResolve(xmlCatalogEntryPtr catal, const xmlChar *pubID,
 	else {
 	    ret = xmlCatalogListXMLResolve(catal, pubID, urnID);
 	}
-	if (urnID != NULL)
-	    xmlFree(urnID);
-	if (normid != NULL)
-	    xmlFree(normid);
+	free(urnID);
+	free(normid);
 	return(ret);
     }
     while (catal != NULL) {
@@ -2072,8 +2055,7 @@ xmlCatalogListXMLResolve(xmlCatalogEntryPtr catal, const xmlChar *pubID,
 	}
 	catal = catal->next;
     }
-    if (normid != NULL)
-	xmlFree(normid);
+    free(normid);
     return(ret);
 }
 
@@ -2110,8 +2092,7 @@ xmlCatalogListXMLResolveURI(xmlCatalogEntryPtr catal, const xmlChar *URI) {
 			"URN ID expanded to %s\n", urnID);
 	}
 	ret = xmlCatalogListXMLResolve(catal, urnID, NULL);
-	if (urnID != NULL)
-	    xmlFree(urnID);
+	free(urnID);
 	return(ret);
     }
     while (catal != NULL) {
@@ -2207,7 +2188,7 @@ xmlParseSGMLCatalogPubid(const xmlChar *cur, xmlChar **id) {
 	    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
 	    if (tmp == NULL) {
 		xmlCatalogErrMemory("allocating public ID");
-		xmlFree(buf);
+		free(buf);
 		return(NULL);
 	    }
 	    buf = tmp;
@@ -2219,12 +2200,12 @@ xmlParseSGMLCatalogPubid(const xmlChar *cur, xmlChar **id) {
     buf[len] = 0;
     if (stop == ' ') {
 	if (!IS_BLANK_CH(*cur)) {
-	    xmlFree(buf);
+	    free(buf);
 	    return(NULL);
 	}
     } else {
 	if (*cur != stop) {
-	    xmlFree(buf);
+	    free(buf);
 	    return(NULL);
 	}
 	NEXT;
@@ -2379,16 +2360,16 @@ xmlParseSGMLCatalog(xmlCatalogPtr catal, const xmlChar *value,
 	    else if (xmlStrEqual(name, (const xmlChar *) "BASE"))
                 type = SGML_CATA_BASE;
 	    else if (xmlStrEqual(name, (const xmlChar *) "OVERRIDE")) {
-		xmlFree(name);
+		free(name);
 		cur = xmlParseSGMLCatalogName(cur, &name);
 		if (name == NULL) {
 		    /* error */
 		    break;
 		}
-		xmlFree(name);
+		free(name);
 		continue;
 	    }
-	    xmlFree(name);
+	    free(name);
 	    name = NULL;
 
 	    switch(type) {
@@ -2429,12 +2410,11 @@ xmlParseSGMLCatalog(xmlCatalogPtr catal, const xmlChar *value,
 
 		        normid = xmlCatalogNormalizePublic(name);
 		        if (normid != NULL) {
-		            if (name != NULL)
-		                xmlFree(name);
+		            free(name);
 		            if (*normid != 0)
 		                name = normid;
 		            else {
-		                xmlFree(normid);
+		                free(normid);
 		                name = NULL;
 		            }
 		        }
@@ -2464,14 +2444,11 @@ xmlParseSGMLCatalog(xmlCatalogPtr catal, const xmlChar *value,
 		    break;
 	    }
 	    if (cur == NULL) {
-		if (name != NULL)
-		    xmlFree(name);
-		if (sysid != NULL)
-		    xmlFree(sysid);
+		free(name);
+		free(sysid);
 		break;
 	    } else if (type == SGML_CATA_BASE) {
-		if (base != NULL)
-		    xmlFree(base);
+		free(base);
 		base = xmlStrdup(sysid);
 	    } else if ((type == SGML_CATA_PUBLIC) ||
 		       (type == SGML_CATA_SYSTEM)) {
@@ -2487,7 +2464,7 @@ xmlParseSGMLCatalog(xmlCatalogPtr catal, const xmlChar *value,
 		    if (res < 0) {
 			xmlFreeCatalogEntry(entry);
 		    }
-		    xmlFree(filename);
+		    free(filename);
 		}
 
 	    } else if (type == SGML_CATA_CATALOG) {
@@ -2506,21 +2483,18 @@ xmlParseSGMLCatalog(xmlCatalogPtr catal, const xmlChar *value,
 		    filename = xmlBuildURI(sysid, base);
 		    if (filename != NULL) {
 			xmlExpandCatalog(catal, (const char *)filename);
-			xmlFree(filename);
+			free(filename);
 		    }
 		}
 	    }
 	    /*
 	     * drop anything else we won't handle it
 	     */
-	    if (name != NULL)
-		xmlFree(name);
-	    if (sysid != NULL)
-		xmlFree(sysid);
+	    free(name);
+	    free(sysid);
 	}
     }
-    if (base != NULL)
-	xmlFree(base);
+    free(base);
     if (cur == NULL)
 	return(-1);
     return(0);
@@ -2555,17 +2529,14 @@ xmlCatalogGetSGMLPublic(xmlHashTablePtr catal, const xmlChar *pubID) {
 
     entry = (xmlCatalogEntryPtr) xmlHashLookup(catal, pubID);
     if (entry == NULL) {
-	if (normid != NULL)
-	    xmlFree(normid);
+	free(normid);
 	return(NULL);
     }
     if (entry->type == SGML_CATA_PUBLIC) {
-	if (normid != NULL)
-	    xmlFree(normid);
+	free(normid);
 	return(entry->URL);
     }
-    if (normid != NULL)
-        xmlFree(normid);
+    free(normid);
     return(NULL);
 }
 
@@ -2651,12 +2622,12 @@ xmlLoadSGMLSuperCatalog(const char *filename)
 
     catal = xmlCreateNewCatalog(XML_SGML_CATALOG_TYPE, xmlCatalogDefaultPrefer);
     if (catal == NULL) {
-	xmlFree(content);
+	free(content);
 	return(NULL);
     }
 
     ret = xmlParseSGMLCatalog(catal, content, filename, 1);
-    xmlFree(content);
+    free(content);
     if (ret < 0) {
 	xmlFreeCatalog(catal);
 	return(NULL);
@@ -2698,25 +2669,25 @@ xmlLoadACatalog(const char *filename)
     if (*first != '<') {
 	catal = xmlCreateNewCatalog(XML_SGML_CATALOG_TYPE, xmlCatalogDefaultPrefer);
 	if (catal == NULL) {
-	    xmlFree(content);
+	    free(content);
 	    return(NULL);
 	}
         ret = xmlParseSGMLCatalog(catal, content, filename, 0);
 	if (ret < 0) {
 	    xmlFreeCatalog(catal);
-	    xmlFree(content);
+	    free(content);
 	    return(NULL);
 	}
     } else {
 	catal = xmlCreateNewCatalog(XML_XML_CATALOG_TYPE, xmlCatalogDefaultPrefer);
 	if (catal == NULL) {
-	    xmlFree(content);
+	    free(content);
 	    return(NULL);
 	}
         catal->xml = xmlNewCatalogEntry(XML_CATA_CATALOG, NULL,
 		       NULL, BAD_CAST filename, xmlCatalogDefaultPrefer, NULL);
     }
-    xmlFree(content);
+    free(content);
     return (catal);
 }
 
@@ -2748,10 +2719,10 @@ xmlExpandCatalog(xmlCatalogPtr catal, const char *filename)
 
         ret = xmlParseSGMLCatalog(catal, content, filename, 0);
 	if (ret < 0) {
-	    xmlFree(content);
+	    free(content);
 	    return(-1);
 	}
-	xmlFree(content);
+	free(content);
     } else {
 	xmlCatalogEntryPtr tmp, cur;
 	tmp = xmlNewCatalogEntry(XML_CATA_CATALOG, NULL,
@@ -3139,7 +3110,7 @@ xmlInitializeCatalog(void) {
 					uri = xmlCanonicPath((const xmlChar*)buf);
 					if (uri != NULL) {
 						strncpy(XML_XML_DEFAULT_CATALOG, uri, 255);
-						xmlFree(uri);
+						free(uri);
 					}
 				}
 			}
@@ -3170,7 +3141,7 @@ xmlInitializeCatalog(void) {
 				NULL, BAD_CAST path, xmlCatalogDefaultPrefer, NULL);
 			if (*nextent != NULL)
 			    nextent = &((*nextent)->next);
-			xmlFree(path);
+			free(path);
 		    }
 		}
 	    }
@@ -3260,7 +3231,7 @@ xmlLoadCatalogs(const char *pathss) {
 #endif
 	    if (path != NULL) {
 		xmlLoadCatalog((const char *) path);
-		xmlFree(path);
+		free(path);
 	    }
 	}
 	while (*cur == PATH_SEPARATOR)

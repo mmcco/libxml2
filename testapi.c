@@ -771,8 +771,7 @@ static void desret_const_char_ptr(const char *val ATTRIBUTE_UNUSED) {
 static void desret_const_xmlChar_ptr(const xmlChar *val ATTRIBUTE_UNUSED) {
 }
 static void desret_xmlChar_ptr(xmlChar *val) {
-    if (val != NULL)
-	xmlFree(val);
+    free(val);
 }
 static void desret_xmlDocPtr(xmlDocPtr val) {
     if (val != api_doc)
@@ -5378,7 +5377,7 @@ test_xmlC14NDocDumpMemory(void) {
     int n_inclusive_ns_prefixes;
     int with_comments; /* include comments in the result (!=0) or not (==0) */
     int n_with_comments;
-    xmlChar ** doc_txt_ptr; /* the memory pointer for allocated canonical XML text; the caller of this functions is responsible for calling xmlFree() to free allocated memory */
+    xmlChar ** doc_txt_ptr; /* the memory pointer for allocated canonical XML text; the caller of this functions is responsible for freeing the result */
     int n_doc_txt_ptr;
 
     for (n_doc = 0;n_doc < gen_nb_xmlDocPtr;n_doc++) {
@@ -19092,7 +19091,7 @@ test_xmlBufferSetAllocationScheme(void) {
         scheme = gen_xmlBufferAllocationScheme(n_scheme, 1);
 
         xmlBufferSetAllocationScheme(buf, scheme);
-        if ((buf != NULL) && (scheme == XML_BUFFER_ALLOC_IMMUTABLE) && (buf->content != NULL) && (buf->content != static_buf_content)) { xmlFree(buf->content); buf->content = NULL;}
+        if ((buf != NULL) && (scheme == XML_BUFFER_ALLOC_IMMUTABLE) && (buf->content != NULL) && (buf->content != static_buf_content)) { free(buf->content); buf->content = NULL;}
         call_tests++;
         des_xmlBufferPtr(n_buf, buf, 0);
         des_xmlBufferAllocationScheme(n_scheme, scheme, 1);
@@ -19294,7 +19293,7 @@ test_xmlBuildQName(void) {
         ret_val = xmlBuildQName((const xmlChar *)ncname, (const xmlChar *)prefix, memory, len);
         if ((ret_val != NULL) && (ret_val != ncname) &&
               (ret_val != prefix) && (ret_val != memory))
-              xmlFree(ret_val);
+              free(ret_val);
 	  ret_val = NULL;
         desret_xmlChar_ptr(ret_val);
         call_tests++;

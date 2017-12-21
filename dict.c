@@ -594,7 +594,7 @@ xmlDictCreate(void) {
 #endif
 	    return(dict);
         }
-        xmlFree(dict);
+        free(dict);
     }
     return(NULL);
 }
@@ -756,7 +756,7 @@ xmlDictGrow(xmlDictPtr dict, size_t size) {
 		dict->dict[key].next = NULL;
 		dict->dict[key].valid = 1;
 		dict->dict[key].okey = okey;
-		xmlFree(iter);
+		free(iter);
 	    } else {
 		iter->next = dict->dict[key].next;
 		iter->okey = okey;
@@ -771,7 +771,7 @@ xmlDictGrow(xmlDictPtr dict, size_t size) {
 	}
     }
 
-    xmlFree(olddict);
+    free(olddict);
 
 #ifdef DEBUG_GROW
     xmlGenericError(xmlGenericErrorContext,
@@ -826,21 +826,21 @@ xmlDictFree(xmlDictPtr dict) {
 	    while (iter) {
 		next = iter->next;
 		if (!inside_dict)
-		    xmlFree(iter);
+		    free(iter);
 		dict->nbElems--;
 		inside_dict = 0;
 		iter = next;
 	    }
 	}
-	xmlFree(dict->dict);
+	free(dict->dict);
     }
     pool = dict->strings;
     while (pool != NULL) {
         nextp = pool->next;
-	xmlFree(pool);
+	free(pool);
 	pool = nextp;
     }
-    xmlFree(dict);
+    free(dict);
 }
 
 /**

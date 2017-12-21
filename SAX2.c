@@ -481,7 +481,7 @@ xmlSAX2ExternalSubset(void *ctx, const xmlChar *name,
 	while (ctxt->inputNr > 1)
 	    xmlPopInput(ctxt);
 	xmlFreeInputStream(ctxt->input);
-        xmlFree(ctxt->inputTab);
+        free(ctxt->inputTab);
 
 	/*
 	 * Restore the parsing context of the main entity
@@ -494,7 +494,7 @@ xmlSAX2ExternalSubset(void *ctx, const xmlChar *name,
 	if ((ctxt->encoding != NULL) &&
 	    ((ctxt->dict == NULL) ||
 	     (!xmlDictOwns(ctxt->dict, ctxt->encoding))))
-	    xmlFree((xmlChar *) ctxt->encoding);
+	    free(ctxt->encoding);
 	ctxt->encoding = oldencoding;
 	/* ctxt->wellFormed = oldwellFormed; */
     }
@@ -537,8 +537,7 @@ xmlSAX2ResolveEntity(void *ctx, const xmlChar *publicId, const xmlChar *systemId
 
     ret = xmlLoadExternalEntity((const char *) URI,
 				(const char *) publicId, ctxt);
-    if (URI != NULL)
-	xmlFree(URI);
+    free(URI);
     return(ret);
 }
 
@@ -782,10 +781,8 @@ xmlSAX2AttributeDecl(void *ctx, const xmlChar *elem, const xmlChar *fullname,
 	ctxt->valid &= xmlValidateAttributeDecl(&ctxt->vctxt, ctxt->myDoc,
 	                                        attr);
 #endif /* LIBXML_VALID_ENABLED */
-    if (prefix != NULL)
-	xmlFree(prefix);
-    if (name != NULL)
-	xmlFree(name);
+    free(prefix);
+    free(name);
 }
 
 /**
@@ -1121,17 +1118,15 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
 			     "Avoid attribute ending with ':' like '%s'\n",
 			     fullname, NULL);
 	    }
-	    if (ns != NULL)
-		xmlFree(ns);
+	    free(ns);
 	    ns = NULL;
-	    xmlFree(name);
+	    free(name);
 	    name = xmlStrdup(fullname);
 	}
     }
     if (name == NULL) {
         xmlSAX2ErrMemory(ctxt, "xmlSAX2StartElement");
-	if (ns != NULL)
-	    xmlFree(ns);
+	free(ns);
 	return;
     }
 
@@ -1179,10 +1174,8 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
 	    ctxt->depth--;
 	    if (val == NULL) {
 	        xmlSAX2ErrMemory(ctxt, "xmlSAX2StartElement");
-		if (name != NULL)
-		    xmlFree(name);
-                if (nval != NULL)
-                    xmlFree(nval);
+		free(name);
+                free(nval);
 		return;
 	    }
 	} else {
@@ -1220,12 +1213,9 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
 	    ctxt->valid &= xmlValidateOneNamespace(&ctxt->vctxt, ctxt->myDoc,
 					   ctxt->node, prefix, nsret, val);
 #endif /* LIBXML_VALID_ENABLED */
-	if (name != NULL)
-	    xmlFree(name);
-	if (nval != NULL)
-	    xmlFree(nval);
-	if (val != value)
-	    xmlFree(val);
+	free(name);
+	free(nval);
+	free(val);
 	return;
     }
     if ((!ctxt->html) &&
@@ -1241,11 +1231,9 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
 	    ctxt->depth--;
 	    if (val == NULL) {
 	        xmlSAX2ErrMemory(ctxt, "xmlSAX2StartElement");
-	        xmlFree(ns);
-		if (name != NULL)
-		    xmlFree(name);
-                if (nval != NULL)
-                    xmlFree(nval);
+	        free(ns);
+		free(name);
+                free(nval);
 		return;
 	    }
 	} else {
@@ -1274,7 +1262,7 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
 
 	/* a standard namespace definition */
 	nsret = xmlNewNs(ctxt->node, val, name);
-	xmlFree(ns);
+	free(ns);
 #ifdef LIBXML_VALID_ENABLED
 	/*
 	 * Validate also for namespace decls, they are attributes from
@@ -1285,12 +1273,9 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
 	    ctxt->valid &= xmlValidateOneNamespace(&ctxt->vctxt, ctxt->myDoc,
 					   ctxt->node, prefix, nsret, value);
 #endif /* LIBXML_VALID_ENABLED */
-	if (name != NULL)
-	    xmlFree(name);
-	if (nval != NULL)
-	    xmlFree(nval);
-	if (val != value)
-	    xmlFree(val);
+	free(name);
+	free(nval);
+	free(val);
 	return;
     }
 
@@ -1315,8 +1300,7 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
                                              name, namespace->href);
                         ctxt->wellFormed = 0;
                         if (ctxt->recovery == 0) ctxt->disableSAX = 1;
-                        if (name != NULL)
-                            xmlFree(name);
+                        free(name);
                         goto error;
                     }
                 }
@@ -1380,13 +1364,13 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
 		nvalnorm = xmlValidNormalizeAttributeValue(ctxt->myDoc,
 					    ctxt->node, fullname, val);
 		if (nvalnorm != NULL) {
-		    xmlFree(val);
+		    free(val);
 		    val = nvalnorm;
 		}
 
 		ctxt->valid &= xmlValidateOneAttribute(&ctxt->vctxt,
 			        ctxt->myDoc, ctxt->node, ret, val);
-                xmlFree(val);
+                free(val);
 	    }
 	} else {
 	    ctxt->valid &= xmlValidateOneAttribute(&ctxt->vctxt, ctxt->myDoc,
@@ -1420,10 +1404,8 @@ xmlSAX2AttributeInternal(void *ctx, const xmlChar *fullname,
     }
 
 error:
-    if (nval != NULL)
-	xmlFree(nval);
-    if (ns != NULL)
-	xmlFree(ns);
+	free(nval);
+	free(ns);
 }
 
 /*
@@ -1499,7 +1481,7 @@ process_external_subset:
 				    (const char *)fulln,
 				    (const char *)attr->elem);
 		    }
-                    xmlFree(fulln);
+                    free(fulln);
 		}
 		attr = attr->nexth;
 	    }
@@ -1564,7 +1546,7 @@ process_external_subset:
 						 attr->defaultValue, prefix);
 			}
 			if ((fulln != fn) && (fulln != attr->name))
-			    xmlFree(fulln);
+			    free(fulln);
 		    }
 		}
 	    }
@@ -1635,8 +1617,7 @@ xmlSAX2StartElement(void *ctx, const xmlChar *fullname, const xmlChar **atts)
      */
     ret = xmlNewDocNodeEatName(ctxt->myDoc, NULL, name, NULL);
     if (ret == NULL) {
-        if (prefix != NULL)
-	    xmlFree(prefix);
+	free(prefix);
 	xmlSAX2ErrMemory(ctxt, "xmlSAX2StartElement");
         return;
     }
@@ -1782,8 +1763,7 @@ xmlSAX2StartElement(void *ctx, const xmlChar *fullname, const xmlChar **atts)
     }
 #endif /* LIBXML_VALID_ENABLED */
 
-    if (prefix != NULL)
-	xmlFree(prefix);
+    free(prefix);
 
 }
 
@@ -1901,7 +1881,7 @@ skip:
 	ret->content = xmlStrndup(str, len);
 	if (ret->content == NULL) {
 	    xmlSAX2ErrMemory(ctxt, "xmlSAX2TextNode");
-	    xmlFree(ret);
+	    free(ret);
 	    return(NULL);
 	}
     } else
@@ -2117,9 +2097,9 @@ xmlSAX2AttributeNs(xmlParserCtxtPtr ctxt,
 			    ctxt->valid = 0;
 
 			if ((fullname != fn) && (fullname != localname))
-			    xmlFree(fullname);
+			    free(fullname);
 			if (nvalnorm != NULL) {
-			    xmlFree(dup);
+			    free(dup);
 			    dup = nvalnorm;
 			}
 		    }
@@ -2178,8 +2158,7 @@ xmlSAX2AttributeNs(xmlParserCtxtPtr ctxt,
 	    xmlAddRef(&ctxt->vctxt, ctxt->myDoc, dup, ret);
 	}
     }
-    if (dup != NULL)
-	xmlFree(dup);
+    free(dup);
 }
 
 /**
@@ -2407,7 +2386,7 @@ xmlSAX2StartElementNs(void *ctx,
 		    if (lname != NULL) {
 			xmlSAX2AttributeNs(ctxt, lname, NULL,
 			                   attributes[j+3], attributes[j+4]);
-			xmlFree(lname);
+			free(lname);
 		        continue;
 		    }
 		}

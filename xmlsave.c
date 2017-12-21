@@ -361,11 +361,10 @@ static void
 xmlFreeSaveCtxt(xmlSaveCtxtPtr ctxt)
 {
     if (ctxt == NULL) return;
-    if (ctxt->encoding != NULL)
-        xmlFree((char *) ctxt->encoding);
+    free(ctxt->encoding);
     if (ctxt->buf != NULL)
         xmlOutputBufferClose(ctxt->buf);
-    xmlFree(ctxt);
+    free(ctxt);
 }
 
 /**
@@ -1608,10 +1607,10 @@ xhtmlNodeDumpOutput(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
 				httpequiv = xmlGetProp(tmp, BAD_CAST"http-equiv");
 				if (httpequiv != NULL) {
 					if (xmlStrcasecmp(httpequiv, BAD_CAST"Content-Type") == 0) {
-						xmlFree(httpequiv);
+						free(httpequiv);
 						break;
 					}
-					xmlFree(httpequiv);
+					free(httpequiv);
 				}
 			}
 			tmp = tmp->next;
@@ -1869,14 +1868,14 @@ xmlSaveToBuffer(xmlBufferPtr buffer, const char *encoding, int options)
     if (encoding != NULL) {
         handler = xmlFindCharEncodingHandler(encoding);
         if (handler == NULL) {
-            xmlFree(ret);
+            free(ret);
             return(NULL);
         }
     } else
         handler = NULL;
     out_buff = xmlOutputBufferCreateBuffer(buffer, handler);
     if (out_buff == NULL) {
-        xmlFree(ret);
+        free(ret);
         if (handler) xmlCharEncCloseFunc(handler);
         return(NULL);
     }
@@ -2277,7 +2276,7 @@ xmlBufNodeDump(xmlBufPtr buf, xmlDocPtr doc, xmlNodePtr cur, int level,
     xmlBufSetAllocationScheme(buf, XML_BUFFER_ALLOC_DOUBLEIT);
     xmlNodeDumpOutput(outbuf, doc, cur, level, format, NULL);
     xmlBufSetAllocationScheme(buf, oldalloc);
-    xmlFree(outbuf);
+    free(outbuf);
     ret = xmlBufUse(buf) - use;
     return (ret);
 }
@@ -2395,7 +2394,7 @@ xmlNodeDumpOutput(xmlOutputBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur,
  *
  * Dump the current DOM tree into memory using the character encoding specified
  * by the caller.  Note it is up to the caller of this function to free the
- * allocated memory with xmlFree().
+ * allocated memory.
  * Note that @format = 1 provide node indenting only if xmlIndentTreeOutput = 1
  * or xmlKeepBlanksDefault(0) was called
  */
@@ -2481,7 +2480,7 @@ xmlDocDumpFormatMemoryEnc(xmlDocPtr out_doc, xmlChar **doc_txt_ptr,
  * @size:  OUT: the memory length
  *
  * Dump an XML document in memory and return the #xmlChar * and it's size
- * in bytes. It's up to the caller to free the memory with xmlFree().
+ * in bytes. It's up to the caller to free the memory.
  * The resulting byte array is zero terminated, though the last 0 is not
  * included in the returned size.
  */
@@ -2499,7 +2498,7 @@ xmlDocDumpMemory(xmlDocPtr cur, xmlChar**mem, int *size) {
  *
  *
  * Dump an XML document in memory and return the #xmlChar * and it's size.
- * It's up to the caller to free the memory with xmlFree().
+ * It's up to the caller to free the memory.
  * Note that @format = 1 provide node indenting only if xmlIndentTreeOutput = 1
  * or xmlKeepBlanksDefault(0) was called
  */
@@ -2517,7 +2516,7 @@ xmlDocDumpFormatMemory(xmlDocPtr cur, xmlChar**mem, int *size, int format) {
  *
  * Dump the current DOM tree into memory using the character encoding specified
  * by the caller.  Note it is up to the caller of this function to free the
- * allocated memory with xmlFree().
+ * allocated memory.
  */
 
 void
@@ -2559,7 +2558,7 @@ xmlDocFormatDump(FILE *f, xmlDocPtr cur, int format) {
     if (encoding != NULL) {
 	handler = xmlFindCharEncodingHandler(encoding);
 	if (handler == NULL) {
-	    xmlFree((char *) cur->encoding);
+	    free(cur->encoding);
 	    cur->encoding = NULL;
 	    encoding = NULL;
 	}

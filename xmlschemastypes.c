@@ -247,7 +247,7 @@ xmlSchemaNewMinLengthFacet(int value)
     ret->type = XML_SCHEMA_FACET_MINLENGTH;
     ret->val = xmlSchemaNewValue(XML_SCHEMAS_NNINTEGER);
     if (ret->val == NULL) {
-        xmlFree(ret);
+        free(ret);
 	return(NULL);
     }
     ret->val->value.decimal.lo = value;
@@ -639,10 +639,10 @@ xmlSchemaCleanupTypes(void) {
 	/* Wildcard. */
 	xmlSchemaFreeWildcard((xmlSchemaWildcardPtr)
 	    particle->children->children->children);
-	xmlFree((xmlSchemaParticlePtr) particle->children->children);
+	free((xmlSchemaParticlePtr) particle->children->children);
 	/* Sequence model group. */
-	xmlFree((xmlSchemaModelGroupPtr) particle->children);
-	xmlFree((xmlSchemaParticlePtr) particle);
+	free((xmlSchemaModelGroupPtr) particle->children);
+	free((xmlSchemaParticlePtr) particle);
 	xmlSchemaTypeAnyTypeDef->subtypes = NULL;
     }
     xmlHashFree(xmlSchemaTypesBank, (xmlHashDeallocator) xmlSchemaFreeType);
@@ -1036,30 +1036,25 @@ xmlSchemaFreeValue(xmlSchemaValPtr value) {
 	    case XML_SCHEMAS_ENTITIES:
 	    case XML_SCHEMAS_ANYURI:
 	    case XML_SCHEMAS_ANYSIMPLETYPE:
-		if (value->value.str != NULL)
-		    xmlFree(value->value.str);
+		free(value->value.str);
 		break;
 	    case XML_SCHEMAS_NOTATION:
 	    case XML_SCHEMAS_QNAME:
-		if (value->value.qname.uri != NULL)
-		    xmlFree(value->value.qname.uri);
-		if (value->value.qname.name != NULL)
-		    xmlFree(value->value.qname.name);
+		free(value->value.qname.uri);
+		free(value->value.qname.name);
 		break;
 	    case XML_SCHEMAS_HEXBINARY:
-		if (value->value.hex.str != NULL)
-		    xmlFree(value->value.hex.str);
+		free(value->value.hex.str);
 		break;
 	    case XML_SCHEMAS_BASE64BINARY:
-		if (value->value.base64.str != NULL)
-		    xmlFree(value->value.base64.str);
+		free(value->value.base64.str);
 		break;
 	    default:
 		break;
 	}
 	prev = value;
 	value = value->next;
-	xmlFree(prev);
+	free(prev);
     }
 }
 
@@ -2042,7 +2037,7 @@ xmlSchemaValAtomicListNode(xmlSchemaTypePtr type, const xmlChar *value,
 	}
     }
     if (nb_values == 0) {
-	xmlFree(val);
+	free(val);
 	return(nb_values);
     }
     endval = cur;
@@ -2059,7 +2054,7 @@ xmlSchemaValAtomicListNode(xmlSchemaTypePtr type, const xmlChar *value,
     if (ret != NULL) {
 	TODO
     } */
-    xmlFree(val);
+    free(val);
     if (tmp == 0)
 	return(nb_values);
     return(-1);
@@ -2700,21 +2695,18 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                     local = xmlSplitQName2(value, &prefix);
 		    ns = xmlSearchNs(node->doc, node, prefix);
 		    if ((ns == NULL) && (prefix != NULL)) {
-			xmlFree(prefix);
-			if (local != NULL)
-			    xmlFree(local);
+			free(prefix);
+			free(local);
 			goto return1;
 		    }
 		    if (ns != NULL)
 			uri = ns->href;
-                    if (prefix != NULL)
-                        xmlFree(prefix);
+                    free(prefix);
                 }
                 if (val != NULL) {
                     v = xmlSchemaNewValue(XML_SCHEMAS_QNAME);
                     if (v == NULL) {
-			if (local != NULL)
-			    xmlFree(local);
+			free(local);
 			goto error;
 		    }
 		    if (local != NULL)
@@ -2725,8 +2717,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
 			v->value.qname.uri = xmlStrdup(uri);
 		    *val = v;
                 } else
-		    if (local != NULL)
-			xmlFree(local);
+		    free(local);
                 goto done;
             }
         case XML_SCHEMAS_NCNAME:
@@ -2766,7 +2757,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                     strip = xmlSchemaStrip(value);
                     if (strip != NULL) {
                         res = xmlAddID(NULL, node->doc, strip, attr);
-                        xmlFree(strip);
+                        free(strip);
                     } else
                         res = xmlAddID(NULL, node->doc, value, attr);
                     if (res == NULL) {
@@ -2794,7 +2785,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                 strip = xmlSchemaStrip(value);
                 if (strip != NULL) {
                     xmlAddRef(NULL, node->doc, strip, attr);
-                    xmlFree(strip);
+                    free(strip);
                 } else
                     xmlAddRef(NULL, node->doc, value, attr);
                 attr->atype = XML_ATTRIBUTE_IDREF;
@@ -2826,7 +2817,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                     strip = xmlSchemaStrip(value);
                     if (strip != NULL) {
                         ent = xmlGetDocEntity(node->doc, strip);
-                        xmlFree(strip);
+                        free(strip);
                     } else {
                         ent = xmlGetDocEntity(node->doc, value);
                     }
@@ -2881,9 +2872,8 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                             uri = xmlStrdup(ns->href);
                     }
                     if ((local != NULL) && ((val == NULL) || (ret != 0)))
-                        xmlFree(local);
-                    if (prefix != NULL)
-                        xmlFree(prefix);
+                        free(local);
+                    free(prefix);
                 }
                 if ((node == NULL) || (node->doc == NULL))
                     ret = 3;
@@ -2906,10 +2896,8 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
 
                         *val = v;
                     } else {
-                        if (local != NULL)
-                            xmlFree(local);
-                        if (uri != NULL)
-                            xmlFree(uri);
+                        free(local);
+                        free(uri);
                         goto error;
                     }
                 }
@@ -2934,7 +2922,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
 			    *cur = '_';
 		    }
                     uri = xmlParseURI((const char *) tmpval);
-		    xmlFree(tmpval);
+		    free(tmpval);
                     if (uri == NULL)
                         goto return1;
                     xmlFreeURI(uri);
@@ -2987,7 +2975,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                     cur = xmlStrndup(start, i);
                     if (cur == NULL) {
 		        xmlSchemaTypeErrMemory(node, "allocating hexbin data");
-                        xmlFree(v);
+                        free(v);
                         goto return1;
                     }
 
@@ -3115,7 +3103,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                                                     sizeof(xmlChar));
                     if (base == NULL) {
 		        xmlSchemaTypeErrMemory(node, "allocating base64 data");
-                        xmlFree(v);
+                        free(v);
                         goto return1;
                     }
                     v->value.base64.str = base;
@@ -3325,24 +3313,19 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
     }
 
   done:
-    if (norm != NULL)
-        xmlFree(norm);
+    free(norm);
     return (ret);
   return3:
-    if (norm != NULL)
-        xmlFree(norm);
+    free(norm);
     return (3);
   return1:
-    if (norm != NULL)
-        xmlFree(norm);
+    free(norm);
     return (1);
   return0:
-    if (norm != NULL)
-        xmlFree(norm);
+    free(norm);
     return (0);
   error:
-    if (norm != NULL)
-        xmlFree(norm);
+    free(norm);
     return (-1);
 }
 

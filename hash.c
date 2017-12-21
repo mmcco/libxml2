@@ -189,7 +189,7 @@ xmlHashCreate(int size) {
 #endif
 	    return(table);
         }
-        xmlFree(table);
+        free(table);
     }
     return(NULL);
 }
@@ -283,7 +283,7 @@ xmlHashGrow(xmlHashTablePtr table, int size) {
 	    if (table->table[key].valid == 0) {
 		memcpy(&(table->table[key]), iter, sizeof(xmlHashEntry));
 		table->table[key].next = NULL;
-		xmlFree(iter);
+		free(iter);
 	    } else {
 		iter->next = table->table[key].next;
 		table->table[key].next = iter;
@@ -297,7 +297,7 @@ xmlHashGrow(xmlHashTablePtr table, int size) {
 	}
     }
 
-    xmlFree(oldtable);
+    free(oldtable);
 
 #ifdef DEBUG_GROW
     xmlGenericError(xmlGenericErrorContext,
@@ -337,26 +337,23 @@ xmlHashFree(xmlHashTablePtr table, xmlHashDeallocator f) {
 		if ((f != NULL) && (iter->payload != NULL))
 		    f(iter->payload, iter->name);
 		if (table->dict == NULL) {
-		    if (iter->name)
-			xmlFree(iter->name);
-		    if (iter->name2)
-			xmlFree(iter->name2);
-		    if (iter->name3)
-			xmlFree(iter->name3);
+		    free(iter->name);
+		    free(iter->name2);
+		    free(iter->name3);
 		}
 		iter->payload = NULL;
 		if (!inside_table)
-		    xmlFree(iter);
+		    free(iter);
 		nbElems--;
 		inside_table = 0;
 		iter = next;
 	    }
 	}
-	xmlFree(table->table);
+	free(table->table);
     }
     if (table->dict)
         xmlDictFree(table->dict);
-    xmlFree(table);
+    free(table);
 }
 
 /**
@@ -1091,23 +1088,20 @@ xmlHashRemoveEntry3(xmlHashTablePtr table, const xmlChar *name,
                     f(entry->payload, entry->name);
                 entry->payload = NULL;
 		if (table->dict == NULL) {
-		    if(entry->name)
-			xmlFree(entry->name);
-		    if(entry->name2)
-			xmlFree(entry->name2);
-		    if(entry->name3)
-			xmlFree(entry->name3);
+		    free(entry->name);
+		    free(entry->name2);
+		    free(entry->name3);
 		}
                 if(prev) {
                     prev->next = entry->next;
-		    xmlFree(entry);
+		    free(entry);
 		} else {
 		    if (entry->next == NULL) {
 			entry->valid = 0;
 		    } else {
 			entry = entry->next;
 			memcpy(&(table->table[key]), entry, sizeof(xmlHashEntry));
-			xmlFree(entry);
+			free(entry);
 		    }
 		}
                 table->nbElems--;

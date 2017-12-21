@@ -29,13 +29,13 @@
                 void __set_##name(type arg) { name = arg; }
 
 
-THREADED_VAR(xmlFree, xmlFreeFunc)
+THREADED_VAR(free, xmlFreeFunc)
 
 void
 __call_xmlFree(void * mem)
 
 {
-        xmlFree(mem);
+        free(mem);
 }
 
 

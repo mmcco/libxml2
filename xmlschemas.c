@@ -323,7 +323,7 @@ static const xmlChar *xmlNamespaceNs = (const xmlChar *)
     (xmlStrEqual(node->name, (const xmlChar *) type)) && \
     (xmlStrEqual(node->ns->href, xmlSchemaNs)))
 
-#define FREE_AND_NULL(str) if ((str) != NULL) { xmlFree((xmlChar *) (str)); str = NULL; }
+#define FREE_AND_NULL(str) (free((str)); str = NULL;)
 
 /*
 * Since we put the default/fixed values into the dict, we can
@@ -1517,8 +1517,7 @@ xmlSchemaGetCanonValueWhtspExt(xmlSchemaValPtr val,
 		break;
 	    default:
 		if (xmlSchemaGetCanonValue(val, &value2) == -1) {
-		    if (value2 != NULL)
-			xmlFree((xmlChar *) value2);
+		    free(value2);
 		    goto internal_error;
 		}
 		value = value2;
@@ -1540,10 +1539,8 @@ xmlSchemaGetCanonValueWhtspExt(xmlSchemaValPtr val,
 
     return (0);
 internal_error:
-    if (*retValue != NULL)
-	xmlFree((xmlChar *) (*retValue));
-    if (value2 != NULL)
-	xmlFree((xmlChar *) value2);
+    free(*retValue);
+    free(value2);
     return (-1);
 }
 
@@ -1582,10 +1579,8 @@ xmlSchemaFormatItemForReport(xmlChar **buf,
     xmlChar *str = NULL;
     int named = 1;
 
-    if (*buf != NULL) {
-	xmlFree(*buf);
-	*buf = NULL;
-    }
+    free(*buf);
+    *buf = NULL;
 
     if (itemDes != NULL) {
 	*buf = xmlStrdup(itemDes);
@@ -1798,8 +1793,7 @@ xmlSchemaFormatFacetEnumSet(xmlSchemaAbstractCtxtPtr actxt,
     xmlChar *value = NULL;
     int res, found = 0;
 
-    if (*buf != NULL)
-	xmlFree(*buf);
+    free(*buf);
     *buf = NULL;
 
     do {
@@ -1817,8 +1811,7 @@ xmlSchemaFormatFacetEnumSet(xmlSchemaAbstractCtxtPtr actxt,
 		xmlSchemaInternalErr(actxt,
 		    "xmlSchemaFormatFacetEnumSet",
 		    "compute the canonical lexical representation");
-		if (*buf != NULL)
-		    xmlFree(*buf);
+		free(*buf);
 		*buf = NULL;
 		return (NULL);
 	    }
@@ -1828,10 +1821,8 @@ xmlSchemaFormatFacetEnumSet(xmlSchemaAbstractCtxtPtr actxt,
 		*buf = xmlStrcat(*buf, BAD_CAST ", '");
 	    *buf = xmlStrcat(*buf, BAD_CAST value);
 	    *buf = xmlStrcat(*buf, BAD_CAST "'");
-	    if (value != NULL) {
-		xmlFree((xmlChar *)value);
-		value = NULL;
-	    }
+	    free(value);
+	    value = NULL;
 	}
 	/*
 	* The enumeration facet of a type restricts the enumeration
@@ -2639,7 +2630,7 @@ xmlSchemaComplexTypeErr(xmlSchemaAbstractCtxtPtr actxt,
     } else
       msg = xmlStrcat(msg, BAD_CAST "\n");
     xmlSchemaErr(actxt, error, node, (const char *) msg, NULL, NULL);
-    xmlFree(msg);
+    free(msg);
 }
 
 static void LIBXML_ATTR_FORMAT(8,0)
@@ -2762,7 +2753,7 @@ xmlSchemaFacetErr(xmlSchemaAbstractCtxtPtr actxt,
 	xmlSchemaErr(actxt, error, node, (const char *) msg, str1, str2);
     }
     FREE_AND_NULL(str)
-    xmlFree(msg);
+    free(msg);
 }
 
 #define VERROR(err, type, msg) \
@@ -3017,7 +3008,7 @@ xmlSchemaPAttrUseErr4(xmlSchemaParserCtxtPtr ctxt,
     msg = xmlStrcat(msg, BAD_CAST ".\n");
     xmlSchemaErr4(ACTXT_CAST ctxt, error, node,
 	(const char *) msg, str1, str2, str3, str4);
-    xmlFree(msg);
+    free(msg);
 }
 
 /**
@@ -3350,10 +3341,9 @@ xmlSchemaItemListCreate(void)
 static void
 xmlSchemaItemListClear(xmlSchemaItemListPtr list)
 {
-    if (list->items != NULL) {
-	xmlFree(list->items);
-	list->items = NULL;
-    }
+    free(list->items);
+    list->items = NULL;
+
     list->nbItems = 0;
     list->sizeItems = 0;
 }
@@ -3503,7 +3493,7 @@ xmlSchemaItemListRemove(xmlSchemaItemListPtr list, int idx)
 
     if (list->nbItems == 1) {
 	/* TODO: Really free the list? */
-	xmlFree(list->items);
+	free(list->items);
 	list->items = NULL;
 	list->nbItems = 0;
 	list->sizeItems = 0;
@@ -3528,9 +3518,8 @@ xmlSchemaItemListFree(xmlSchemaItemListPtr list)
 {
     if (list == NULL)
 	return;
-    if (list->items != NULL)
-	xmlFree(list->items);
-    xmlFree(list);
+    free(list->items);
+    free(list);
 }
 
 static void
@@ -3551,7 +3540,7 @@ xmlSchemaBucketFree(xmlSchemaBucketPtr bucket)
 	do {
 	    prev = cur;
 	    cur = cur->next;
-	    xmlFree(prev);
+	    free(prev);
 	} while (cur != NULL);
     }
     if ((! bucket->preserveDoc) && (bucket->doc != NULL)) {
@@ -3561,7 +3550,7 @@ xmlSchemaBucketFree(xmlSchemaBucketPtr bucket)
 	if (WXS_IMPBUCKET(bucket)->schema != NULL)
 	    xmlSchemaFree(WXS_IMPBUCKET(bucket)->schema);
     }
-    xmlFree(bucket);
+    free(bucket);
 }
 
 static xmlSchemaBucketPtr
@@ -3593,12 +3582,12 @@ xmlSchemaBucketCreate(xmlSchemaParserCtxtPtr pctxt,
     ret->type = type;
     ret->globals = xmlSchemaItemListCreate();
     if (ret->globals == NULL) {
-	xmlFree(ret);
+	free(ret);
 	return(NULL);
     }
     ret->locals = xmlSchemaItemListCreate();
     if (ret->locals == NULL) {
-	xmlFree(ret);
+	free(ret);
 	return(NULL);
     }
     /*
@@ -3722,14 +3711,14 @@ xmlSchemaFreeAnnot(xmlSchemaAnnotPtr annot)
     if (annot == NULL)
         return;
     if (annot->next == NULL) {
-	xmlFree(annot);
+	free(annot);
     } else {
 	xmlSchemaAnnotPtr prev;
 
 	do {
 	    prev = annot;
 	    annot = annot->next;
-	    xmlFree(prev);
+	    free(prev);
 	} while (annot != NULL);
     }
 }
@@ -3745,7 +3734,7 @@ xmlSchemaFreeNotation(xmlSchemaNotationPtr nota)
 {
     if (nota == NULL)
         return;
-    xmlFree(nota);
+    free(nota);
 }
 
 /**
@@ -3763,7 +3752,7 @@ xmlSchemaFreeAttribute(xmlSchemaAttributePtr attr)
 	xmlSchemaFreeAnnot(attr->annot);
     if (attr->defVal != NULL)
 	xmlSchemaFreeValue(attr->defVal);
-    xmlFree(attr);
+    free(attr);
 }
 
 /**
@@ -3781,7 +3770,7 @@ xmlSchemaFreeAttributeUse(xmlSchemaAttributeUsePtr use)
 	xmlSchemaFreeAnnot(use->annot);
     if (use->defVal != NULL)
 	xmlSchemaFreeValue(use->defVal);
-    xmlFree(use);
+    free(use);
 }
 
 /**
@@ -3795,7 +3784,7 @@ xmlSchemaFreeAttributeUseProhib(xmlSchemaAttributeUseProhibPtr prohib)
 {
     if (prohib == NULL)
         return;
-    xmlFree(prohib);
+    free(prohib);
 }
 
 /**
@@ -3811,7 +3800,7 @@ xmlSchemaFreeWildcardNsSet(xmlSchemaWildcardNsPtr set)
 
     while (set != NULL) {
 	next = set->next;
-	xmlFree(set);
+	free(set);
 	set = next;
     }
 }
@@ -3831,9 +3820,8 @@ xmlSchemaFreeWildcard(xmlSchemaWildcardPtr wildcard)
         xmlSchemaFreeAnnot(wildcard->annot);
     if (wildcard->nsSet != NULL)
 	xmlSchemaFreeWildcardNsSet(wildcard->nsSet);
-    if (wildcard->negNsSet != NULL)
-	xmlFree(wildcard->negNsSet);
-    xmlFree(wildcard);
+    free(wildcard->negNsSet);
+    free(wildcard);
 }
 
 /**
@@ -3851,7 +3839,7 @@ xmlSchemaFreeAttributeGroup(xmlSchemaAttributeGroupPtr attrGr)
         xmlSchemaFreeAnnot(attrGr->annot);
     if (attrGr->attrUses != NULL)
 	xmlSchemaItemListFree(WXS_LIST_CAST attrGr->attrUses);
-    xmlFree(attrGr);
+    free(attrGr);
 }
 
 /**
@@ -3863,7 +3851,7 @@ xmlSchemaFreeAttributeGroup(xmlSchemaAttributeGroupPtr attrGr)
 static void
 xmlSchemaFreeQNameRef(xmlSchemaQNameRefPtr item)
 {
-    xmlFree(item);
+    free(item);
 }
 
 /**
@@ -3879,7 +3867,7 @@ xmlSchemaFreeTypeLinkList(xmlSchemaTypeLinkPtr link)
 
     while (link != NULL) {
 	next = link->next;
-	xmlFree(link);
+	free(link);
 	link = next;
     }
 }
@@ -3890,11 +3878,10 @@ xmlSchemaFreeIDCStateObjList(xmlSchemaIDCStateObjPtr sto)
     xmlSchemaIDCStateObjPtr next;
     while (sto != NULL) {
 	next = sto->next;
-	if (sto->history != NULL)
-	    xmlFree(sto->history);
+	free(sto->history);
 	if (sto->xpathCtxt != NULL)
 	    xmlFreeStreamCtxt((xmlStreamCtxtPtr) sto->xpathCtxt);
-	xmlFree(sto);
+	free(sto);
 	sto = next;
     }
 }
@@ -3918,7 +3905,7 @@ xmlSchemaFreeIDC(xmlSchemaIDCPtr idcDef)
     if (idcDef->selector != NULL) {
 	if (idcDef->selector->xpathComp != NULL)
 	    xmlFreePattern((xmlPatternPtr) idcDef->selector->xpathComp);
-	xmlFree(idcDef->selector);
+	free(idcDef->selector);
     }
     /* Fields */
     if (idcDef->fields != NULL) {
@@ -3928,10 +3915,10 @@ xmlSchemaFreeIDC(xmlSchemaIDCPtr idcDef)
 	    cur = cur->next;
 	    if (prev->xpathComp != NULL)
 		xmlFreePattern((xmlPatternPtr) prev->xpathComp);
-	    xmlFree(prev);
+	    free(prev);
 	} while (cur != NULL);
     }
-    xmlFree(idcDef);
+    free(idcDef);
 }
 
 /**
@@ -3951,7 +3938,7 @@ xmlSchemaFreeElement(xmlSchemaElementPtr elem)
         xmlRegFreeRegexp(elem->contModel);
     if (elem->defVal != NULL)
 	xmlSchemaFreeValue(elem->defVal);
-    xmlFree(elem);
+    free(elem);
 }
 
 /**
@@ -3971,7 +3958,7 @@ xmlSchemaFreeFacet(xmlSchemaFacetPtr facet)
         xmlRegFreeRegexp(facet->regexp);
     if (facet->annot != NULL)
         xmlSchemaFreeAnnot(facet->annot);
-    xmlFree(facet);
+    free(facet);
 }
 
 /**
@@ -4007,13 +3994,13 @@ xmlSchemaFreeType(xmlSchemaTypePtr type)
 	link = type->facetSet;
 	do {
 	    next = link->next;
-	    xmlFree(link);
+	    free(link);
 	    link = next;
 	} while (link != NULL);
     }
     if (type->contModel != NULL)
         xmlRegFreeRegexp(type->contModel);
-    xmlFree(type);
+    free(type);
 }
 
 /**
@@ -4027,7 +4014,7 @@ xmlSchemaFreeModelGroupDef(xmlSchemaModelGroupDefPtr item)
 {
     if (item->annot != NULL)
 	xmlSchemaFreeAnnot(item->annot);
-    xmlFree(item);
+    free(item);
 }
 
 /**
@@ -4041,7 +4028,7 @@ xmlSchemaFreeModelGroup(xmlSchemaModelGroupPtr item)
 {
     if (item->annot != NULL)
 	xmlSchemaFreeAnnot(item->annot);
-    xmlFree(item);
+    free(item);
 }
 
 static void
@@ -4079,7 +4066,7 @@ xmlSchemaComponentListFree(xmlSchemaItemListPtr list)
 		case XML_SCHEMA_TYPE_PARTICLE:
 		    if (item->annot != NULL)
 			xmlSchemaFreeAnnot(item->annot);
-		    xmlFree(item);
+		    free(item);
 		    break;
 		case XML_SCHEMA_TYPE_SEQUENCE:
 		case XML_SCHEMA_TYPE_CHOICE:
@@ -4173,7 +4160,7 @@ xmlSchemaFree(xmlSchemaPtr schema)
     /* Never free the doc here, since this will be done by the buckets. */
 
     xmlDictFree(schema->dict);
-    xmlFree(schema);
+    free(schema);
 }
 
 /************************************************************************
@@ -4290,7 +4277,7 @@ xmlSchemaAnnotDump(FILE * output, xmlSchemaAnnotPtr annot)
     content = xmlNodeGetContent(annot->content);
     if (content != NULL) {
         fprintf(output, "  Annot: %s\n", content);
-        xmlFree(content);
+        free(content);
     } else
         fprintf(output, "  Annot: empty\n");
 }
@@ -4698,7 +4685,7 @@ xmlSchemaGetNodeContent(xmlSchemaParserCtxtPtr ctxt, xmlNodePtr node)
     if (val == NULL)
 	val = xmlStrdup((xmlChar *)"");
     ret = xmlDictLookup(ctxt->dict, val, -1);
-    xmlFree(val);
+    free(val);
     return(ret);
 }
 
@@ -4729,7 +4716,7 @@ xmlSchemaGetProp(xmlSchemaParserCtxtPtr ctxt, xmlNodePtr node,
     if (val == NULL)
         return(NULL);
     ret = xmlDictLookup(ctxt->dict, val, -1);
-    xmlFree(val);
+    free(val);
     return(ret);
 }
 
@@ -5322,7 +5309,7 @@ xmlSchemaAddAttributeGroupDefinition(xmlSchemaParserCtxtPtr pctxt,
 	pctxt->redef = xmlSchemaAddRedef(pctxt, pctxt->redefined,
 	    ret, name, nsName);
 	if (pctxt->redef == NULL) {
-	    xmlFree(ret);
+	    free(ret);
 	    return(NULL);
 	}
 	pctxt->redefCounter = 0;
@@ -5411,7 +5398,7 @@ xmlSchemaAddType(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
 	    ctxt->redef = xmlSchemaAddRedef(ctxt, ctxt->redefined,
 		ret, name, nsName);
 	    if (ctxt->redef == NULL) {
-		xmlFree(ret);
+		free(ret);
 		return(NULL);
 	    }
 	    ctxt->redefCounter = 0;
@@ -5598,7 +5585,7 @@ xmlSchemaAddModelGroupDefinition(xmlSchemaParserCtxtPtr ctxt,
 	ctxt->redef = xmlSchemaAddRedef(ctxt, ctxt->redefined,
 	    ret, name, nsName);
 	if (ctxt->redef == NULL) {
-	    xmlFree(ret);
+	    free(ret);
 	    return(NULL);
 	}
 	ctxt->redefCounter = 0;
@@ -5702,7 +5689,7 @@ xmlSchemaSubstGroupFree(xmlSchemaSubstGroupPtr group)
 	return;
     if (group->members != NULL)
 	xmlSchemaItemListFree(group->members);
-    xmlFree(group);
+    free(group);
 }
 
 static xmlSchemaSubstGroupPtr
@@ -5978,7 +5965,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
 	    */
 	    strip = xmlSchemaCollapseString(value);
 	    if (strip != NULL) {
-		xmlFree((xmlChar *) value);
+		free(value);
 		value = strip;
 	    }
 	    res = xmlAddID(NULL, attr->doc, value, attr);
@@ -6003,8 +5990,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
 	    "not a valid 'xs:NCName'",
 	    value, NULL);
     }
-    if (value != NULL)
-	xmlFree((xmlChar *)value);
+    free(value);
 
     return (ret);
 }
@@ -6181,8 +6167,7 @@ xmlSchemaPGetBoolNodeValue(xmlSchemaParserCtxtPtr ctxt,
 	    NULL, BAD_CAST value,
 	    NULL, NULL, NULL);
     }
-    if (value != NULL)
-	xmlFree(value);
+    free(value);
     return (res);
 }
 
@@ -6832,7 +6817,7 @@ xmlSchemaParseWildcardNs(xmlSchemaParserCtxtPtr ctxt,
 		if (tmp == NULL) {
 		    tmp = xmlSchemaNewWildcardNsConstraint(ctxt);
 		    if (tmp == NULL) {
-			xmlFree(nsItem);
+			free(nsItem);
 			return (-1);
 		    }
 		    tmp->value = dictnsItem;
@@ -6845,7 +6830,7 @@ xmlSchemaParseWildcardNs(xmlSchemaParserCtxtPtr ctxt,
 		}
 
 	    }
-	    xmlFree(nsItem);
+	    free(nsItem);
 	    cur = end;
 	} while (*cur != 0);
     }
@@ -8000,8 +7985,7 @@ xmlSchemaPValAttrBlockFinal(const xmlChar *value,
 		    ret = 1;
 	    } else
 		ret = 1;
-	    if (item != NULL)
-		xmlFree(item);
+	    free(item);
 	    cur = end;
 	} while ((ret == 0) && (*cur != 0));
     }
@@ -8072,7 +8056,7 @@ xmlSchemaCheckCSelectorXPath(xmlSchemaParserCtxtPtr ctxt,
 	    if (nsArray == NULL) {
 		xmlSchemaPErrMemory(ctxt, "allocating a namespace array",
 		    NULL);
-		xmlFree(nsList);
+		free(nsList);
 		return (-1);
 	    }
 	    for (i = 0; i < count; i++) {
@@ -8080,7 +8064,7 @@ xmlSchemaCheckCSelectorXPath(xmlSchemaParserCtxtPtr ctxt,
 		nsArray[2 * i + 1] = nsList[i]->prefix;
 	    }
 	    nsArray[count * 2] = NULL;
-	    xmlFree(nsList);
+	    free(nsList);
 	}
 	/*
 	* TODO: Differentiate between "selector" and "field".
@@ -8091,8 +8075,7 @@ xmlSchemaCheckCSelectorXPath(xmlSchemaParserCtxtPtr ctxt,
 	else
 	    selector->xpathComp = (void *) xmlPatterncompile(selector->xpath,
 		NULL, XML_PATTERN_XSSEL, nsArray);
-	if (nsArray != NULL)
-	    xmlFree((xmlChar **) nsArray);
+	free(nsArray);
 
 	if (selector->xpathComp == NULL) {
 	    xmlSchemaPCustomErr(ctxt,
@@ -9887,7 +9870,7 @@ xmlSchemaSchemaRelationCreate(void)
 static void
 xmlSchemaSchemaRelationFree(xmlSchemaSchemaRelationPtr rel)
 {
-    xmlFree(rel);
+    free(rel);
 }
 #endif
 
@@ -9899,7 +9882,7 @@ xmlSchemaRedefListFree(xmlSchemaRedefPtr redef)
     while (redef != NULL) {
 	prev = redef;
 	redef = redef->next;
-	xmlFree(prev);
+	free(prev);
     }
 }
 
@@ -9923,7 +9906,7 @@ xmlSchemaConstructionCtxtFree(xmlSchemaConstructionCtxtPtr con)
 	xmlSchemaRedefListFree(con->redefs);
     if (con->dict != NULL)
 	xmlDictFree(con->dict);
-    xmlFree(con);
+    free(con);
 }
 
 static xmlSchemaConstructionCtxtPtr
@@ -9944,7 +9927,7 @@ xmlSchemaConstructionCtxtCreate(xmlDictPtr dict)
     if (ret->buckets == NULL) {
 	xmlSchemaPErrMemory(NULL,
 	    "allocating list of schema buckets", NULL);
-	xmlFree(ret);
+	free(ret);
         return (NULL);
     }
     ret->pending = xmlSchemaItemListCreate();
@@ -9974,7 +9957,7 @@ xmlSchemaParserCtxtCreate(void)
     ret->type = XML_SCHEMA_CTXT_PARSER;
     ret->attrProhibs = xmlSchemaItemListCreate();
     if (ret->attrProhibs == NULL) {
-	xmlFree(ret);
+	free(ret);
 	return(NULL);
     }
     return(ret);
@@ -10275,11 +10258,11 @@ xmlSchemaBuildAbsoluteURI(xmlDictPtr dict, const xmlChar* location,
 		URI = xmlBuildURI(location, ctxtNode->doc->URL);
 	    } else {
 		URI = xmlBuildURI(location, base);
-		xmlFree(base);
+		free(base);
 	    }
 	    if (URI != NULL) {
 		ret = xmlDictLookup(dict, URI, -1);
-		xmlFree(URI);
+		free(URI);
 		return(ret);
 	    }
 	}
@@ -10926,7 +10909,7 @@ xmlSchemaParseIncludeOrRedefineAttrs(xmlSchemaParserCtxtPtr pctxt,
 	    uri = xmlBuildURI(*schemaLocation, node->doc->URL);
 	} else {
 	    uri = xmlBuildURI(*schemaLocation, base);
-	    xmlFree(base);
+	    free(base);
 	}
 	if (uri == NULL) {
 	    PERROR_INT("xmlSchemaParseIncludeOrRedefine",
@@ -10934,7 +10917,7 @@ xmlSchemaParseIncludeOrRedefineAttrs(xmlSchemaParserCtxtPtr pctxt,
 	    goto exit_failure;
 	}
 	(*schemaLocation) = (xmlChar *) xmlDictLookup(pctxt->dict, uri, -1);
-	xmlFree(uri);
+	free(uri);
     } else {
 	xmlSchemaPMissingAttrErr(pctxt,
 	    XML_SCHEMAP_S4S_ATTR_MISSING,
@@ -11728,7 +11711,7 @@ xmlSchemaParseRestriction(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
 		    xmlMalloc(sizeof(xmlSchemaFacetLink));
 		if (facetLink == NULL) {
 		    xmlSchemaPErrMemory(ctxt, "allocating a facet link", NULL);
-		    xmlFree(facetLink);
+		    free(facetLink);
 		    return (NULL);
 		}
 		facetLink->facet = facet;
@@ -12558,7 +12541,7 @@ xmlSchemaFreeParserCtxt(xmlSchemaParserCtxtPtr ctxt)
     if (ctxt->attrProhibs != NULL)
 	xmlSchemaItemListFree(ctxt->attrProhibs);
     xmlDictFree(ctxt->dict);
-    xmlFree(ctxt);
+    free(ctxt);
 }
 
 /************************************************************************
@@ -13341,7 +13324,7 @@ xmlSchemaResolveUnionMemberTypes(xmlSchemaParserCtxtPtr ctxt,
 		lastLink->next = link->next;
 	    newLink = link;
 	    link = link->next;
-	    xmlFree(newLink);
+	    free(newLink);
 	} else {
 	    link->type = memberType;
 	    lastLink = link;
@@ -13600,7 +13583,7 @@ xmlSchemaUnionWildcards(xmlSchemaParserCtxtPtr ctxt,
 		completeWild->nsSet = NULL;
 	    }
 	    if (completeWild->negNsSet != NULL) {
-		xmlFree(completeWild->negNsSet);
+		free(completeWild->negNsSet);
 		completeWild->negNsSet = NULL;
 	    }
 	}
@@ -13690,10 +13673,8 @@ xmlSchemaUnionWildcards(xmlSchemaParserCtxtPtr ctxt,
 		xmlSchemaFreeWildcardNsSet(completeWild->nsSet);
 		completeWild->nsSet = NULL;
 	    }
-	    if (completeWild->negNsSet != NULL) {
-		xmlFree(completeWild->negNsSet);
-		completeWild->negNsSet = NULL;
-	    }
+	    free(completeWild->negNsSet);
+	    completeWild->negNsSet = NULL;
 	} else if (nsFound && (!absentFound)) {
 	    /*
 	    * 5.2 If the set S includes the negated namespace name
@@ -13765,10 +13746,9 @@ xmlSchemaUnionWildcards(xmlSchemaParserCtxtPtr ctxt,
 		    xmlSchemaFreeWildcardNsSet(completeWild->nsSet);
 		    completeWild->nsSet = NULL;
 		}
-		if (completeWild->negNsSet != NULL) {
-		    xmlFree(completeWild->negNsSet);
-		    completeWild->negNsSet = NULL;
-		}
+		free(completeWild->negNsSet);
+		completeWild->negNsSet = NULL;
+
 		return (0);
 	    }
 	    cur = cur->next;
@@ -13884,7 +13864,7 @@ xmlSchemaIntersectWildcards(xmlSchemaParserCtxtPtr ctxt,
 		    completeWild->nsSet = cur->next;
 		else
 		    prev->next = cur->next;
-		xmlFree(cur);
+		free(cur);
 		break;
 	    }
 	    prev = cur;
@@ -13899,7 +13879,7 @@ xmlSchemaIntersectWildcards(xmlSchemaParserCtxtPtr ctxt,
 			completeWild->nsSet = cur->next;
 		    else
 			prev->next = cur->next;
-		    xmlFree(cur);
+		    free(cur);
 		    break;
 		}
 		prev = cur;
@@ -13934,7 +13914,7 @@ xmlSchemaIntersectWildcards(xmlSchemaParserCtxtPtr ctxt,
 		else
 		    prev->next = cur->next;
 		tmp = cur->next;
-		xmlFree(cur);
+		free(cur);
 		cur = tmp;
 		continue;
 	    }
@@ -17227,8 +17207,7 @@ xmlSchemaDeriveFacetErr(xmlSchemaParserCtxtPtr pctxt,
 	WXS_BASIC_CAST facet1, NULL,
 	(const char *) msg, NULL);
 
-    if (msg != NULL)
-	xmlFree(msg);
+    free(msg);
 }
 
 /*
@@ -21865,7 +21844,7 @@ xmlSchemaLookupNamespace(xmlSchemaValidCtxtPtr vctxt,
 	    const xmlChar *ret;
 
 	    ret = xmlDictLookup(vctxt->dict, nsName, -1);
-	    xmlFree(nsName);
+	    free(nsName);
 	    return (ret);
 	} else
 	    return (NULL);
@@ -21923,13 +21902,13 @@ xmlSchemaValidateNotation(xmlSchemaValidCtxtPtr vctxt,
 		if (ns != NULL)
 		    nsName = ns->href;
 	    } else {
-		xmlFree(prefix);
-		xmlFree(localName);
+		free(prefix);
+		free(localName);
 		return (1);
 	    }
 	    if (nsName == NULL) {
-		xmlFree(prefix);
-		xmlFree(localName);
+		free(prefix);
+		free(localName);
 		return (1);
 	    }
 	    if (xmlSchemaGetNotation(schema, localName, nsName) != NULL) {
@@ -21941,8 +21920,8 @@ xmlSchemaValidateNotation(xmlSchemaValidCtxtPtr vctxt,
 		}
 	    } else
 		ret = 1;
-	    xmlFree(prefix);
-	    xmlFree(localName);
+	    free(prefix);
+	    free(localName);
 	} else {
 	    if (xmlSchemaGetNotation(schema, value, NULL) != NULL) {
 		if (valNeeded && (val != NULL)) {
@@ -22253,7 +22232,7 @@ xmlSchemaIDCFreeKey(xmlSchemaPSVIIDCKeyPtr key)
 {
     if (key->val != NULL)
 	xmlSchemaFreeValue(key->val);
-    xmlFree(key);
+    free(key);
 }
 
 /**
@@ -22265,11 +22244,10 @@ xmlSchemaIDCFreeKey(xmlSchemaPSVIIDCKeyPtr key)
 static void
 xmlSchemaIDCFreeBinding(xmlSchemaPSVIIDCBindingPtr bind)
 {
-    if (bind->nodeTable != NULL)
-	xmlFree(bind->nodeTable);
+    free(bind->nodeTable);
     if (bind->dupls != NULL)
 	xmlSchemaItemListFree(bind->dupls);
-    xmlFree(bind);
+    free(bind);
 }
 
 /**
@@ -22306,9 +22284,8 @@ xmlSchemaIDCFreeMatcherList(xmlSchemaIDCMatcherPtr matcher)
 	if (matcher->keySeqs != NULL) {
 	    int i;
 	    for (i = 0; i < matcher->sizeKeySeqs; i++)
-		if (matcher->keySeqs[i] != NULL)
-		    xmlFree(matcher->keySeqs[i]);
-	    xmlFree(matcher->keySeqs);
+		free(matcher->keySeqs[i]);
+	    free(matcher->keySeqs);
 	}
 	if (matcher->targets != NULL) {
 	    if (matcher->idcType == XML_SCHEMA_TYPE_IDC_KEYREF) {
@@ -22322,13 +22299,13 @@ xmlSchemaIDCFreeMatcherList(xmlSchemaIDCMatcherPtr matcher)
 		for (i = 0; i < matcher->targets->nbItems; i++) {
 		    idcNode =
 			(xmlSchemaPSVIIDCNodePtr) matcher->targets->items[i];
-		    xmlFree(idcNode->keys);
-		    xmlFree(idcNode);
+		    free(idcNode->keys);
+		    free(idcNode);
 		}
 	    }
 	    xmlSchemaItemListFree(matcher->targets);
 	}
-	xmlFree(matcher);
+	free(matcher);
 	matcher = next;
     }
 }
@@ -22353,11 +22330,10 @@ xmlSchemaIDCReleaseMatcherList(xmlSchemaValidCtxtPtr vctxt,
 	    /*
 	    * Don't free the array, but only the content.
 	    */
-	    for (i = 0; i < matcher->sizeKeySeqs; i++)
-		if (matcher->keySeqs[i] != NULL) {
-		    xmlFree(matcher->keySeqs[i]);
-		    matcher->keySeqs[i] = NULL;
-		}
+	    for (i = 0; i < matcher->sizeKeySeqs; i++) {
+		free(matcher->keySeqs[i]);
+		matcher->keySeqs[i] = NULL;
+	    }
 	}
 	if (matcher->targets) {
 	    if (matcher->idcType == XML_SCHEMA_TYPE_IDC_KEYREF) {
@@ -22371,8 +22347,8 @@ xmlSchemaIDCReleaseMatcherList(xmlSchemaValidCtxtPtr vctxt,
 		for (i = 0; i < matcher->targets->nbItems; i++) {
 		    idcNode =
 			(xmlSchemaPSVIIDCNodePtr) matcher->targets->items[i];
-		    xmlFree(idcNode->keys);
-		    xmlFree(idcNode);
+		    free(idcNode->keys);
+		    free(idcNode);
 		}
 	    }
 	    xmlSchemaItemListFree(matcher->targets);
@@ -22637,10 +22613,8 @@ xmlSchemaFormatIDCKeySequence(xmlSchemaValidCtxtPtr vctxt,
 	    *buf = xmlStrcat(*buf, BAD_CAST "', ");
 	else
 	    *buf = xmlStrcat(*buf, BAD_CAST "'");
-	if (value != NULL) {
-	    xmlFree(value);
-	    value = NULL;
-	}
+	free(value);
+	value = NULL;
     }
     *buf = xmlStrcat(*buf, BAD_CAST "]");
 
@@ -22910,7 +22884,7 @@ create_key:
 		    if (key == NULL) {
 			xmlSchemaVErrMemory(NULL,
 			    "allocating a IDC key", NULL);
-			xmlFree(keySeq);
+			free(keySeq);
 			matcher->keySeqs[pos] = NULL;
 			return(-1);
 		    }
@@ -23064,7 +23038,7 @@ create_key:
 	    if (ntItem == NULL) {
 		xmlSchemaVErrMemory(NULL,
 		    "allocating an IDC node-table item", NULL);
-		xmlFree(*keySeq);
+		free(*keySeq);
 		*keySeq = NULL;
 		return(-1);
 	    }
@@ -23075,8 +23049,8 @@ create_key:
 	    */
 	    if (idc->type != XML_SCHEMA_TYPE_IDC_KEYREF) {
 		if (xmlSchemaIDCStoreNodeTableItem(vctxt, ntItem) == -1) {
-		    xmlFree(ntItem);
-		    xmlFree(*keySeq);
+		    free(ntItem);
+		    free(*keySeq);
 		    *keySeq = NULL;
 		    return (-1);
 		}
@@ -23089,8 +23063,8 @@ create_key:
 		ntItem->nodeQNameID = xmlSchemaVAddNodeQName(vctxt,
 		    vctxt->inode->localName, vctxt->inode->nsName);
 		if (ntItem->nodeQNameID == -1) {
-		    xmlFree(ntItem);
-		    xmlFree(*keySeq);
+		    free(ntItem);
+		    free(*keySeq);
 		    *keySeq = NULL;
 		    return (-1);
 		}
@@ -23112,8 +23086,8 @@ create_key:
 		    * Free the item, since keyref items won't be
 		    * put on a global list.
 		    */
-		    xmlFree(ntItem->keys);
-		    xmlFree(ntItem);
+		    free(ntItem->keys);
+		    free(ntItem);
 		}
 		return (-1);
 	    }
@@ -23139,8 +23113,8 @@ selector_leave:
 	    /*
 	    * Free the key-sequence if not added to the IDC table.
 	    */
-	    if ((keySeq != NULL) && (*keySeq != NULL)) {
-		xmlFree(*keySeq);
+	    if (keySeq != NULL) {
+		free(*keySeq);
 		*keySeq = NULL;
 	    }
 	} /* if selector */
@@ -24085,7 +24059,7 @@ xmlSchemaClearElemInfo(xmlSchemaValidCtxtPtr vctxt,
 	ielem->regexCtxt = NULL;
     }
     if (ielem->nsBindings != NULL) {
-	xmlFree((xmlChar **)ielem->nsBindings);
+	free(ielem->nsBindings);
 	ielem->nsBindings = NULL;
 	ielem->nbNsBindings = 0;
 	ielem->sizeNsBindings = 0;
@@ -24452,7 +24426,7 @@ xmlSchemaValidateQName(xmlSchemaValidCtxtPtr vctxt,
     nsName = xmlSchemaLookupNamespace(vctxt, prefix);
 
     if (prefix != NULL) {
-	xmlFree(prefix);
+	free(prefix);
 	/*
 	* A namespace must be found if the prefix is
 	* NOT NULL.
@@ -24464,8 +24438,7 @@ xmlSchemaValidateQName(xmlSchemaValidCtxtPtr vctxt,
 		"The QName value '%s' has no "
 		"corresponding namespace declaration in "
 		"scope", value, NULL);
-	    if (local != NULL)
-		xmlFree(local);
+	    free(local);
 	    return (ret);
 	}
     }
@@ -24477,7 +24450,7 @@ xmlSchemaValidateQName(xmlSchemaValidCtxtPtr vctxt,
 	    *val = xmlSchemaNewQNameValue(NULL,
 		BAD_CAST local);
     } else
-	xmlFree(local);
+	free(local);
     return (0);
 }
 
@@ -24808,8 +24781,7 @@ xmlSchemaVCheckCVCSimpleType(xmlSchemaAbstractCtxtPtr actxt,
 	    xmlSchemaSimpleTypeErr(actxt, ret, node, value, type, 1);
     }
 
-    if (normValue != NULL)
-	xmlFree(normValue);
+    free(normValue);
     if (ret == 0) {
 	if (retVal != NULL)
 	    *retVal = val;
@@ -24819,8 +24791,7 @@ xmlSchemaVCheckCVCSimpleType(xmlSchemaAbstractCtxtPtr actxt,
 	xmlSchemaFreeValue(val);
     return (ret);
 internal_error:
-    if (normValue != NULL)
-	xmlFree(normValue);
+    free(normValue);
     if (val != NULL)
 	xmlSchemaFreeValue(val);
     return (-1);
@@ -24861,13 +24832,13 @@ xmlSchemaVExpandQName(xmlSchemaValidCtxtPtr vctxt,
 	    *localName = xmlDictLookup(vctxt->dict, value, -1);
 	else {
 	    *localName = xmlDictLookup(vctxt->dict, local, -1);
-	    xmlFree(local);
+	    free(local);
 	}
 
 	*nsName = xmlSchemaLookupNamespace(vctxt, prefix);
 
 	if (prefix != NULL) {
-	    xmlFree(prefix);
+	    free(prefix);
 	    /*
 	    * A namespace must be found if the prefix is NOT NULL.
 	    */
@@ -25185,14 +25156,11 @@ xmlSchemaClearAttrInfos(xmlSchemaValidCtxtPtr vctxt)
     for (i = 0; i < vctxt->nbAttrInfos; i++) {
 	attr = vctxt->attrInfos[i];
 	if (attr->flags & XML_SCHEMA_NODE_INFO_FLAG_OWNED_NAMES) {
-	    if (attr->localName != NULL)
-		xmlFree((xmlChar *) attr->localName);
-	    if (attr->nsName != NULL)
-		xmlFree((xmlChar *) attr->nsName);
+	    free(attr->localName);
+	    free(attr->nsName);
 	}
 	if (attr->flags & XML_SCHEMA_NODE_INFO_FLAG_OWNED_VALUES) {
-	    if (attr->value != NULL)
-		xmlFree((xmlChar *) attr->value);
+	    free(attr->value);
 	}
 	if (attr->val != NULL) {
 	    xmlSchemaFreeValue(attr->val);
@@ -25568,8 +25536,7 @@ xmlSchemaVAttributesComplex(xmlSchemaValidCtxtPtr vctxt)
 			iattr->localName, value) == NULL) {
 			VERROR_INT("xmlSchemaVAttributesComplex",
 			    "calling xmlNewProp()");
-			if (normValue != NULL)
-			    xmlFree(normValue);
+			free(normValue);
 			goto internal_error;
 		    }
 		} else {
@@ -25594,8 +25561,7 @@ xmlSchemaVAttributesComplex(xmlSchemaValidCtxtPtr vctxt)
 				    "xmlSchemaVAttributesComplex",
 				    "could not compute a ns prefix for a "
 				    "default/fixed attribute");
-				if (normValue != NULL)
-				    xmlFree(normValue);
+				free(normValue);
 				goto internal_error;
 			    }
 			} while (ns != NULL);
@@ -25610,8 +25576,7 @@ xmlSchemaVAttributesComplex(xmlSchemaValidCtxtPtr vctxt)
 		    */
 		    xmlNewNsProp(defAttrOwnerElem, ns, iattr->localName, value);
 		}
-		if (normValue != NULL)
-		    xmlFree(normValue);
+		free(normValue);
 	    }
 	    /*
 	    * Go directly to IDC evaluation.
@@ -26255,7 +26220,7 @@ default_psvi:
 		inode->decl->value);
 	    if (normValue != NULL) {
 		textChild = xmlNewText(BAD_CAST normValue);
-		xmlFree(normValue);
+		free(normValue);
 	    } else
 		textChild = xmlNewText(inode->decl->value);
 	    if (textChild == NULL) {
@@ -27206,7 +27171,7 @@ leave_elem:
 	    ret = xmlSchemaVPushText(vctxt, nodeType, BAD_CAST value,
 		-1, XML_SCHEMA_PUSH_TEXT_CREATED, &consumed);
 	    if (! consumed)
-		xmlFree(value);
+		free(value);
 	    if (ret == -1) {
 		VERROR_INT("xmlSchemaVReaderWalk",
 		    "calling xmlSchemaVPushText()");
@@ -27556,8 +27521,7 @@ void
 xmlSchemaValidateSetFilename(xmlSchemaValidCtxtPtr vctxt, const char *filename) {
     if (vctxt == NULL)
         return;
-    if (vctxt->filename != NULL)
-        xmlFree(vctxt->filename);
+    free(vctxt->filename);
     if (filename != NULL)
         vctxt->filename = (char *) xmlStrdup((const xmlChar *) filename);
     else
@@ -27601,7 +27565,7 @@ xmlSchemaClearValidCtxt(xmlSchemaValidCtxtPtr vctxt)
 	xmlSchemaIDCAugPtr cur = vctxt->aidcs, next;
 	do {
 	    next = cur->next;
-	    xmlFree(cur);
+	    free(cur);
 	    cur = next;
 	} while (cur != NULL);
 	vctxt->aidcs = NULL;
@@ -27624,10 +27588,10 @@ xmlSchemaClearValidCtxt(xmlSchemaValidCtxtPtr vctxt)
 
 	for (i = 0; i < vctxt->nbIdcNodes; i++) {
 	    item = vctxt->idcNodes[i];
-	    xmlFree(item->keys);
-	    xmlFree(item);
+	    free(item->keys);
+	    free(item);
 	}
-	xmlFree(vctxt->idcNodes);
+	free(vctxt->idcNodes);
 	vctxt->idcNodes = NULL;
 	vctxt->nbIdcNodes = 0;
 	vctxt->sizeIdcNodes = 0;
@@ -27668,10 +27632,8 @@ xmlSchemaClearValidCtxt(xmlSchemaValidCtxtPtr vctxt)
     */
     vctxt->dict = xmlDictCreate();
 
-    if (vctxt->filename != NULL) {
-        xmlFree(vctxt->filename);
-	vctxt->filename = NULL;
-    }
+    free(vctxt->filename);
+    vctxt->filename = NULL;
 }
 
 /**
@@ -27695,16 +27657,16 @@ xmlSchemaFreeValidCtxt(xmlSchemaValidCtxtPtr ctxt)
 
 	for (i = 0; i < ctxt->nbIdcNodes; i++) {
 	    item = ctxt->idcNodes[i];
-	    xmlFree(item->keys);
-	    xmlFree(item);
+	    free(item->keys);
+	    free(item);
 	}
-	xmlFree(ctxt->idcNodes);
+	free(ctxt->idcNodes);
     }
     if (ctxt->idcKeys != NULL) {
 	int i;
 	for (i = 0; i < ctxt->nbIdcKeys; i++)
 	    xmlSchemaIDCFreeKey(ctxt->idcKeys[i]);
-	xmlFree(ctxt->idcKeys);
+	free(ctxt->idcKeys);
     }
 
     if (ctxt->xpathStates != NULL) {
@@ -27723,7 +27685,7 @@ xmlSchemaFreeValidCtxt(xmlSchemaValidCtxtPtr ctxt)
 	xmlSchemaIDCAugPtr cur = ctxt->aidcs, next;
 	do {
 	    next = cur->next;
-	    xmlFree(cur);
+	    free(cur);
 	    cur = next;
 	} while (cur != NULL);
     }
@@ -27736,9 +27698,9 @@ xmlSchemaFreeValidCtxt(xmlSchemaValidCtxtPtr ctxt)
 	    xmlSchemaClearAttrInfos(ctxt);
 	for (i = 0; i < ctxt->sizeAttrInfos; i++) {
 	    attr = ctxt->attrInfos[i];
-	    xmlFree(attr);
+	    free(attr);
 	}
-	xmlFree(ctxt->attrInfos);
+	free(ctxt->attrInfos);
     }
     if (ctxt->elemInfos != NULL) {
 	int i;
@@ -27749,17 +27711,16 @@ xmlSchemaFreeValidCtxt(xmlSchemaValidCtxtPtr ctxt)
 	    if (ei == NULL)
 		break;
 	    xmlSchemaClearElemInfo(ctxt, ei);
-	    xmlFree(ei);
+	    free(ei);
 	}
-	xmlFree(ctxt->elemInfos);
+	free(ctxt->elemInfos);
     }
     if (ctxt->nodeQNames != NULL)
 	xmlSchemaItemListFree(ctxt->nodeQNames);
     if (ctxt->dict != NULL)
 	xmlDictFree(ctxt->dict);
-    if (ctxt->filename != NULL)
-	xmlFree(ctxt->filename);
-    xmlFree(ctxt);
+    free(ctxt->filename);
+    free(ctxt);
 }
 
 /**
@@ -28750,8 +28711,7 @@ xmlSchemaSAXUnplug(xmlSchemaSAXPlugPtr plug)
 	*user_data = plug->user_data;
     }
 
-    /* free and return */
-    xmlFree(plug);
+    free(plug);
     return(0);
 }
 

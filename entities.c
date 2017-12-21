@@ -112,36 +112,27 @@ xmlFreeEntity(xmlEntityPtr entity)
         (entity == (xmlEntityPtr) entity->children->parent))
         xmlFreeNodeList(entity->children);
     if (dict != NULL) {
-        if ((entity->name != NULL) && (!xmlDictOwns(dict, entity->name)))
-            xmlFree((char *) entity->name);
-        if ((entity->ExternalID != NULL) &&
-	    (!xmlDictOwns(dict, entity->ExternalID)))
-            xmlFree((char *) entity->ExternalID);
-        if ((entity->SystemID != NULL) &&
-	    (!xmlDictOwns(dict, entity->SystemID)))
-            xmlFree((char *) entity->SystemID);
-        if ((entity->URI != NULL) && (!xmlDictOwns(dict, entity->URI)))
-            xmlFree((char *) entity->URI);
-        if ((entity->content != NULL)
-            && (!xmlDictOwns(dict, entity->content)))
-            xmlFree((char *) entity->content);
-        if ((entity->orig != NULL) && (!xmlDictOwns(dict, entity->orig)))
-            xmlFree((char *) entity->orig);
+        if (!xmlDictOwns(dict, entity->name))
+            free(entity->name);
+        if (!xmlDictOwns(dict, entity->ExternalID))
+            free(entity->ExternalID);
+        if (!xmlDictOwns(dict, entity->SystemID))
+            free(entity->SystemID);
+        if (!xmlDictOwns(dict, entity->URI))
+            free(entity->URI);
+        if (!xmlDictOwns(dict, entity->content))
+            free(entity->content);
+        if (!xmlDictOwns(dict, entity->orig)
+            free(entity->orig);
     } else {
-        if (entity->name != NULL)
-            xmlFree((char *) entity->name);
-        if (entity->ExternalID != NULL)
-            xmlFree((char *) entity->ExternalID);
-        if (entity->SystemID != NULL)
-            xmlFree((char *) entity->SystemID);
-        if (entity->URI != NULL)
-            xmlFree((char *) entity->URI);
-        if (entity->content != NULL)
-            xmlFree((char *) entity->content);
-        if (entity->orig != NULL)
-            xmlFree((char *) entity->orig);
+        free(entity->name);
+        free(entity->ExternalID);
+        free(entity->SystemID);
+        free(entity->URI);
+        free(entity->content);
+        free(entity->orig);
     }
-    xmlFree(entity);
+    free(entity);
 }
 
 /*
@@ -739,7 +730,7 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
 
 mem_error:
     xmlEntitiesErrMemory("xmlEncodeEntities: realloc failed");
-    xmlFree(buffer);
+    free(buffer);
     return(NULL);
 }
 
@@ -859,7 +850,7 @@ xmlEncodeSpecialChars(const xmlDoc *doc ATTRIBUTE_UNUSED, const xmlChar *input) 
 
 mem_error:
     xmlEntitiesErrMemory("xmlEncodeSpecialChars: realloc failed");
-    xmlFree(buffer);
+    free(buffer);
     return(NULL);
 }
 

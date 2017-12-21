@@ -590,7 +590,7 @@ xmlXPtrLocationSetCreate(xmlXPathObjectPtr val) {
 					     sizeof(xmlXPathObjectPtr));
 	if (ret->locTab == NULL) {
 	    xmlXPtrErrMemory("allocating locationset");
-	    xmlFree(ret);
+	    free(ret);
 	    return(NULL);
 	}
 	memset(ret->locTab, 0 ,
@@ -745,9 +745,9 @@ xmlXPtrFreeLocationSet(xmlLocationSetPtr obj) {
 	for (i = 0;i < obj->locNr; i++) {
             xmlXPathFreeObject(obj->locTab[i]);
 	}
-	xmlFree(obj->locTab);
+	free(obj->locTab);
     }
-    xmlFree(obj);
+    free(obj);
 }
 
 /**
@@ -958,7 +958,7 @@ xmlXPtrEvalXPtrPart(xmlXPathParserContextPtr ctxt, xmlChar *name) {
 	XP_ERROR(XPATH_EXPR_ERROR);
 
     if (CUR != '(') {
-        xmlFree(name);
+        free(name);
 	XP_ERROR(XPATH_EXPR_ERROR);
     }
     NEXT;
@@ -969,7 +969,7 @@ xmlXPtrEvalXPtrPart(xmlXPathParserContextPtr ctxt, xmlChar *name) {
     buffer = (xmlChar *) xmlMallocAtomic(len * sizeof (xmlChar));
     if (buffer == NULL) {
         xmlXPtrErrMemory("allocating buffer");
-        xmlFree(name);
+        free(name);
 	return;
     }
 
@@ -994,8 +994,8 @@ xmlXPtrEvalXPtrPart(xmlXPathParserContextPtr ctxt, xmlChar *name) {
     *cur = 0;
 
     if ((level != 0) && (CUR == 0)) {
-        xmlFree(name);
-	xmlFree(buffer);
+        free(name);
+	free(buffer);
 	XP_ERROR(XPTR_SYNTAX_ERROR);
     }
 
@@ -1026,8 +1026,8 @@ xmlXPtrEvalXPtrPart(xmlXPathParserContextPtr ctxt, xmlChar *name) {
 	    name2 = xmlXPathParseName(ctxt);
 	    if (name2 == NULL) {
 		CUR_PTR = left;
-		xmlFree(buffer);
-                xmlFree(name);
+		free(buffer);
+                free(name);
 		XP_ERROR(XPATH_EXPR_ERROR);
 	    }
 	    xmlXPtrEvalChildSeq(ctxt, name2);
@@ -1043,15 +1043,15 @@ xmlXPtrEvalXPtrPart(xmlXPathParserContextPtr ctxt, xmlChar *name) {
 	CUR_PTR = buffer;
         prefix = xmlXPathParseNCName(ctxt);
 	if (prefix == NULL) {
-	    xmlFree(buffer);
-	    xmlFree(name);
+	    free(buffer);
+	    free(name);
 	    XP_ERROR(XPTR_SYNTAX_ERROR);
 	}
 	SKIP_BLANKS;
 	if (CUR != '=') {
-	    xmlFree(prefix);
-	    xmlFree(buffer);
-	    xmlFree(name);
+	    free(prefix);
+	    free(buffer);
+	    free(name);
 	    XP_ERROR(XPTR_SYNTAX_ERROR);
 	}
 	NEXT;
@@ -1060,31 +1060,31 @@ xmlXPtrEvalXPtrPart(xmlXPathParserContextPtr ctxt, xmlChar *name) {
 
 	value = xmlParseURI((const char *)ctxt->cur);
 	if (value == NULL) {
-	    xmlFree(prefix);
-	    xmlFree(buffer);
-	    xmlFree(name);
+	    free(prefix);
+	    free(buffer);
+	    free(name);
 	    XP_ERROR(XPTR_SYNTAX_ERROR);
 	}
 	URI = xmlSaveUri(value);
 	xmlFreeURI(value);
 	if (URI == NULL) {
-	    xmlFree(prefix);
-	    xmlFree(buffer);
-	    xmlFree(name);
+	    free(prefix);
+	    free(buffer);
+	    free(name);
 	    XP_ERROR(XPATH_MEMORY_ERROR);
 	}
 
 	xmlXPathRegisterNs(ctxt->context, prefix, URI);
 	CUR_PTR = left;
-	xmlFree(URI);
-	xmlFree(prefix);
+	free(URI);
+	free(prefix);
 #endif /* XPTR_XMLNS_SCHEME */
     } else {
         xmlXPtrErr(ctxt, XML_XPTR_UNKNOWN_SCHEME,
 		   "unsupported scheme '%s'\n", name);
     }
-    xmlFree(buffer);
-    xmlFree(name);
+    free(buffer);
+    free(name);
 }
 
 /**
@@ -1197,7 +1197,7 @@ xmlXPtrEvalChildSeq(xmlXPathParserContextPtr ctxt, xmlChar *name) {
 
     if (name != NULL) {
 	valuePush(ctxt, xmlXPathNewString(name));
-	xmlFree(name);
+	free(name);
 	xmlXPathIdFunction(ctxt, 1);
 	CHECK_ERROR;
     }

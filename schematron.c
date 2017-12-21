@@ -364,13 +364,11 @@ xmlSchematronFreeTests(xmlSchematronTestPtr tests) {
 
     while (tests != NULL) {
         next = tests->next;
-	if (tests->test != NULL)
-	    xmlFree(tests->test);
+	free(tests->test);
 	if (tests->comp != NULL)
 	    xmlXPathFreeCompExpr(tests->comp);
-	if (tests->report != NULL)
-	    xmlFree(tests->report);
-	xmlFree(tests);
+	free(tests->report);
+	free(tests);
 	tests = next;
     }
 }
@@ -458,13 +456,11 @@ xmlSchematronFreeRules(xmlSchematronRulePtr rules) {
         next = rules->next;
 	if (rules->tests)
 	    xmlSchematronFreeTests(rules->tests);
-	if (rules->context != NULL)
-	    xmlFree(rules->context);
+	free(rules->context);
 	if (rules->pattern)
 	    xmlFreePattern(rules->pattern);
-	if (rules->report != NULL)
-	    xmlFree(rules->report);
-	xmlFree(rules);
+	free(rules->report);
+	free(rules);
 	rules = next;
     }
 }
@@ -521,9 +517,8 @@ xmlSchematronFreePatterns(xmlSchematronPatternPtr patterns) {
 
     while (patterns != NULL) {
         next = patterns->next;
-	if (patterns->name != NULL)
-	    xmlFree(patterns->name);
-	xmlFree(patterns);
+	free(patterns->name);
+	free(patterns);
 	patterns = next;
     }
 }
@@ -568,13 +563,12 @@ xmlSchematronFree(xmlSchematronPtr schema)
     if ((schema->doc != NULL) && (!(schema->preserve)))
         xmlFreeDoc(schema->doc);
 
-    if (schema->namespaces != NULL)
-        xmlFree((char **) schema->namespaces);
+    free(schema->namespaces);
 
     xmlSchematronFreeRules(schema->rules);
     xmlSchematronFreePatterns(schema->patterns);
     xmlDictFree(schema->dict);
-    xmlFree(schema);
+    free(schema);
 }
 
 /**
@@ -715,10 +709,9 @@ xmlSchematronFreeParserCtxt(xmlSchematronParserCtxtPtr ctxt)
     if (ctxt->xctxt != NULL) {
         xmlXPathFreeContext(ctxt->xctxt);
     }
-    if (ctxt->namespaces != NULL)
-        xmlFree((char **) ctxt->namespaces);
+    free(ctxt->namespaces);
     xmlDictFree(ctxt->dict);
-    xmlFree(ctxt);
+    free(ctxt);
 }
 
 #if 0
@@ -872,13 +865,13 @@ xmlSchematronParseRule(xmlSchematronParserCtxtPtr ctxt,
 	    XML_SCHEMAP_NOROOT,
 	    "rule has an empty context attribute",
 	    NULL, NULL);
-	xmlFree(context);
+	free(context);
 	return;
     } else {
 	ruleptr = xmlSchematronAddRule(ctxt, ctxt->schema, pattern,
 	                               rule, context, NULL);
 	if (ruleptr == NULL) {
-	    xmlFree(context);
+	    free(context);
 	    return;
 	}
     }
@@ -899,7 +892,7 @@ xmlSchematronParseRule(xmlSchematronParserCtxtPtr ctxt,
 		    XML_SCHEMAP_NOROOT,
 		    "assert has an empty test attribute",
 		    NULL, NULL);
-		xmlFree(test);
+		free(test);
 	    } else {
 		/* TODO will need dynamic processing instead */
 		report = xmlNodeGetContent(cur);
@@ -907,7 +900,7 @@ xmlSchematronParseRule(xmlSchematronParserCtxtPtr ctxt,
 		testptr = xmlSchematronAddTest(ctxt, XML_SCHEMATRON_ASSERT,
 		                               ruleptr, cur, test, report);
 		if (testptr == NULL)
-		    xmlFree(test);
+		    free(test);
 	    }
 	} else if (IS_SCHEMATRON(cur, "report")) {
 	    nbChecks++;
@@ -922,7 +915,7 @@ xmlSchematronParseRule(xmlSchematronParserCtxtPtr ctxt,
 		    XML_SCHEMAP_NOROOT,
 		    "assert has an empty test attribute",
 		    NULL, NULL);
-		xmlFree(test);
+		free(test);
 	    } else {
 		/* TODO will need dynamic processing instead */
 		report = xmlNodeGetContent(cur);
@@ -930,7 +923,7 @@ xmlSchematronParseRule(xmlSchematronParserCtxtPtr ctxt,
 		testptr = xmlSchematronAddTest(ctxt, XML_SCHEMATRON_REPORT,
 		                               ruleptr, cur, test, report);
 		if (testptr == NULL)
-		    xmlFree(test);
+		    free(test);
 	    }
 	} else {
 	    xmlSchematronPErr(ctxt, cur,
@@ -971,8 +964,7 @@ xmlSchematronParsePattern(xmlSchematronParserCtxtPtr ctxt, xmlNodePtr pat)
     }
     pattern = xmlSchematronAddPattern(ctxt, ctxt->schema, pat, id);
     if (pattern == NULL) {
-	if (id != NULL)
-	    xmlFree(id);
+	free(id);
         return;
     }
     cur = pat->children;
@@ -1054,11 +1046,9 @@ done:
         if (doc != NULL)
 	    xmlFreeDoc(doc);
     }
-    xmlFree(href);
-    if (base != NULL)
-        xmlFree(base);
-    if (URI != NULL)
-        xmlFree(URI);
+    free(href);
+    free(base);
+    free(URI);
     return(ret);
 }
 #endif
@@ -1160,7 +1150,7 @@ xmlSchematronParse(xmlSchematronParserCtxtPtr ctxt)
         xmlChar *title = xmlNodeGetContent(cur);
 	if (title != NULL) {
 	    ret->title = xmlDictLookup(ret->dict, title, -1);
-	    xmlFree(title);
+	    free(title);
 	}
 	cur = cur->next;
 	NEXT_SCHEMATRON(cur);
@@ -1183,10 +1173,8 @@ xmlSchematronParse(xmlSchematronParserCtxtPtr ctxt)
 	    xmlSchematronAddNamespace(ctxt, prefix, uri);
 	    ret->nbNs++;
 	}
-	if (uri)
-	    xmlFree(uri);
-	if (prefix)
-	    xmlFree(prefix);
+	free(uri);
+	free(prefix);
 	cur = cur->next;
 	NEXT_SCHEMATRON(cur);
     }
@@ -1313,7 +1301,7 @@ xmlSchematronFormatReport(xmlSchematronValidCtxtPtr ctxt,
 	        node = xmlSchematronGetNode(ctxt, cur, path);
 		if (node == NULL)
 		    node = cur;
-		xmlFree(path);
+		free(path);
 	    }
 
 	    if ((node->ns == NULL) || (node->ns->prefix == NULL))
@@ -1432,10 +1420,10 @@ xmlSchematronReportSuccess(xmlSchematronValidCtxtPtr ctxt,
 	xmlSchematronReportOutput(ctxt, cur, &msg[0]);
     }
 
-    xmlFree((char *) report);
+    free(report);
 
 	if ((path != NULL) && (path != (xmlChar *) cur->name))
-	    xmlFree(path);
+	    free(path);
     }
 }
 
@@ -1549,7 +1537,7 @@ xmlSchematronFreeValidCtxt(xmlSchematronValidCtxtPtr ctxt)
         xmlXPathFreeContext(ctxt->xctxt);
     if (ctxt->dict != NULL)
         xmlDictFree(ctxt->dict);
-    xmlFree(ctxt);
+    free(ctxt);
 }
 
 static xmlNodePtr

@@ -63,7 +63,7 @@ main(int argc, char **argv) {
 		for (i=0; i < nodeset->nodeNr; i++) {
 			keyword = xmlNodeListGetString(doc, nodeset->nodeTab[i]->xmlChildrenNode, 1);
 		printf("keyword: %s\n", keyword);
-		xmlFree(keyword);
+		free(keyword);
 		}
 		xmlXPathFreeObject (result);
 	}

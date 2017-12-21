@@ -63,10 +63,8 @@ static void handleURI(const char *str) {
 	else
 	    printf("::ERROR::\n");
     }
-    if (res != NULL)
-	xmlFree(res);
-    if (parsed != NULL)
-	xmlFree(parsed);
+    free(res);
+    free(parsed);
     xmlFreeURI(uri);
 }
 

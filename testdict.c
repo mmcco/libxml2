@@ -134,12 +134,10 @@ static void clean_strings(void) {
     int i;
 
     for (i = 0; i < NB_STRINGS_MAX; i++) {
-        if (strings1[i] != NULL) /* really should not happen */
-	    xmlFree(strings1[i]);
+	free(strings1[i]);
     }
     for (i = 0; i < NB_STRINGS_MAX; i++) {
-        if (strings2[i] != NULL) /* really should not happen */
-	    xmlFree(strings2[i]);
+	free(strings2[i]);
     }
 }
 

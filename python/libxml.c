@@ -199,13 +199,11 @@ libxml_xmlPythonCleanupParser(PyObject *self ATTRIBUTE_UNUSED,
    
     if (libxml_xpathCallbacks != NULL) {	/* if ext funcs declared */
 	for (ix=0; ix<libxml_xpathCallbacksNb; ix++) {
-	    if ((*libxml_xpathCallbacks)[ix].name != NULL)
-	        xmlFree((*libxml_xpathCallbacks)[ix].name);
-	    if ((*libxml_xpathCallbacks)[ix].ns_uri != NULL)
-	        xmlFree((*libxml_xpathCallbacks)[ix].ns_uri);
+	    free([ix].name);
+	    free([ix].ns_uri);
 	}
 	libxml_xpathCallbacksNb = 0;
-        xmlFree(libxml_xpathCallbacks);
+        free(libxml_xpathCallbacks);
 	libxml_xpathCallbacks = NULL;
     }
 
@@ -1874,7 +1872,7 @@ libxml_xmlFreeParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 	if (pyCtxt) {
 	    Py_XDECREF(pyCtxt->f);
 	    Py_XDECREF(pyCtxt->arg);
-	    xmlFree(pyCtxt);
+	    free(pyCtxt);
 	}
 	xmlFreeParserCtxt(ctxt);
     }
@@ -2035,7 +2033,7 @@ libxml_xmlFreeValidCtxt(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
             Py_XDECREF(pyCtxt->error);
             Py_XDECREF(pyCtxt->warn);
             Py_XDECREF(pyCtxt->arg);
-            xmlFree(pyCtxt);
+            free(pyCtxt);
     }
 
     xmlFreeValidCtxt(cur);
@@ -2106,7 +2104,7 @@ libxml_xmlTextReaderSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
 	    pyCtxt = (xmlTextReaderPyCtxtPtr)arg;
 	    Py_XDECREF(pyCtxt->f);
 	    Py_XDECREF(pyCtxt->arg);
-	    xmlFree(pyCtxt);
+	    free(pyCtxt);
 	}
 	else {
 	    /* 
@@ -2201,7 +2199,7 @@ libxml_xmlFreeTextReader(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 	    pyCtxt = (xmlTextReaderPyCtxtPtr)arg;
 	    Py_XDECREF(pyCtxt->f);
 	    Py_XDECREF(pyCtxt->arg);
-	    xmlFree(pyCtxt);
+	    free(pyCtxt);
 	}
 	/* 
 	 * else, something wrong happened, because the error handler is
@@ -3300,7 +3298,7 @@ libxml_xmlRelaxNGFreeValidCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
             Py_XDECREF(pyCtxt->error);
             Py_XDECREF(pyCtxt->warn);
             Py_XDECREF(pyCtxt->arg);
-            xmlFree(pyCtxt);
+            free(pyCtxt);
         }
     }
     
@@ -3465,7 +3463,7 @@ libxml_xmlSchemaFreeValidCtxt(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 			Py_XDECREF(pyCtxt->error);
 			Py_XDECREF(pyCtxt->warn);
 			Py_XDECREF(pyCtxt->arg);
-			xmlFree(pyCtxt);
+			free(pyCtxt);
 		}
 	}
 
@@ -3519,7 +3517,7 @@ PyxmlNodeSet_Convert(PyObject *py_nodeset, xmlNodeSetPtr *result)
         = (xmlNodePtr *) xmlMalloc (nodeSet->nodeMax
                                     * sizeof(xmlNodePtr));
     if (nodeSet->nodeTab == NULL) {
-        xmlFree(nodeSet);
+        free(nodeSet);
         PyErr_SetString(PyExc_MemoryError, "");
         return -1;
     }
@@ -3589,7 +3587,7 @@ PystringSet_Convert(PyObject *py_strings, xmlChar *** result)
             if (s)
                 strings[init_index++] = (xmlChar *)s;
             else {
-                xmlFree(strings);
+                free(strings);
                 PyErr_SetString(PyExc_TypeError,
                                 "must be a tuple or list of strings.");
                 return -1;
@@ -3641,8 +3639,8 @@ libxml_C14NDocDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
         result = PystringSet_Convert(pyobj_prefixes, &prefixes);
         if (result < 0) {
             if (nodes) {
-                xmlFree(nodes->nodeTab);
-                xmlFree(nodes);
+                free(nodes->nodeTab);
+                free(nodes);
             }
             return NULL;
         }
@@ -3656,13 +3654,13 @@ libxml_C14NDocDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
                                   &doc_txt);
 
     if (nodes) {
-        xmlFree(nodes->nodeTab);
-        xmlFree(nodes);
+        free(nodes->nodeTab);
+        free(nodes);
     }
     if (prefixes) {
         xmlChar ** idx = prefixes;
-        while (*idx) xmlFree(*(idx++));
-        xmlFree(prefixes);
+        while (*idx) free(*(idx++));
+        free(prefixes);
     }
 
     if (result < 0) {
@@ -3673,7 +3671,7 @@ libxml_C14NDocDumpMemory(ATTRIBUTE_UNUSED PyObject * self,
     else {
         py_retval = PY_IMPORT_STRING_SIZE((const char *) doc_txt,
                                                 result);
-        xmlFree(doc_txt);
+        free(doc_txt);
         return py_retval;
     }
 }
@@ -3727,8 +3725,8 @@ libxml_C14NDocSaveTo(ATTRIBUTE_UNUSED PyObject * self,
         result = PystringSet_Convert(pyobj_prefixes, &prefixes);
         if (result < 0) {
             if (nodes) {
-                xmlFree(nodes->nodeTab);
-                xmlFree(nodes);
+                free(nodes->nodeTab);
+                free(nodes);
             }
             return NULL;
         }
@@ -3742,13 +3740,13 @@ libxml_C14NDocSaveTo(ATTRIBUTE_UNUSED PyObject * self,
                               buf);
 
     if (nodes) {
-        xmlFree(nodes->nodeTab);
-        xmlFree(nodes);
+        free(nodes->nodeTab);
+        free(nodes);
     }
     if (prefixes) {
         xmlChar ** idx = prefixes;
-        while (*idx) xmlFree(*(idx++));
-        xmlFree(prefixes);
+        while (*idx) free(*(idx++));
+        free(prefixes);
     }
 
     PyFile_Release(output);

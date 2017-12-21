@@ -133,7 +133,7 @@ openIcuConverter(const char* name, int toUnicode)
 error:
   if (conv->uconv)
     ucnv_close(conv->uconv);
-  xmlFree(conv);
+  free(conv);
   return NULL;
 }
 
@@ -143,7 +143,7 @@ closeIcuConverter(uconv_t *conv)
   if (conv != NULL) {
     ucnv_close(conv->uconv);
     ucnv_close(conv->utf8);
-    xmlFree(conv);
+    free(conv);
   }
 }
 #endif /* LIBXML_ICU_ENABLED */
@@ -992,14 +992,12 @@ xmlCleanupEncodingAliases(void) {
 	return;
 
     for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
-	if (xmlCharEncodingAliases[i].name != NULL)
-	    xmlFree((char *) xmlCharEncodingAliases[i].name);
-	if (xmlCharEncodingAliases[i].alias != NULL)
-	    xmlFree((char *) xmlCharEncodingAliases[i].alias);
+	free(xmlCharEncodingAliases[i].name);
+	free(xmlCharEncodingAliases[i].alias);
     }
     xmlCharEncodingAliasesNb = 0;
     xmlCharEncodingAliasesMax = 0;
-    xmlFree(xmlCharEncodingAliases);
+    free(xmlCharEncodingAliases);
     xmlCharEncodingAliases = NULL;
 }
 
@@ -1084,7 +1082,7 @@ xmlAddEncodingAlias(const char *name, const char *alias) {
 	    /*
 	     * Replace the definition.
 	     */
-	    xmlFree((char *) xmlCharEncodingAliases[i].name);
+	    free(xmlCharEncodingAliases[i].name);
 	    xmlCharEncodingAliases[i].name = xmlMemStrdup(name);
 	    return(0);
 	}
@@ -1120,8 +1118,8 @@ xmlDelEncodingAlias(const char *alias) {
      */
     for (i = 0;i < xmlCharEncodingAliasesNb;i++) {
 	if (!strcmp(xmlCharEncodingAliases[i].alias, alias)) {
-	    xmlFree((char *) xmlCharEncodingAliases[i].name);
-	    xmlFree((char *) xmlCharEncodingAliases[i].alias);
+	    free(xmlCharEncodingAliases[i].name);
+	    free(xmlCharEncodingAliases[i].alias);
 	    xmlCharEncodingAliasesNb--;
 	    memmove(&xmlCharEncodingAliases[i], &xmlCharEncodingAliases[i + 1],
 		    sizeof(xmlCharEncodingAlias) * (xmlCharEncodingAliasesNb - i));
@@ -1352,7 +1350,7 @@ xmlNewCharEncodingHandler(const char *name,
     handler = (xmlCharEncodingHandlerPtr)
               xmlMalloc(sizeof(xmlCharEncodingHandler));
     if (handler == NULL) {
-        xmlFree(up);
+        free(up);
         xmlEncodingErrMemory("xmlNewCharEncodingHandler : out of memory !\n");
 	return(NULL);
     }
@@ -1456,12 +1454,11 @@ xmlCleanupCharEncodingHandlers(void) {
     for (;nbCharEncodingHandler > 0;) {
         nbCharEncodingHandler--;
 	if (handlers[nbCharEncodingHandler] != NULL) {
-	    if (handlers[nbCharEncodingHandler]->name != NULL)
-		xmlFree(handlers[nbCharEncodingHandler]->name);
-	    xmlFree(handlers[nbCharEncodingHandler]);
+	    free(handlers[nbCharEncodingHandler]->name);
+	    free(handlers[nbCharEncodingHandler]);
 	}
     }
-    xmlFree(handlers);
+    free(handlers);
     handlers = NULL;
     nbCharEncodingHandler = 0;
     xmlDefaultCharEncodingHandler = NULL;
@@ -2764,10 +2761,9 @@ xmlCharEncCloseFunc(xmlCharEncodingHandler *handler) {
 #endif
     if (tofree) {
         /* free up only dynamic handlers iconv/uconv */
-        if (handler->name != NULL)
-            xmlFree(handler->name);
+        free(handler->name);
         handler->name = NULL;
-        xmlFree(handler);
+        free(handler);
     }
 #ifdef DEBUG_ENCODING
     if (ret)

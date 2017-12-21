@@ -100,10 +100,8 @@ static void resetEntities(void) {
     int i;
 
     for (i = 0;i < nb_entities;i++) {
-        if (testEntitiesName[i] != NULL)
-	    xmlFree(testEntitiesName[i]);
-        if (testEntitiesValue[i] != NULL)
-	    xmlFree(testEntitiesValue[i]);
+	free(testEntitiesName[i]);
+	free(testEntitiesValue[i]);
     }
     nb_entities = 0;
 }
@@ -376,11 +374,11 @@ installResources(xmlNodePtr tst, const xmlChar *base) {
 	    content = xmlStrdup(buf->content);
 	    if ((name != NULL) && (content != NULL)) {
 	        res = composeDir(base, name);
-		xmlFree(name);
+		free(name);
 	        addEntity((char *) res, (char *) content);
 	    } else {
-	        if (name != NULL) xmlFree(name);
-	        if (content != NULL) xmlFree(content);
+	        free(name);
+	        free(content);
 	    }
 	}
 	tst = getNext(tst, "following-sibling::resource[1]");
@@ -398,7 +396,7 @@ installDirs(xmlNodePtr tst, const xmlChar *base) {
     if (name == NULL)
         return;
     res = composeDir(base, name);
-    xmlFree(name);
+    free(name);
     if (res == NULL) {
 	return;
     }
@@ -412,7 +410,7 @@ installDirs(xmlNodePtr tst, const xmlChar *base) {
         installDirs(test, res);
 	test = getNext(test, "following-sibling::dir[1]");
     }
-    xmlFree(res);
+    free(res);
 }
 
 static int
@@ -534,8 +532,7 @@ xsdTestCase(xmlNodePtr tst) {
 	        nb_leaks++;
 	    }
 	}
-	if (dtd != NULL)
-	    xmlFree(dtd);
+	free(dtd);
 	tmp = getNext(tmp, "following-sibling::valid[1]");
     }
     /*
@@ -615,7 +612,7 @@ xsdTestSuite(xmlNodePtr cur) {
 
 	if (doc != NULL) {
 	    printf("Suite %s\n", doc);
-	    xmlFree(doc);
+	    free(doc);
 	}
     }
     cur = getNext(cur, "./testCase[1]");
@@ -672,12 +669,12 @@ rngTestSuite(xmlNodePtr cur) {
 
 	if (doc != NULL) {
 	    printf("Suite %s\n", doc);
-	    xmlFree(doc);
+	    free(doc);
 	} else {
 	    doc = getString(cur, "string(section)");
 	    if (doc != NULL) {
 		printf("Section %s\n", doc);
-		xmlFree(doc);
+		free(doc);
 	    }
 	}
     }
@@ -856,9 +853,9 @@ xstcTestInstance(xmlNodePtr cur, xmlSchemaPtr schemas,
     }
 
 done:
-    if (href != NULL) xmlFree(href);
-    if (path != NULL) xmlFree(path);
-    if (validity != NULL) xmlFree(validity);
+    free(href);
+    free(path);
+    free(validity);
     if (ctxt != NULL) xmlSchemaFreeValidCtxt(ctxt);
     if (doc != NULL) xmlFreeDoc(doc);
     xmlResetLastError();
@@ -979,9 +976,9 @@ xstcTestGroup(xmlNodePtr cur, const char *base) {
     }
 
 done:
-    if (href != NULL) xmlFree(href);
-    if (path != NULL) xmlFree(path);
-    if (validity != NULL) xmlFree(validity);
+    free(href);
+    free(path);
+    free(validity);
     if (schemas != NULL) xmlSchemaFree(schemas);
     xmlResetLastError();
     if ((mem != xmlMemUsed()) && (extraMemoryFromResolver == 0)) {
@@ -1020,8 +1017,8 @@ xstcMetadata(const char *metadata, const char *base) {
         name = xmlStrdup(BAD_CAST "Unknown");
     }
     printf("## %s test suite for Schemas version %s\n", contributor, name);
-    xmlFree(contributor);
-    xmlFree(name);
+    free(contributor);
+    free(name);
 
     cur = getNext(cur, "./ts:testGroup[1]");
     if ((cur == NULL) || (!xmlStrEqual(cur->name, BAD_CAST "testGroup"))) {
