@@ -1068,7 +1068,7 @@ xmlSwitchEncoding(xmlParserCtxtPtr ctxt, xmlCharEncoding enc)
 		    (ctxt->encoding == NULL) &&
 		    (ctxt->input != NULL) &&
 		    (ctxt->input->encoding != NULL)) {
-		    ctxt->encoding = strdup(ctxt->input->encoding);
+		    ctxt->encoding = (xmlChar *)strdup(ctxt->input->encoding);
 		}
 		ctxt->charset = enc;
 		return(0);
@@ -1544,9 +1544,9 @@ xmlNewInputFromFile(xmlParserCtxtPtr ctxt, const char *filename) {
         return(NULL);
 
     if (inputStream->filename == NULL)
-	URI = strdup(filename);
+	URI = (xmlChar *)strdup(filename);
     else
-	URI = strdup(inputStream->filename);
+	URI = (xmlChar *)strdup(inputStream->filename);
     directory = xmlParserGetDirectory((const char *) URI);
     free((void *)inputStream->filename);
     inputStream->filename = (char *) xmlCanonicPath((const xmlChar *) URI);

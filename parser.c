@@ -2943,7 +2943,7 @@ xmlSplitQName(xmlParserCtxtPtr ctxt, const xmlChar *name, xmlChar **prefix) {
     if ((c == ':') && (*cur == 0)) {
 	free(buffer);
 	*prefix = NULL;
-	return(strdup(name));
+	return((xmlChar *)strdup(name));
     }
 
     if (buffer == NULL)
@@ -11233,7 +11233,7 @@ xmlParseTryOrFinish(xmlParserCtxtPtr ctxt, int terminate) {
 			ctxt->standalone = ctxt->input->standalone;
 			if ((ctxt->encoding == NULL) &&
 			    (ctxt->input->encoding != NULL))
-			    ctxt->encoding = strdup(ctxt->input->encoding);
+			    ctxt->encoding = (xmlChar *)strdup(ctxt->input->encoding);
 			if ((ctxt->sax) && (ctxt->sax->startDocument) &&
 			    (!ctxt->disableSAX))
 			    ctxt->sax->startDocument(ctxt->userData);
@@ -12868,7 +12868,7 @@ xmlParseCtxtExternalEntity(xmlParserCtxtPtr ctx, const xmlChar *URL,
 	newDoc->extSubset = ctx->myDoc->extSubset;
     }
     if (ctx->myDoc->URL != NULL) {
-	newDoc->URL = strdup(ctx->myDoc->URL);
+	newDoc->URL = (xmlChar *)strdup(ctx->myDoc->URL);
     }
     newRoot = xmlNewDocNode(newDoc, NULL, BAD_CAST "pseudoroot", NULL);
     if (newRoot == NULL) {
@@ -13096,7 +13096,7 @@ xmlParseExternalEntityPrivate(xmlDocPtr doc, xmlParserCtxtPtr oldctxt,
     xmlDictReference(newDoc->dict);
 
     if (doc->URL != NULL) {
-	newDoc->URL = strdup(doc->URL);
+	newDoc->URL = (xmlChar *)strdup(doc->URL);
     }
     newRoot = xmlNewDocNode(newDoc, NULL, BAD_CAST "pseudoroot", NULL);
     if (newRoot == NULL) {
@@ -13567,7 +13567,7 @@ xmlParseInNodeContext(xmlNodePtr node, const char *data, int datalen,
         xmlCharEncodingHandlerPtr hdlr;
 
 	free((void *)ctxt->encoding);
-        ctxt->encoding = strdup(doc->encoding);
+        ctxt->encoding = (xmlChar *)strdup(doc->encoding);
 
         hdlr = xmlFindCharEncodingHandler((const char *) doc->encoding);
         if (hdlr != NULL) {
@@ -14930,7 +14930,7 @@ xmlCtxtResetPush(xmlParserCtxtPtr ctxt, const char *chunk,
         xmlCharEncodingHandlerPtr hdlr;
 
 	free((void *)ctxt->encoding);
-        ctxt->encoding = strdup(encoding);
+        ctxt->encoding = (xmlChar *)strdup(encoding);
 
         hdlr = xmlFindCharEncodingHandler(encoding);
         if (hdlr != NULL) {
@@ -14965,7 +14965,7 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
         return(-1);
     if (encoding != NULL) {
 	free((void *)ctxt->encoding);
-        ctxt->encoding = strdup(encoding);
+        ctxt->encoding = (xmlChar *)strdup(encoding);
     }
     if (options & XML_PARSE_RECOVER) {
         ctxt->recovery = 1;

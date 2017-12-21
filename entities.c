@@ -160,11 +160,11 @@ xmlCreateEntity(xmlDictPtr dict, const xmlChar *name, int type,
      */
     ret->etype = (xmlEntityType) type;
     if (dict == NULL) {
-	ret->name = strdup(name);
+	ret->name = (xmlChar *)strdup(name);
 	if (ExternalID != NULL)
-	    ret->ExternalID = strdup(ExternalID);
+	    ret->ExternalID = (xmlChar *)strdup(ExternalID);
 	if (SystemID != NULL)
-	    ret->SystemID = strdup(SystemID);
+	    ret->SystemID = (xmlChar *)strdup(SystemID);
     } else {
         ret->name = xmlDictLookup(dict, name, -1);
 	if (ExternalID != NULL)
@@ -664,7 +664,7 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
 		    xmlEntitiesErr(XML_CHECK_NOT_UTF8,
 			    "xmlEncodeEntities: input not UTF-8");
 		    if (doc != NULL)
-			doc->encoding = strdup("ISO-8859-1");
+			doc->encoding = (xmlChar *)strdup("ISO-8859-1");
 		    snprintf(buf, sizeof(buf), "&#%d;", *cur);
 		    buf[sizeof(buf) - 1] = 0;
 		    ptr = buf;
@@ -697,7 +697,7 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
 		    xmlEntitiesErr(XML_ERR_INVALID_CHAR,
 			"xmlEncodeEntities: char out of range\n");
 		    if (doc != NULL)
-			doc->encoding = strdup("ISO-8859-1");
+			doc->encoding = (xmlChar *)strdup("ISO-8859-1");
 		    snprintf(buf, sizeof(buf), "&#%d;", *cur);
 		    buf[sizeof(buf) - 1] = 0;
 		    ptr = buf;
@@ -915,17 +915,17 @@ xmlCopyEntity(xmlEntityPtr ent) {
 
     cur->etype = ent->etype;
     if (ent->name != NULL)
-	cur->name = strdup(ent->name);
+	cur->name = (xmlChar *)strdup(ent->name);
     if (ent->ExternalID != NULL)
-	cur->ExternalID = strdup(ent->ExternalID);
+	cur->ExternalID = (xmlChar *)strdup(ent->ExternalID);
     if (ent->SystemID != NULL)
-	cur->SystemID = strdup(ent->SystemID);
+	cur->SystemID = (xmlChar *)strdup(ent->SystemID);
     if (ent->content != NULL)
-	cur->content = strdup(ent->content);
+	cur->content = (xmlChar *)strdup(ent->content);
     if (ent->orig != NULL)
-	cur->orig = strdup(ent->orig);
+	cur->orig = (xmlChar *)strdup(ent->orig);
     if (ent->URI != NULL)
-	cur->URI = strdup(ent->URI);
+	cur->URI = (xmlChar *)strdup(ent->URI);
     return(cur);
 }
 

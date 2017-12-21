@@ -298,7 +298,7 @@ xmlSplitQName2(const xmlChar *name, xmlChar **prefix) {
 	xmlTreeErrMemory("QName split");
 	return(NULL);
     }
-    ret = strdup(&name[len + 1]);
+    ret = (xmlChar *)strdup(&name[len + 1]);
     if (ret == NULL) {
 	xmlTreeErrMemory("QName split");
 	free(*prefix);
@@ -761,9 +761,9 @@ xmlNewNs(xmlNodePtr node, const xmlChar *href, const xmlChar *prefix) {
     cur->type = XML_LOCAL_NAMESPACE;
 
     if (href != NULL)
-	cur->href = strdup(href);
+	cur->href = (xmlChar *)strdup(href);
     if (prefix != NULL)
-	cur->prefix = strdup(prefix);
+	cur->prefix = (xmlChar *)strdup(prefix);
 
     /*
      * Add it at the end to preserve parsing order ...
@@ -897,11 +897,11 @@ xmlNewDtd(xmlDocPtr doc, const xmlChar *name,
     cur->type = XML_DTD_NODE;
 
     if (name != NULL)
-	cur->name = strdup(name);
+	cur->name = (xmlChar *)strdup(name);
     if (ExternalID != NULL)
-	cur->ExternalID = strdup(ExternalID);
+	cur->ExternalID = (xmlChar *)strdup(ExternalID);
     if (SystemID != NULL)
-	cur->SystemID = strdup(SystemID);
+	cur->SystemID = (xmlChar *)strdup(SystemID);
     if (doc != NULL)
 	doc->extSubset = cur;
     cur->doc = doc;
@@ -971,7 +971,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
     cur->type = XML_DTD_NODE;
 
     if (name != NULL) {
-	cur->name = strdup(name);
+	cur->name = (xmlChar *)strdup(name);
 	if (cur->name == NULL) {
 	    xmlTreeErrMemory("building internal subset");
 	    free(cur);
@@ -979,7 +979,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 	}
     }
     if (ExternalID != NULL) {
-	cur->ExternalID = strdup(ExternalID);
+	cur->ExternalID = (xmlChar *)strdup(ExternalID);
 	if (cur->ExternalID  == NULL) {
 	    xmlTreeErrMemory("building internal subset");
 	    free((void *)cur->name);
@@ -988,7 +988,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 	}
     }
     if (SystemID != NULL) {
-	cur->SystemID = strdup(SystemID);
+	cur->SystemID = (xmlChar *)strdup(SystemID);
 	if (cur->SystemID == NULL) {
 	    xmlTreeErrMemory("building internal subset");
 	    free((void *)cur->name);
@@ -1171,7 +1171,7 @@ xmlNewDoc(const xmlChar *version) {
     memset(cur, 0, sizeof(xmlDoc));
     cur->type = XML_DOCUMENT_NODE;
 
-    cur->version = strdup(version);
+    cur->version = (xmlChar *)strdup(version);
     if (cur->version == NULL) {
 	xmlTreeErrMemory("building doc");
 	free(cur);
@@ -1870,7 +1870,7 @@ xmlNewPropInternal(xmlNodePtr node, xmlNsPtr ns,
         if ((doc != NULL) && (doc->dict != NULL))
             cur->name = (xmlChar *) xmlDictLookup(doc->dict, name, -1);
         else
-            cur->name = strdup(name);
+            cur->name = (xmlChar *)strdup(name);
     } else
         cur->name = name;
 
@@ -1881,7 +1881,7 @@ xmlNewPropInternal(xmlNodePtr node, xmlNsPtr ns,
             xmlTreeErr(XML_TREE_NOT_UTF8, (xmlNodePtr) doc,
                        NULL);
             if (doc != NULL)
-                doc->encoding = strdup("ISO-8859-1");
+                doc->encoding = (xmlChar *)strdup("ISO-8859-1");
         }
         cur->children = xmlNewDocText(doc, value);
         cur->last = NULL;
@@ -2030,7 +2030,7 @@ xmlNewDocProp(xmlDocPtr doc, const xmlChar *name, const xmlChar *value) {
     if ((doc != NULL) && (doc->dict != NULL))
 	cur->name = xmlDictLookup(doc->dict, name, -1);
     else
-	cur->name = strdup(name);
+	cur->name = (xmlChar *)strdup(name);
     cur->doc = doc;
     if (value != NULL) {
 	xmlNodePtr tmp;
@@ -2180,9 +2180,9 @@ xmlNewDocPI(xmlDocPtr doc, const xmlChar *name, const xmlChar *content) {
     if ((doc != NULL) && (doc->dict != NULL))
         cur->name = xmlDictLookup(doc->dict, name, -1);
     else
-	cur->name = strdup(name);
+	cur->name = (xmlChar *)strdup(name);
     if (content != NULL) {
-	cur->content = strdup(content);
+	cur->content = (xmlChar *)strdup(content);
     }
     cur->doc = doc;
 
@@ -2239,7 +2239,7 @@ xmlNewNode(xmlNsPtr ns, const xmlChar *name) {
     memset(cur, 0, sizeof(xmlNode));
     cur->type = XML_ELEMENT_NODE;
 
-    cur->name = strdup(name);
+    cur->name = (xmlChar *)strdup(name);
     cur->ns = ns;
 
     if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
@@ -2447,7 +2447,7 @@ xmlNewText(const xmlChar *content) {
 
     cur->name = xmlStringText;
     if (content != NULL) {
-	cur->content = strdup(content);
+	cur->content = (xmlChar *)strdup(content);
     }
 
     if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
@@ -2573,7 +2573,7 @@ xmlNewCharRef(xmlDocPtr doc, const xmlChar *name) {
 	else
 	    cur->name = xmlStrndup(name, len);
     } else
-	cur->name = strdup(name);
+	cur->name = (xmlChar *)strdup(name);
 
     if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
@@ -2617,7 +2617,7 @@ xmlNewReference(const xmlDoc *doc, const xmlChar *name) {
 	else
 	    cur->name = xmlStrndup(name, len);
     } else
-	cur->name = strdup(name);
+	cur->name = (xmlChar *)strdup(name);
 
     ent = xmlGetDocEntity(doc, cur->name);
     if (ent != NULL) {
@@ -2727,7 +2727,7 @@ xmlNewComment(const xmlChar *content) {
     memset(cur, 0, sizeof(xmlNode));
     cur->type = XML_COMMENT_NODE;
 
-    cur->name = xmlStringComment;
+    cur->name = (xmlChar *)xmlStringComment;
     if (content != NULL) {
 	cur->content = strdup(content);
     }
@@ -3038,7 +3038,7 @@ xmlAddNextSibling(xmlNodePtr cur, xmlNodePtr elem) {
             (cur->name == cur->next->name)) {
 	    xmlChar *tmp;
 
-	    tmp = strdup(elem->content);
+	    tmp = (xmlChar *)strdup(elem->content);
 	    tmp = xmlStrcat(tmp, cur->next->content);
 	    xmlNodeSetContent(cur->next, tmp);
 	    free(tmp);
@@ -3110,7 +3110,7 @@ xmlAddPrevSibling(xmlNodePtr cur, xmlNodePtr elem) {
 	if (cur->type == XML_TEXT_NODE) {
 	    xmlChar *tmp;
 
-	    tmp = strdup(elem->content);
+	    tmp = (xmlChar *)strdup(elem->content);
 	    tmp = xmlStrcat(tmp, cur->content);
 	    xmlNodeSetContent(cur, tmp);
 	    free(tmp);
@@ -4223,14 +4223,14 @@ xmlStaticCopyNode(xmlNodePtr node, xmlDocPtr doc, xmlNodePtr parent,
         if ((doc != NULL) && (doc->dict != NULL))
 	    ret->name = xmlDictLookup(doc->dict, node->name, -1);
 	else
-	    ret->name = strdup(node->name);
+	    ret->name = (xmlChar *)strdup(node->name);
     }
     if ((node->type != XML_ELEMENT_NODE) &&
 	(node->content != NULL) &&
 	(node->type != XML_ENTITY_REF_NODE) &&
 	(node->type != XML_XINCLUDE_END) &&
 	(node->type != XML_XINCLUDE_START)) {
-	ret->content = strdup(node->content);
+	ret->content = (xmlChar *)strdup(node->content);
     }else{
       if (node->type == XML_ELEMENT_NODE)
         ret->line = node->line;
@@ -4529,9 +4529,9 @@ xmlCopyDoc(xmlDocPtr doc, int recursive) {
     if (doc->name != NULL)
         ret->name = strdup(doc->name);
     if (doc->encoding != NULL)
-        ret->encoding = strdup(doc->encoding);
+        ret->encoding = (xmlChar *)strdup(doc->encoding);
     if (doc->URL != NULL)
-        ret->URL = strdup(doc->URL);
+        ret->URL = (xmlChar *)strdup(doc->URL);
     ret->charset = doc->charset;
     ret->compression = doc->compression;
     ret->standalone = doc->standalone;
@@ -5171,7 +5171,7 @@ xmlNodeSetName(xmlNodePtr cur, const xmlChar *name) {
     } else {
 	if (cur->name != NULL)
 	    freeme = cur->name;
-	cur->name = strdup(name);
+	cur->name = (xmlChar *)strdup(name);
     }
 
     free((void *)freeme);
@@ -5295,7 +5295,7 @@ xmlNodeGetBase(const xmlDoc *doc, const xmlNode *cur) {
     while (cur != NULL) {
 	if (cur->type == XML_ENTITY_DECL) {
 	    xmlEntityPtr ent = (xmlEntityPtr) cur;
-	    return(strdup(ent->URI));
+	    return((xmlChar *)strdup(ent->URI));
 	}
 	if (cur->type == XML_ELEMENT_NODE) {
 	    base = xmlGetNsProp(cur, BAD_CAST "base", XML_XML_NAMESPACE);
@@ -5324,7 +5324,7 @@ xmlNodeGetBase(const xmlDoc *doc, const xmlNode *cur) {
     }
     if ((doc != NULL) && (doc->URL != NULL)) {
 	if (oldbase == NULL)
-	    return(strdup(doc->URL));
+	    return((xmlChar *)strdup(doc->URL));
 	newbase = xmlBuildURI(oldbase, doc->URL);
 	free(oldbase);
 	return(newbase);
@@ -5538,7 +5538,7 @@ xmlNodeGetContent(const xmlNode *cur)
         case XML_COMMENT_NODE:
         case XML_PI_NODE:
             if (cur->content != NULL)
-                return (strdup(cur->content));
+                return ((xmlChar *)strdup(cur->content));
             return (NULL);
         case XML_ENTITY_REF_NODE:{
                 xmlEntityPtr ent;
@@ -5588,7 +5588,7 @@ xmlNodeGetContent(const xmlNode *cur)
         case XML_NAMESPACE_DECL: {
 	    xmlChar *tmp;
 
-	    tmp = strdup(((xmlNsPtr) cur)->href);
+	    tmp = (xmlChar *)strdup(((xmlNsPtr) cur)->href);
             return (tmp);
 	}
         case XML_ELEMENT_DECL:
@@ -5603,7 +5603,7 @@ xmlNodeGetContent(const xmlNode *cur)
         case XML_CDATA_SECTION_NODE:
         case XML_TEXT_NODE:
             if (cur->content != NULL)
-                return (strdup(cur->content));
+                return ((xmlChar *)strdup(cur->content));
             return (NULL);
     }
     return (NULL);
@@ -5651,7 +5651,7 @@ xmlNodeSetContent(xmlNodePtr cur, const xmlChar *content) {
 	    if (cur->children != NULL) xmlFreeNodeList(cur->children);
 	    cur->last = cur->children = NULL;
 	    if (content != NULL) {
-		cur->content = strdup(content);
+		cur->content = (xmlChar *)strdup(content);
 	    } else
 		cur->content = NULL;
 	    cur->properties = NULL;
@@ -5971,8 +5971,8 @@ xmlTreeEnsureXMLDecl(xmlDocPtr doc)
 	}
 	memset(ns, 0, sizeof(xmlNs));
 	ns->type = XML_LOCAL_NAMESPACE;
-	ns->href = strdup(XML_XML_NAMESPACE);
-	ns->prefix = strdup("xml");
+	ns->href = (xmlChar *)strdup(XML_XML_NAMESPACE);
+	ns->prefix = (xmlChar *)strdup("xml");
 	doc->oldNs = ns;
 	return (ns);
     }
@@ -6016,8 +6016,8 @@ xmlSearchNs(xmlDocPtr doc, xmlNodePtr node, const xmlChar *nameSpace) {
 	    }
 	    memset(cur, 0, sizeof(xmlNs));
 	    cur->type = XML_LOCAL_NAMESPACE;
-	    cur->href = strdup(XML_XML_NAMESPACE);
-	    cur->prefix = strdup("xml");
+	    cur->href = (xmlChar *)strdup(XML_XML_NAMESPACE);
+	    cur->prefix = (xmlChar *)strdup("xml");
 	    cur->next = node->nsDef;
 	    node->nsDef = cur;
 	    return(cur);
@@ -6149,8 +6149,8 @@ xmlSearchNsByHref(xmlDocPtr doc, xmlNodePtr node, const xmlChar * href)
             }
             memset(cur, 0, sizeof(xmlNs));
             cur->type = XML_LOCAL_NAMESPACE;
-            cur->href = strdup(XML_XML_NAMESPACE);
-            cur->prefix = strdup("xml");
+            cur->href = (xmlChar *)strdup(XML_XML_NAMESPACE);
+            cur->prefix = (xmlChar *)strdup("xml");
             cur->next = node->nsDef;
             node->nsDef = cur;
             return (cur);
@@ -6513,7 +6513,7 @@ xmlGetPropNodeInternal(const xmlNode *node, const xmlChar *name,
 	* We need the QName of the element for the DTD-lookup.
 	*/
 	if ((node->ns != NULL) && (node->ns->prefix != NULL)) {
-	    tmpstr = strdup(node->ns->prefix);
+	    tmpstr = (xmlChar *)strdup(node->ns->prefix);
 	    tmpstr = xmlStrcat(tmpstr, BAD_CAST ":");
 	    tmpstr = xmlStrcat(tmpstr, node->name);
 	    if (tmpstr == NULL)
@@ -6599,9 +6599,9 @@ xmlGetPropNodeValueInternal(const xmlAttr *prop)
 		    return(ret);
 	    }
 	}
-	return(strdup(""));
+	return((xmlChar *)strdup(""));
     } else if (prop->type == XML_ATTRIBUTE_DECL) {
-	return(strdup(((xmlAttributePtr)prop)->defaultValue));
+	return((xmlChar *)strdup(((xmlAttributePtr)prop)->defaultValue));
     }
     return(NULL);
 }
@@ -6878,7 +6878,7 @@ xmlSetNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
 	        xmlTreeErr(XML_TREE_NOT_UTF8, (xmlNodePtr) node->doc,
 	                   NULL);
                 if (node->doc != NULL)
-                    node->doc->encoding = strdup("ISO-8859-1");
+                    node->doc->encoding = (xmlChar *)strdup("ISO-8859-1");
 	    }
 	    prop->children = xmlNewDocText(node->doc, value);
 	    prop->last = NULL;
@@ -8140,7 +8140,7 @@ xmlDOMWrapNSNormGatherInScopeNs(xmlNsMapPtr *map,
 	    cur->content = (xmlChar *) \
 		xmlDictLookup(destDoc->dict, cur->content, -1); \
 	else \
-	    cur->content = strdup(cur->content); \
+	    cur->content = (xmlChar *)strdup(cur->content); \
     }
 
 /*
