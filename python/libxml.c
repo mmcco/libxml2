@@ -79,55 +79,6 @@ static int libxml_xpathCallbacksNb = 0;
 
 /************************************************************************
  *									*
- *		Memory debug interface					*
- *									*
- ************************************************************************/
-
-static void
-libxml_xmlErrorInitialize(void); /* forward declare */
-
-PyObject *
-libxml_xmlMemoryUsed(PyObject * self ATTRIBUTE_UNUSED, 
-        PyObject * args ATTRIBUTE_UNUSED)
-{
-    long ret;
-    PyObject *py_retval;
-
-    ret = xmlMemUsed();
-
-    py_retval = libxml_longWrap(ret);
-    return (py_retval);
-}
-
-PyObject *
-libxml_xmlPythonCleanupParser(PyObject *self ATTRIBUTE_UNUSED,
-                              PyObject *args ATTRIBUTE_UNUSED) {
-
-    int ix;
-    long freed = -1;
-
-    xmlCleanupParser();
-    /*
-     * Need to confirm whether we really want to do this (required for
-     * memcheck) in all cases...
-     */
-   
-    if (libxml_xpathCallbacks != NULL) {	/* if ext funcs declared */
-	for (ix=0; ix<libxml_xpathCallbacksNb; ix++) {
-	    free((*libxml_xpathCallbacks)[ix].name);
-	    free((*libxml_xpathCallbacks)[ix].ns_uri);
-	}
-	libxml_xpathCallbacksNb = 0;
-        free(libxml_xpathCallbacks);
-	libxml_xpathCallbacks = NULL;
-    }
-
-    Py_INCREF(Py_None);
-    return(Py_None);
-}
-
-/************************************************************************
- *									*
  *		Handling Python FILE I/O at the C level			*
  *	The raw I/O attack diectly the File objects, while the		*
  *	other routines address the ioWrapper instance instead		*
