@@ -114,8 +114,8 @@ libxml_xmlPythonCleanupParser(PyObject *self ATTRIBUTE_UNUSED,
    
     if (libxml_xpathCallbacks != NULL) {	/* if ext funcs declared */
 	for (ix=0; ix<libxml_xpathCallbacksNb; ix++) {
-	    free([ix].name);
-	    free([ix].ns_uri);
+	    free((*libxml_xpathCallbacks)[ix].name);
+	    free((*libxml_xpathCallbacks)[ix].ns_uri);
 	}
 	libxml_xpathCallbacksNb = 0;
         free(libxml_xpathCallbacks);
