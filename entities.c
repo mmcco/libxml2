@@ -113,7 +113,7 @@ xmlFreeEntity(xmlEntityPtr entity)
         xmlFreeNodeList(entity->children);
     if (dict != NULL) {
         if (!xmlDictOwns(dict, entity->name))
-            free(entity->name);
+            free((void *)entity->name);
         if (!xmlDictOwns(dict, entity->ExternalID))
             free(entity->ExternalID);
         if (!xmlDictOwns(dict, entity->SystemID))

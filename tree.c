@@ -1051,7 +1051,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 #define DICT_FREE(str)						\
 	if ((str) && ((!dict) ||				\
 	    (xmlDictOwns(dict, (const xmlChar *)(str)) == 0)))	\
-	    free((str));
+	    free(((xmlChar *)(str)));
 
 
 /**

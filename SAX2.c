@@ -493,7 +493,7 @@ xmlSAX2ExternalSubset(void *ctx, const xmlChar *name,
 	if ((ctxt->encoding != NULL) &&
 	    ((ctxt->dict == NULL) ||
 	     (!xmlDictOwns(ctxt->dict, ctxt->encoding))))
-	    free(ctxt->encoding);
+	    free((void *)ctxt->encoding);
 	ctxt->encoding = oldencoding;
 	/* ctxt->wellFormed = oldwellFormed; */
     }

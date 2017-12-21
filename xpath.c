@@ -3508,8 +3508,8 @@ xmlXPathNodeSetFreeNs(xmlNsPtr ns) {
 	return;
 
     if ((ns->next != NULL) && (ns->next->type != XML_NAMESPACE_DECL)) {
-	free(ns->href);
-	free(ns->prefix);
+	free((void *)ns->href);
+	free((void *)ns->prefix);
 	free(ns);
     }
 }
@@ -9578,7 +9578,7 @@ xmlXPathLangFunction(xmlXPathParserContextPtr ctxt, int nargs) {
 	    ret = 1;
     }
 not_equal:
-    free(theLang);
+    free((void *)theLang);
 
     xmlXPathReleaseObject(ctxt->context, val);
     valuePush(ctxt, xmlXPathCacheNewBoolean(ctxt->context, ret));

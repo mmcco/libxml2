@@ -323,7 +323,7 @@ static const xmlChar *xmlNamespaceNs = (const xmlChar *)
     (xmlStrEqual(node->name, (const xmlChar *) type)) && \
     (xmlStrEqual(node->ns->href, xmlSchemaNs)))
 
-#define FREE_AND_NULL(str) (free((str)), str = NULL);
+#define FREE_AND_NULL(str) (free(((void *)(str))), str = NULL);
 
 /*
 * Since we put the default/fixed values into the dict, we can
@@ -1517,7 +1517,7 @@ xmlSchemaGetCanonValueWhtspExt(xmlSchemaValPtr val,
 		break;
 	    default:
 		if (xmlSchemaGetCanonValue(val, &value2) == -1) {
-		    free(value2);
+		    free((void *)value2);
 		    goto internal_error;
 		}
 		value = value2;
@@ -1540,7 +1540,7 @@ xmlSchemaGetCanonValueWhtspExt(xmlSchemaValPtr val,
     return (0);
 internal_error:
     free(*retValue);
-    free(value2);
+    free((void *)value2);
     return (-1);
 }
 
@@ -5954,7 +5954,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
 	    */
 	    strip = xmlSchemaCollapseString(value);
 	    if (strip != NULL) {
-		free(value);
+		free((void *)value);
 		value = strip;
 	    }
 	    res = xmlAddID(NULL, attr->doc, value, attr);
@@ -5979,7 +5979,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
 	    "not a valid 'xs:NCName'",
 	    value, NULL);
     }
-    free(value);
+    free((void *)value);
 
     return (ret);
 }
@@ -25123,11 +25123,11 @@ xmlSchemaClearAttrInfos(xmlSchemaValidCtxtPtr vctxt)
     for (i = 0; i < vctxt->nbAttrInfos; i++) {
 	attr = vctxt->attrInfos[i];
 	if (attr->flags & XML_SCHEMA_NODE_INFO_FLAG_OWNED_NAMES) {
-	    free(attr->localName);
-	    free(attr->nsName);
+	    free((void *)attr->localName);
+	    free((void *)attr->nsName);
 	}
 	if (attr->flags & XML_SCHEMA_NODE_INFO_FLAG_OWNED_VALUES) {
-	    free(attr->value);
+	    free((void *)attr->value);
 	}
 	if (attr->val != NULL) {
 	    xmlSchemaFreeValue(attr->val);

@@ -242,8 +242,8 @@ xmlFreePattern(xmlPatternPtr comp) {
         if (comp->dict == NULL) {
 	    for (i = 0;i < comp->nbStep;i++) {
 		op = &comp->steps[i];
-		free(op->value);
-		free(op->value2);
+		free((void *)op->value);
+		free((void *)op->value2);
 	    }
 	}
 	free(comp->steps);

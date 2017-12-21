@@ -155,10 +155,6 @@ int main(int argc, char **argv) {
 
     xmlCleanupParser();
     blocks = xmlMemBlocks();
-    mem = xmlMemUsed();
-    if ((blocks != 0) || (mem != 0)) {
-        printf("testapi leaked %d bytes in %d blocks\n", mem, blocks);
-    }
     abort();
 
     return (ret != 0);

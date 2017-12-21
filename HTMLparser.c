@@ -3580,7 +3580,7 @@ htmlCheckEncodingDirect(htmlParserCtxtPtr ctxt, const xmlChar *encoding) {
 
 	while ((*encoding == ' ') || (*encoding == '\t')) encoding++;
 
-	free(ctxt->input->encoding);
+	free((void *)ctxt->input->encoding);
 	ctxt->input->encoding = xmlStrdup(encoding);
 
 	enc = xmlParseCharEncoding((const char *) encoding);
@@ -3917,7 +3917,7 @@ failed:
 
     if (atts != NULL) {
         for (i = 1;i < nbatts;i += 2) {
-	    free(atts[i]);
+	    free((void *)atts[i]);
 	}
     }
 
@@ -5049,7 +5049,7 @@ htmlCreateDocParserCtxt(const xmlChar *cur, const char *encoding) {
 	xmlCharEncoding enc;
 	xmlCharEncodingHandlerPtr handler;
 
-	free(ctxt->input->encoding);
+	free((void *)ctxt->input->encoding);
 	ctxt->input->encoding = xmlStrdup((const xmlChar *) encoding);
 
 	enc = xmlParseCharEncoding(encoding);
@@ -6573,7 +6573,7 @@ htmlNodeStatus(const htmlNodePtr node, int legacy) {
 #define DICT_FREE(str)						\
 	if ((str) && ((!dict) ||				\
 	    (xmlDictOwns(dict, (const xmlChar *)(str)) == 0)))	\
-	    free((str));
+	    free(((xmlChar *)(str)));
 
 /**
  * htmlCtxtReset:
@@ -6760,7 +6760,7 @@ htmlDoRead(htmlParserCtxtPtr ctxt, const char *URL, const char *encoding,
 	hdlr = xmlFindCharEncodingHandler(encoding);
 	if (hdlr != NULL) {
 	    xmlSwitchToEncoding(ctxt, hdlr);
-	    free(ctxt->input->encoding);
+	    free((void *)ctxt->input->encoding);
             ctxt->input->encoding = xmlStrdup((xmlChar *)encoding);
         }
     }

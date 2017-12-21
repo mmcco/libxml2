@@ -230,9 +230,7 @@ testExternalEntityLoader(const char *URL, const char *ID,
     if (checkTestFile(URL)) {
 	ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
     } else {
-	int memused = xmlMemUsed();
 	ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
-	extraMemoryFromResolver += xmlMemUsed() - memused;
     }
 
     return(ret);
@@ -4441,8 +4439,6 @@ launchTests(testDescPtr tst) {
 	    } else if ((error) &&(!checkTestFile(error)) && !update_results) {
 	        fprintf(stderr, "Missing error file %s\n", error);
 	    } else {
-		mem = xmlMemUsed();
-		extraMemoryFromResolver = 0;
 		testErrorsSize = 0;
 		testErrors[0] = 0;
 		res = tst->func(globbuf.gl_pathv[i], result, error,
@@ -4453,15 +4449,6 @@ launchTests(testDescPtr tst) {
 		            globbuf.gl_pathv[i]);
 		    nb_errors++;
 		    err++;
-		}
-		else if (xmlMemUsed() != mem) {
-		    if ((xmlMemUsed() != mem) &&
-		        (extraMemoryFromResolver == 0)) {
-			fprintf(stderr, "File %s leaked %d bytes\n",
-				globbuf.gl_pathv[i], xmlMemUsed() - mem);
-			nb_leaks++;
-			err++;
-		    }
 		}
 		testErrorsSize = 0;
 	    }
@@ -4474,7 +4461,6 @@ launchTests(testDescPtr tst) {
     } else {
         testErrorsSize = 0;
 	testErrors[0] = 0;
-	extraMemoryFromResolver = 0;
         res = tst->func(NULL, NULL, NULL, tst->options);
 	if (res != 0) {
 	    nb_errors++;

@@ -299,7 +299,7 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
     xmlChar *edition = NULL;
     int options = 0;
     int nstest = 0;
-    int mem, final;
+    int final;
     int i;
 
     testErrorsSize = 0; testErrors[0] = 0;
@@ -374,11 +374,10 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
     }
 
     /*
-     * Reset errors and check memory usage before the test
+     * Reset errors before the test
      */
     xmlResetLastError();
     testErrorsSize = 0; testErrors[0] = 0;
-    mem = xmlMemUsed();
 
     if (xmlStrEqual(type, BAD_CAST "not-wf")) {
         if (nstest == 0)
@@ -403,17 +402,9 @@ xmlconfTestItem(xmlDocPtr doc, xmlNodePtr cur) {
     }
 
     /*
-     * Reset errors and check memory usage after the test
+     * Reset errors after the test
      */
     xmlResetLastError();
-    final = xmlMemUsed();
-    if (final > mem) {
-        test_log("test %s : %s leaked %d bytes\n",
-	         id, filename, final - mem);
-        nb_leaks++;
-	xmlMemDisplayLast(logfile, final - mem);
-    }
-    nb_tests++;
 
 error:
     free(type);

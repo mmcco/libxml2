@@ -1415,7 +1415,7 @@ xmlSchematronReportSuccess(xmlSchematronValidCtxtPtr ctxt,
 	xmlSchematronReportOutput(ctxt, cur, &msg[0]);
     }
 
-    free(report);
+    free((void *)report);
 
 	if ((path != NULL) && (path != (xmlChar *) cur->name))
 	    free(path);

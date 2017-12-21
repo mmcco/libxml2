@@ -361,7 +361,7 @@ static void
 xmlFreeSaveCtxt(xmlSaveCtxtPtr ctxt)
 {
     if (ctxt == NULL) return;
-    free(ctxt->encoding);
+    free((void *)ctxt->encoding);
     if (ctxt->buf != NULL)
         xmlOutputBufferClose(ctxt->buf);
     free(ctxt);
@@ -2558,7 +2558,7 @@ xmlDocFormatDump(FILE *f, xmlDocPtr cur, int format) {
     if (encoding != NULL) {
 	handler = xmlFindCharEncodingHandler(encoding);
 	if (handler == NULL) {
-	    free(cur->encoding);
+	    free((void *)cur->encoding);
 	    cur->encoding = NULL;
 	    encoding = NULL;
 	}

@@ -80,8 +80,6 @@ static int nb_errors = 0;
 static int nb_internals = 0;
 static int nb_schematas = 0;
 static int nb_unimplemented = 0;
-static int nb_leaks = 0;
-static int extraMemoryFromResolver = 0;
 
 static int
 fatalError(void) {
@@ -141,9 +139,7 @@ testExternalEntityLoader(const char *URL, const char *ID,
     if (checkTestFile(URL)) {
 	ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
     } else {
-	int memused = xmlMemUsed();
-	ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
-	extraMemoryFromResolver += xmlMemUsed() - memused;
+    	ret = 1
     }
 #if 0
     if (ret == NULL) {
@@ -313,8 +309,6 @@ xsdIncorectTestCase(xmlNodePtr cur) {
         return(1);
     }
 
-    memt = xmlMemUsed();
-    extraMemoryFromResolver = 0;
     /*
      * dump the schemas to a buffer, then reparse it and compile the schemas
      */
@@ -344,11 +338,6 @@ done:
     if (rng != NULL)
         xmlRelaxNGFree(rng);
     xmlResetLastError();
-    if ((memt < xmlMemUsed()) && (extraMemoryFromResolver == 0)) {
-	test_log("Validation of tests starting line %ld leaked %d\n",
-		xmlGetLineNo(cur), xmlMemUsed() - memt);
-	nb_leaks++;
-    }
     return(ret);
 }
 
@@ -448,8 +437,6 @@ xsdTestCase(xmlNodePtr tst) {
         return(1);
     }
 
-    memt = xmlMemUsed();
-    extraMemoryFromResolver = 0;
     /*
      * dump the schemas to a buffer, then reparse it and compile the schemas
      */
@@ -466,8 +453,6 @@ xsdTestCase(xmlNodePtr tst) {
 	 pctxt);
     rng = xmlRelaxNGParse(pctxt);
     xmlRelaxNGFreeParserCtxt(pctxt);
-    if (extraMemoryFromResolver)
-        memt = 0;
 
     if (rng == NULL) {
         test_log("Failed to parse RNGtest line %ld\n",
@@ -496,8 +481,6 @@ xsdTestCase(xmlNodePtr tst) {
 	    /*
 	     * We are ready to run the test
 	     */
-	    mem = xmlMemUsed();
-	    extraMemoryFromResolver = 0;
             doc = xmlReadMemory((const char *)buf->content, buf->use,
 	                        "test", NULL, 0);
 	    if (doc == NULL) {
@@ -525,12 +508,6 @@ xsdTestCase(xmlNodePtr tst) {
 		xmlFreeDoc(doc);
 	    }
 	    xmlResetLastError();
-	    if ((mem != xmlMemUsed()) && (extraMemoryFromResolver == 0)) {
-	        test_log("Validation of instance line %ld leaked %d\n",
-		        xmlGetLineNo(tmp), xmlMemUsed() - mem);
-		abort();
-	        nb_leaks++;
-	    }
 	}
 	free(dtd);
 	tmp = getNext(tmp, "following-sibling::valid[1]");
@@ -552,8 +529,6 @@ xsdTestCase(xmlNodePtr tst) {
 	    /*
 	     * We are ready to run the test
 	     */
-	    mem = xmlMemUsed();
-	    extraMemoryFromResolver = 0;
             doc = xmlReadMemory((const char *)buf->content, buf->use,
 	                        "test", NULL, 0);
 	    if (doc == NULL) {
@@ -581,12 +556,6 @@ xsdTestCase(xmlNodePtr tst) {
 		xmlFreeDoc(doc);
 	    }
 	    xmlResetLastError();
-	    if ((mem != xmlMemUsed()) && (extraMemoryFromResolver == 0)) {
-	        test_log("Validation of instance line %ld leaked %d\n",
-		        xmlGetLineNo(tmp), xmlMemUsed() - mem);
-		abort();
-	        nb_leaks++;
-	    }
 	}
 	tmp = getNext(tmp, "following-sibling::invalid[1]");
     }
@@ -597,11 +566,6 @@ done:
     if (rng != NULL)
         xmlRelaxNGFree(rng);
     xmlResetLastError();
-    if ((memt != xmlMemUsed()) && (memt != 0)) {
-	test_log("Validation of tests starting line %ld leaked %d\n",
-		xmlGetLineNo(cur), xmlMemUsed() - memt);
-	nb_leaks++;
-    }
     return(ret);
 }
 
@@ -777,11 +741,10 @@ xstcTestInstance(xmlNodePtr cur, xmlSchemaPtr schemas,
     xmlChar *validity = NULL;
     xmlSchemaValidCtxtPtr ctxt = NULL;
     xmlDocPtr doc = NULL;
-    int ret = 0, mem;
+    int ret = 0;
 
     xmlResetLastError();
     testErrorsSize = 0; testErrors[0] = 0;
-    mem = xmlMemUsed();
     href = getString(cur,
                      "string(ts:instanceDocument/@xlink:href)");
     if ((href == NULL) || (href[0] == 0)) {
@@ -859,11 +822,6 @@ done:
     if (ctxt != NULL) xmlSchemaFreeValidCtxt(ctxt);
     if (doc != NULL) xmlFreeDoc(doc);
     xmlResetLastError();
-    if (mem != xmlMemUsed()) {
-	test_log("Validation of tests starting line %ld leaked %d\n",
-		xmlGetLineNo(cur), xmlMemUsed() - mem);
-	nb_leaks++;
-    }
     return(ret);
 }
 
@@ -875,11 +833,10 @@ xstcTestGroup(xmlNodePtr cur, const char *base) {
     xmlSchemaPtr schemas = NULL;
     xmlSchemaParserCtxtPtr ctxt;
     xmlNodePtr instance;
-    int ret = 0, mem;
+    int ret = 0;
 
     xmlResetLastError();
     testErrorsSize = 0; testErrors[0] = 0;
-    mem = xmlMemUsed();
     href = getString(cur,
                      "string(ts:schemaTest/ts:schemaDocument/@xlink:href)");
     if ((href == NULL) || (href[0] == 0)) {
@@ -981,11 +938,6 @@ done:
     free(validity);
     if (schemas != NULL) xmlSchemaFree(schemas);
     xmlResetLastError();
-    if ((mem != xmlMemUsed()) && (extraMemoryFromResolver == 0)) {
-	test_log("Processing test line %ld %s leaked %d\n",
-		xmlGetLineNo(cur), path, xmlMemUsed() - mem);
-	nb_leaks++;
-    }
     return(ret);
 }
 

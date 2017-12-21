@@ -215,7 +215,7 @@ static int xmlTextReaderNextTree(xmlTextReaderPtr reader);
 #define DICT_FREE(str)						\
 	if ((str) && ((!dict) ||				\
 	    (xmlDictOwns(dict, (const xmlChar *)(str)) == 0)))	\
-	    free((str));
+	    free(((xmlChar *)(str)));
 
 static void xmlTextReaderFreeNode(xmlTextReaderPtr reader, xmlNodePtr cur);
 static void xmlTextReaderFreeNodeList(xmlTextReaderPtr reader, xmlNodePtr cur);
@@ -541,11 +541,11 @@ xmlTextReaderFreeDoc(xmlTextReaderPtr reader, xmlDocPtr cur) {
 
     if (cur->children != NULL) xmlTextReaderFreeNodeList(reader, cur->children);
 
-    free(cur->version);
+    free((void *)cur->version);
     free(cur->name);
-    free(cur->encoding);
+    free((void *)cur->encoding);
     if (cur->oldNs != NULL) xmlFreeNsList(cur->oldNs);
-    free(cur->URL);
+    free((void *)cur->URL);
     if (cur->dict != NULL) xmlDictFree(cur->dict);
 
     free(cur);

@@ -1804,9 +1804,9 @@ xmlRelaxNGValidErrorPop(xmlRelaxNGValidCtxtPtr ctxt)
         ctxt->err = NULL;
     cur = &ctxt->errTab[ctxt->errNr];
     if (cur->flags & ERROR_IS_DUP) {
-        free(cur->arg1);
+        free((void *)cur->arg1);
         cur->arg1 = NULL;
-        free(cur->arg2);
+        free((void *)cur->arg2);
         cur->arg2 = NULL;
         cur->flags = 0;
     }
@@ -2234,9 +2234,9 @@ xmlRelaxNGPopErrors(xmlRelaxNGValidCtxtPtr ctxt, int level)
     for (i = level; i < ctxt->errNr; i++) {
         err = &ctxt->errTab[i];
         if (err->flags & ERROR_IS_DUP) {
-            free(err->arg1);
+            free((void *)err->arg1);
             err->arg1 = NULL;
-            free(err->arg2);
+            free((void *)err->arg2);
             err->arg2 = NULL;
             err->flags = 0;
         }
@@ -2279,9 +2279,9 @@ xmlRelaxNGDumpValidError(xmlRelaxNGValidCtxtPtr ctxt)
         }
       skip:
         if (err->flags & ERROR_IS_DUP) {
-            free(err->arg1);
+            free((void *)err->arg1);
             err->arg1 = NULL;
-            free(err->arg2);
+            free((void *)err->arg2);
             err->arg2 = NULL;
             err->flags = 0;
         }
@@ -2685,7 +2685,7 @@ xmlRelaxNGFreeTypeLibrary(xmlRelaxNGTypeLibraryPtr lib,
 {
     if (lib == NULL)
         return;
-    free(lib->namespace);
+    free((void *)lib->namespace);
     free(lib);
 }
 

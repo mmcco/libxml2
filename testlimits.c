@@ -387,10 +387,8 @@ static xmlParserInputPtr
 testExternalEntityLoader(const char *URL, const char *ID,
 			 xmlParserCtxtPtr ctxt) {
     xmlParserInputPtr ret;
-    int memused = xmlMemUsed();
 
     ret = xmlNoNetExternalEntityLoader(URL, ID, ctxt);
-    extraMemoryFromResolver += xmlMemUsed() - memused;
 
     return(ret);
 }

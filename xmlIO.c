@@ -3812,8 +3812,8 @@ xmlCheckHTTPInput(xmlParserCtxtPtr ctxt, xmlParserInputPtr ret) {
             }
             redir = xmlNanoHTTPRedir(ret->buf->context);
             if (redir != NULL) {
-                free(ret->filename);
-                free(ret->directory);
+                free((void *)ret->filename);
+                free((void *)ret->directory);
                 ret->directory = NULL;
                 ret->filename =
                     (char *) xmlStrdup((const xmlChar *) redir);
