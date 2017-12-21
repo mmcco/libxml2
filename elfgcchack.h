@@ -2114,16 +2114,6 @@ extern __typeof (xmlCleanupInputCallbacks) xmlCleanupInputCallbacks__internal_al
 #endif
 #endif
 
-#ifdef bottom_xmlmemory
-#undef xmlCleanupMemory
-extern __typeof (xmlCleanupMemory) xmlCleanupMemory __attribute((alias("xmlCleanupMemory__internal_alias")));
-#else
-#ifndef xmlCleanupMemory
-extern __typeof (xmlCleanupMemory) xmlCleanupMemory__internal_alias __attribute((visibility("hidden")));
-#define xmlCleanupMemory xmlCleanupMemory__internal_alias
-#endif
-#endif
-
 #if defined(LIBXML_OUTPUT_ENABLED)
 #ifdef bottom_xmlIO
 #undef xmlCleanupOutputCallbacks
@@ -3860,26 +3850,6 @@ extern __typeof (xmlFreeValidCtxt) xmlFreeValidCtxt__internal_alias __attribute(
 #endif
 #endif
 
-#ifdef bottom_xmlmemory
-#undef xmlGcMemGet
-extern __typeof (xmlGcMemGet) xmlGcMemGet __attribute((alias("xmlGcMemGet__internal_alias")));
-#else
-#ifndef xmlGcMemGet
-extern __typeof (xmlGcMemGet) xmlGcMemGet__internal_alias __attribute((visibility("hidden")));
-#define xmlGcMemGet xmlGcMemGet__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlGcMemSetup
-extern __typeof (xmlGcMemSetup) xmlGcMemSetup __attribute((alias("xmlGcMemSetup__internal_alias")));
-#else
-#ifndef xmlGcMemSetup
-extern __typeof (xmlGcMemSetup) xmlGcMemSetup__internal_alias __attribute((visibility("hidden")));
-#define xmlGcMemSetup xmlGcMemSetup__internal_alias
-#endif
-#endif
-
 #ifdef bottom_tree
 #undef xmlGetBufferAllocationScheme
 extern __typeof (xmlGetBufferAllocationScheme) xmlGetBufferAllocationScheme __attribute((alias("xmlGetBufferAllocationScheme__internal_alias")));
@@ -4630,16 +4600,6 @@ extern __typeof (xmlInitGlobals) xmlInitGlobals__internal_alias __attribute((vis
 #endif
 #endif
 
-#ifdef bottom_xmlmemory
-#undef xmlInitMemory
-extern __typeof (xmlInitMemory) xmlInitMemory __attribute((alias("xmlInitMemory__internal_alias")));
-#else
-#ifndef xmlInitMemory
-extern __typeof (xmlInitMemory) xmlInitMemory__internal_alias __attribute((visibility("hidden")));
-#define xmlInitMemory xmlInitMemory__internal_alias
-#endif
-#endif
-
 #ifdef bottom_parserInternals
 #undef xmlInitNodeInfoSeq
 extern __typeof (xmlInitNodeInfoSeq) xmlInitNodeInfoSeq __attribute((alias("xmlInitNodeInfoSeq__internal_alias")));
@@ -5255,156 +5215,6 @@ extern __typeof (xmlLsOneNode) xmlLsOneNode __attribute((alias("xmlLsOneNode__in
 extern __typeof (xmlLsOneNode) xmlLsOneNode__internal_alias __attribute((visibility("hidden")));
 #define xmlLsOneNode xmlLsOneNode__internal_alias
 #endif
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMallocAtomicLoc
-extern __typeof (xmlMallocAtomicLoc) xmlMallocAtomicLoc __attribute((alias("xmlMallocAtomicLoc__internal_alias")));
-#else
-#ifndef xmlMallocAtomicLoc
-extern __typeof (xmlMallocAtomicLoc) xmlMallocAtomicLoc__internal_alias __attribute((visibility("hidden")));
-#define xmlMallocAtomicLoc xmlMallocAtomicLoc__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMallocLoc
-extern __typeof (xmlMallocLoc) xmlMallocLoc __attribute((alias("xmlMallocLoc__internal_alias")));
-#else
-#ifndef xmlMallocLoc
-extern __typeof (xmlMallocLoc) xmlMallocLoc__internal_alias __attribute((visibility("hidden")));
-#define xmlMallocLoc xmlMallocLoc__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemBlocks
-extern __typeof (xmlMemBlocks) xmlMemBlocks __attribute((alias("xmlMemBlocks__internal_alias")));
-#else
-#ifndef xmlMemBlocks
-extern __typeof (xmlMemBlocks) xmlMemBlocks__internal_alias __attribute((visibility("hidden")));
-#define xmlMemBlocks xmlMemBlocks__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemDisplay
-extern __typeof (xmlMemDisplay) xmlMemDisplay __attribute((alias("xmlMemDisplay__internal_alias")));
-#else
-#ifndef xmlMemDisplay
-extern __typeof (xmlMemDisplay) xmlMemDisplay__internal_alias __attribute((visibility("hidden")));
-#define xmlMemDisplay xmlMemDisplay__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemDisplayLast
-extern __typeof (xmlMemDisplayLast) xmlMemDisplayLast __attribute((alias("xmlMemDisplayLast__internal_alias")));
-#else
-#ifndef xmlMemDisplayLast
-extern __typeof (xmlMemDisplayLast) xmlMemDisplayLast__internal_alias __attribute((visibility("hidden")));
-#define xmlMemDisplayLast xmlMemDisplayLast__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemFree
-extern __typeof (xmlMemFree) xmlMemFree __attribute((alias("xmlMemFree__internal_alias")));
-#else
-#ifndef xmlMemFree
-extern __typeof (xmlMemFree) xmlMemFree__internal_alias __attribute((visibility("hidden")));
-#define xmlMemFree xmlMemFree__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemGet
-extern __typeof (xmlMemGet) xmlMemGet __attribute((alias("xmlMemGet__internal_alias")));
-#else
-#ifndef xmlMemGet
-extern __typeof (xmlMemGet) xmlMemGet__internal_alias __attribute((visibility("hidden")));
-#define xmlMemGet xmlMemGet__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemMalloc
-extern __typeof (xmlMemMalloc) xmlMemMalloc __attribute((alias("xmlMemMalloc__internal_alias")));
-#else
-#ifndef xmlMemMalloc
-extern __typeof (xmlMemMalloc) xmlMemMalloc__internal_alias __attribute((visibility("hidden")));
-#define xmlMemMalloc xmlMemMalloc__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemRealloc
-extern __typeof (xmlMemRealloc) xmlMemRealloc __attribute((alias("xmlMemRealloc__internal_alias")));
-#else
-#ifndef xmlMemRealloc
-extern __typeof (xmlMemRealloc) xmlMemRealloc__internal_alias __attribute((visibility("hidden")));
-#define xmlMemRealloc xmlMemRealloc__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemSetup
-extern __typeof (xmlMemSetup) xmlMemSetup __attribute((alias("xmlMemSetup__internal_alias")));
-#else
-#ifndef xmlMemSetup
-extern __typeof (xmlMemSetup) xmlMemSetup__internal_alias __attribute((visibility("hidden")));
-#define xmlMemSetup xmlMemSetup__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemShow
-extern __typeof (xmlMemShow) xmlMemShow __attribute((alias("xmlMemShow__internal_alias")));
-#else
-#ifndef xmlMemShow
-extern __typeof (xmlMemShow) xmlMemShow__internal_alias __attribute((visibility("hidden")));
-#define xmlMemShow xmlMemShow__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemStrdupLoc
-extern __typeof (xmlMemStrdupLoc) xmlMemStrdupLoc __attribute((alias("xmlMemStrdupLoc__internal_alias")));
-#else
-#ifndef xmlMemStrdupLoc
-extern __typeof (xmlMemStrdupLoc) xmlMemStrdupLoc__internal_alias __attribute((visibility("hidden")));
-#define xmlMemStrdupLoc xmlMemStrdupLoc__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemUsed
-extern __typeof (xmlMemUsed) xmlMemUsed __attribute((alias("xmlMemUsed__internal_alias")));
-#else
-#ifndef xmlMemUsed
-extern __typeof (xmlMemUsed) xmlMemUsed__internal_alias __attribute((visibility("hidden")));
-#define xmlMemUsed xmlMemUsed__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemoryDump
-extern __typeof (xmlMemoryDump) xmlMemoryDump __attribute((alias("xmlMemoryDump__internal_alias")));
-#else
-#ifndef xmlMemoryDump
-extern __typeof (xmlMemoryDump) xmlMemoryDump__internal_alias __attribute((visibility("hidden")));
-#define xmlMemoryDump xmlMemoryDump__internal_alias
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlMemoryStrdup
-extern __typeof (xmlMemoryStrdup) xmlMemoryStrdup __attribute((alias("xmlMemoryStrdup__internal_alias")));
-#else
-#ifndef xmlMemoryStrdup
-extern __typeof (xmlMemoryStrdup) xmlMemoryStrdup__internal_alias __attribute((visibility("hidden")));
-#define xmlMemoryStrdup xmlMemoryStrdup__internal_alias
 #endif
 #endif
 
@@ -8205,16 +8015,6 @@ extern __typeof (xmlReaderWalker) xmlReaderWalker __attribute((alias("xmlReaderW
 extern __typeof (xmlReaderWalker) xmlReaderWalker__internal_alias __attribute((visibility("hidden")));
 #define xmlReaderWalker xmlReaderWalker__internal_alias
 #endif
-#endif
-#endif
-
-#ifdef bottom_xmlmemory
-#undef xmlReallocLoc
-extern __typeof (xmlReallocLoc) xmlReallocLoc __attribute((alias("xmlReallocLoc__internal_alias")));
-#else
-#ifndef xmlReallocLoc
-extern __typeof (xmlReallocLoc) xmlReallocLoc__internal_alias __attribute((visibility("hidden")));
-#define xmlReallocLoc xmlReallocLoc__internal_alias
 #endif
 #endif
 
