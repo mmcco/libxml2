@@ -558,7 +558,7 @@ xmlTextWriterStartDocument(xmlTextWriterPtr writer, const char *version,
 	}
         xmlCharEncOutput(writer->out, 1);
         if ((writer->doc != NULL) && (writer->doc->encoding == NULL))
-            writer->doc->encoding = strdup((xmlChar *)writer->out->encoder->name);
+            writer->doc->encoding = strdup(writer->out->encoder->name);
     } else
         writer->out->conv = NULL;
 
@@ -4551,7 +4551,7 @@ xmlTextWriterStartDocumentCallback(void *ctx)
             xmlCanonicPath((const xmlChar *) ctxt->input->filename);
         if (ctxt->myDoc->URL == NULL)
             ctxt->myDoc->URL =
-                strdup((const xmlChar *) ctxt->input->filename);
+                strdup(ctxt->input->filename);
     }
 }
 

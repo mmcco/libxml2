@@ -110,7 +110,7 @@ xmlXPtrErr(xmlXPathParserContextPtr ctxt, int error,
     ctxt->context->lastError.domain = XML_FROM_XPOINTER;
     ctxt->context->lastError.code = error;
     ctxt->context->lastError.level = XML_ERR_ERROR;
-    ctxt->context->lastError.str1 = (char *) strdup(ctxt->base);
+    ctxt->context->lastError.str1 = strdup(ctxt->base);
     ctxt->context->lastError.int1 = ctxt->cur - ctxt->base;
     ctxt->context->lastError.node = ctxt->context->debugNode;
     if (ctxt->context->error != NULL) {

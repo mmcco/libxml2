@@ -2444,7 +2444,7 @@ xmlXIncludeProcessTreeFlagsData(xmlNodePtr tree, int flags, void *data) {
     if (ctxt == NULL)
         return(-1);
     ctxt->_private = data;
-    ctxt->base = strdup((xmlChar *)tree->doc->URL);
+    ctxt->base = strdup(tree->doc->URL);
     xmlXIncludeSetFlags(ctxt, flags);
     ret = xmlXIncludeDoProcess(ctxt, tree->doc, tree);
     if ((ret >= 0) && (ctxt->nbErrors > 0))

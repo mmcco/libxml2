@@ -2112,7 +2112,7 @@ xmlShellRegisterNamespace(xmlShellCtxtPtr ctxt, char *arg,
     xmlChar* href;
     xmlChar* next;
 
-    nsListDup = strdup((xmlChar *) arg);
+    nsListDup = strdup(arg);
     next = nsListDup;
     while(next != NULL) {
 	/* skip spaces */
@@ -2829,7 +2829,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
     ctxt->doc = doc;
     ctxt->input = input;
     ctxt->output = output;
-    ctxt->filename = (char *) strdup((xmlChar *) filename);
+    ctxt->filename = (char *) strdup(filename);
     ctxt->node = (xmlNodePtr) ctxt->doc;
 
 #ifdef LIBXML_XPATH_ENABLED

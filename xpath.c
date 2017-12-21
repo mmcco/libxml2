@@ -2513,7 +2513,7 @@ xmlXPathCacheNewString(xmlXPathContextPtr ctxt, const xmlChar *val)
 	    if (val != NULL)
 		ret->stringval = strdup(val);
 	    else
-		ret->stringval = strdup((const xmlChar *)"");
+		ret->stringval = strdup("");
 #ifdef XP_DEBUG_OBJ_USAGE
 	    xmlXPathDebugObjUsageRequested(ctxt, XPATH_STRING);
 #endif
@@ -2530,7 +2530,7 @@ xmlXPathCacheNewString(xmlXPathContextPtr ctxt, const xmlChar *val)
 	    if (val != NULL)
 		ret->stringval = strdup(val);
 	    else
-		ret->stringval = strdup((const xmlChar *)"");
+		ret->stringval = strdup("");
 #ifdef XP_DEBUG_OBJ_USAGE
 	    xmlXPathDebugObjUsageRequested(ctxt, XPATH_STRING);
 #endif
@@ -5278,7 +5278,7 @@ xmlXPathNewString(const xmlChar *val) {
     if (val != NULL)
 	ret->stringval = strdup(val);
     else
-	ret->stringval = strdup((const xmlChar *)"");
+	ret->stringval = strdup("");
 #ifdef XP_DEBUG_OBJ_USAGE
     xmlXPathDebugObjUsageRequested(NULL, XPATH_STRING);
 #endif
@@ -5666,9 +5666,9 @@ xmlChar *
 xmlXPathCastBooleanToString (int val) {
     xmlChar *ret;
     if (val)
-	ret = strdup((const xmlChar *) "true");
+	ret = strdup("true");
     else
-	ret = strdup((const xmlChar *) "false");
+	ret = strdup("false");
     return(ret);
 }
 
@@ -5685,22 +5685,22 @@ xmlXPathCastNumberToString (double val) {
     xmlChar *ret;
     switch (xmlXPathIsInf(val)) {
     case 1:
-	ret = strdup((const xmlChar *) "Infinity");
+	ret = strdup("Infinity");
 	break;
     case -1:
-	ret = strdup((const xmlChar *) "-Infinity");
+	ret = strdup("-Infinity");
 	break;
     default:
 	if (xmlXPathIsNaN(val)) {
-	    ret = strdup((const xmlChar *) "NaN");
+	    ret = strdup("NaN");
 	} else if (val == 0 && xmlXPathGetSign(val) != 0) {
-	    ret = strdup((const xmlChar *) "0");
+	    ret = strdup("0");
 	} else {
 	    /* could be improved */
 	    char buf[100];
 	    xmlXPathFormatNumber(val, buf, 99);
 	    buf[99] = 0;
-	    ret = strdup((const xmlChar *) buf);
+	    ret = strdup(buf);
 	}
     }
     return(ret);
@@ -5718,7 +5718,7 @@ xmlChar *
 xmlXPathCastNodeToString (xmlNodePtr node) {
 xmlChar *ret;
     if ((ret = xmlNodeGetContent(node)) == NULL)
-	ret = strdup((const xmlChar *) "");
+	ret = strdup("");
     return(ret);
 }
 
@@ -5733,7 +5733,7 @@ xmlChar *ret;
 xmlChar *
 xmlXPathCastNodeSetToString (xmlNodeSetPtr ns) {
     if ((ns == NULL) || (ns->nodeNr == 0) || (ns->nodeTab == NULL))
-	return(strdup((const xmlChar *) ""));
+	return(strdup(""));
 
     if (ns->nodeNr > 1)
 	xmlXPathNodeSetSort(ns);
@@ -5754,13 +5754,13 @@ xmlXPathCastToString(xmlXPathObjectPtr val) {
     xmlChar *ret = NULL;
 
     if (val == NULL)
-	return(strdup((const xmlChar *) ""));
+	return(strdup(""));
     switch (val->type) {
 	case XPATH_UNDEFINED:
 #ifdef DEBUG_EXPR
 	    xmlGenericError(xmlGenericErrorContext, "String: undefined\n");
 #endif
-	    ret = strdup((const xmlChar *) "");
+	    ret = strdup("");
 	    break;
         case XPATH_NODESET:
         case XPATH_XSLT_TREE:
@@ -5780,7 +5780,7 @@ xmlXPathCastToString(xmlXPathObjectPtr val) {
 	case XPATH_RANGE:
 	case XPATH_LOCATIONSET:
 	    TODO
-	    ret = strdup((const xmlChar *) "");
+	    ret = strdup("");
 	    break;
     }
     return(ret);

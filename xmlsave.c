@@ -393,7 +393,7 @@ xmlNewSaveCtxt(const char *encoding, int options)
             xmlFreeSaveCtxt(ret);
 	    return(NULL);
 	}
-        ret->encoding = strdup((const xmlChar *)encoding);
+        ret->encoding = strdup(encoding);
 	ret->escape = NULL;
     }
     xmlSaveCtxtInit(ret);

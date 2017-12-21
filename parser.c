@@ -13567,7 +13567,7 @@ xmlParseInNodeContext(xmlNodePtr node, const char *data, int datalen,
         xmlCharEncodingHandlerPtr hdlr;
 
 	free((void *)ctxt->encoding);
-        ctxt->encoding = strdup((const xmlChar *) doc->encoding);
+        ctxt->encoding = strdup(doc->encoding);
 
         hdlr = xmlFindCharEncodingHandler((const char *) doc->encoding);
         if (hdlr != NULL) {
@@ -14930,7 +14930,7 @@ xmlCtxtResetPush(xmlParserCtxtPtr ctxt, const char *chunk,
         xmlCharEncodingHandlerPtr hdlr;
 
 	free((void *)ctxt->encoding);
-        ctxt->encoding = strdup((const xmlChar *) encoding);
+        ctxt->encoding = strdup(encoding);
 
         hdlr = xmlFindCharEncodingHandler(encoding);
         if (hdlr != NULL) {
@@ -14965,7 +14965,7 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
         return(-1);
     if (encoding != NULL) {
 	free((void *)ctxt->encoding);
-        ctxt->encoding = strdup((const xmlChar *) encoding);
+        ctxt->encoding = strdup(encoding);
     }
     if (options & XML_PARSE_RECOVER) {
         ctxt->recovery = 1;
@@ -15132,7 +15132,7 @@ xmlDoRead(xmlParserCtxtPtr ctxt, const char *URL, const char *encoding,
     }
     if ((URL != NULL) && (ctxt->input != NULL) &&
         (ctxt->input->filename == NULL))
-        ctxt->input->filename = (char *) strdup((const xmlChar *) URL);
+        ctxt->input->filename = (char *) strdup(URL);
     xmlParseDocument(ctxt);
     if ((ctxt->wellFormed) || ctxt->recovery)
         ret = ctxt->myDoc;

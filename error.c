@@ -547,7 +547,7 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
     to->message = str;
     to->level = level;
     if (file != NULL)
-        to->file = (char *) strdup((const xmlChar *) file);
+        to->file = (char *) strdup(file);
     else if (baseptr != NULL) {
 #ifdef LIBXML_XINCLUDE_ENABLED
 	/*
@@ -586,11 +586,11 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
     }
     to->line = line;
     if (str1 != NULL)
-        to->str1 = (char *) strdup((const xmlChar *) str1);
+        to->str1 = (char *) strdup(str1);
     if (str2 != NULL)
-        to->str2 = (char *) strdup((const xmlChar *) str2);
+        to->str2 = (char *) strdup(str2);
     if (str3 != NULL)
-        to->str3 = (char *) strdup((const xmlChar *) str3);
+        to->str3 = (char *) strdup(str3);
     to->int1 = int1;
     to->int2 = col;
     to->node = node;
@@ -950,7 +950,7 @@ xmlCopyError(xmlErrorPtr from, xmlErrorPtr to) {
     if ((from == NULL) || (to == NULL))
         return(-1);
 
-    message = (char *) strdup((xmlChar *) from->message);
+    message = (char *) strdup(from->message);
     file = (char *) strdup ((xmlChar *) from->file);
     str1 = (char *) strdup ((xmlChar *) from->str1);
     str2 = (char *) strdup ((xmlChar *) from->str2);

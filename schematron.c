@@ -1382,9 +1382,9 @@ xmlSchematronReportSuccess(xmlSchematronValidCtxtPtr ctxt,
             report = xmlSchematronFormatReport(ctxt, test->node, cur);
 	if (report == NULL) {
 	    if (test->type == XML_SCHEMATRON_ASSERT) {
-            report = strdup((const xmlChar *) "node failed assert");
+            report = strdup("node failed assert");
 	    } else {
-            report = strdup((const xmlChar *) "node failed report");
+            report = strdup("node failed report");
 	    }
 	    }
 	    snprintf(msg, 999, "%s line %ld: %s\n", (const char *) path,

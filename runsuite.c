@@ -66,7 +66,7 @@ static xmlChar *composeDir(const xmlChar *dir, const xmlChar *path) {
     if (path == NULL) return(NULL);
 
     snprintf(buf, 500, "%s/%s", (const char *) dir, (const char *) path);
-    return(strdup((const xmlChar *) buf));
+    return(strdup(buf));
 }
 
 /************************************************************************
@@ -131,7 +131,7 @@ testExternalEntityLoader(const char *URL, const char *ID,
 	                (const xmlChar *) testEntitiesValue[i]);
 	    if (ret != NULL) {
 	        ret->filename = (const char *)
-		                strdup((xmlChar *)testEntitiesName[i]);
+		                strdup(testEntitiesName[i]);
 	    }
 	    return(ret);
 	}

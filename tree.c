@@ -1069,7 +1069,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 	    else \
 		cpy = (xmlChar *) xmlDictLookup((dict), (const xmlChar *)(str), -1); \
 	} else \
-	    cpy = strdup((const xmlChar *)(str)); }
+	    cpy = strdup((str)); }
 
 /**
  * DICT_CONST_COPY:
@@ -1086,7 +1086,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 	    else \
 		cpy = xmlDictLookup((dict), (const xmlChar *)(str), -1); \
 	} else \
-	    cpy = (const xmlChar *) strdup((const xmlChar *)(str)); }
+	    cpy = (const xmlChar *) strdup((str)); }
 
 
 /**
@@ -5972,7 +5972,7 @@ xmlTreeEnsureXMLDecl(xmlDocPtr doc)
 	memset(ns, 0, sizeof(xmlNs));
 	ns->type = XML_LOCAL_NAMESPACE;
 	ns->href = strdup(XML_XML_NAMESPACE);
-	ns->prefix = strdup((const xmlChar *)"xml");
+	ns->prefix = strdup("xml");
 	doc->oldNs = ns;
 	return (ns);
     }
@@ -6017,7 +6017,7 @@ xmlSearchNs(xmlDocPtr doc, xmlNodePtr node, const xmlChar *nameSpace) {
 	    memset(cur, 0, sizeof(xmlNs));
 	    cur->type = XML_LOCAL_NAMESPACE;
 	    cur->href = strdup(XML_XML_NAMESPACE);
-	    cur->prefix = strdup((const xmlChar *)"xml");
+	    cur->prefix = strdup("xml");
 	    cur->next = node->nsDef;
 	    node->nsDef = cur;
 	    return(cur);
@@ -6150,7 +6150,7 @@ xmlSearchNsByHref(xmlDocPtr doc, xmlNodePtr node, const xmlChar * href)
             memset(cur, 0, sizeof(xmlNs));
             cur->type = XML_LOCAL_NAMESPACE;
             cur->href = strdup(XML_XML_NAMESPACE);
-            cur->prefix = strdup((const xmlChar *) "xml");
+            cur->prefix = strdup("xml");
             cur->next = node->nsDef;
             node->nsDef = cur;
             return (cur);
@@ -6599,7 +6599,7 @@ xmlGetPropNodeValueInternal(const xmlAttr *prop)
 		    return(ret);
 	    }
 	}
-	return(strdup((xmlChar *)""));
+	return(strdup(""));
     } else if (prop->type == XML_ATTRIBUTE_DECL) {
 	return(strdup(((xmlAttributePtr)prop)->defaultValue));
     }

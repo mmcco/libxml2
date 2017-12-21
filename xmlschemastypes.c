@@ -5671,7 +5671,7 @@ xmlSchemaGetCanonValue(xmlSchemaValPtr val, const xmlChar **retValue)
 		*retValue = BAD_CAST strdup("");
 	    else
 		*retValue =
-		    BAD_CAST strdup((const xmlChar *) val->value.str);
+		    BAD_CAST strdup(val->value.str);
 	    break;
 	case XML_SCHEMAS_NORMSTRING:
 	    if (val->value.str == NULL)
@@ -5700,7 +5700,7 @@ xmlSchemaGetCanonValue(xmlSchemaValPtr val, const xmlChar **retValue)
 		BAD_CAST xmlSchemaCollapseString(BAD_CAST val->value.str);
 	    if (*retValue == NULL)
 		*retValue =
-		    BAD_CAST strdup((const xmlChar *) val->value.str);
+		    BAD_CAST strdup(val->value.str);
 	    break;
 	case XML_SCHEMAS_QNAME:
 	    /* TODO: Unclear in XML Schema 1.0. */

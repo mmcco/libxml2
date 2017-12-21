@@ -2193,7 +2193,7 @@ xmlNewTextReaderFilename(const char *URI) {
     if (ret->ctxt->directory == NULL)
         directory = xmlParserGetDirectory(URI);
     if ((ret->ctxt->directory == NULL) && (directory != NULL))
-        ret->ctxt->directory = (char *) strdup((xmlChar *) directory);
+        ret->ctxt->directory = (char *) strdup(directory);
     free(directory);
     return(ret);
 }
@@ -2359,7 +2359,7 @@ xmlTextReaderGetAttributeNo(xmlTextReaderPtr reader, int no) {
     /* TODO walk the DTD if present */
 
     ret = xmlNodeListGetString(reader->node->doc, cur->children, 1);
-    if (ret == NULL) return(strdup((xmlChar *)""));
+    if (ret == NULL) return(strdup(""));
     return(ret);
 }
 
@@ -5282,7 +5282,7 @@ xmlTextReaderSetup(xmlTextReaderPtr reader,
     if ((URL != NULL) && (reader->ctxt->input != NULL) &&
         (reader->ctxt->input->filename == NULL))
         reader->ctxt->input->filename = (char *)
-            strdup((const xmlChar *) URL);
+            strdup(URL);
 
     reader->doc = NULL;
 

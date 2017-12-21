@@ -4680,7 +4680,7 @@ xmlSchemaGetNodeContent(xmlSchemaParserCtxtPtr ctxt, xmlNodePtr node)
 
     val = xmlNodeGetContent(node);
     if (val == NULL)
-	val = strdup((xmlChar *)"");
+	val = strdup("");
     ret = xmlDictLookup(ctxt->dict, val, -1);
     free(val);
     return(ret);
@@ -27488,7 +27488,7 @@ xmlSchemaValidateSetFilename(xmlSchemaValidCtxtPtr vctxt, const char *filename) 
         return;
     free(vctxt->filename);
     if (filename != NULL)
-        vctxt->filename = (char *) strdup((const xmlChar *) filename);
+        vctxt->filename = (char *) strdup(filename);
     else
         vctxt->filename = NULL;
 }

@@ -6680,7 +6680,7 @@ xmlRelaxNGNewParserCtxt(const char *URL)
         return (NULL);
     }
     memset(ret, 0, sizeof(xmlRelaxNGParserCtxt));
-    ret->URL = strdup((const xmlChar *) URL);
+    ret->URL = strdup(URL);
     ret->error = xmlGenericError;
     ret->userData = xmlGenericErrorContext;
     return (ret);

@@ -5050,7 +5050,7 @@ htmlCreateDocParserCtxt(const xmlChar *cur, const char *encoding) {
 	xmlCharEncodingHandlerPtr handler;
 
 	free((void *)ctxt->input->encoding);
-	ctxt->input->encoding = strdup((const xmlChar *) encoding);
+	ctxt->input->encoding = strdup(encoding);
 
 	enc = xmlParseCharEncoding(encoding);
 	/*
@@ -6761,12 +6761,12 @@ htmlDoRead(htmlParserCtxtPtr ctxt, const char *URL, const char *encoding,
 	if (hdlr != NULL) {
 	    xmlSwitchToEncoding(ctxt, hdlr);
 	    free((void *)ctxt->input->encoding);
-            ctxt->input->encoding = strdup((xmlChar *)encoding);
+            ctxt->input->encoding = strdup(encoding);
         }
     }
     if ((URL != NULL) && (ctxt->input != NULL) &&
         (ctxt->input->filename == NULL))
-        ctxt->input->filename = (char *) strdup((const xmlChar *) URL);
+        ctxt->input->filename = (char *) strdup(URL);
     htmlParseDocument(ctxt);
     ret = ctxt->myDoc;
     ctxt->myDoc = NULL;

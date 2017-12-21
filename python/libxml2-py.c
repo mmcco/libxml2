@@ -11886,7 +11886,7 @@ libxml_xmlURISetAuthority(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->authority);
-    URI->authority = (char *)strdup((const xmlChar *)authority);
+    URI->authority = (char *)strdup(authority);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -11902,7 +11902,7 @@ libxml_xmlURISetFragment(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->fragment);
-    URI->fragment = (char *)strdup((const xmlChar *)fragment);
+    URI->fragment = (char *)strdup(fragment);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -11918,7 +11918,7 @@ libxml_xmlURISetOpaque(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->opaque);
-    URI->opaque = (char *)strdup((const xmlChar *)opaque);
+    URI->opaque = (char *)strdup(opaque);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -11934,7 +11934,7 @@ libxml_xmlURISetPath(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->path);
-    URI->path = (char *)strdup((const xmlChar *)path);
+    URI->path = (char *)strdup(path);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -11965,7 +11965,7 @@ libxml_xmlURISetQuery(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->query);
-    URI->query = (char *)strdup((const xmlChar *)query);
+    URI->query = (char *)strdup(query);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -11981,7 +11981,7 @@ libxml_xmlURISetQueryRaw(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->query_raw);
-    URI->query_raw = (char *)strdup((const xmlChar *)query_raw);
+    URI->query_raw = (char *)strdup(query_raw);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -11997,7 +11997,7 @@ libxml_xmlURISetScheme(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->scheme);
-    URI->scheme = (char *)strdup((const xmlChar *)scheme);
+    URI->scheme = (char *)strdup(scheme);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -12013,7 +12013,7 @@ libxml_xmlURISetServer(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->server);
-    URI->server = (char *)strdup((const xmlChar *)server);
+    URI->server = (char *)strdup(server);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -12029,7 +12029,7 @@ libxml_xmlURISetUser(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     free(URI->user);
-    URI->user = (char *)strdup((const xmlChar *)user);
+    URI->user = (char *)strdup(user);
     Py_INCREF(Py_None);
     return(Py_None);
 }

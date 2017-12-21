@@ -71,7 +71,7 @@ static xmlChar *composeDir(const xmlChar *dir, const xmlChar *path) {
     if (path == NULL) return(NULL);
 
     snprintf(buf, 500, "%s/%s", (const char *) dir, (const char *) path);
-    return(strdup((const xmlChar *) buf));
+    return(strdup(buf));
 }
 
 /************************************************************************

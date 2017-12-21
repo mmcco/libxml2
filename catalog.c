@@ -2310,7 +2310,7 @@ xmlParseSGMLCatalog(xmlCatalogPtr catal, const xmlChar *value,
 
     if ((cur == NULL) || (file == NULL))
         return(-1);
-    base = strdup((const xmlChar *) file);
+    base = strdup(file);
 
     while ((cur != NULL) && (cur[0] != 0)) {
 	SKIP_BLANKS;

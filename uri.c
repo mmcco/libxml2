@@ -2217,7 +2217,7 @@ xmlBuildRelativeURI (const xmlChar * URI, const xmlChar * base)
 	goto done;
     }
     if (bas->path == NULL) {
-	val = strdup((xmlChar *)ref->path);
+	val = strdup(ref->path);
 	goto done;
     }
     if (ref->path == NULL) {
@@ -2408,7 +2408,7 @@ xmlCanonicPath(const xmlChar *path)
      */
     if ((path[0] == '\\') && (path[1] == '\\') && (path[2] == '?') &&
         (path[3] == '\\') )
-	return strdup((const xmlChar *) path);
+	return strdup(path);
 #endif
 
 	/* sanitize filename starting with // so it can be used as URI */
@@ -2498,14 +2498,14 @@ path_processing:
     }
 
     if (uri->scheme == NULL) {
-	ret = strdup((const xmlChar *) uri->path);
+	ret = strdup(uri->path);
     } else {
 	ret = xmlSaveUri(uri);
     }
 
     xmlFreeURI(uri);
 #else
-    ret = strdup((const xmlChar *) path);
+    ret = strdup(path);
 #endif
     return(ret);
 }
