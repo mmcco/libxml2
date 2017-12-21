@@ -122,7 +122,7 @@ xmlFreeEntity(xmlEntityPtr entity)
             free(entity->URI);
         if (!xmlDictOwns(dict, entity->content))
             free(entity->content);
-        if (!xmlDictOwns(dict, entity->orig)
+        if (!xmlDictOwns(dict, entity->orig))
             free(entity->orig);
     } else {
         free(entity->name);

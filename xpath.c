@@ -1053,7 +1053,6 @@ xmlXPathFreeCompExpr(xmlXPathCompExprPtr comp)
         xmlDictFree(comp->dict);
     }
     free(comp->steps);
-    }
 #ifdef DEBUG_EVAL_COUNTS
     free(comp->string);
 #endif
@@ -14716,7 +14715,7 @@ xmlXPathTryStreamCompile(xmlXPathContextPtr ctxt, const xmlChar *str) {
 	stream = xmlPatterncompile(str, dict, XML_PATTERN_XPATH,
 			&namespaces[0]);
 	free(namespaces);
-	}
+
 	if ((stream != NULL) && (xmlPatternStreamable(stream) == 1)) {
 	    comp = xmlXPathNewCompExpr();
 	    if (comp == NULL) {
