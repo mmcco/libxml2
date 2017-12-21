@@ -107,7 +107,6 @@ static int shell = 0;
 static int debugent = 0;
 #endif
 static int debug = 0;
-static int maxmem = 0;
 #ifdef LIBXML_TREE_ENABLED
 static int copy = 0;
 #endif /* LIBXML_TREE_ENABLED */
@@ -319,69 +318,6 @@ xmllintExternalEntityLoader(const char *URL, const char *ID,
 	    warning(ctxt, "failed to load external entity \"%s\"\n", ID);
     }
     return(NULL);
-}
-/************************************************************************
- *									*
- * Memory allocation consumption debugging				*
- *									*
- ************************************************************************/
-
-static void
-OOM(void)
-{
-    fprintf(stderr, "Ran out of memory needs > %d bytes\n", maxmem);
-    progresult = XMLLINT_ERR_MEM;
-}
-
-static void
-myFreeFunc(void *mem)
-{
-    xmlMemFree(mem);
-}
-static void *
-myMallocFunc(size_t size)
-{
-    void *ret;
-
-    ret = xmlMemMalloc(size);
-    if (ret != NULL) {
-        if (xmlMemUsed() > maxmem) {
-            OOM();
-            xmlMemFree(ret);
-            return (NULL);
-        }
-    }
-    return (ret);
-}
-static void *
-myReallocFunc(void *mem, size_t size)
-{
-    void *ret;
-
-    ret = xmlMemRealloc(mem, size);
-    if (ret != NULL) {
-        if (xmlMemUsed() > maxmem) {
-            OOM();
-            xmlMemFree(ret);
-            return (NULL);
-        }
-    }
-    return (ret);
-}
-static char *
-myStrdupFunc(const char *str)
-{
-    char *ret;
-
-    ret = xmlMemoryStrdup(str);
-    if (ret != NULL) {
-        if (xmlMemUsed() > maxmem) {
-            OOM();
-            free(ret);
-            return (NULL);
-        }
-    }
-    return (ret);
 }
 /************************************************************************
  *									*
@@ -3031,7 +2967,6 @@ static void usage(FILE *f, const char *name) {
 #ifdef HAVE_MMAP
     fprintf(f, "\t--memory : parse from memory\n");
 #endif
-    fprintf(f, "\t--maxmem nbbytes : limits memory allocation to nbbytes bytes\n");
     fprintf(f, "\t--nowarning : do not emit warnings from parser/validator\n");
     fprintf(f, "\t--noblanks : drop (ignorable?) blanks spaces\n");
     fprintf(f, "\t--nocdata : replace cdata section with text nodes\n");
@@ -3363,16 +3298,6 @@ main(int argc, char **argv) {
 	    xmlKeepBlanksDefault(0);
 	    options |= XML_PARSE_NOBLANKS;
         }
-	else if ((!strcmp(argv[i], "-maxmem")) ||
-	         (!strcmp(argv[i], "--maxmem"))) {
-	     i++;
-	     if (sscanf(argv[i], "%d", &maxmem) == 1) {
-	         xmlMemSetup(myFreeFunc, myMallocFunc, myReallocFunc,
-		             myStrdupFunc);
-	     } else {
-	         maxmem = 0;
-	     }
-        }
 	else if ((!strcmp(argv[i], "-format")) ||
 	         (!strcmp(argv[i], "--format"))) {
 	     noblanks++;
@@ -3672,11 +3597,6 @@ main(int argc, char **argv) {
 #endif /* LIBXML_VALID_ENABLED */
 	if ((!strcmp(argv[i], "-relaxng")) ||
 	         (!strcmp(argv[i], "--relaxng"))) {
-	    i++;
-	    continue;
-        }
-	if ((!strcmp(argv[i], "-maxmem")) ||
-	         (!strcmp(argv[i], "--maxmem"))) {
 	    i++;
 	    continue;
         }

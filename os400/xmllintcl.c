@@ -50,7 +50,6 @@ typedef struct {
         vary2 *         pattern;        /* Reader filter pattern. */
         paramlist(5000 + 2, vary2) * path; /* Path for resources. */
         vary2 *         pretty;         /* Pretty-print style. */
-        unsigned long * maxmem;         /* Maximum dynamic memory. */
         vary2 *         encoding;       /* Output encoding. */
         paramlist(20 + 2, vary2) * options; /* Other options. */
 }               arguments;
@@ -195,12 +194,6 @@ main(int argsc, arguments * args)
             args->pretty->string[0] != '0') {
                 vary4arg(&cmd, "--pretty");
                 vary4varg(&cmd, args->pretty);
-                }
-
-        if (args->maxmem && *args->maxmem) {
-                snprintf(textbuf, sizeof textbuf, "%lu", *args->maxmem);
-                vary4arg(&cmd, "--maxmem");
-                vary4arg(&cmd, textbuf);
                 }
 
         for (i = 0; i < args->options->len; i++)

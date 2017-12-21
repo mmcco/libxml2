@@ -93,7 +93,6 @@
 			<arg choice="plain"><option>--xmlout</option></arg>
 			<arg choice="plain"><option>--push</option></arg>
 			<arg choice="plain"><option>--memory</option></arg>
-			<arg choice="plain"><option>--maxmem <replaceable class="option">NBBYTES</replaceable></option></arg>
 			<arg choice="plain"><option>--nowarning</option></arg>
 			<arg choice="plain"><option>--noblanks</option></arg>
 			<arg choice="plain"><option>--nocdata</option></arg>
@@ -332,19 +331,6 @@
 		<para>
 			Display all the documents loaded during the processing
 			to <filename class="devicefile">stderr</filename>.
-		</para>
-	</listitem>
-		</varlistentry>
-
-		<varlistentry>
-	<term><option>--maxmem <replaceable class="option">NNBYTES</replaceable></option></term>
-	<listitem>
-		<para>
-			Test the parser memory support. <replaceable>NNBYTES</replaceable>
-			is the maximum number of bytes the library is allowed to allocate.
-			This can also be used to make sure batch processing
-			of <acronym>XML</acronym> files will not exhaust the virtual memory
-			of the server running them.
 		</para>
 	</listitem>
 		</varlistentry>
