@@ -116,6 +116,6 @@ int main(int argc, char **argv) {
 	    arg++;
 	}
     }
-    xmlMemoryDump();
+    abort();
     return(0);
 }

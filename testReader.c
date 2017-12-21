@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
 	}
     }
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return(0);
 }

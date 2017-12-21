@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
     if (document != NULL)
 	xmlFreeDoc(document);
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return(0);
 }

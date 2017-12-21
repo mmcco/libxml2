@@ -14661,7 +14661,6 @@ xmlInitParser(void) {
 	if ((xmlGenericError == xmlGenericErrorDefaultFunc) ||
 	    (xmlGenericError == NULL))
 	    initGenericErrorDefaultFunc(NULL);
-	xmlInitMemory();
         xmlInitializeDict();
 	xmlInitCharEncodingHandlers();
 	xmlDefaultSAXHandlerInit();
@@ -14726,7 +14725,6 @@ xmlCleanupParser(void) {
     xmlResetLastError();
     xmlCleanupGlobals();
     xmlCleanupThreads(); /* must be last if called not from the main thread */
-    xmlCleanupMemory();
     xmlParserInitialized = 0;
 }
 

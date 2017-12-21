@@ -1081,15 +1081,15 @@ xmlAddEncodingAlias(const char *name, const char *alias) {
 	     * Replace the definition.
 	     */
 	    free(xmlCharEncodingAliases[i].name);
-	    xmlCharEncodingAliases[i].name = xmlMemStrdup(name);
+	    xmlCharEncodingAliases[i].name = strdup(name);
 	    return(0);
 	}
     }
     /*
      * Add the definition
      */
-    xmlCharEncodingAliases[xmlCharEncodingAliasesNb].name = xmlMemStrdup(name);
-    xmlCharEncodingAliases[xmlCharEncodingAliasesNb].alias = xmlMemStrdup(upper);
+    xmlCharEncodingAliases[xmlCharEncodingAliasesNb].name = strdup(name);
+    xmlCharEncodingAliases[xmlCharEncodingAliasesNb].alias = strdup(upper);
     xmlCharEncodingAliasesNb++;
     return(0);
 }
@@ -1336,7 +1336,7 @@ xmlNewCharEncodingHandler(const char *name,
 	if (upper[i] == 0) break;
     }
     upper[i] = 0;
-    up = xmlMemStrdup(upper);
+    up = strdup(upper);
     if (up == NULL) {
         xmlEncodingErrMemory("xmlNewCharEncodingHandler : out of memory !\n");
 	return(NULL);
@@ -1693,7 +1693,7 @@ xmlFindCharEncodingHandler(const char *name) {
 		return(NULL);
 	    }
             memset(enc, 0, sizeof(xmlCharEncodingHandler));
-	    enc->name = xmlMemStrdup(name);
+	    enc->name = strdup(name);
 	    enc->input = NULL;
 	    enc->output = NULL;
 	    enc->iconv_in = icv_in;
@@ -1720,7 +1720,7 @@ xmlFindCharEncodingHandler(const char *name) {
 		return(NULL);
 	    }
             memset(encu, 0, sizeof(xmlCharEncodingHandler));
-	    encu->name = xmlMemStrdup(name);
+	    encu->name = strdup(name);
 	    encu->input = NULL;
 	    encu->output = NULL;
 	    encu->uconv_in = ucv_in;

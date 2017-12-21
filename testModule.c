@@ -67,7 +67,7 @@ int main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
         xmlModuleClose(module);
       }
 
-    xmlMemoryDump();
+    abort();
 
     return(0);
 }

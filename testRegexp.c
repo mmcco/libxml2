@@ -278,8 +278,6 @@ int main(int argc, char **argv) {
     char *filename = NULL;
     int i;
 
-    xmlInitMemory();
-
     if (argc <= 1) {
 	usage(argv[0]);
 	return(1);
@@ -389,7 +387,7 @@ int main(int argc, char **argv) {
     }
 #endif
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
     return(0);
 }
 

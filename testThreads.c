@@ -134,7 +134,7 @@ main(void)
 		printf("Thread %d handling %s failed\n", i, testfiles[i]);
     }
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
     return (0);
 }
 #elif defined HAVE_BEOS_THREADS
@@ -183,7 +183,7 @@ main(void)
 		}
     }
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
 	if (ret == B_OK)
 		printf("testThread : BeOS : SUCCESS!\n");

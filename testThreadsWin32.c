@@ -135,7 +135,7 @@ main()
 	}
 
 	xmlCleanupParser();
-	xmlMemoryDump();
+	abort();
 
 	return (0);
 }

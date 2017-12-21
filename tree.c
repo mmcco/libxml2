@@ -1142,7 +1142,7 @@ xmlFreeDtd(xmlDtdPtr cur) {
     if (cur->pentities != NULL)
         xmlFreeEntitiesTable((xmlEntitiesTablePtr) cur->pentities);
 
-    ree(cur);
+    free(cur);
 }
 
 /**
@@ -4527,7 +4527,7 @@ xmlCopyDoc(xmlDocPtr doc, int recursive) {
     ret = xmlNewDoc(doc->version);
     if (ret == NULL) return(NULL);
     if (doc->name != NULL)
-        ret->name = xmlMemStrdup(doc->name);
+        ret->name = strdup(doc->name);
     if (doc->encoding != NULL)
         ret->encoding = xmlStrdup(doc->encoding);
     if (doc->URL != NULL)

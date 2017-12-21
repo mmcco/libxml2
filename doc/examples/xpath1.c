@@ -51,7 +51,7 @@ main(int argc, char **argv) {
     /*
      * this is to debug memory for regression tests
      */
-    xmlMemoryDump();
+    abort();
     return 0;
 }
 

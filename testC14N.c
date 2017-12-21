@@ -174,7 +174,7 @@ int main(int argc, char **argv) {
      * Shutdown libxml
      */
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return((ret >= 0) ? 0 : 1);
 }

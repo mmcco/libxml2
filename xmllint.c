@@ -3704,7 +3704,7 @@ main(int argc, char **argv) {
         xmlFreePattern(patternc);
 #endif
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return(progresult);
 }

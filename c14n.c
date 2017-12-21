@@ -1053,7 +1053,7 @@ xmlC14NFixupBaseAttr(xmlC14NCtxPtr ctx, xmlAttrPtr xml_base_attr)
             tmp_str2 = xmlBuildURI(res, tmp_str);
             if(tmp_str2 == NULL) {
                 free(tmp_str);
-                ree(res);
+                free(res);
 
                 xmlC14NErrInternal("processing xml:base attribute - can't construct uri");
                 return (NULL);

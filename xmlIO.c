@@ -3736,11 +3736,11 @@ xmlParserGetDirectory(const char *filename) {
     if (IS_XMLPGD_SEP(*cur)) {
         if (cur == dir) dir[1] = 0;
 	else *cur = 0;
-	ret = xmlMemStrdup(dir);
+	ret = strdup(dir);
     } else {
         if (getcwd(dir, 1024) != NULL) {
 	    dir[1023] = 0;
-	    ret = xmlMemStrdup(dir);
+	    ret = strdup(dir);
 	}
     }
     return(ret);

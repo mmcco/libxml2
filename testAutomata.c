@@ -216,8 +216,6 @@ testRegexpFile(const char *filename) {
 
 int main(int argc, char **argv) {
 
-    xmlInitMemory();
-
     if (argc == 1) {
 	int ret;
 	xmlAutomataPtr am;
@@ -296,7 +294,7 @@ int main(int argc, char **argv) {
     }
 
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
     return(0);
 }
 

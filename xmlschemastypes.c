@@ -3096,9 +3096,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
                     v = xmlSchemaNewValue(XML_SCHEMAS_BASE64BINARY);
                     if (v == NULL)
                         goto error;
-                    base =
-                        (xmlChar *) mallocAtomic((i + pad + 1) *
-                                                    sizeof(xmlChar));
+                    base = malloc((i + pad + 1) * sizeof(xmlChar));
                     if (base == NULL) {
 		        xmlSchemaTypeErrMemory(node, "allocating base64 data");
                         free(v);

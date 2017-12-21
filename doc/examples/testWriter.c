@@ -55,7 +55,7 @@ main(void)
     /*
      * this is to debug memory for regression tests
      */
-    xmlMemoryDump();
+    abort();
     return 0;
 }
 

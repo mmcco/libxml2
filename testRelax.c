@@ -179,7 +179,7 @@ int main(int argc, char **argv) {
     }
     xmlRelaxNGCleanupTypes();
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return(0);
 }

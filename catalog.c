@@ -1378,7 +1378,7 @@ xmlParseXMLCatalogFile(xmlCatalogPrefer prefer, const xmlChar *filename) {
 	xmlCatalogErr(NULL, (xmlNodePtr) doc, XML_CATALOG_NOT_CATALOG,
 		      "File %s is not an XML Catalog\n",
 		      filename, NULL, NULL);
-	freeDoc(doc);
+	xmlFreeDoc(doc);
 	return(NULL);
     }
     xmlFreeDoc(doc);

@@ -1062,7 +1062,7 @@ xmlSaveUri(xmlURIPtr uri) {
 
 
     max = 80;
-    ret = (xmlChar *) mallocAtomic((max + 1) * sizeof(xmlChar));
+    ret = malloc((max + 1) * sizeof(xmlChar));
     if (ret == NULL) {
         xmlURIErrMemory("saving URI\n");
 	return(NULL);
@@ -1953,28 +1953,28 @@ xmlBuildURI(const xmlChar *URI, const xmlChar *base) {
     if ((ref->scheme == NULL) && (ref->path == NULL) &&
 	((ref->authority == NULL) && (ref->server == NULL))) {
 	if (bas->scheme != NULL)
-	    res->scheme = xmlMemStrdup(bas->scheme);
+	    res->scheme = strdup(bas->scheme);
 	if (bas->authority != NULL)
-	    res->authority = xmlMemStrdup(bas->authority);
+	    res->authority = strdup(bas->authority);
 	else if ((bas->server != NULL) || (bas->port == -1)) {
 	    if (bas->server != NULL)
-		res->server = xmlMemStrdup(bas->server);
+		res->server = strdup(bas->server);
 	    if (bas->user != NULL)
-		res->user = xmlMemStrdup(bas->user);
+		res->user = strdup(bas->user);
 	    res->port = bas->port;
 	}
 	if (bas->path != NULL)
-	    res->path = xmlMemStrdup(bas->path);
+	    res->path = strdup(bas->path);
 	if (ref->query_raw != NULL)
-	    res->query_raw = xmlMemStrdup (ref->query_raw);
+	    res->query_raw = strdup (ref->query_raw);
 	else if (ref->query != NULL)
-	    res->query = xmlMemStrdup(ref->query);
+	    res->query = strdup(ref->query);
 	else if (bas->query_raw != NULL)
-	    res->query_raw = xmlMemStrdup(bas->query_raw);
+	    res->query_raw = strdup(bas->query_raw);
 	else if (bas->query != NULL)
-	    res->query = xmlMemStrdup(bas->query);
+	    res->query = strdup(bas->query);
 	if (ref->fragment != NULL)
-	    res->fragment = xmlMemStrdup(ref->fragment);
+	    res->fragment = strdup(ref->fragment);
 	goto step_7;
     }
 
@@ -1989,14 +1989,14 @@ xmlBuildURI(const xmlChar *URI, const xmlChar *base) {
 	goto done;
     }
     if (bas->scheme != NULL)
-	res->scheme = xmlMemStrdup(bas->scheme);
+	res->scheme = strdup(bas->scheme);
 
     if (ref->query_raw != NULL)
-	res->query_raw = xmlMemStrdup(ref->query_raw);
+	res->query_raw = strdup(ref->query_raw);
     else if (ref->query != NULL)
-	res->query = xmlMemStrdup(ref->query);
+	res->query = strdup(ref->query);
     if (ref->fragment != NULL)
-	res->fragment = xmlMemStrdup(ref->fragment);
+	res->fragment = strdup(ref->fragment);
 
     /*
      * 4) If the authority component is defined, then the reference is a
@@ -2007,24 +2007,24 @@ xmlBuildURI(const xmlChar *URI, const xmlChar *base) {
      */
     if ((ref->authority != NULL) || (ref->server != NULL)) {
 	if (ref->authority != NULL)
-	    res->authority = xmlMemStrdup(ref->authority);
+	    res->authority = strdup(ref->authority);
 	else {
-	    res->server = xmlMemStrdup(ref->server);
+	    res->server = strdup(ref->server);
 	    if (ref->user != NULL)
-		res->user = xmlMemStrdup(ref->user);
+		res->user = strdup(ref->user);
             res->port = ref->port;
 	}
 	if (ref->path != NULL)
-	    res->path = xmlMemStrdup(ref->path);
+	    res->path = strdup(ref->path);
 	goto step_7;
     }
     if (bas->authority != NULL)
-	res->authority = xmlMemStrdup(bas->authority);
+	res->authority = strdup(bas->authority);
     else if ((bas->server != NULL) || (bas->port == -1)) {
 	if (bas->server != NULL)
-	    res->server = xmlMemStrdup(bas->server);
+	    res->server = strdup(bas->server);
 	if (bas->user != NULL)
-	    res->user = xmlMemStrdup(bas->user);
+	    res->user = strdup(bas->user);
 	res->port = bas->port;
     }
 
@@ -2033,7 +2033,7 @@ xmlBuildURI(const xmlChar *URI, const xmlChar *base) {
      *    the reference is an absolute-path and we skip to step 7.
      */
     if ((ref->path != NULL) && (ref->path[0] == '/')) {
-	res->path = xmlMemStrdup(ref->path);
+	res->path = strdup(ref->path);
 	goto step_7;
     }
 

@@ -205,11 +205,11 @@ xmlNanoFTPInit(void) {
     }
     env = getenv("ftp_proxy_user");
     if (env != NULL) {
-	proxyUser = xmlMemStrdup(env);
+	proxyUser = strdup(env);
     }
     env = getenv("ftp_proxy_password");
     if (env != NULL) {
-	proxyPasswd = xmlMemStrdup(env);
+	proxyPasswd = strdup(env);
     }
     initialized = 1;
 }
@@ -258,11 +258,11 @@ xmlNanoFTPProxy(const char *host, int port, const char *user,
     free(proxyPasswd);
     proxyPasswd = NULL;
     if (host)
-	proxy = xmlMemStrdup(host);
+	proxy = strdup(host);
     if (user)
-	proxyUser = xmlMemStrdup(user);
+	proxyUser = strdup(user);
     if (passwd)
-	proxyPasswd = xmlMemStrdup(passwd);
+	proxyPasswd = strdup(passwd);
     proxyPort = port;
     proxyType = type;
 }
@@ -302,23 +302,23 @@ xmlNanoFTPScanURL(void *ctx, const char *URL) {
 	return;
     }
 
-    ctxt->protocol = xmlMemStrdup(uri->scheme);
-    ctxt->hostname = xmlMemStrdup(uri->server);
+    ctxt->protocol = strdup(uri->scheme);
+    ctxt->hostname = strdup(uri->server);
     if (uri->path != NULL)
-	ctxt->path = xmlMemStrdup(uri->path);
+	ctxt->path = strdup(uri->path);
     else
-	ctxt->path = xmlMemStrdup("/");
+	ctxt->path = strdup("/");
     if (uri->port != 0)
 	ctxt->port = uri->port;
 
     if (uri->user != NULL) {
 	char *cptr;
 	if ((cptr=strchr(uri->user, ':')) == NULL)
-	    ctxt->user = xmlMemStrdup(uri->user);
+	    ctxt->user = strdup(uri->user);
 	else {
 	    ctxt->user = (char *)xmlStrndup((xmlChar *)uri->user,
 			    (cptr - uri->user));
-	    ctxt->passwd = xmlMemStrdup(cptr+1);
+	    ctxt->passwd = strdup(cptr+1);
 	}
     }
 
@@ -376,9 +376,9 @@ xmlNanoFTPUpdateURL(void *ctx, const char *URL) {
      ctxt->path = NULL;
 
     if (uri->path == NULL)
-        ctxt->path = xmlMemStrdup("/");
+        ctxt->path = strdup("/");
     else
-	ctxt->path = xmlMemStrdup(uri->path);
+	ctxt->path = strdup(uri->path);
 
     xmlFreeURI(uri);
 
@@ -422,7 +422,7 @@ xmlNanoFTPScanProxy(const char *URL) {
 	return;
     }
 
-    proxy = xmlMemStrdup(uri->server);
+    proxy = strdup(uri->server);
     if (uri->port != 0)
 	proxyPort = uri->port;
 
@@ -1224,7 +1224,7 @@ xmlNanoFTPConnectTo(const char *server, int port) {
     ctxt = (xmlNanoFTPCtxtPtr) xmlNanoFTPNewCtxt(NULL);
     if (ctxt == NULL)
         return(NULL);
-    ctxt->hostname = xmlMemStrdup(server);
+    ctxt->hostname = strdup(server);
     if (ctxt->hostname == NULL) {
 	xmlNanoFTPFreeCtxt(ctxt);
 	return(NULL);
@@ -2079,7 +2079,7 @@ int main(int argc, char **argv) {
 
     }
     xmlNanoFTPClose(ctxt);
-    xmlMemoryDump();
+    abort();
     exit(0);
 }
 #endif /* STANDALONE */

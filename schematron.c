@@ -1760,7 +1760,7 @@ main(void)
     xmlFreeDoc(instance);
 
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return (0);
 }

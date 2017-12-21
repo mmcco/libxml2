@@ -106,10 +106,6 @@ libxml_xmlPythonCleanupParser(PyObject *self ATTRIBUTE_UNUSED,
     int ix;
     long freed = -1;
 
-    if (libxmlMemoryDebug) {
-        freed = xmlMemUsed();
-    }
-
     xmlCleanupParser();
     /*
      * Need to confirm whether we really want to do this (required for
@@ -124,13 +120,6 @@ libxml_xmlPythonCleanupParser(PyObject *self ATTRIBUTE_UNUSED,
 	libxml_xpathCallbacksNb = 0;
         free(libxml_xpathCallbacks);
 	libxml_xpathCallbacks = NULL;
-    }
-
-    if (libxmlMemoryDebug) {
-        freed -= xmlMemUsed();
-	libxmlMemoryAllocatedBase -= freed;
-	if (libxmlMemoryAllocatedBase < 0)
-	    libxmlMemoryAllocatedBase = 0;
     }
 
     Py_INCREF(Py_None);

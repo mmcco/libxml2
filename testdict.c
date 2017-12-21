@@ -437,6 +437,6 @@ int main(void)
     }
     clean_strings();
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
     return(ret);
 }

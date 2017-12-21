@@ -866,7 +866,7 @@ int main(int argc, char **argv) {
 	printf("\t--encode encoding : output in the given encoding\n");
     }
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return(0);
 }

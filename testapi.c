@@ -159,7 +159,7 @@ int main(int argc, char **argv) {
     if ((blocks != 0) || (mem != 0)) {
         printf("testapi leaked %d bytes in %d blocks\n", mem, blocks);
     }
-    xmlMemoryDump();
+    abort();
 
     return (ret != 0);
 }

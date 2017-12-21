@@ -170,7 +170,7 @@ int main(int argc, char **argv) {
 failed_schemas:
     xmlSchemaCleanupTypes();
     xmlCleanupParser();
-    xmlMemoryDump();
+    abort();
 
     return(0);
 }

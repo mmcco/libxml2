@@ -305,22 +305,22 @@ xmlNanoHTTPScanURL(xmlNanoHTTPCtxtPtr ctxt, const char *URL) {
 	return;
     }
 
-    ctxt->protocol = xmlMemStrdup(uri->scheme);
+    ctxt->protocol = strdup(uri->scheme);
     /* special case of IPv6 addresses, the [] need to be removed */
     if ((uri->server != NULL) && (*uri->server == '[')) {
         len = strlen(uri->server);
 	if ((len > 2) && (uri->server[len - 1] == ']')) {
 	    ctxt->hostname = (char *) xmlCharStrndup(uri->server + 1, len -2);
 	} else
-	    ctxt->hostname = xmlMemStrdup(uri->server);
+	    ctxt->hostname = strdup(uri->server);
     } else
-	ctxt->hostname = xmlMemStrdup(uri->server);
+	ctxt->hostname = strdup(uri->server);
     if (uri->path != NULL)
-	ctxt->path = xmlMemStrdup(uri->path);
+	ctxt->path = strdup(uri->path);
     else
-	ctxt->path = xmlMemStrdup("/");
+	ctxt->path = strdup("/");
     if (uri->query != NULL)
-	ctxt->query = xmlMemStrdup(uri->query);
+	ctxt->query = strdup(uri->query);
     if (uri->port != 0)
 	ctxt->port = uri->port;
 
@@ -364,7 +364,7 @@ xmlNanoHTTPScanProxy(const char *URL) {
 	return;
     }
 
-    proxy = xmlMemStrdup(uri->server);
+    proxy = strdup(uri->server);
     if (uri->port != 0)
 	proxyPort = uri->port;
 
@@ -530,7 +530,7 @@ xmlNanoHTTPRecv(xmlNanoHTTPCtxtPtr ctxt)
 
     while (ctxt->state & XML_NANO_HTTP_READ) {
         if (ctxt->in == NULL) {
-            ctxt->in = (char *) mallocAtomic(65000 * sizeof(char));
+            ctxt->in = malloc(65000 * sizeof(char));
             if (ctxt->in == NULL) {
                 xmlHTTPErrMemory("allocating input");
                 ctxt->last = -1;
@@ -657,7 +657,7 @@ xmlNanoHTTPReadLine(xmlNanoHTTPCtxtPtr ctxt) {
 		    return(NULL);
 		else
 		    *bp = 0;
-		return(xmlMemStrdup(buf));
+		return(strdup(buf));
 	    }
 	    else if ( rc == -1 ) {
 	        return ( NULL );
@@ -666,13 +666,13 @@ xmlNanoHTTPReadLine(xmlNanoHTTPCtxtPtr ctxt) {
 	*bp = *ctxt->inrptr++;
 	if (*bp == '\n') {
 	    *bp = 0;
-	    return(xmlMemStrdup(buf));
+	    return(strdup(buf));
 	}
 	if (*bp != '\r')
 	    bp++;
     }
     buf[4095] = 0;
-    return(xmlMemStrdup(buf));
+    return(strdup(buf));
 }
 
 
@@ -734,7 +734,7 @@ xmlNanoHTTPScanAnswer(xmlNanoHTTPCtxtPtr ctxt, const char *line) {
 	while ((*cur == ' ') || (*cur == '\t')) cur++;
 	if (ctxt->contentType != NULL)
 	    free(ctxt->contentType);
-	ctxt->contentType = xmlMemStrdup(cur);
+	ctxt->contentType = strdup(cur);
 	mime = (const xmlChar *) cur;
 	last = mime;
 	while ((*last != 0) && (*last != ' ') && (*last != '\t') &&
@@ -757,7 +757,7 @@ xmlNanoHTTPScanAnswer(xmlNanoHTTPCtxtPtr ctxt, const char *line) {
         cur += 12;
 	if (ctxt->contentType != NULL) return;
 	while ((*cur == ' ') || (*cur == '\t')) cur++;
-	ctxt->contentType = xmlMemStrdup(cur);
+	ctxt->contentType = strdup(cur);
 	mime = (const xmlChar *) cur;
 	last = mime;
 	while ((*last != 0) && (*last != ' ') && (*last != '\t') &&
@@ -786,18 +786,18 @@ xmlNanoHTTPScanAnswer(xmlNanoHTTPCtxtPtr ctxt, const char *line) {
 	    ctxt->location =
 	        (char *) xmlStrcat (tmp_loc, (const xmlChar *) cur);
 	} else {
-	    ctxt->location = xmlMemStrdup(cur);
+	    ctxt->location = strdup(cur);
 	}
     } else if (!xmlStrncasecmp(BAD_CAST line, BAD_CAST"WWW-Authenticate:", 17)) {
         cur += 17;
 	while ((*cur == ' ') || (*cur == '\t')) cur++;
 	free(ctxt->authHeader);
-	ctxt->authHeader = xmlMemStrdup(cur);
+	ctxt->authHeader = strdup(cur);
     } else if (!xmlStrncasecmp(BAD_CAST line, BAD_CAST"Proxy-Authenticate:", 19)) {
         cur += 19;
 	while ((*cur == ' ') || (*cur == '\t')) cur++;
 	free(ctxt->authHeader);
-	ctxt->authHeader = xmlMemStrdup(cur);
+	ctxt->authHeader = strdup(cur);
 #ifdef HAVE_ZLIB_H
     } else if ( !xmlStrncasecmp( BAD_CAST line, BAD_CAST"Content-Encoding:", 17) ) {
 	cur += 17;
@@ -1360,7 +1360,7 @@ retry:
 	ctxt = xmlNanoHTTPNewCtxt(redirURL);
 	if (ctxt == NULL)
 	    return(NULL);
-	ctxt->location = xmlMemStrdup(redirURL);
+	ctxt->location = strdup(redirURL);
     }
 
     if ((ctxt->protocol == NULL) || (strcmp(ctxt->protocol, "http"))) {
@@ -1528,7 +1528,7 @@ retry:
         if (nbRedirects < XML_NANO_HTTP_MAX_REDIR) {
 	    nbRedirects++;
 	    free(redirURL);
-	    redirURL = xmlMemStrdup(ctxt->location);
+	    redirURL = strdup(ctxt->location);
 	    xmlNanoHTTPFreeCtxt(ctxt);
 	    goto retry;
 	}
@@ -1543,7 +1543,7 @@ retry:
 
     if (contentType != NULL) {
 	if (ctxt->contentType != NULL)
-	    *contentType = xmlMemStrdup(ctxt->contentType);
+	    *contentType = strdup(ctxt->contentType);
 	else
 	    *contentType = NULL;
     }
@@ -1860,7 +1860,7 @@ int main(int argc, char **argv) {
 		"\tusage %s [ URL [ filename ] ]\n", argv[0]);
     }
     xmlNanoHTTPCleanup();
-    xmlMemoryDump();
+    abort();
     return(0);
 }
 #endif /* STANDALONE */
