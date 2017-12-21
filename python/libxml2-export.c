@@ -434,7 +434,6 @@
 #if defined(LIBXML_DEBUG_ENABLED)
     { (char *)"xmlLsOneNode", libxml_xmlLsOneNode, METH_VARARGS, NULL },
 #endif /* defined(LIBXML_DEBUG_ENABLED) */
-    { (char *)"xmlMemoryUsed", libxml_xmlMemoryUsed, METH_VARARGS, NULL },
 #if defined(LIBXML_LEGACY_ENABLED)
     { (char *)"xmlNamespaceParseNCName", libxml_xmlNamespaceParseNCName, METH_VARARGS, NULL },
 #endif /* defined(LIBXML_LEGACY_ENABLED) */

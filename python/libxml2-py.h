@@ -434,7 +434,6 @@ PyObject * libxml_xmlLsCountNode(PyObject *self, PyObject *args);
 #if defined(LIBXML_DEBUG_ENABLED)
 PyObject * libxml_xmlLsOneNode(PyObject *self, PyObject *args);
 #endif /* defined(LIBXML_DEBUG_ENABLED) */
-PyObject * libxml_xmlMemoryUsed(PyObject *self, PyObject *args);
 #if defined(LIBXML_LEGACY_ENABLED)
 PyObject * libxml_xmlNamespaceParseNCName(PyObject *self, PyObject *args);
 #endif /* defined(LIBXML_LEGACY_ENABLED) */

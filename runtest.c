@@ -208,8 +208,6 @@ static void globfree(glob_t *pglob) {
 
 static int nb_tests = 0;
 static int nb_errors = 0;
-static int nb_leaks = 0;
-static int extraMemoryFromResolver = 0;
 
 static int
 fatalError(void) {
@@ -530,7 +528,6 @@ initializeLibxml2(void) {
     xmlGetWarningsDefaultValue = 0;
     xmlPedanticParserDefault(0);
 
-    xmlMemSetup(xmlMemFree, xmlMemMalloc, xmlMemRealloc, xmlMemoryStrdup);
     xmlInitParser();
     xmlSetExternalEntityLoader(testExternalEntityLoader);
     xmlSetStructuredErrorFunc(NULL, testStructuredErrorHandler);
@@ -4480,20 +4477,18 @@ runtest(int i) {
 
     old_errors = nb_errors;
     old_tests = nb_tests;
-    old_leaks = nb_leaks;
     if ((tests_quiet == 0) && (testDescriptions[i].desc != NULL))
 	printf("## %s\n", testDescriptions[i].desc);
     res = launchTests(&testDescriptions[i]);
     if (res != 0)
 	ret++;
     if (verbose) {
-	if ((nb_errors == old_errors) && (nb_leaks == old_leaks))
+	if (nb_errors == old_errors)
 	    printf("Ran %d tests, no errors\n", nb_tests - old_tests);
 	else
-	    printf("Ran %d tests, %d errors, %d leaks\n",
+	    printf("Ran %d tests, %d errors\n",
 		   nb_tests - old_tests,
-		   nb_errors - old_errors,
-		   nb_leaks - old_leaks);
+		   nb_errors - old_errors);
     }
     return(ret);
 }
@@ -4531,14 +4526,14 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
 	    ret += runtest(i);
 	}
     }
-    if ((nb_errors == 0) && (nb_leaks == 0)) {
+    if (nb_errors == 0) {
         ret = 0;
 	printf("Total %d tests, no errors\n",
 	       nb_tests);
     } else {
         ret = 1;
-	printf("Total %d tests, %d errors, %d leaks\n",
-	       nb_tests, nb_errors, nb_leaks);
+	printf("Total %d tests, %d errors\n",
+	       nb_tests, nb_errors);
     }
     xmlCleanupParser();
     abort();
