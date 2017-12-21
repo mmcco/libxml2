@@ -593,7 +593,7 @@ pythonExternalEntityLoader(const char *URL, const char *ID,
 	    if (result == NULL) {
 		Py_DECREF(ret);
 	    } else if (URL != NULL) {
-		result->filename = (char *) xmlStrdup((const xmlChar *)URL);
+		result->filename = (char *) strdup((const xmlChar *)URL);
 		result->directory = xmlParserGetDirectory((const char *) URL);
 	    }
 	}
@@ -2219,8 +2219,8 @@ libxml_xmlRegisterXPathFunction(ATTRIBUTE_UNUSED PyObject * self,
     i = libxml_xpathCallbacksNb++;
     Py_XINCREF(pyobj_f);
     (*libxml_xpathCallbacks)[i].ctx = ctx;
-    (*libxml_xpathCallbacks)[i].name = xmlStrdup(name);
-    (*libxml_xpathCallbacks)[i].ns_uri = xmlStrdup(ns_uri);
+    (*libxml_xpathCallbacks)[i].name = strdup(name);
+    (*libxml_xpathCallbacks)[i].ns_uri = strdup(ns_uri);
     (*libxml_xpathCallbacks)[i].function = pyobj_f;
         c_retval = 1;
     

@@ -81,7 +81,7 @@
 #define XML_PAT_COPY_NSNAME(c, r, nsname) \
     if ((c)->comp->dict) \
 	r = (xmlChar *) xmlDictLookup((c)->comp->dict, BAD_CAST nsname, -1); \
-    else r = xmlStrdup(BAD_CAST nsname);
+    else r = strdup(nsname);
 
 #define XML_PAT_FREE_STRING(c, r) if ((c)->comp->dict == NULL) free(r);
 

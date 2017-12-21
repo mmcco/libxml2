@@ -2896,12 +2896,12 @@ xmlSplitQName(xmlParserCtxtPtr ctxt, const xmlChar *name, xmlChar **prefix) {
     /* xml: prefix is not really a namespace */
     if ((cur[0] == 'x') && (cur[1] == 'm') &&
         (cur[2] == 'l') && (cur[3] == ':'))
-	return(xmlStrdup(name));
+	return(strdup(name));
 #endif
 
     /* nasty but well=formed */
     if (cur[0] == ':')
-	return(xmlStrdup(name));
+	return(strdup(name));
 
     c = *cur++;
     while ((c != 0) && (c != ':') && (len < max)) { /* tested bigname.xml */
@@ -2943,7 +2943,7 @@ xmlSplitQName(xmlParserCtxtPtr ctxt, const xmlChar *name, xmlChar **prefix) {
     if ((c == ':') && (*cur == 0)) {
 	free(buffer);
 	*prefix = NULL;
-	return(xmlStrdup(name));
+	return(strdup(name));
     }
 
     if (buffer == NULL)
@@ -11233,7 +11233,7 @@ xmlParseTryOrFinish(xmlParserCtxtPtr ctxt, int terminate) {
 			ctxt->standalone = ctxt->input->standalone;
 			if ((ctxt->encoding == NULL) &&
 			    (ctxt->input->encoding != NULL))
-			    ctxt->encoding = xmlStrdup(ctxt->input->encoding);
+			    ctxt->encoding = strdup(ctxt->input->encoding);
 			if ((ctxt->sax) && (ctxt->sax->startDocument) &&
 			    (!ctxt->disableSAX))
 			    ctxt->sax->startDocument(ctxt->userData);
@@ -12868,7 +12868,7 @@ xmlParseCtxtExternalEntity(xmlParserCtxtPtr ctx, const xmlChar *URL,
 	newDoc->extSubset = ctx->myDoc->extSubset;
     }
     if (ctx->myDoc->URL != NULL) {
-	newDoc->URL = xmlStrdup(ctx->myDoc->URL);
+	newDoc->URL = strdup(ctx->myDoc->URL);
     }
     newRoot = xmlNewDocNode(newDoc, NULL, BAD_CAST "pseudoroot", NULL);
     if (newRoot == NULL) {
@@ -13096,7 +13096,7 @@ xmlParseExternalEntityPrivate(xmlDocPtr doc, xmlParserCtxtPtr oldctxt,
     xmlDictReference(newDoc->dict);
 
     if (doc->URL != NULL) {
-	newDoc->URL = xmlStrdup(doc->URL);
+	newDoc->URL = strdup(doc->URL);
     }
     newRoot = xmlNewDocNode(newDoc, NULL, BAD_CAST "pseudoroot", NULL);
     if (newRoot == NULL) {
@@ -13567,7 +13567,7 @@ xmlParseInNodeContext(xmlNodePtr node, const char *data, int datalen,
         xmlCharEncodingHandlerPtr hdlr;
 
 	free((void *)ctxt->encoding);
-        ctxt->encoding = xmlStrdup((const xmlChar *) doc->encoding);
+        ctxt->encoding = strdup((const xmlChar *) doc->encoding);
 
         hdlr = xmlFindCharEncodingHandler((const char *) doc->encoding);
         if (hdlr != NULL) {
@@ -14930,7 +14930,7 @@ xmlCtxtResetPush(xmlParserCtxtPtr ctxt, const char *chunk,
         xmlCharEncodingHandlerPtr hdlr;
 
 	free((void *)ctxt->encoding);
-        ctxt->encoding = xmlStrdup((const xmlChar *) encoding);
+        ctxt->encoding = strdup((const xmlChar *) encoding);
 
         hdlr = xmlFindCharEncodingHandler(encoding);
         if (hdlr != NULL) {
@@ -14965,7 +14965,7 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
         return(-1);
     if (encoding != NULL) {
 	free((void *)ctxt->encoding);
-        ctxt->encoding = xmlStrdup((const xmlChar *) encoding);
+        ctxt->encoding = strdup((const xmlChar *) encoding);
     }
     if (options & XML_PARSE_RECOVER) {
         ctxt->recovery = 1;
@@ -15132,7 +15132,7 @@ xmlDoRead(xmlParserCtxtPtr ctxt, const char *URL, const char *encoding,
     }
     if ((URL != NULL) && (ctxt->input != NULL) &&
         (ctxt->input->filename == NULL))
-        ctxt->input->filename = (char *) xmlStrdup((const xmlChar *) URL);
+        ctxt->input->filename = (char *) strdup((const xmlChar *) URL);
     xmlParseDocument(ctxt);
     if ((ctxt->wellFormed) || ctxt->recovery)
         ret = ctxt->myDoc;

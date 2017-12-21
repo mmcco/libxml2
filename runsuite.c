@@ -62,11 +62,11 @@ static int checkTestFile(const char *filename) {
 static xmlChar *composeDir(const xmlChar *dir, const xmlChar *path) {
     char buf[500];
 
-    if (dir == NULL) return(xmlStrdup(path));
+    if (dir == NULL) return(strdup(path));
     if (path == NULL) return(NULL);
 
     snprintf(buf, 500, "%s/%s", (const char *) dir, (const char *) path);
-    return(xmlStrdup((const xmlChar *) buf));
+    return(strdup((const xmlChar *) buf));
 }
 
 /************************************************************************
@@ -131,7 +131,7 @@ testExternalEntityLoader(const char *URL, const char *ID,
 	                (const xmlChar *) testEntitiesValue[i]);
 	    if (ret != NULL) {
 	        ret->filename = (const char *)
-		                xmlStrdup((xmlChar *)testEntitiesName[i]);
+		                strdup((xmlChar *)testEntitiesName[i]);
 	    }
 	    return(ret);
 	}
@@ -359,7 +359,7 @@ installResources(xmlNodePtr tst, const xmlChar *base) {
 	    xmlBufferEmpty(buf);
 	    xmlNodeDump(buf, test->doc, test, 0, 0);
 	    name = getString(tst, "string(@name)");
-	    content = xmlStrdup(buf->content);
+	    content = strdup(buf->content);
 	    if ((name != NULL) && (content != NULL)) {
 	        res = composeDir(base, name);
 		free(name);
@@ -961,11 +961,11 @@ xstcMetadata(const char *metadata, const char *base) {
     }
     contributor = xmlGetProp(cur, BAD_CAST "contributor");
     if (contributor == NULL) {
-        contributor = xmlStrdup(BAD_CAST "Unknown");
+        contributor = strdup("Unknown");
     }
     name = xmlGetProp(cur, BAD_CAST "name");
     if (name == NULL) {
-        name = xmlStrdup(BAD_CAST "Unknown");
+        name = strdup("Unknown");
     }
     printf("## %s test suite for Schemas version %s\n", contributor, name);
     free(contributor);

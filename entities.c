@@ -160,11 +160,11 @@ xmlCreateEntity(xmlDictPtr dict, const xmlChar *name, int type,
      */
     ret->etype = (xmlEntityType) type;
     if (dict == NULL) {
-	ret->name = xmlStrdup(name);
+	ret->name = strdup(name);
 	if (ExternalID != NULL)
-	    ret->ExternalID = xmlStrdup(ExternalID);
+	    ret->ExternalID = strdup(ExternalID);
 	if (SystemID != NULL)
-	    ret->SystemID = xmlStrdup(SystemID);
+	    ret->SystemID = strdup(SystemID);
     } else {
         ret->name = xmlDictLookup(dict, name, -1);
 	if (ExternalID != NULL)
@@ -664,7 +664,7 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
 		    xmlEntitiesErr(XML_CHECK_NOT_UTF8,
 			    "xmlEncodeEntities: input not UTF-8");
 		    if (doc != NULL)
-			doc->encoding = xmlStrdup(BAD_CAST "ISO-8859-1");
+			doc->encoding = strdup("ISO-8859-1");
 		    snprintf(buf, sizeof(buf), "&#%d;", *cur);
 		    buf[sizeof(buf) - 1] = 0;
 		    ptr = buf;
@@ -697,7 +697,7 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
 		    xmlEntitiesErr(XML_ERR_INVALID_CHAR,
 			"xmlEncodeEntities: char out of range\n");
 		    if (doc != NULL)
-			doc->encoding = xmlStrdup(BAD_CAST "ISO-8859-1");
+			doc->encoding = strdup("ISO-8859-1");
 		    snprintf(buf, sizeof(buf), "&#%d;", *cur);
 		    buf[sizeof(buf) - 1] = 0;
 		    ptr = buf;
@@ -915,17 +915,17 @@ xmlCopyEntity(xmlEntityPtr ent) {
 
     cur->etype = ent->etype;
     if (ent->name != NULL)
-	cur->name = xmlStrdup(ent->name);
+	cur->name = strdup(ent->name);
     if (ent->ExternalID != NULL)
-	cur->ExternalID = xmlStrdup(ent->ExternalID);
+	cur->ExternalID = strdup(ent->ExternalID);
     if (ent->SystemID != NULL)
-	cur->SystemID = xmlStrdup(ent->SystemID);
+	cur->SystemID = strdup(ent->SystemID);
     if (ent->content != NULL)
-	cur->content = xmlStrdup(ent->content);
+	cur->content = strdup(ent->content);
     if (ent->orig != NULL)
-	cur->orig = xmlStrdup(ent->orig);
+	cur->orig = strdup(ent->orig);
     if (ent->URI != NULL)
-	cur->URI = xmlStrdup(ent->URI);
+	cur->URI = strdup(ent->URI);
     return(cur);
 }
 

@@ -213,7 +213,7 @@ xmlNewTextWriter(xmlOutputBufferPtr out)
     }
 
     ret->out = out;
-    ret->ichar = xmlStrdup(BAD_CAST " ");
+    ret->ichar = strdup(" ");
     ret->qchar = '"';
 
     if (!ret->ichar) {
@@ -558,7 +558,7 @@ xmlTextWriterStartDocument(xmlTextWriterPtr writer, const char *version,
 	}
         xmlCharEncOutput(writer->out, 1);
         if ((writer->doc != NULL) && (writer->doc->encoding == NULL))
-            writer->doc->encoding = xmlStrdup((xmlChar *)writer->out->encoder->name);
+            writer->doc->encoding = strdup((xmlChar *)writer->out->encoder->name);
     } else
         writer->out->conv = NULL;
 
@@ -1011,7 +1011,7 @@ xmlTextWriterStartElement(xmlTextWriterPtr writer, const xmlChar * name)
         return -1;
     }
 
-    p->name = xmlStrdup(name);
+    p->name = strdup(name);
     if (p->name == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartElement : out of memory!\n");
@@ -1065,7 +1065,7 @@ xmlTextWriterStartElementNS(xmlTextWriterPtr writer,
 
     buf = NULL;
     if (prefix != 0) {
-        buf = xmlStrdup(prefix);
+        buf = strdup(prefix);
         buf = xmlStrcat(buf, BAD_CAST ":");
     }
     buf = xmlStrcat(buf, name);
@@ -1085,14 +1085,14 @@ xmlTextWriterStartElementNS(xmlTextWriterPtr writer,
             return -1;
         }
 
-        buf = xmlStrdup(BAD_CAST "xmlns");
+        buf = strdup("xmlns");
         if (prefix != 0) {
             buf = xmlStrcat(buf, BAD_CAST ":");
             buf = xmlStrcat(buf, prefix);
         }
 
         p->prefix = buf;
-        p->uri = xmlStrdup(namespaceURI);
+        p->uri = strdup(namespaceURI);
         if (p->uri == 0) {
             xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                             "xmlTextWriterStartElementNS : out of memory!\n");
@@ -1842,7 +1842,7 @@ xmlTextWriterStartAttributeNS(xmlTextWriterPtr writer,
     if (namespaceURI != 0) {
         xmlTextWriterNsStackEntry nsentry, *curns;
 
-        buf = xmlStrdup(BAD_CAST "xmlns");
+        buf = strdup("xmlns");
         if (prefix != 0) {
             buf = xmlStrcat(buf, BAD_CAST ":");
             buf = xmlStrcat(buf, prefix);
@@ -1875,7 +1875,7 @@ xmlTextWriterStartAttributeNS(xmlTextWriterPtr writer,
             }
 
             p->prefix = buf;
-            p->uri = xmlStrdup(namespaceURI);
+            p->uri = strdup(namespaceURI);
             if (p->uri == 0) {
                 xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartAttributeNS : out of memory!\n");
@@ -1890,7 +1890,7 @@ xmlTextWriterStartAttributeNS(xmlTextWriterPtr writer,
 
     buf = NULL;
     if (prefix != 0) {
-        buf = xmlStrdup(prefix);
+        buf = strdup(prefix);
         buf = xmlStrcat(buf, BAD_CAST ":");
     }
     buf = xmlStrcat(buf, name);
@@ -2433,7 +2433,7 @@ xmlTextWriterStartPI(xmlTextWriterPtr writer, const xmlChar * target)
         return -1;
     }
 
-    p->name = xmlStrdup(target);
+    p->name = strdup(target);
     if (p->name == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartPI : out of memory!\n");
@@ -2851,7 +2851,7 @@ xmlTextWriterStartDTD(xmlTextWriterPtr writer,
         return -1;
     }
 
-    p->name = xmlStrdup(name);
+    p->name = strdup(name);
     if (p->name == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTD : out of memory!\n");
@@ -3192,7 +3192,7 @@ xmlTextWriterStartDTDElement(xmlTextWriterPtr writer, const xmlChar * name)
         return -1;
     }
 
-    p->name = xmlStrdup(name);
+    p->name = strdup(name);
     if (p->name == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTDElement : out of memory!\n");
@@ -3428,7 +3428,7 @@ xmlTextWriterStartDTDAttlist(xmlTextWriterPtr writer, const xmlChar * name)
         return -1;
     }
 
-    p->name = xmlStrdup(name);
+    p->name = strdup(name);
     if (p->name == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTDAttlist : out of memory!\n");
@@ -3666,7 +3666,7 @@ xmlTextWriterStartDTDEntity(xmlTextWriterPtr writer,
         return -1;
     }
 
-    p->name = xmlStrdup(name);
+    p->name = strdup(name);
     if (p->name == 0) {
         xmlWriterErrMsg(writer, XML_ERR_NO_MEMORY,
                         "xmlTextWriterStartDTDElement : out of memory!\n");
@@ -4317,8 +4317,8 @@ xmlTextWriterOutputNSDecl(xmlTextWriterPtr writer)
         np = (xmlTextWriterNsStackEntry *) xmlLinkGetData(lk);
 
         if (np != 0) {
-            namespaceURI = xmlStrdup(np->uri);
-            prefix = xmlStrdup(np->prefix);
+            namespaceURI = strdup(np->uri);
+            prefix = strdup(np->prefix);
         }
 
         xmlListPopFront(writer->nsstack);
@@ -4530,7 +4530,7 @@ xmlTextWriterStartDocumentCallback(void *ctx)
         if (doc != NULL) {
             if (doc->children == NULL) {
                 if (ctxt->encoding != NULL)
-                    doc->encoding = xmlStrdup(ctxt->encoding);
+                    doc->encoding = strdup(ctxt->encoding);
                 else
                     doc->encoding = NULL;
                 doc->standalone = ctxt->standalone;
@@ -4551,7 +4551,7 @@ xmlTextWriterStartDocumentCallback(void *ctx)
             xmlCanonicPath((const xmlChar *) ctxt->input->filename);
         if (ctxt->myDoc->URL == NULL)
             ctxt->myDoc->URL =
-                xmlStrdup((const xmlChar *) ctxt->input->filename);
+                strdup((const xmlChar *) ctxt->input->filename);
     }
 }
 
@@ -4592,7 +4592,7 @@ xmlTextWriterSetIndentString(xmlTextWriterPtr writer, const xmlChar * str)
         return -1;
 
     free(writer->ichar);
-    writer->ichar = xmlStrdup(str);
+    writer->ichar = strdup(str);
 
     if (!writer->ichar)
         return -1;

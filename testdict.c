@@ -41,7 +41,7 @@ static void fill_strings(void) {
      * ":xxx" and full QNames in the last NB_STRINGS_NS values
      */
     for (i = 0; seeds1[i] != NULL; i++) {
-        strings1[i] = xmlStrdup((const xmlChar *) seeds1[i]);
+        strings1[i] = strdup((const xmlChar *) seeds1[i]);
 	if (strings1[i] == NULL) {
 	    fprintf(stderr, "Out of memory while generating strings1\n");
 	    exit(1);
@@ -80,7 +80,7 @@ static void fill_strings(void) {
      * Now do the same with the second pool of strings
      */
     for (i = 0; seeds2[i] != NULL; i++) {
-        strings2[i] = xmlStrdup((const xmlChar *) seeds2[i]);
+        strings2[i] = strdup((const xmlChar *) seeds2[i]);
 	if (strings2[i] == NULL) {
 	    fprintf(stderr, "Out of memory while generating strings2\n");
 	    exit(1);

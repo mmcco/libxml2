@@ -285,7 +285,7 @@ xmllintExternalEntityLoader(const char *URL, const char *ID,
     for (i = 0;i < nbpaths;i++) {
 	xmlChar *newURL;
 
-	newURL = xmlStrdup((const xmlChar *) paths[i]);
+	newURL = strdup((const xmlChar *) paths[i]);
 	newURL = xmlStrcat(newURL, (const xmlChar *) "/");
 	newURL = xmlStrcat(newURL, (const xmlChar *) lastsegment);
 	if (newURL != NULL) {

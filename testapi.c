@@ -415,7 +415,7 @@ static void des_filepath(int no ATTRIBUTE_UNUSED, const char *val ATTRIBUTE_UNUS
 #define gen_nb_eaten_name 2
 
 static xmlChar *gen_eaten_name(int no, int nr ATTRIBUTE_UNUSED) {
-    if (no == 0) return(xmlStrdup(BAD_CAST "eaten"));
+    if (no == 0) return(strdup("eaten"));
     return(NULL);
 }
 static void des_eaten_name(int no ATTRIBUTE_UNUSED, xmlChar *val ATTRIBUTE_UNUSED, int nr ATTRIBUTE_UNUSED) {
@@ -28624,28 +28624,6 @@ test_xmlStrcmp(void) {
 
 
 static int
-test_xmlStrdup(void) {
-    int test_ret = 0;
-    xmlChar * ret_val;
-    xmlChar * cur; /* the input xmlChar * */
-    int n_cur;
-
-    for (n_cur = 0;n_cur < gen_nb_const_xmlChar_ptr;n_cur++) {
-        cur = gen_const_xmlChar_ptr(n_cur, 0);
-
-        ret_val = xmlStrdup((const xmlChar *)cur);
-        desret_xmlChar_ptr(ret_val);
-        call_tests++;
-        des_const_xmlChar_ptr(n_cur, (const xmlChar *)cur, 0);
-        xmlResetLastError();
-    }
-    function_tests++;
-
-    return(test_ret);
-}
-
-
-static int
 test_xmlStrlen(void) {
     int test_ret = 0;
     int ret_val;
@@ -29123,7 +29101,6 @@ test_xmlstring(void) {
     test_ret += test_xmlStrcasestr();
     test_ret += test_xmlStrchr();
     test_ret += test_xmlStrcmp();
-    test_ret += test_xmlStrdup();
     test_ret += test_xmlStrlen();
     test_ret += test_xmlStrncasecmp();
     test_ret += test_xmlStrncatNew();

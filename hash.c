@@ -590,9 +590,9 @@ xmlHashAddEntry3(xmlHashTablePtr table, const xmlChar *name,
         entry->name2 = (xmlChar *) name2;
         entry->name3 = (xmlChar *) name3;
     } else {
-	entry->name = xmlStrdup(name);
-	entry->name2 = xmlStrdup(name2);
-	entry->name3 = xmlStrdup(name3);
+	entry->name = strdup(name);
+	entry->name2 = strdup(name2);
+	entry->name3 = strdup(name3);
     }
     entry->payload = userdata;
     entry->next = NULL;
@@ -720,9 +720,9 @@ xmlHashUpdateEntry3(xmlHashTablePtr table, const xmlChar *name,
         entry->name2 = (xmlChar *) name2;
         entry->name3 = (xmlChar *) name3;
     } else {
-	entry->name = xmlStrdup(name);
-	entry->name2 = xmlStrdup(name2);
-	entry->name3 = xmlStrdup(name3);
+	entry->name = strdup(name);
+	entry->name2 = strdup(name2);
+	entry->name3 = strdup(name3);
     }
     entry->payload = userdata;
     entry->next = NULL;

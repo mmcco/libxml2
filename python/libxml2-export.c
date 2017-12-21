@@ -896,7 +896,6 @@
     { (char *)"xmlStrcat", libxml_xmlStrcat, METH_VARARGS, NULL },
     { (char *)"xmlStrchr", libxml_xmlStrchr, METH_VARARGS, NULL },
     { (char *)"xmlStrcmp", libxml_xmlStrcmp, METH_VARARGS, NULL },
-    { (char *)"xmlStrdup", libxml_xmlStrdup, METH_VARARGS, NULL },
     { (char *)"xmlStringDecodeEntities", libxml_xmlStringDecodeEntities, METH_VARARGS, NULL },
     { (char *)"xmlStringGetNodeList", libxml_xmlStringGetNodeList, METH_VARARGS, NULL },
     { (char *)"xmlStringLenDecodeEntities", libxml_xmlStringLenDecodeEntities, METH_VARARGS, NULL },

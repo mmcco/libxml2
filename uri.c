@@ -1672,7 +1672,7 @@ xmlURIEscapeStr(const xmlChar *str, const xmlChar *list) {
     if (str == NULL)
 	return(NULL);
     if (str[0] == 0)
-	return(xmlStrdup(str));
+	return(strdup(str));
     len = xmlStrlen(str);
     if (!(len > 0)) return(NULL);
 
@@ -1908,7 +1908,7 @@ xmlBuildURI(const xmlChar *URI, const xmlChar *base) {
 	/*
 	 * The URI is absolute don't modify.
 	 */
-	val = xmlStrdup(URI);
+	val = strdup(URI);
 	goto done;
     }
     if (base == NULL)
@@ -2182,13 +2182,13 @@ xmlBuildRelativeURI (const xmlChar * URI, const xmlChar * base)
 	if (ret != 0)
 	    goto done;		/* Error in URI, return NULL */
     } else
-	ref->path = (char *)xmlStrdup(URI);
+	ref->path = (char *)strdup(URI);
 
     /*
      * Next parse base into the same standard form
      */
     if ((base == NULL) || (*base == 0)) {
-	val = xmlStrdup (URI);
+	val = strdup (URI);
 	goto done;
     }
     bas = xmlCreateURI ();
@@ -2199,7 +2199,7 @@ xmlBuildRelativeURI (const xmlChar * URI, const xmlChar * base)
 	if (ret != 0)
 	    goto done;		/* Error in base, return NULL */
     } else
-	bas->path = (char *)xmlStrdup(base);
+	bas->path = (char *)strdup(base);
 
     /*
      * If the scheme / server on the URI differs from the base,
@@ -2209,15 +2209,15 @@ xmlBuildRelativeURI (const xmlChar * URI, const xmlChar * base)
 	((bas->scheme == NULL) ||
 	 (xmlStrcmp ((xmlChar *)bas->scheme, (xmlChar *)ref->scheme)) ||
 	 (xmlStrcmp ((xmlChar *)bas->server, (xmlChar *)ref->server)))) {
-	val = xmlStrdup (URI);
+	val = strdup (URI);
 	goto done;
     }
     if (xmlStrEqual((xmlChar *)bas->path, (xmlChar *)ref->path)) {
-	val = xmlStrdup(BAD_CAST "");
+	val = strdup("");
 	goto done;
     }
     if (bas->path == NULL) {
-	val = xmlStrdup((xmlChar *)ref->path);
+	val = strdup((xmlChar *)ref->path);
 	goto done;
     }
     if (ref->path == NULL) {
@@ -2266,7 +2266,7 @@ xmlBuildRelativeURI (const xmlChar * URI, const xmlChar * base)
 	    pos++;
 
 	if (bptr[pos] == rptr[pos]) {
-	    val = xmlStrdup(BAD_CAST "");
+	    val = strdup("");
 	    goto done;		/* (I can't imagine why anyone would do this) */
 	}
 
@@ -2408,7 +2408,7 @@ xmlCanonicPath(const xmlChar *path)
      */
     if ((path[0] == '\\') && (path[1] == '\\') && (path[2] == '?') &&
         (path[3] == '\\') )
-	return xmlStrdup((const xmlChar *) path);
+	return strdup((const xmlChar *) path);
 #endif
 
 	/* sanitize filename starting with // so it can be used as URI */
@@ -2417,7 +2417,7 @@ xmlCanonicPath(const xmlChar *path)
 
     if ((uri = xmlParseURI((const char *) path)) != NULL) {
 	xmlFreeURI(uri);
-	return xmlStrdup(path);
+	return strdup(path);
     }
 
     /* Check if this is an "absolute uri" */
@@ -2471,7 +2471,7 @@ path_processing:
     len = xmlStrlen(path);
     if ((len > 2) && IS_WINDOWS_PATH(path)) {
         /* make the scheme 'file' */
-	uri->scheme = (char *) xmlStrdup(BAD_CAST "file");
+	uri->scheme = (char *) strdup("file");
 	/* allocate space for leading '/' + path + string terminator */
 	uri->path = malloc(len + 2);
 	if (uri->path == NULL) {
@@ -2483,7 +2483,7 @@ path_processing:
 	p = uri->path + 1;
 	strncpy(p, (char *) path, len + 1);
     } else {
-	uri->path = (char *) xmlStrdup(path);
+	uri->path = (char *) strdup(path);
 	if (uri->path == NULL) {
 	    xmlFreeURI(uri);
 	    return(NULL);
@@ -2498,14 +2498,14 @@ path_processing:
     }
 
     if (uri->scheme == NULL) {
-	ret = xmlStrdup((const xmlChar *) uri->path);
+	ret = strdup((const xmlChar *) uri->path);
     } else {
 	ret = xmlSaveUri(uri);
     }
 
     xmlFreeURI(uri);
 #else
-    ret = xmlStrdup((const xmlChar *) path);
+    ret = strdup((const xmlChar *) path);
 #endif
     return(ret);
 }
@@ -2533,7 +2533,7 @@ xmlPathToURI(const xmlChar *path)
 
     if ((uri = xmlParseURI((const char *) path)) != NULL) {
 	xmlFreeURI(uri);
-	return xmlStrdup(path);
+	return strdup(path);
     }
     cal = xmlCanonicPath(path);
     if (cal == NULL)

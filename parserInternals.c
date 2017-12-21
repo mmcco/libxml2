@@ -1068,7 +1068,7 @@ xmlSwitchEncoding(xmlParserCtxtPtr ctxt, xmlCharEncoding enc)
 		    (ctxt->encoding == NULL) &&
 		    (ctxt->input != NULL) &&
 		    (ctxt->input->encoding != NULL)) {
-		    ctxt->encoding = xmlStrdup(ctxt->input->encoding);
+		    ctxt->encoding = strdup(ctxt->input->encoding);
 		}
 		ctxt->charset = enc;
 		return(0);
@@ -1460,7 +1460,7 @@ xmlNewEntityInputStream(xmlParserCtxtPtr ctxt, xmlEntityPtr entity) {
 	return(NULL);
     }
     if (entity->URI != NULL)
-	input->filename = (char *) xmlStrdup((xmlChar *) entity->URI);
+	input->filename = (char *) strdup((xmlChar *) entity->URI);
     input->base = entity->content;
     if (entity->length == 0)
         entity->length = xmlStrlen(entity->content);
@@ -1544,9 +1544,9 @@ xmlNewInputFromFile(xmlParserCtxtPtr ctxt, const char *filename) {
         return(NULL);
 
     if (inputStream->filename == NULL)
-	URI = xmlStrdup((xmlChar *) filename);
+	URI = strdup((xmlChar *) filename);
     else
-	URI = xmlStrdup((xmlChar *) inputStream->filename);
+	URI = strdup((xmlChar *) inputStream->filename);
     directory = xmlParserGetDirectory((const char *) URI);
     free((void *)inputStream->filename);
     inputStream->filename = (char *) xmlCanonicPath((const xmlChar *) URI);
@@ -1555,7 +1555,7 @@ xmlNewInputFromFile(xmlParserCtxtPtr ctxt, const char *filename) {
 
     xmlBufResetInput(inputStream->buf->buffer, inputStream);
     if ((ctxt->directory == NULL) && (directory != NULL))
-        ctxt->directory = (char *) xmlStrdup((const xmlChar *) directory);
+        ctxt->directory = (char *) strdup((const xmlChar *) directory);
     return(inputStream);
 }
 

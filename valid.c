@@ -958,13 +958,13 @@ xmlNewDocElementContent(xmlDocPtr doc, const xmlChar *name,
 	tmp = xmlSplitQName3(name, &l);
 	if (tmp == NULL) {
 	    if (dict == NULL)
-		ret->name = xmlStrdup(name);
+		ret->name = strdup(name);
 	    else
 	        ret->name = xmlDictLookup(dict, name, -1);
 	} else {
 	    if (dict == NULL) {
 		ret->prefix = xmlStrndup(name, l);
-		ret->name = xmlStrdup(tmp);
+		ret->name = strdup(tmp);
 	    } else {
 	        ret->prefix = xmlDictLookup(dict, name, l);
 		ret->name = xmlDictLookup(dict, tmp, -1);
@@ -1020,14 +1020,14 @@ xmlCopyDocElementContent(xmlDocPtr doc, xmlElementContentPtr cur) {
 	if (dict)
 	    ret->name = xmlDictLookup(dict, cur->name, -1);
 	else
-	    ret->name = xmlStrdup(cur->name);
+	    ret->name = strdup(cur->name);
     }
 
     if (cur->prefix != NULL) {
 	if (dict)
 	    ret->prefix = xmlDictLookup(dict, cur->prefix, -1);
 	else
-	    ret->prefix = xmlStrdup(cur->prefix);
+	    ret->prefix = strdup(cur->prefix);
     }
     if (cur->c1 != NULL)
         ret->c1 = xmlCopyDocElementContent(doc, cur->c1);
@@ -1050,14 +1050,14 @@ xmlCopyDocElementContent(xmlDocPtr doc, xmlElementContentPtr cur) {
 		if (dict)
 		    tmp->name = xmlDictLookup(dict, cur->name, -1);
 		else
-		    tmp->name = xmlStrdup(cur->name);
+		    tmp->name = strdup(cur->name);
 	    }
 
 	    if (cur->prefix != NULL) {
 		if (dict)
 		    tmp->prefix = xmlDictLookup(dict, cur->prefix, -1);
 		else
-		    tmp->prefix = xmlStrdup(cur->prefix);
+		    tmp->prefix = strdup(cur->prefix);
 	    }
 	    if (cur->c1 != NULL)
 	        tmp->c1 = xmlCopyDocElementContent(doc,cur->c1);
@@ -1508,7 +1508,7 @@ xmlAddElementDecl(xmlValidCtxtPtr ctxt,
 	/*
 	 * fill the structure.
 	 */
-	ret->name = xmlStrdup(name);
+	ret->name = strdup(name);
 	if (ret->name == NULL) {
 	    xmlVErrMemory(ctxt, "malloc failed");
 	    free(uqname);
@@ -1610,11 +1610,11 @@ xmlCopyElement(xmlElementPtr elem) {
     cur->type = XML_ELEMENT_DECL;
     cur->etype = elem->etype;
     if (elem->name != NULL)
-	cur->name = xmlStrdup(elem->name);
+	cur->name = strdup(elem->name);
     else
 	cur->name = NULL;
     if (elem->prefix != NULL)
-	cur->prefix = xmlStrdup(elem->prefix);
+	cur->prefix = strdup(elem->prefix);
     else
 	cur->prefix = NULL;
     cur->content = xmlCopyElementContent(elem->content);
@@ -1748,7 +1748,7 @@ xmlCreateEnumeration(const xmlChar *name) {
     memset(ret, 0, sizeof(xmlEnumeration));
 
     if (name != NULL)
-        ret->name = xmlStrdup(name);
+        ret->name = strdup(name);
     return(ret);
 }
 
@@ -2027,9 +2027,9 @@ xmlAddAttributeDecl(xmlValidCtxtPtr ctxt,
 	ret->prefix = xmlDictLookup(dict, ns, -1);
 	ret->elem = xmlDictLookup(dict, elem, -1);
     } else {
-	ret->name = xmlStrdup(name);
-	ret->prefix = xmlStrdup(ns);
-	ret->elem = xmlStrdup(elem);
+	ret->name = strdup(name);
+	ret->prefix = strdup(ns);
+	ret->elem = strdup(elem);
     }
     ret->def = def;
     ret->tree = tree;
@@ -2037,7 +2037,7 @@ xmlAddAttributeDecl(xmlValidCtxtPtr ctxt,
         if (dict)
 	    ret->defaultValue = xmlDictLookup(dict, defaultValue, -1);
 	else
-	    ret->defaultValue = xmlStrdup(defaultValue);
+	    ret->defaultValue = strdup(defaultValue);
     }
 
     /*
@@ -2154,13 +2154,13 @@ xmlCopyAttribute(xmlAttributePtr attr) {
     cur->def = attr->def;
     cur->tree = xmlCopyEnumeration(attr->tree);
     if (attr->elem != NULL)
-	cur->elem = xmlStrdup(attr->elem);
+	cur->elem = strdup(attr->elem);
     if (attr->name != NULL)
-	cur->name = xmlStrdup(attr->name);
+	cur->name = strdup(attr->name);
     if (attr->prefix != NULL)
-	cur->prefix = xmlStrdup(attr->prefix);
+	cur->prefix = strdup(attr->prefix);
     if (attr->defaultValue != NULL)
-	cur->defaultValue = xmlStrdup(attr->defaultValue);
+	cur->defaultValue = strdup(attr->defaultValue);
     return(cur);
 }
 
@@ -2366,11 +2366,11 @@ xmlAddNotationDecl(xmlValidCtxtPtr ctxt, xmlDtdPtr dtd,
     /*
      * fill the structure.
      */
-    ret->name = xmlStrdup(name);
+    ret->name = strdup(name);
     if (SystemID != NULL)
-        ret->SystemID = xmlStrdup(SystemID);
+        ret->SystemID = strdup(SystemID);
     if (PublicID != NULL)
-        ret->PublicID = xmlStrdup(PublicID);
+        ret->PublicID = strdup(PublicID);
 
     /*
      * Validity Check:
@@ -2418,15 +2418,15 @@ xmlCopyNotation(xmlNotationPtr nota) {
 	return(NULL);
     }
     if (nota->name != NULL)
-	cur->name = xmlStrdup(nota->name);
+	cur->name = strdup(nota->name);
     else
 	cur->name = NULL;
     if (nota->PublicID != NULL)
-	cur->PublicID = xmlStrdup(nota->PublicID);
+	cur->PublicID = strdup(nota->PublicID);
     else
 	cur->PublicID = NULL;
     if (nota->SystemID != NULL)
-	cur->SystemID = xmlStrdup(nota->SystemID);
+	cur->SystemID = strdup(nota->SystemID);
     else
 	cur->SystemID = NULL;
     return(cur);
@@ -2591,7 +2591,7 @@ xmlAddID(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
     /*
      * fill the structure.
      */
-    ret->value = xmlStrdup(value);
+    ret->value = strdup(value);
     ret->doc = doc;
     if ((ctxt != NULL) && (ctxt->vstateNr != 0)) {
 	/*
@@ -2600,7 +2600,7 @@ xmlAddID(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
 	if (doc->dict != NULL)
 	    ret->name = xmlDictLookup(doc->dict, attr->name, -1);
 	else
-	    ret->name = xmlStrdup(attr->name);
+	    ret->name = strdup(attr->name);
 	ret->attr = NULL;
     } else {
 	ret->attr = attr;
@@ -2912,12 +2912,12 @@ xmlAddRef(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
     /*
      * fill the structure.
      */
-    ret->value = xmlStrdup(value);
+    ret->value = strdup(value);
     if ((ctxt != NULL) && (ctxt->vstateNr != 0)) {
 	/*
 	 * Operating in streaming mode, attr is gonna disapear
 	 */
-	ret->name = xmlStrdup(attr->name);
+	ret->name = strdup(attr->name);
 	ret->attr = NULL;
     } else {
 	ret->name = NULL;
@@ -3194,8 +3194,8 @@ xmlGetDtdElementDesc2(xmlDtdPtr dtd, const xmlChar *name, int create) {
 	/*
 	 * fill the structure.
 	 */
-	cur->name = xmlStrdup(name);
-	cur->prefix = xmlStrdup(prefix);
+	cur->name = strdup(name);
+	cur->prefix = strdup(prefix);
 	cur->etype = XML_ELEMENT_TYPE_UNDEFINED;
 
 	xmlHashAddEntry2(table, name, prefix, cur);
@@ -3853,7 +3853,7 @@ xmlValidateAttributeValue2(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
 	    xmlChar *dup, *nam = NULL, *cur, save;
 	    xmlEntityPtr ent;
 
-	    dup = xmlStrdup(value);
+	    dup = strdup(value);
 	    if (dup == NULL)
 		return(0);
 	    cur = dup;
@@ -3970,7 +3970,7 @@ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
     if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
 	return(NULL);
 
-    ret = xmlStrdup(value);
+    ret = strdup(value);
     if (ret == NULL)
 	return(NULL);
     src = value;
@@ -4045,7 +4045,7 @@ xmlValidNormalizeAttributeValue(xmlDocPtr doc, xmlNodePtr elem,
     if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
 	return(NULL);
 
-    ret = xmlStrdup(value);
+    ret = strdup(value);
     if (ret == NULL)
 	return(NULL);
     src = value;
@@ -5387,7 +5387,7 @@ fail:
 			 * E59 spaces in CDATA does not match the
 			 * nonterminal S
 			 */
-			tmp->content = xmlStrdup(BAD_CAST "CDATA");
+			tmp->content = strdup("CDATA");
 		    }
 		    break;
 		default:
@@ -6425,7 +6425,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
     if (attr == NULL) {
 	xmlChar *dup, *str = NULL, *cur, save;
 
-	dup = xmlStrdup(name);
+	dup = strdup(name);
 	if (dup == NULL) {
 	    ctxt->valid = 0;
 	    return;
@@ -6460,7 +6460,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
     } else if (attr->atype == XML_ATTRIBUTE_IDREFS) {
 	xmlChar *dup, *str = NULL, *cur, save;
 
-	dup = xmlStrdup(name);
+	dup = strdup(name);
 	if (dup == NULL) {
 	    xmlVErrMemory(ctxt, "IDREFS split");
 	    ctxt->valid = 0;

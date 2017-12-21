@@ -153,7 +153,7 @@ register_namespaces(xmlXPathContextPtr xpathCtx, const xmlChar* nsList) {
     assert(xpathCtx);
     assert(nsList);
 
-    nsListDup = xmlStrdup(nsList);
+    nsListDup = strdup(nsList);
     if(nsListDup == NULL) {
 	fprintf(stderr, "Error: unable to strdup namespaces list\n");
 	return(-1);	

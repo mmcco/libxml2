@@ -646,10 +646,10 @@ xmlXPathErrMemory(xmlXPathContextPtr ctxt, const char *extra)
             xmlStrPrintf(buf, 200,
                          "Memory allocation failed : %s\n",
                          extra);
-            ctxt->lastError.message = (char *) xmlStrdup(buf);
+            ctxt->lastError.message = (char *) strdup(buf);
         } else {
             ctxt->lastError.message = (char *)
-	       xmlStrdup(BAD_CAST "Memory allocation failed\n");
+	       strdup("Memory allocation failed\n");
         }
         ctxt->lastError.domain = XML_FROM_XPATH;
         ctxt->lastError.code = XML_ERR_NO_MEMORY;
@@ -729,7 +729,7 @@ xmlXPathErr(xmlXPathParserContextPtr ctxt, int error)
     ctxt->context->lastError.code = error + XML_XPATH_EXPRESSION_OK -
                            XPATH_EXPRESSION_OK;
     ctxt->context->lastError.level = XML_ERR_ERROR;
-    ctxt->context->lastError.str1 = (char *) xmlStrdup(ctxt->base);
+    ctxt->context->lastError.str1 = (char *) strdup(ctxt->base);
     ctxt->context->lastError.int1 = ctxt->cur - ctxt->base;
     ctxt->context->lastError.node = ctxt->context->debugNode;
     if (ctxt->context->error != NULL) {
@@ -2462,7 +2462,7 @@ xmlXPathCacheNewCString(xmlXPathContextPtr ctxt, const char *val)
 		cache->stringObjs->items[--cache->stringObjs->number];
 
 	    ret->type = XPATH_STRING;
-	    ret->stringval = xmlStrdup(BAD_CAST val);
+	    ret->stringval = strdup(val);
 #ifdef XP_DEBUG_OBJ_USAGE
 	    xmlXPathDebugObjUsageRequested(ctxt, XPATH_STRING);
 #endif
@@ -2476,7 +2476,7 @@ xmlXPathCacheNewCString(xmlXPathContextPtr ctxt, const char *val)
 		cache->miscObjs->items[--cache->miscObjs->number];
 
 	    ret->type = XPATH_STRING;
-	    ret->stringval = xmlStrdup(BAD_CAST val);
+	    ret->stringval = strdup(val);
 #ifdef XP_DEBUG_OBJ_USAGE
 	    xmlXPathDebugObjUsageRequested(ctxt, XPATH_STRING);
 #endif
@@ -2511,9 +2511,9 @@ xmlXPathCacheNewString(xmlXPathContextPtr ctxt, const xmlChar *val)
 		cache->stringObjs->items[--cache->stringObjs->number];
 	    ret->type = XPATH_STRING;
 	    if (val != NULL)
-		ret->stringval = xmlStrdup(val);
+		ret->stringval = strdup(val);
 	    else
-		ret->stringval = xmlStrdup((const xmlChar *)"");
+		ret->stringval = strdup((const xmlChar *)"");
 #ifdef XP_DEBUG_OBJ_USAGE
 	    xmlXPathDebugObjUsageRequested(ctxt, XPATH_STRING);
 #endif
@@ -2528,9 +2528,9 @@ xmlXPathCacheNewString(xmlXPathContextPtr ctxt, const xmlChar *val)
 
 	    ret->type = XPATH_STRING;
 	    if (val != NULL)
-		ret->stringval = xmlStrdup(val);
+		ret->stringval = strdup(val);
 	    else
-		ret->stringval = xmlStrdup((const xmlChar *)"");
+		ret->stringval = strdup((const xmlChar *)"");
 #ifdef XP_DEBUG_OBJ_USAGE
 	    xmlXPathDebugObjUsageRequested(ctxt, XPATH_STRING);
 #endif
@@ -3487,9 +3487,9 @@ xmlXPathNodeSetDupNs(xmlNodePtr node, xmlNsPtr ns) {
     memset(cur, 0, sizeof(xmlNs));
     cur->type = XML_NAMESPACE_DECL;
     if (ns->href != NULL)
-	cur->href = xmlStrdup(ns->href);
+	cur->href = strdup(ns->href);
     if (ns->prefix != NULL)
-	cur->prefix = xmlStrdup(ns->prefix);
+	cur->prefix = strdup(ns->prefix);
     cur->next = (xmlNsPtr) node;
     return((xmlNodePtr) cur);
 }
@@ -5142,7 +5142,7 @@ xmlXPathRegisterNs(xmlXPathContextPtr ctxt, const xmlChar *prefix,
     if (ns_uri == NULL)
         return(xmlHashRemoveEntry(ctxt->nsHash, prefix,
 	                          (xmlHashDeallocator)free));
-    return(xmlHashUpdateEntry(ctxt->nsHash, prefix, (void *) xmlStrdup(ns_uri),
+    return(xmlHashUpdateEntry(ctxt->nsHash, prefix, (void *) strdup(ns_uri),
 			      (xmlHashDeallocator)free));
 }
 
@@ -5276,9 +5276,9 @@ xmlXPathNewString(const xmlChar *val) {
     memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
     ret->type = XPATH_STRING;
     if (val != NULL)
-	ret->stringval = xmlStrdup(val);
+	ret->stringval = strdup(val);
     else
-	ret->stringval = xmlStrdup((const xmlChar *)"");
+	ret->stringval = strdup((const xmlChar *)"");
 #ifdef XP_DEBUG_OBJ_USAGE
     xmlXPathDebugObjUsageRequested(NULL, XPATH_STRING);
 #endif
@@ -5330,7 +5330,7 @@ xmlXPathNewCString(const char *val) {
     }
     memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
     ret->type = XPATH_STRING;
-    ret->stringval = xmlStrdup(BAD_CAST val);
+    ret->stringval = strdup(val);
 #ifdef XP_DEBUG_OBJ_USAGE
     xmlXPathDebugObjUsageRequested(NULL, XPATH_STRING);
 #endif
@@ -5407,7 +5407,7 @@ xmlXPathObjectCopy(xmlXPathObjectPtr val) {
 	case XPATH_RANGE:
 	    break;
 	case XPATH_STRING:
-	    ret->stringval = xmlStrdup(val->stringval);
+	    ret->stringval = strdup(val->stringval);
 	    break;
 	case XPATH_XSLT_TREE:
 #if 0
@@ -5424,7 +5424,7 @@ xmlXPathObjectCopy(xmlXPathObjectPtr val) {
 		ret->boolval = 1;
 		top =  xmlNewDoc(NULL);
 		top->name = (char *)
-		    xmlStrdup(val->nodesetval->nodeTab[0]->name);
+		    strdup(val->nodesetval->nodeTab[0]->name);
 		ret->user = top;
 		if (top != NULL) {
 		    top->doc = top;
@@ -5666,9 +5666,9 @@ xmlChar *
 xmlXPathCastBooleanToString (int val) {
     xmlChar *ret;
     if (val)
-	ret = xmlStrdup((const xmlChar *) "true");
+	ret = strdup((const xmlChar *) "true");
     else
-	ret = xmlStrdup((const xmlChar *) "false");
+	ret = strdup((const xmlChar *) "false");
     return(ret);
 }
 
@@ -5685,22 +5685,22 @@ xmlXPathCastNumberToString (double val) {
     xmlChar *ret;
     switch (xmlXPathIsInf(val)) {
     case 1:
-	ret = xmlStrdup((const xmlChar *) "Infinity");
+	ret = strdup((const xmlChar *) "Infinity");
 	break;
     case -1:
-	ret = xmlStrdup((const xmlChar *) "-Infinity");
+	ret = strdup((const xmlChar *) "-Infinity");
 	break;
     default:
 	if (xmlXPathIsNaN(val)) {
-	    ret = xmlStrdup((const xmlChar *) "NaN");
+	    ret = strdup((const xmlChar *) "NaN");
 	} else if (val == 0 && xmlXPathGetSign(val) != 0) {
-	    ret = xmlStrdup((const xmlChar *) "0");
+	    ret = strdup((const xmlChar *) "0");
 	} else {
 	    /* could be improved */
 	    char buf[100];
 	    xmlXPathFormatNumber(val, buf, 99);
 	    buf[99] = 0;
-	    ret = xmlStrdup((const xmlChar *) buf);
+	    ret = strdup((const xmlChar *) buf);
 	}
     }
     return(ret);
@@ -5718,7 +5718,7 @@ xmlChar *
 xmlXPathCastNodeToString (xmlNodePtr node) {
 xmlChar *ret;
     if ((ret = xmlNodeGetContent(node)) == NULL)
-	ret = xmlStrdup((const xmlChar *) "");
+	ret = strdup((const xmlChar *) "");
     return(ret);
 }
 
@@ -5733,7 +5733,7 @@ xmlChar *ret;
 xmlChar *
 xmlXPathCastNodeSetToString (xmlNodeSetPtr ns) {
     if ((ns == NULL) || (ns->nodeNr == 0) || (ns->nodeTab == NULL))
-	return(xmlStrdup((const xmlChar *) ""));
+	return(strdup((const xmlChar *) ""));
 
     if (ns->nodeNr > 1)
 	xmlXPathNodeSetSort(ns);
@@ -5754,20 +5754,20 @@ xmlXPathCastToString(xmlXPathObjectPtr val) {
     xmlChar *ret = NULL;
 
     if (val == NULL)
-	return(xmlStrdup((const xmlChar *) ""));
+	return(strdup((const xmlChar *) ""));
     switch (val->type) {
 	case XPATH_UNDEFINED:
 #ifdef DEBUG_EXPR
 	    xmlGenericError(xmlGenericErrorContext, "String: undefined\n");
 #endif
-	    ret = xmlStrdup((const xmlChar *) "");
+	    ret = strdup((const xmlChar *) "");
 	    break;
         case XPATH_NODESET:
         case XPATH_XSLT_TREE:
 	    ret = xmlXPathCastNodeSetToString(val->nodesetval);
 	    break;
 	case XPATH_STRING:
-	    return(xmlStrdup(val->stringval));
+	    return(strdup(val->stringval));
         case XPATH_BOOLEAN:
 	    ret = xmlXPathCastBooleanToString(val->boolval);
 	    break;
@@ -5780,7 +5780,7 @@ xmlXPathCastToString(xmlXPathObjectPtr val) {
 	case XPATH_RANGE:
 	case XPATH_LOCATIONSET:
 	    TODO
-	    ret = xmlStrdup((const xmlChar *) "");
+	    ret = strdup((const xmlChar *) "");
 	    break;
     }
     return(ret);
@@ -8879,7 +8879,7 @@ xmlXPathNameFunction(xmlXPathParserContextPtr ctxt, int nargs)
 				     cur->nodesetval->nodeTab[i]->ns->prefix,
 				     NULL, 0);
 		    if (fullname == cur->nodesetval->nodeTab[i]->name)
-			fullname = xmlStrdup(cur->nodesetval->nodeTab[i]->name);
+			fullname = strdup(cur->nodesetval->nodeTab[i]->name);
 		    if (fullname == NULL) {
 			XP_ERROR(XPATH_MEMORY_ERROR);
 		    }
@@ -14830,9 +14830,9 @@ xmlXPathCtxtCompile(xmlXPathContextPtr ctxt, const xmlChar *str) {
     xmlXPathFreeParserContext(pctxt);
 
     if (comp != NULL) {
-	comp->expr = xmlStrdup(str);
+	comp->expr = strdup(str);
 #ifdef DEBUG_EVAL_COUNTS
-	comp->string = xmlStrdup(str);
+	comp->string = strdup(str);
 	comp->nb = 0;
 #endif
 	if ((comp->nbStep > 1) && (comp->last >= 0)) {

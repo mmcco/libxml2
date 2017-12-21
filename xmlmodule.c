@@ -96,7 +96,7 @@ xmlModuleOpen(const char *name, int options ATTRIBUTE_UNUSED)
         return(NULL);
     }
 
-    module->name = xmlStrdup((const xmlChar *) name);
+    module->name = strdup((const xmlChar *) name);
     return (module);
 }
 

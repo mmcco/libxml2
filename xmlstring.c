@@ -491,7 +491,7 @@ xmlStrncatNew(const xmlChar *str1, const xmlChar *str2, int len) {
             return(NULL);
     }
     if ((str2 == NULL) || (len == 0))
-        return(xmlStrdup(str1));
+        return(strdup(str1));
     if (str1 == NULL)
         return(xmlStrndup(str2, len));
 
@@ -527,7 +527,7 @@ xmlStrcat(xmlChar *cur, const xmlChar *add) {
 
     if (add == NULL) return(cur);
     if (cur == NULL)
-        return(xmlStrdup(add));
+        return(strdup(add));
 
     while (*p != 0) p++; /* non input consuming */
     return(xmlStrncat(cur, add, p - add));

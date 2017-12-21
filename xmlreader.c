@@ -950,7 +950,7 @@ xmlTextReaderValidatePush(xmlTextReaderPtr reader ATTRIBUTE_UNUSED) {
 	    /* TODO use the BuildQName interface */
 	    xmlChar *qname;
 
-	    qname = xmlStrdup(node->ns->prefix);
+	    qname = strdup(node->ns->prefix);
 	    qname = xmlStrcat(qname, BAD_CAST ":");
 	    qname = xmlStrcat(qname, node->name);
 	    reader->ctxt->valid &= xmlValidatePushElement(&reader->ctxt->vctxt,
@@ -1040,7 +1040,7 @@ xmlTextReaderValidatePop(xmlTextReaderPtr reader) {
 	    /* TODO use the BuildQName interface */
 	    xmlChar *qname;
 
-	    qname = xmlStrdup(node->ns->prefix);
+	    qname = strdup(node->ns->prefix);
 	    qname = xmlStrcat(qname, BAD_CAST ":");
 	    qname = xmlStrcat(qname, node->name);
 	    reader->ctxt->valid &= xmlValidatePopElement(&reader->ctxt->vctxt,
@@ -1792,7 +1792,7 @@ xmlTextReaderReadString(xmlTextReaderPtr reader)
     switch (node->type) {
     case XML_TEXT_NODE:
        if (node->content != NULL)
-           return(xmlStrdup(node->content));
+           return(strdup(node->content));
        break;
     case XML_ELEMENT_NODE:
 	if (xmlTextReaderDoExpand(reader) != -1) {
@@ -2193,7 +2193,7 @@ xmlNewTextReaderFilename(const char *URI) {
     if (ret->ctxt->directory == NULL)
         directory = xmlParserGetDirectory(URI);
     if ((ret->ctxt->directory == NULL) && (directory != NULL))
-        ret->ctxt->directory = (char *) xmlStrdup((xmlChar *) directory);
+        ret->ctxt->directory = (char *) strdup((xmlChar *) directory);
     free(directory);
     return(ret);
 }
@@ -2346,7 +2346,7 @@ xmlTextReaderGetAttributeNo(xmlTextReaderPtr reader, int no) {
 	ns = ns->next;
     }
     if (ns != NULL)
-	return(xmlStrdup(ns->href));
+	return(strdup(ns->href));
 
     cur = reader->node->properties;
     if (cur == NULL)
@@ -2359,7 +2359,7 @@ xmlTextReaderGetAttributeNo(xmlTextReaderPtr reader, int no) {
     /* TODO walk the DTD if present */
 
     ret = xmlNodeListGetString(reader->node->doc, cur->children, 1);
-    if (ret == NULL) return(xmlStrdup((xmlChar *)""));
+    if (ret == NULL) return(strdup((xmlChar *)""));
     return(ret);
 }
 
@@ -2400,7 +2400,7 @@ xmlTextReaderGetAttribute(xmlTextReaderPtr reader, const xmlChar *name) {
 			ns = reader->node->nsDef;
 			while (ns != NULL) {
 				if (ns->prefix == NULL) {
-					return(xmlStrdup(ns->href));
+					return(strdup(ns->href));
 				}
 				ns = ns->next;
 			}
@@ -2416,7 +2416,7 @@ xmlTextReaderGetAttribute(xmlTextReaderPtr reader, const xmlChar *name) {
 		ns = reader->node->nsDef;
 		while (ns != NULL) {
 			if ((ns->prefix != NULL) && (xmlStrEqual(ns->prefix, localname))) {
-				ret = xmlStrdup(ns->href);
+				ret = strdup(ns->href);
 				break;
 			}
 			ns = ns->next;
@@ -2469,7 +2469,7 @@ xmlTextReaderGetAttributeNs(xmlTextReaderPtr reader, const xmlChar *localName,
 		while (ns != NULL) {
 			if ((prefix == NULL && ns->prefix == NULL) ||
 				((ns->prefix != NULL) && (xmlStrEqual(ns->prefix, localName)))) {
-				return xmlStrdup(ns->href);
+				return strdup(ns->href);
 			}
 			ns = ns->next;
 		}
@@ -2554,7 +2554,7 @@ xmlTextReaderLookupNamespace(xmlTextReaderPtr reader, const xmlChar *prefix) {
     ns = xmlSearchNs(reader->node->doc, reader->node, prefix);
     if (ns == NULL)
 	return(NULL);
-    return(xmlStrdup(ns->href));
+    return(strdup(ns->href));
 }
 
 /**
@@ -2893,7 +2893,7 @@ xmlTextReaderReadAttributeValue(xmlTextReaderPtr reader) {
 	        (reader->faketext->content !=
 		 (xmlChar *) &(reader->faketext->properties)))
 		free(reader->faketext->content);
-	    reader->faketext->content = xmlStrdup(ns->href);
+	    reader->faketext->content = strdup(ns->href);
 	}
 	reader->curnode = reader->faketext;
     } else {
@@ -3105,14 +3105,14 @@ xmlTextReaderLocalName(xmlTextReaderPtr reader) {
     if (node->type == XML_NAMESPACE_DECL) {
 	xmlNsPtr ns = (xmlNsPtr) node;
 	if (ns->prefix == NULL)
-	    return(xmlStrdup(BAD_CAST "xmlns"));
+	    return(strdup("xmlns"));
 	else
-	    return(xmlStrdup(ns->prefix));
+	    return(strdup(ns->prefix));
     }
     if ((node->type != XML_ELEMENT_NODE) &&
 	(node->type != XML_ATTRIBUTE_NODE))
 	return(xmlTextReaderName(reader));
-    return(xmlStrdup(node->name));
+    return(strdup(node->name));
 }
 
 /**
@@ -3171,40 +3171,40 @@ xmlTextReaderName(xmlTextReaderPtr reader) {
         case XML_ATTRIBUTE_NODE:
 	    if ((node->ns == NULL) ||
 		(node->ns->prefix == NULL))
-		return(xmlStrdup(node->name));
+		return(strdup(node->name));
 
-	    ret = xmlStrdup(node->ns->prefix);
+	    ret = strdup(node->ns->prefix);
 	    ret = xmlStrcat(ret, BAD_CAST ":");
 	    ret = xmlStrcat(ret, node->name);
 	    return(ret);
         case XML_TEXT_NODE:
-	    return(xmlStrdup(BAD_CAST "#text"));
+	    return(strdup("#text"));
         case XML_CDATA_SECTION_NODE:
-	    return(xmlStrdup(BAD_CAST "#cdata-section"));
+	    return(strdup("#cdata-section"));
         case XML_ENTITY_NODE:
         case XML_ENTITY_REF_NODE:
-	    return(xmlStrdup(node->name));
+	    return(strdup(node->name));
         case XML_PI_NODE:
-	    return(xmlStrdup(node->name));
+	    return(strdup(node->name));
         case XML_COMMENT_NODE:
-	    return(xmlStrdup(BAD_CAST "#comment"));
+	    return(strdup("#comment"));
         case XML_DOCUMENT_NODE:
         case XML_HTML_DOCUMENT_NODE:
 #ifdef LIBXML_DOCB_ENABLED
         case XML_DOCB_DOCUMENT_NODE:
 #endif
-	    return(xmlStrdup(BAD_CAST "#document"));
+	    return(strdup("#document"));
         case XML_DOCUMENT_FRAG_NODE:
-	    return(xmlStrdup(BAD_CAST "#document-fragment"));
+	    return(strdup("#document-fragment"));
         case XML_NOTATION_NODE:
-	    return(xmlStrdup(node->name));
+	    return(strdup(node->name));
         case XML_DOCUMENT_TYPE_NODE:
         case XML_DTD_NODE:
-	    return(xmlStrdup(node->name));
+	    return(strdup(node->name));
         case XML_NAMESPACE_DECL: {
 	    xmlNsPtr ns = (xmlNsPtr) node;
 
-	    ret = xmlStrdup(BAD_CAST "xmlns");
+	    ret = strdup("xmlns");
 	    if (ns->prefix == NULL)
 		return(ret);
 	    ret = xmlStrcat(ret, BAD_CAST ":");
@@ -3312,13 +3312,13 @@ xmlTextReaderPrefix(xmlTextReaderPtr reader) {
 	xmlNsPtr ns = (xmlNsPtr) node;
 	if (ns->prefix == NULL)
 	    return(NULL);
-	return(xmlStrdup(BAD_CAST "xmlns"));
+	return(strdup("xmlns"));
     }
     if ((node->type != XML_ELEMENT_NODE) &&
 	(node->type != XML_ATTRIBUTE_NODE))
 	return(NULL);
     if ((node->ns != NULL) && (node->ns->prefix != NULL))
-	return(xmlStrdup(node->ns->prefix));
+	return(strdup(node->ns->prefix));
     return(NULL);
 }
 
@@ -3373,12 +3373,12 @@ xmlTextReaderNamespaceUri(xmlTextReaderPtr reader) {
     else
 	node = reader->node;
     if (node->type == XML_NAMESPACE_DECL)
-	return(xmlStrdup(BAD_CAST "http://www.w3.org/2000/xmlns/"));
+	return(strdup("http://www.w3.org/2000/xmlns/"));
     if ((node->type != XML_ELEMENT_NODE) &&
 	(node->type != XML_ATTRIBUTE_NODE))
 	return(NULL);
     if (node->ns != NULL)
-	return(xmlStrdup(node->ns->href));
+	return(strdup(node->ns->href));
     return(NULL);
 }
 
@@ -3557,7 +3557,7 @@ xmlTextReaderValue(xmlTextReaderPtr reader) {
 
     switch (node->type) {
         case XML_NAMESPACE_DECL:
-	    return(xmlStrdup(((xmlNsPtr) node)->href));
+	    return(strdup(((xmlNsPtr) node)->href));
         case XML_ATTRIBUTE_NODE:{
 	    xmlAttrPtr attr = (xmlAttrPtr) node;
 
@@ -3573,7 +3573,7 @@ xmlTextReaderValue(xmlTextReaderPtr reader) {
         case XML_PI_NODE:
         case XML_COMMENT_NODE:
             if (node->content != NULL)
-                return (xmlStrdup(node->content));
+                return (strdup(node->content));
 	default:
 	    break;
     }
@@ -4799,7 +4799,7 @@ xmlTextReaderLocatorBaseURI(xmlTextReaderLocatorPtr locator) {
 	if ((input->filename == NULL) && (ctx->inputNr > 1))
 	    input = ctx->inputTab[ctx->inputNr - 2];
 	if (input != NULL) {
-	    ret = xmlStrdup(BAD_CAST input->filename);
+	    ret = strdup(input->filename);
 	}
 	else {
 	    ret = NULL;
@@ -5282,7 +5282,7 @@ xmlTextReaderSetup(xmlTextReaderPtr reader,
     if ((URL != NULL) && (reader->ctxt->input != NULL) &&
         (reader->ctxt->input->filename == NULL))
         reader->ctxt->input->filename = (char *)
-            xmlStrdup((const xmlChar *) URL);
+            strdup((const xmlChar *) URL);
 
     reader->doc = NULL;
 

@@ -235,7 +235,7 @@ xmlXIncludeNewRef(xmlXIncludeCtxtPtr ctxt, const xmlChar *URI,
     if (URI == NULL)
 	ret->URI = NULL;
     else
-	ret->URI = xmlStrdup(URI);
+	ret->URI = strdup(URI);
     ret->fragment = NULL;
     ret->ref = ref;
     ret->doc = NULL;
@@ -334,7 +334,7 @@ xmlXIncludeURLPush(xmlXIncludeCtxtPtr ctxt,
             return (-1);
         }
     }
-    ctxt->url = ctxt->urlTab[ctxt->urlNr] = xmlStrdup(value);
+    ctxt->url = ctxt->urlTab[ctxt->urlNr] = strdup(value);
     return (ctxt->urlNr++);
 }
 
@@ -497,7 +497,7 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
      */
     href = xmlXIncludeGetProp(ctxt, cur, XINCLUDE_HREF);
     if (href == NULL) {
-	href = xmlStrdup(BAD_CAST ""); /* @@@@ href is now optional */
+	href = strdup(""); /* @@@@ href is now optional */
 	if (href == NULL)
 	    return(-1);
     }
@@ -682,7 +682,7 @@ xmlXIncludeRecurseDoc(xmlXIncludeCtxtPtr ctxt, xmlDocPtr doc,
 	/*
 	 * Inherit the existing base
 	 */
-	newctxt->base = xmlStrdup(ctxt->base);
+	newctxt->base = strdup(ctxt->base);
 
 	/*
 	 * Inherit the documents already in use by other includes
@@ -761,7 +761,7 @@ xmlXIncludeAddTxt(xmlXIncludeCtxtPtr ctxt, xmlNodePtr txt, const xmlURL url) {
 	}
     }
     ctxt->txtTab[ctxt->txtNr] = txt;
-    ctxt->txturlTab[ctxt->txtNr] = xmlStrdup(url);
+    ctxt->txturlTab[ctxt->txtNr] = strdup(url);
     ctxt->txtNr++;
 }
 
@@ -1258,7 +1258,7 @@ xmlXIncludeMergeEntity(xmlEntityPtr ent, xmlXIncludeMergeDataPtr data,
 			  ent->SystemID, ent->content);
     if (ret != NULL) {
 	if (ent->URI != NULL)
-	    ret->URI = xmlStrdup(ent->URI);
+	    ret->URI = strdup(ent->URI);
     } else {
 	prev = xmlGetDocEntity(doc, ent->name);
 	if (prev != NULL) {
@@ -1400,7 +1400,7 @@ xmlXIncludeLoadDoc(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
     if ((ctxt->incTab != NULL) && (ctxt->incTab[nr] != NULL) &&
         (ctxt->incTab[nr]->fragment != NULL)) {
 	free(fragment);
-	fragment = xmlStrdup(ctxt->incTab[nr]->fragment);
+	fragment = strdup(ctxt->incTab[nr]->fragment);
     }
     URL = xmlSaveUri(uri);
     xmlFreeURI(uri);
@@ -1477,7 +1477,7 @@ xmlXIncludeLoadDoc(xmlXIncludeCtxtPtr ctxt, const xmlChar *url, int nr) {
      */
    if (!xmlStrEqual(URL, doc->URL)) {
        free(URL);
-       URL = xmlStrdup(doc->URL);
+       URL = strdup(doc->URL);
    }
     for (i = nr + 1; i < ctxt->incNr; i++) {
 	if (xmlStrEqual(URL, ctxt->incTab[i]->URI)) {
@@ -1943,7 +1943,7 @@ xmlXIncludeLoadFallback(xmlXIncludeCtxtPtr ctxt, xmlNodePtr fallback, int nr) {
 	if (newctxt == NULL)
 	    return (-1);
 	newctxt->_private = ctxt->_private;
-	newctxt->base = xmlStrdup(ctxt->base);	/* Inherit the base from the existing context */
+	newctxt->base = strdup(ctxt->base);	/* Inherit the base from the existing context */
 	xmlXIncludeSetFlags(newctxt, ctxt->parseFlags);
 	ret = xmlXIncludeDoProcess(newctxt, ctxt->doc, fallback->children);
 	if (ctxt->nbErrors > 0)
@@ -2016,7 +2016,7 @@ xmlXIncludeLoadNode(xmlXIncludeCtxtPtr ctxt, int nr) {
      */
     href = xmlXIncludeGetProp(ctxt, cur, XINCLUDE_HREF);
     if (href == NULL) {
-	href = xmlStrdup(BAD_CAST ""); /* @@@@ href is now optional */
+	href = strdup(""); /* @@@@ href is now optional */
 	if (href == NULL)
 	    return(-1);
     }
@@ -2444,7 +2444,7 @@ xmlXIncludeProcessTreeFlagsData(xmlNodePtr tree, int flags, void *data) {
     if (ctxt == NULL)
         return(-1);
     ctxt->_private = data;
-    ctxt->base = xmlStrdup((xmlChar *)tree->doc->URL);
+    ctxt->base = strdup((xmlChar *)tree->doc->URL);
     xmlXIncludeSetFlags(ctxt, flags);
     ret = xmlXIncludeDoProcess(ctxt, tree->doc, tree);
     if ((ret >= 0) && (ctxt->nbErrors > 0))

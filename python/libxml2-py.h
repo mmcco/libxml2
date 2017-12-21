@@ -896,7 +896,6 @@ PyObject * libxml_xmlStrcasestr(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStrcat(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStrchr(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStrcmp(PyObject *self, PyObject *args);
-PyObject * libxml_xmlStrdup(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStringDecodeEntities(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStringGetNodeList(PyObject *self, PyObject *args);
 PyObject * libxml_xmlStringLenDecodeEntities(PyObject *self, PyObject *args);

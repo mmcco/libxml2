@@ -515,7 +515,7 @@ xmlRegEpxFromParse(xmlRegParserCtxtPtr ctxt) {
 		}
 		if (j >= nbatoms) {
 		    stringRemap[i] = nbatoms;
-		    stringMap[nbatoms] = xmlStrdup(value);
+		    stringMap[nbatoms] = strdup(value);
 		    if (stringMap[nbatoms] == NULL) {
 			for (i = 0;i < nbatoms;i++)
 			    free(stringMap[i]);
@@ -687,7 +687,7 @@ xmlRegNewParserCtxt(const xmlChar *string) {
 	return(NULL);
     memset(ret, 0, sizeof(xmlRegParserCtxt));
     if (string != NULL)
-	ret->string = xmlStrdup(string);
+	ret->string = strdup(string);
     ret->cur = ret->string;
     ret->neg = 0;
     ret->negs = 0;
@@ -760,7 +760,7 @@ xmlRegCopyRange(xmlRegParserCtxtPtr ctxt, xmlRegRangePtr range) {
     if (ret == NULL)
         return(NULL);
     if (range->blockName != NULL) {
-	ret->blockName = xmlStrdup(range->blockName);
+	ret->blockName = strdup(range->blockName);
 	if (ret->blockName == NULL) {
 	    xmlRegexpErrMemory(ctxt, "allocating range");
 	    xmlRegFreeRange(ret);
@@ -3598,7 +3598,7 @@ xmlFARegExecSaveInputString(xmlRegExecCtxtPtr exec, const xmlChar *value,
 	}
 	exec->inputStack = tmp;
     }
-    exec->inputStack[exec->inputStackNr].value = xmlStrdup(value);
+    exec->inputStack[exec->inputStackNr].value = strdup(value);
     exec->inputStack[exec->inputStackNr].data = data;
     exec->inputStackNr++;
     exec->inputStack[exec->inputStackNr].value = NULL;
@@ -3728,7 +3728,7 @@ xmlRegCompactPushString(xmlRegExecCtxtPtr exec,
 #endif
 error:
     free(exec->errString);
-    exec->errString = xmlStrdup(value);
+    exec->errString = strdup(value);
     exec->errStateNo = state;
     exec->status = -1;
 #ifdef DEBUG_ERR
@@ -4013,7 +4013,7 @@ xmlRegExecPushStringInternal(xmlRegExecCtxtPtr exec, const xmlChar *value,
 		     * state.
 		     */
 		    free(exec->errString);
-		    exec->errString = xmlStrdup(value);
+		    exec->errString = strdup(value);
 		    exec->errState = exec->state;
 		    memcpy(exec->errCounts, exec->counts,
 			   exec->comp->nbCounters * sizeof(int));
@@ -4060,7 +4060,7 @@ rollback:
 	        (exec->state->type != XML_REGEXP_SINK_STATE)) {
 	        progress = 0;
 		free(exec->errString);
-		exec->errString = xmlStrdup(value);
+		exec->errString = strdup(value);
 		exec->errState = exec->state;
                 if (exec->comp->nbCounters)
                     memcpy(exec->errCounts, exec->counts,
@@ -5685,7 +5685,7 @@ xmlAutomataNewTransition(xmlAutomataPtr am, xmlAutomataStatePtr from,
     if (atom == NULL)
         return(NULL);
     atom->data = data;
-    atom->valuep = xmlStrdup(token);
+    atom->valuep = strdup(token);
 
     if (xmlFAGenerateTransitions(am, from, to, atom) < 0) {
         xmlRegFreeAtom(atom);
@@ -5724,7 +5724,7 @@ xmlAutomataNewTransition2(xmlAutomataPtr am, xmlAutomataStatePtr from,
 	return(NULL);
     atom->data = data;
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
 	xmlChar *str;
@@ -5786,7 +5786,7 @@ xmlAutomataNewNegTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     atom->data = data;
     atom->neg = 1;
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
 	xmlChar *str;
@@ -5808,7 +5808,7 @@ xmlAutomataNewNegTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     }
     snprintf((char *) err_msg, 199, "not %s", (const char *) atom->valuep);
     err_msg[199] = 0;
-    atom->valuep2 = xmlStrdup(err_msg);
+    atom->valuep2 = strdup(err_msg);
 
     if (xmlFAGenerateTransitions(am, from, to, atom) < 0) {
         xmlRegFreeAtom(atom);
@@ -5856,7 +5856,7 @@ xmlAutomataNewCountTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
     if (atom == NULL)
 	return(NULL);
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
 	xmlChar *str;
@@ -5941,7 +5941,7 @@ xmlAutomataNewCountTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     atom = xmlRegNewAtom(am, XML_REGEXP_STRING);
     if (atom == NULL)
 	return(NULL);
-    atom->valuep = xmlStrdup(token);
+    atom->valuep = strdup(token);
     atom->data = data;
     if (min == 0)
 	atom->min = 1;
@@ -6011,7 +6011,7 @@ xmlAutomataNewOnceTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
     if (atom == NULL)
 	return(NULL);
     if ((token2 == NULL) || (*token2 == 0)) {
-	atom->valuep = xmlStrdup(token);
+	atom->valuep = strdup(token);
     } else {
 	int lenn, lenp;
 	xmlChar *str;
@@ -6089,7 +6089,7 @@ xmlAutomataNewOnceTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
     atom = xmlRegNewAtom(am, XML_REGEXP_STRING);
     if (atom == NULL)
 	return(NULL);
-    atom->valuep = xmlStrdup(token);
+    atom->valuep = strdup(token);
     atom->data = data;
     atom->quant = XML_REGEXP_QUANT_ONCEONLY;
     atom->min = min;

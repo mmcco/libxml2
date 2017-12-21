@@ -1608,7 +1608,7 @@ xmlRelaxNGLoadInclude(xmlRelaxNGParserCtxtPtr ctxt, const xmlChar * URL,
     }
     memset(ret, 0, sizeof(xmlRelaxNGInclude));
     ret->doc = doc;
-    ret->href = xmlStrdup(URL);
+    ret->href = strdup(URL);
     ret->next = ctxt->includes;
     ctxt->includes = ret;
 
@@ -1763,8 +1763,8 @@ xmlRelaxNGValidErrorPush(xmlRelaxNGValidCtxtPtr ctxt,
     cur = &ctxt->errTab[ctxt->errNr];
     cur->err = err;
     if (dup) {
-        cur->arg1 = xmlStrdup(arg1);
-        cur->arg2 = xmlStrdup(arg2);
+        cur->arg1 = strdup(arg1);
+        cur->arg2 = strdup(arg2);
         cur->flags = ERROR_IS_DUP;
     } else {
         cur->arg1 = arg1;
@@ -1929,7 +1929,7 @@ xmlRelaxNGLoadExternalRef(xmlRelaxNGParserCtxtPtr ctxt,
     }
     memset(ret, 0, sizeof(xmlRelaxNGDocument));
     ret->doc = doc;
-    ret->href = xmlStrdup(URL);
+    ret->href = strdup(URL);
     ret->next = ctxt->documents;
     ret->externalRef = 1;
     ctxt->documents = ret;
@@ -2728,7 +2728,7 @@ xmlRelaxNGRegisterTypeLibrary(const xmlChar * namespace, void *data,
         return (-1);
     }
     memset(lib, 0, sizeof(xmlRelaxNGTypeLibrary));
-    lib->namespace = xmlStrdup(namespace);
+    lib->namespace = strdup(namespace);
     lib->data = data;
     lib->have = have;
     lib->comp = comp;
@@ -3492,7 +3492,7 @@ xmlRelaxNGParseValue(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
         library = xmlRelaxNGGetDataTypeLibrary(ctxt, node);
         if (library == NULL)
             library =
-                xmlStrdup(BAD_CAST "http://relaxng.org/ns/structure/1.0");
+                strdup("http://relaxng.org/ns/structure/1.0");
 
         def->name = type;
         def->ns = library;
@@ -3521,7 +3521,7 @@ xmlRelaxNGParseValue(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
         }
     }
     if (node->children == NULL) {
-        def->value = xmlStrdup(BAD_CAST "");
+        def->value = strdup("");
     } else if (((node->children->type != XML_TEXT_NODE) &&
                 (node->children->type != XML_CDATA_SECTION_NODE)) ||
                (node->children->next != NULL)) {
@@ -3585,7 +3585,7 @@ xmlRelaxNGParseData(xmlRelaxNGParserCtxtPtr ctxt, xmlNodePtr node)
     library = xmlRelaxNGGetDataTypeLibrary(ctxt, node);
     if (library == NULL)
         library =
-            xmlStrdup(BAD_CAST "http://relaxng.org/ns/structure/1.0");
+            strdup("http://relaxng.org/ns/structure/1.0");
 
     def = xmlRelaxNGNewDefine(ctxt, node);
     if (def == NULL) {
@@ -6680,7 +6680,7 @@ xmlRelaxNGNewParserCtxt(const char *URL)
         return (NULL);
     }
     memset(ret, 0, sizeof(xmlRelaxNGParserCtxt));
-    ret->URL = xmlStrdup((const xmlChar *) URL);
+    ret->URL = strdup((const xmlChar *) URL);
     ret->error = xmlGenericError;
     ret->userData = xmlGenericErrorContext;
     return (ret);
@@ -7418,8 +7418,8 @@ xmlRelaxNGParse(xmlRelaxNGParserCtxtPtr ctxt)
                        NULL);
             return (NULL);
         }
-        doc->URL = xmlStrdup(BAD_CAST "in_memory_buffer");
-        ctxt->URL = xmlStrdup(BAD_CAST "in_memory_buffer");
+        doc->URL = strdup("in_memory_buffer");
+        ctxt->URL = strdup("in_memory_buffer");
     } else if (ctxt->document != NULL) {
         doc = ctxt->document;
     } else {
@@ -8732,9 +8732,9 @@ xmlRelaxNGValidateValue(xmlRelaxNGValidCtxtPtr ctxt,
                 oldvalue = ctxt->state->value;
                 oldend = ctxt->state->endvalue;
 
-                val = xmlStrdup(oldvalue);
+                val = strdup(oldvalue);
                 if (val == NULL) {
-                    val = xmlStrdup(BAD_CAST "");
+                    val = strdup("");
                 }
                 if (val == NULL) {
                     VALID_ERR(XML_RELAXNG_ERR_NOSTATE);
@@ -10359,7 +10359,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                     break;
                 }
                 if (content == NULL) {
-                    content = xmlStrdup(BAD_CAST "");
+                    content = strdup("");
                     if (content == NULL) {
                         xmlRngVErrMemory(ctxt, "validating\n");
                         ret = -1;
@@ -10400,7 +10400,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                     break;
                 }
                 if (content == NULL) {
-                    content = xmlStrdup(BAD_CAST "");
+                    content = strdup("");
                     if (content == NULL) {
                         xmlRngVErrMemory(ctxt, "validating\n");
                         ret = -1;
@@ -10449,7 +10449,7 @@ xmlRelaxNGValidateState(xmlRelaxNGValidCtxtPtr ctxt,
                     break;
                 }
                 if (content == NULL) {
-                    content = xmlStrdup(BAD_CAST "");
+                    content = strdup("");
                     if (content == NULL) {
                         xmlRngVErrMemory(ctxt, "validating\n");
                         ret = -1;

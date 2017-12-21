@@ -1797,7 +1797,7 @@ xmlIOHTTPOpenW(const char *post_uri, int compression ATTRIBUTE_UNUSED)
 
     (void) memset(ctxt, 0, sizeof(xmlIOHTTPWriteCtxt));
 
-    ctxt->uri = (char *) xmlStrdup((const xmlChar *)post_uri);
+    ctxt->uri = (char *) strdup((const xmlChar *)post_uri);
     if (ctxt->uri == NULL) {
 	xmlIOErrMemory("copying URI");
         xmlFreeHTTPWriteCtxt(ctxt);
@@ -3804,7 +3804,7 @@ xmlCheckHTTPInput(xmlParserCtxtPtr ctxt, xmlParserInputPtr ret) {
                                          BAD_CAST encoding, NULL);
                     }
                     if (ret->encoding == NULL)
-                        ret->encoding = xmlStrdup(BAD_CAST encoding);
+                        ret->encoding = strdup(encoding);
                 }
 #if 0
             } else if (xmlStrstr(BAD_CAST mime, BAD_CAST "html")) {
@@ -3816,7 +3816,7 @@ xmlCheckHTTPInput(xmlParserCtxtPtr ctxt, xmlParserInputPtr ret) {
                 free((void *)ret->directory);
                 ret->directory = NULL;
                 ret->filename =
-                    (char *) xmlStrdup((const xmlChar *) redir);
+                    (char *) strdup((const xmlChar *) redir);
             }
         }
     }
@@ -3895,7 +3895,7 @@ xmlResolveResourceFromCatalog(const char *URL, const char *ID,
 					 (const xmlChar *)URL);
 	}
 	if ((resource == NULL) && (URL != NULL))
-	    resource = xmlStrdup((const xmlChar *) URL);
+	    resource = strdup((const xmlChar *) URL);
 
 	/*
 	 * TODO: do an URI lookup on the reference

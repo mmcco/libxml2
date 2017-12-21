@@ -495,7 +495,7 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
      * Formatting the message
      */
     if (msg == NULL) {
-        str = (char *) xmlStrdup(BAD_CAST "No error message provided");
+        str = (char *) strdup("No error message provided");
     } else {
         XML_GET_VAR_STR(msg, str);
     }
@@ -547,7 +547,7 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
     to->message = str;
     to->level = level;
     if (file != NULL)
-        to->file = (char *) xmlStrdup((const xmlChar *) file);
+        to->file = (char *) strdup((const xmlChar *) file);
     else if (baseptr != NULL) {
 #ifdef LIBXML_XINCLUDE_ENABLED
 	/*
@@ -579,18 +579,18 @@ __xmlRaiseError(xmlStructuredErrorFunc schannel,
 	    }
 	} else
 #endif
-	    to->file = (char *) xmlStrdup(baseptr->doc->URL);
+	    to->file = (char *) strdup(baseptr->doc->URL);
 	if ((to->file == NULL) && (node != NULL) && (node->doc != NULL)) {
-	    to->file = (char *) xmlStrdup(node->doc->URL);
+	    to->file = (char *) strdup(node->doc->URL);
 	}
     }
     to->line = line;
     if (str1 != NULL)
-        to->str1 = (char *) xmlStrdup((const xmlChar *) str1);
+        to->str1 = (char *) strdup((const xmlChar *) str1);
     if (str2 != NULL)
-        to->str2 = (char *) xmlStrdup((const xmlChar *) str2);
+        to->str2 = (char *) strdup((const xmlChar *) str2);
     if (str3 != NULL)
-        to->str3 = (char *) xmlStrdup((const xmlChar *) str3);
+        to->str3 = (char *) strdup((const xmlChar *) str3);
     to->int1 = int1;
     to->int2 = col;
     to->node = node;
@@ -950,11 +950,11 @@ xmlCopyError(xmlErrorPtr from, xmlErrorPtr to) {
     if ((from == NULL) || (to == NULL))
         return(-1);
 
-    message = (char *) xmlStrdup((xmlChar *) from->message);
-    file = (char *) xmlStrdup ((xmlChar *) from->file);
-    str1 = (char *) xmlStrdup ((xmlChar *) from->str1);
-    str2 = (char *) xmlStrdup ((xmlChar *) from->str2);
-    str3 = (char *) xmlStrdup ((xmlChar *) from->str3);
+    message = (char *) strdup((xmlChar *) from->message);
+    file = (char *) strdup ((xmlChar *) from->file);
+    str1 = (char *) strdup ((xmlChar *) from->str1);
+    str2 = (char *) strdup ((xmlChar *) from->str2);
+    str3 = (char *) strdup ((xmlChar *) from->str3);
 
     free(to->message);
     free(to->file);

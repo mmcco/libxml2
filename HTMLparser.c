@@ -3581,7 +3581,7 @@ htmlCheckEncodingDirect(htmlParserCtxtPtr ctxt, const xmlChar *encoding) {
 	while ((*encoding == ' ') || (*encoding == '\t')) encoding++;
 
 	free((void *)ctxt->input->encoding);
-	ctxt->input->encoding = xmlStrdup(encoding);
+	ctxt->input->encoding = strdup(encoding);
 
 	enc = xmlParseCharEncoding((const char *) encoding);
 	/*
@@ -4130,7 +4130,7 @@ htmlParseContent(htmlParserCtxtPtr ctxt) {
     int depth;
     const xmlChar *name;
 
-    currentNode = xmlStrdup(ctxt->name);
+    currentNode = strdup(ctxt->name);
     depth = ctxt->nameNr;
     while (1) {
 	long cons = ctxt->nbChars;
@@ -4373,7 +4373,7 @@ htmlParseElement(htmlParserCtxtPtr ctxt) {
     /*
      * Parse the content of the element:
      */
-    currentNode = xmlStrdup(ctxt->name);
+    currentNode = strdup(ctxt->name);
     depth = ctxt->nameNr;
     while (IS_CHAR_CH(CUR)) {
 	oldptr = ctxt->input->cur;
@@ -4527,7 +4527,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
     int depth;
     const xmlChar *name;
 
-    currentNode = xmlStrdup(ctxt->name);
+    currentNode = strdup(ctxt->name);
     depth = ctxt->nameNr;
     while (1) {
 	long cons = ctxt->nbChars;
@@ -4545,7 +4545,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 		((currentNode != NULL) || (ctxt->nameNr == 0))) {
 		free(currentNode);
 
-	        currentNode = xmlStrdup(ctxt->name);
+	        currentNode = strdup(ctxt->name);
 	        depth = ctxt->nameNr;
 	    }
 	    continue; /* while */
@@ -4566,7 +4566,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 	        htmlParserFinishElementParsing(ctxt);
 	        free(currentNode);
 
-	        currentNode = xmlStrdup(ctxt->name);
+	        currentNode = strdup(ctxt->name);
 	        depth = ctxt->nameNr;
 	        continue;
 	    }
@@ -4589,7 +4589,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 	    htmlParserFinishElementParsing(ctxt);
 	    free(currentNode);
 
-	    currentNode = xmlStrdup(ctxt->name);
+	    currentNode = strdup(ctxt->name);
 	    depth = ctxt->nameNr;
 	    continue;
 	}
@@ -4637,7 +4637,7 @@ htmlParseContentInternal(htmlParserCtxtPtr ctxt) {
 		htmlParseElementInternal(ctxt);
 		free(currentNode);
 
-		currentNode = xmlStrdup(ctxt->name);
+		currentNode = strdup(ctxt->name);
 		depth = ctxt->nameNr;
 	    }
 
@@ -5050,7 +5050,7 @@ htmlCreateDocParserCtxt(const xmlChar *cur, const char *encoding) {
 	xmlCharEncodingHandlerPtr handler;
 
 	free((void *)ctxt->input->encoding);
-	ctxt->input->encoding = xmlStrdup((const xmlChar *) encoding);
+	ctxt->input->encoding = strdup((const xmlChar *) encoding);
 
 	enc = xmlParseCharEncoding(encoding);
 	/*
@@ -6761,12 +6761,12 @@ htmlDoRead(htmlParserCtxtPtr ctxt, const char *URL, const char *encoding,
 	if (hdlr != NULL) {
 	    xmlSwitchToEncoding(ctxt, hdlr);
 	    free((void *)ctxt->input->encoding);
-            ctxt->input->encoding = xmlStrdup((xmlChar *)encoding);
+            ctxt->input->encoding = strdup((xmlChar *)encoding);
         }
     }
     if ((URL != NULL) && (ctxt->input != NULL) &&
         (ctxt->input->filename == NULL))
-        ctxt->input->filename = (char *) xmlStrdup((const xmlChar *) URL);
+        ctxt->input->filename = (char *) strdup((const xmlChar *) URL);
     htmlParseDocument(ctxt);
     ret = ctxt->myDoc;
     ctxt->myDoc = NULL;

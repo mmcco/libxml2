@@ -780,7 +780,7 @@ xmlNanoHTTPScanAnswer(xmlNanoHTTPCtxtPtr ctxt, const char *line) {
 	while ((*cur == ' ') || (*cur == '\t')) cur++;
 	free(ctxt->location);
 	if (*cur == '/') {
-	    xmlChar *tmp_http = xmlStrdup(BAD_CAST "http://");
+	    xmlChar *tmp_http = strdup("http://");
 	    xmlChar *tmp_loc =
 	        xmlStrcat(tmp_http, (const xmlChar *) ctxt->hostname);
 	    ctxt->location =
