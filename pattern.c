@@ -676,7 +676,6 @@ restart:
     }
 found:
     free(states.states);
-    }
     return(1);
 rollback:
     /* got an error try to rollback */
