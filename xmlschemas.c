@@ -323,7 +323,7 @@ static const xmlChar *xmlNamespaceNs = (const xmlChar *)
     (xmlStrEqual(node->name, (const xmlChar *) type)) && \
     (xmlStrEqual(node->ns->href, xmlSchemaNs)))
 
-#define FREE_AND_NULL(str) (free((str)); str = NULL;)
+#define FREE_AND_NULL(str) (free((str)), str = NULL);
 
 /*
 * Since we put the default/fixed values into the dict, we can
